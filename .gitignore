@@ -53,3 +53,6 @@ dkms.conf
 *.db
 *.opendb
 *.db-shm
+*.db-wal
+*.ipch
+MrSkeleton/.vs/MrSkeleton/v16/.suo
