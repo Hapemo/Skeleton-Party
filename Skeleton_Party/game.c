@@ -17,6 +17,7 @@ void game_init(void)
 
 	CP_Font_Set(CP_Font_GetDefault());
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	init_char(); 
 	
 	melee_frame++;//For melee attack
 }
@@ -38,6 +39,9 @@ void game_update(void)
 	ButtonClicked();
 
 	activate_melee_by_mouse(&melee_frame);
+
+	game_control();
+
 }
 
 void game_exit(void)

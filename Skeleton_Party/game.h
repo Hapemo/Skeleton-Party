@@ -16,6 +16,8 @@ void ButtonClicked();
 void DrawGameCanvas();
 void DrawMenuButton();
 void DrawMenuCanvas();
+void game_control();
+void init_char();
 BOOL CheckCollisionWithBox(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
 
 /*!
