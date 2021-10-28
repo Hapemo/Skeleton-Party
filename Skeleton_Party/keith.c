@@ -3,9 +3,7 @@
  * author:	
  * email:	
 *
- * brief:	This file contains functions game_init,
-			game_update, game_exit. It also
-			contains variable declarations and constants
+ * brief:	
 *
  * documentation link:
  * https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
