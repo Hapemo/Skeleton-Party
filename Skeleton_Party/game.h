@@ -6,6 +6,12 @@
 #define WIDTH (float)CP_System_GetWindowWidth()
 #define HEIGHT (float)CP_System_GetWindowHeight()
 
+
+void Damage(float damage);
+void DrawPlayerHealth();
+void DrawHP(float currentHealth, float maxHealth );
+
+
 void TerminateFullscreen();
 void LoadFont();
 void LoadBackgroundImage();
