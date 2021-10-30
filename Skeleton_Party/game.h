@@ -11,6 +11,10 @@ void Damage(float damage);
 void DrawPlayerHealth();
 void DrawHP(float currentHealth, float maxHealth );
 
+void PlayerSetHealth (int Basehealth);
+void Playertakedamage(int damageAmt);
+void PlayerHealed(int healAmt);
+
 
 void TerminateFullscreen();
 void LoadFont();
