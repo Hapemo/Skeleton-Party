@@ -32,6 +32,8 @@ void game_update(void)
 
 	DrawGameCanvas();
 	
+	DrawPlayerHealth();
+
 	activate_melee_by_mouse(&melee_frame);
 
 	//lightbulb();
