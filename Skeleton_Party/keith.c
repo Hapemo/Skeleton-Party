@@ -57,10 +57,18 @@ struct MenuButton {
 	float height;
 }menuButton;
 
+struct HealthBar {
+	float maxHealth;
+	float currentHealth;
+
+
+}healthBar;
+
 
 void InitializeVariables()
 {
-	
+	healthBar.maxHealth = 5.0f;
+	healthBar.currentHealth = 5.0f;
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
 	fullScreen = TRUE;
@@ -68,6 +76,30 @@ void InitializeVariables()
 	menu.width = width;
 	menu.height = height;
 }
+
+void Damage(float damage)
+{
+	if (healthBar.currentHealth > 0)
+	{
+		healthBar.currentHealth -= damage;
+	}
+	DrawHP(healthBar.currentHealth, healthBar.maxHealth);
+}
+
+void DrawPlayerHealth()
+{
+	DrawHP(healthBar.currentHealth, healthBar.maxHealth);
+}
+
+void DrawHP(float currentHealth, float maxHealth)
+{
+
+	CP_Settings_Fill(COLOR_BLACK);
+	CP_Graphics_DrawRect(10, 10, (250 / maxHealth) * maxHealth, 25);
+	CP_Settings_Fill(COLOR_RED);
+	CP_Graphics_DrawRect(10, 10, (250 / maxHealth) * currentHealth, 25);
+}
+
 
 void LoadBackgroundImage()
 {

@@ -75,6 +75,8 @@ void melee_attack(float *melee_angle,CP_Vector position) {
 		*melee_angle = melee_start_angle;
 		*pmelee_or_not = 0;
 	}
+
+
 	//Resets the melee angle back to positive
 	if (*melee_angle < 0) *melee_angle *= -1;
 }
