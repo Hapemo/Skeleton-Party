@@ -31,6 +31,14 @@ void game_update(void)
 	FullscreenMode();
 
 	DrawGameCanvas();
+	
+	DrawPlayerHealth();
+
+	activate_melee_by_mouse(&melee_frame);
+
+	//lightbulb();
+
+	game_control();
 
 	DrawMenuButton();
 
@@ -38,9 +46,7 @@ void game_update(void)
 
 	ButtonClicked();
 
-	activate_melee_by_mouse(&melee_frame);
-
-	game_control();
+	
 
 }
 

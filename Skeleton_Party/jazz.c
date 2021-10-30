@@ -15,18 +15,22 @@
 #include "cprocessing.h"
 #include "game.h"
 
+#define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
+#define COLOR_GREEN CP_Color_Create(0, 255, 0, 255)
+#define COLOR_BLUE CP_Color_Create(0, 0, 255, 255)
+#define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
+
 //These variables are for melee attacks, for function 'melee_attack' and 'activate_melee_by_mouse'
 int first_time = 1, * pfirst_time = &first_time; //First time running the function
 float melee_start_angle = 135; //Determines where the melee attack is facing. 135 is when it's facing north.
 int melee_max_angle = 90; //starting melee angle
-int melee_anticlockwise = FALSE; //clockwise or anti clockwise melee
+int melee_anticlockwise = TRUE; //clockwise or anti clockwise melee
 int melee_speed = 10; //speed of melee animation
 int melee_angle_upgrade = 40; //angle upgrade for melee
 
 int melee_or_not = 0, * pmelee_or_not = &melee_or_not; //Determine if should melee or not
 CP_Vector melee_position; //Position of where the melee animation happens
 
-/*This function melee*/
 void melee_attack(float *melee_angle,CP_Vector position) {
 	//Set the melee angle for the first time
 	if (first_time) {
@@ -71,10 +75,11 @@ void melee_attack(float *melee_angle,CP_Vector position) {
 		*melee_angle = melee_start_angle;
 		*pmelee_or_not = 0;
 	}
+
+
 	//Resets the melee angle back to positive
 	if (*melee_angle < 0) *melee_angle *= -1;
 }
-
 
 void activate_melee_by_mouse(float *melee_angle) {
 	melee_position = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
@@ -88,4 +93,13 @@ void activate_melee_by_mouse(float *melee_angle) {
 	if (*pmelee_or_not) {
 		melee_attack(melee_angle, melee_position);
 	}
+}
+
+void lightbulb(void) {
+	if (1) {
+		CP_Settings_Fill(COLOR_GREEN);
+	} else {
+		CP_Settings_Fill(COLOR_WHITE);
+	}
+	CP_Graphics_DrawRect(WIDTH/10, HEIGHT/10, WIDTH / 10, HEIGHT / 10 );
 }
