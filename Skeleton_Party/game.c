@@ -40,6 +40,8 @@ void game_update(void)
 
 	activate_melee_by_mouse(&melee_frame);
 
+	//lightbulb();
+
 	game_control();
 
 }
