@@ -6,6 +6,23 @@
 #define WIDTH (float)CP_System_GetWindowWidth()
 #define HEIGHT (float)CP_System_GetWindowHeight()
 
+struct character
+{
+    CP_Vector position;
+    CP_Image sprite;
+
+};
+
+struct character knight;
+
+struct enemy
+{
+	CP_Vector enemyPosition;
+	CP_Image enemyDesign;
+	CP_Image enemyDead;
+
+} bug;
+
 
 void Damage(float damage);
 void DrawPlayerHealth();
@@ -39,6 +56,10 @@ void DrawMenuButton();
 void DrawMenuCanvas();
 void game_control();
 void init_char();
+
+BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2);
+
+
 BOOL CheckCollisionWithBox(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
 
 /*!

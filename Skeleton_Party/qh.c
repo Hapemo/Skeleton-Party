@@ -7,6 +7,7 @@ struct character
 {
     CP_Vector position;
     CP_Image sprite;
+
 };
 
 struct character knight;
@@ -43,4 +44,3 @@ void game_control(void)
     CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
     CP_Image_Draw(knight.sprite, knight.position.x, knight.position.y, 200, 200, 255);
 }
-

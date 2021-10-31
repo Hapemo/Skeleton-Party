@@ -19,12 +19,15 @@
 #define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
 
 //These variables are for enemyHealth and damage taking, for function 'enemy_taking_dmg' 
-struct enemy
-{
-	CP_Vector enemyPosition;
-	CP_Image enemyDesign;
-	CP_Image enemyDead;
-} bug;
+//struct enemy
+//{
+//	CP_Vector enemyPosition;
+//	CP_Image enemyDesign;
+//	CP_Image enemyDead;
+//}bug;
+//
+
+
 void init_enemy() {
 	bug.enemyPosition = CP_Vector_Set(500, 500);
 	CP_Settings_ImageMode(CP_POSITION_CENTER);

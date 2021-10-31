@@ -42,6 +42,8 @@ void game_update(void)
 	Player_Emptyheartprinter();
 	//DrawPlayerHealth();
 
+	
+
 	enemy_movement();
 
 	enemy_damage();
@@ -51,6 +53,18 @@ void game_update(void)
 	//lightbulb();
 
 	game_control();
+	
+	/*float enemyPosX = 500;
+	float enemyPosY = 500;
+	
+	CP_Graphics_DrawRect(enemyPosX, enemyPosY, 100, 100);*/
+
+
+	if (CheckIfBoxesOverlap(bug.enemyPosition.x -50, bug.enemyPosition.y -50, 100, 100, knight.position.x - 100, knight.position.y - 100, 200, 200))
+	{
+		Playertakedamage(1);
+	}
+
 
 	DrawMenuButton();
 
