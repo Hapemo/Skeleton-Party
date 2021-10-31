@@ -58,3 +58,11 @@ void activate_melee_by_mouse(float *melee_angle);
 
 
 void lightbulb(void);
+
+void init_enemy();
+
+void enemy_movement();
+
+void enemy_damage();
+
+BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
