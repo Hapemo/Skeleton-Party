@@ -12,6 +12,21 @@ void DrawPlayerHealth();
 void DrawHP(float currentHealth, float maxHealth );
 
 
+void PlayerSetHealth (int Basehealth);
+void Playertakedamage(int damageAmt);
+void PlayerHealed(int healAmt);
+
+
+void init_PlayerHP(void);
+
+void Player_Emptyheartprinter(void);
+void Player_Redheartprinter(void);
+
+
+void exit_PlayerHP(void);
+
+
+
 void TerminateFullscreen();
 void LoadFont();
 void LoadBackgroundImage();

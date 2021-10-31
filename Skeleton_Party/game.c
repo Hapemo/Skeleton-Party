@@ -10,6 +10,9 @@ void game_init(void)
     CP_System_SetFrameRate(50);
     /* Initialization of your other variables here */
 
+	init_PlayerHP(); // playerHp init
+
+
     CP_System_Fullscreen();
     InitializeVariables();
     LoadBackgroundImage();
@@ -31,8 +34,11 @@ void game_update(void)
 	FullscreenMode();
 
 	DrawGameCanvas();
-	
-	DrawPlayerHealth();
+
+	// player hP bar printer to be added when the actual game starts. not to be included in title screen
+	Player_Redheartprinter();
+	Player_Emptyheartprinter();
+	//DrawPlayerHealth();
 
 	activate_melee_by_mouse(&melee_frame);
 
@@ -46,11 +52,12 @@ void game_update(void)
 
 	ButtonClicked();
 
+
 	
 
 }
 
 void game_exit(void)
 {
-
+	exit_PlayerHP();
 }
