@@ -98,7 +98,7 @@ void init_PlayerHP(void)
 	hplocationX = (CP_System_GetWindowWidth()) / 10.0f;
 	hplocationY = (CP_System_GetWindowHeight()) / 8.0f;
 	// size of the heart 
-	Heart_size_windowsx = (CP_System_GetWindowHeight()) / 5.0f;
+	Heart_size_windowsx = (CP_System_GetWindowWidth()) / 5.0f;
 	Heart_size_windowsy = (CP_System_GetWindowHeight()) / 5.0f;
 }
 void exit_PlayerHP(void)
