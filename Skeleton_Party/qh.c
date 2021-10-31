@@ -7,6 +7,8 @@ struct character
 {
     CP_Vector position;
     CP_Image sprite;
+    float width;
+    float height;
 
 };
 
@@ -16,6 +18,8 @@ void init_char(void)
 {
     knight.position = CP_Vector_Set(200, 200);
     knight.sprite = CP_Image_Load("./Assets/unknown.jpeg");
+    knight.width = 200;
+    knight.height = 200;
 }
 
 void game_control(void)
@@ -42,5 +46,5 @@ void game_control(void)
     }
 
     CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
-    CP_Image_Draw(knight.sprite, knight.position.x, knight.position.y, 200, 200, 255);
+    CP_Image_Draw(knight.sprite, knight.position.x, knight.position.y, knight.width, knight.height, 255);
 }

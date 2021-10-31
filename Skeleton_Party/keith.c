@@ -115,6 +115,11 @@ void LoadFont()
 
 BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2)
 {
+	posX1 = posX1 - width1 / 2;
+	posY1 = posY1 - height1 / 2;
+	posX2 = posX2 - width2 / 2;
+	posY2 = posY2 - height2 / 2;
+
 	float bottomRightX1 = posX1 + width1;
 	float bottomRightY1 = posY1 + height1;
 	float bottomRightX2 = posX2 + width2;

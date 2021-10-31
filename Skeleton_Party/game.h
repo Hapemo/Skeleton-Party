@@ -10,7 +10,8 @@ struct character
 {
     CP_Vector position;
     CP_Image sprite;
-
+	float width;
+	float height;
 };
 
 struct character knight;
@@ -20,7 +21,8 @@ struct enemy
 	CP_Vector enemyPosition;
 	CP_Image enemyDesign;
 	CP_Image enemyDead;
-
+	float width;
+	float height;
 } bug;
 
 

@@ -60,7 +60,7 @@ void game_update(void)
 	CP_Graphics_DrawRect(enemyPosX, enemyPosY, 100, 100);*/
 
 
-	if (CheckIfBoxesOverlap(bug.enemyPosition.x -50, bug.enemyPosition.y -50, 100, 100, knight.position.x - 100, knight.position.y - 100, 200, 200))
+	if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
 	{
 		Playertakedamage(1);
 	}
