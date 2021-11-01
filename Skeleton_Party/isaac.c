@@ -15,6 +15,7 @@ Functions to call to modify hp
 PlayerSetHealth (int Basehealth)
 Playertakedamage(int damageAmt)
 PlayerHealed(int healAmt)
+PlayerGethealth(void)   returns int current health amount 
 
 // art not included
 // contact isaac to instance new hp bar
@@ -121,6 +122,11 @@ void Playertakedamage(int damageAmt)
 void PlayerHealed(int healAmt)
 {
     p1.heal(&p1, healAmt);
+}
+
+int PlayerGethealth(void)
+{
+	return p1.get(&p1);
 }
 
 

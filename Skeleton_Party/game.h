@@ -34,6 +34,7 @@ void DrawHP(float currentHealth, float maxHealth );
 void PlayerSetHealth (int Basehealth);
 void Playertakedamage(int damageAmt);
 void PlayerHealed(int healAmt);
+int PlayerGethealth(void);
 
 
 void init_PlayerHP(void);
