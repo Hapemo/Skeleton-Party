@@ -24,6 +24,7 @@ void game_init(void)
 
 	init_enemy();
 	
+	CP_System_ShowConsole();
 	melee_frame++;//For melee attack
 }
 
@@ -48,7 +49,6 @@ void game_update(void)
 
 	enemy_damage();
 
-	activate_melee_by_mouse(&melee_frame);
 
 	//lightbulb();
 
