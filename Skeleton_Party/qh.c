@@ -13,6 +13,7 @@ struct character
 };
 
 struct character knight;
+struct character enemey;
 
 void init_char(void)
 {
@@ -45,6 +46,24 @@ void game_control(void)
         knight.position.x += CP_System_GetDt() * speed;
     }
 
+    if (knight.position.x < 0)
+    {
+        knight.position.x = 0;
+    }
+    else if (knight.position.x >  CP_System_GetWindowWidth())
+    {
+        knight.position.x = (float) CP_System_GetWindowWidth();
+    }
+
+    if (knight.position.y < 0)
+    {
+        knight.position.y = 0;
+    }
+    else if (knight.position.y > CP_System_GetWindowHeight())
+    {
+        knight.position.y = (float)CP_System_GetWindowHeight();
+    }
+   
     CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
     CP_Image_Draw(knight.sprite, knight.position.x, knight.position.y, knight.width, knight.height, 255);
 }
