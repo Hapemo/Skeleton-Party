@@ -7,7 +7,6 @@ float melee_frame = 1; //For melee attack
 
 void game_init(void)
 {
-    CP_System_SetFrameRate(50);
     CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
