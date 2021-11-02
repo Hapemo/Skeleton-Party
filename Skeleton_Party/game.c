@@ -10,6 +10,9 @@ void game_init(void)
     CP_System_SetFrameRate(50);
     /* Initialization of your other variables here */
 
+	init_PlayerHP(); // playerHp init
+
+
     CP_System_Fullscreen();
     InitializeVariables();
     LoadBackgroundImage();
@@ -18,6 +21,8 @@ void game_init(void)
 	CP_Font_Set(CP_Font_GetDefault());
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	init_char(); 
+
+	init_enemy();
 	
 	melee_frame++;//For melee attack
 }
@@ -32,19 +37,47 @@ void game_update(void)
 
 	DrawGameCanvas();
 
+	// player hP bar printer to be added when the actual game starts. not to be included in title screen
+	Player_Redheartprinter();
+	Player_Emptyheartprinter();
+	//DrawPlayerHealth();
+
+	
+
+	enemy_movement();
+
+	enemy_damage();
+
+	activate_melee_by_mouse(&melee_frame);
+
+	//lightbulb();
+
+	game_control();
+	
+	/*float enemyPosX = 500;
+	float enemyPosY = 500;
+	
+	CP_Graphics_DrawRect(enemyPosX, enemyPosY, 100, 100);*/
+
+
+	if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
+	{
+		Playertakedamage(1);
+	}
+
+
 	DrawMenuButton();
 
 	DrawMenuCanvas();
 
 	ButtonClicked();
 
-	activate_melee_by_mouse(&melee_frame);
 
-	game_control();
+	
 
 }
 
 void game_exit(void)
 {
-
+	exit_PlayerHP();
 }

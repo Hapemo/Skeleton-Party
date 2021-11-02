@@ -20,7 +20,8 @@
 #define COLOR_GREEN CP_Color_Create(0, 255, 0, 255)
 #define COLOR_BLUE CP_Color_Create(0, 0, 255, 255)
 #define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
-
+#define COLOR_RED CP_Color_Create(255, 0, 0, 255)
+#define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
 
 CP_Image gameBackground = NULL;
 
@@ -57,10 +58,18 @@ struct MenuButton {
 	float height;
 }menuButton;
 
+struct HealthBar {
+	float maxHealth;
+	float currentHealth;
+
+
+}healthBar;
+
 
 void InitializeVariables()
 {
-	
+	healthBar.maxHealth = 5.0f;
+	healthBar.currentHealth = 5.0f;
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
 	fullScreen = TRUE;
@@ -68,6 +77,30 @@ void InitializeVariables()
 	menu.width = width;
 	menu.height = height;
 }
+
+void Damage(float damage)
+{
+	if (healthBar.currentHealth > 0)
+	{
+		healthBar.currentHealth -= damage;
+	}
+	DrawHP(healthBar.currentHealth, healthBar.maxHealth);
+}
+
+void DrawPlayerHealth()
+{
+	DrawHP(healthBar.currentHealth, healthBar.maxHealth);
+}
+
+void DrawHP(float currentHealth, float maxHealth)
+{
+
+	CP_Settings_Fill(COLOR_BLACK);
+	CP_Graphics_DrawRect(10, 10, (250 / maxHealth) * maxHealth, 25);
+	CP_Settings_Fill(COLOR_RED);
+	CP_Graphics_DrawRect(10, 10, (250 / maxHealth) * currentHealth, 25);
+}
+
 
 void LoadBackgroundImage()
 {
@@ -79,6 +112,34 @@ void LoadFont()
 {
 	myFont = CP_Font_GetDefault();
 }
+
+BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2)
+{
+	posX1 = posX1 - width1 / 2;
+	posY1 = posY1 - height1 / 2;
+	posX2 = posX2 - width2 / 2;
+	posY2 = posY2 - height2 / 2;
+
+	float bottomRightX1 = posX1 + width1;
+	float bottomRightY1 = posY1 + height1;
+	float bottomRightX2 = posX2 + width2;
+	float bottomRightY2 = posY2 + height2;
+
+	if (bottomRightX1 < posX2 || bottomRightX2 < posX1)
+	{
+		return FALSE;
+	}
+	else if (bottomRightY1 < posY2 || bottomRightY2 < posY1)
+	{
+		return FALSE;
+	}
+	else
+	{
+		return TRUE;
+	}
+
+}
+
 
 BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
 {
