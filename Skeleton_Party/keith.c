@@ -246,7 +246,6 @@ void FullscreenKeyPressed()
 
 void FullscreenMode()
 {
-	if (fullScreen == TRUE)
 	if (fullScreen == FALSE)
 	{
 		CP_System_Fullscreen();

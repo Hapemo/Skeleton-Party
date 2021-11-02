@@ -8,6 +8,7 @@ float melee_frame = 1; //For melee attack
 void game_init(void)
 {
     CP_System_SetFrameRate(50);
+    CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
 	init_PlayerHP(); // playerHp init
@@ -49,6 +50,7 @@ void game_update(void)
 
 	enemy_damage();
 
+	activate_melee_by_mouse(&melee_frame, knight.position);
 
 	//lightbulb();
 
