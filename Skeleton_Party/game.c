@@ -31,7 +31,7 @@ void game_init(void)
 void game_update(void)
 {
 	TerminateFullscreen();
-
+	//something
 	FullscreenKeyPressed();
 
 	FullscreenMode();
@@ -51,7 +51,7 @@ void game_update(void)
 
 	activate_melee_by_mouse(&melee_frame, knight.position);
 
-	//lightbulb();
+	lightbulb();
 
 	game_control();
 	
