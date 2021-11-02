@@ -31,7 +31,7 @@ void game_init(void)
 void game_update(void)
 {
 	TerminateFullscreen();
-	//something
+	
 	FullscreenKeyPressed();
 
 	FullscreenMode();
