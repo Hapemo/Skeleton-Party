@@ -100,7 +100,93 @@ void Enemy_printer(void)
 }
 
 
-void somethingelse(void) {
+// insert movement here below 
+
+CP_Vector vector_from_starting, position, * p_vector_from_starting = &vector_from_starting, starting_position;
+int movement_1_start = 1, spin = 0, * p_spin = &spin, spin_speed;
+float enemy_count, radius, enemy_speed_x, enemy_speed_y;
+CP_Vector e1, e2;
+
+
+int vector_1, vector_2;
+void movement_1(void) {
+    if (movement_1_start) {
+        e1 = CP_Vector_Set(-1, 0);
+        e2 = CP_Vector_Set(0, 1);
+        //For general 
+        starting_position = CP_Vector_Set(WIDTH / 2, 0);
+        position = starting_position;
+        movement_1_start = 0;
+        vector_from_starting = e2;
+
+        //For enemy_moving_down
+        enemy_speed_y = 2;
+        enemy_speed_x = 10;
+        vector_1 = 2; //1 = up, 2 = down, 3 = left, 4 = right
+        vector_2 = 3;
+
+        //For enemy_pattern_circle
+        enemy_count = 5, radius = 50;
+        spin_speed = 2;
+    }
+
+    position = enemy_moving_up_down_left_right(position, p_vector_from_starting, enemy_speed_y, vector_1);
+
+    position = enemy_moving_up_down_left_right(position, p_vector_from_starting, enemy_speed_y, vector_2);
+
+    enemy_pattern_circle(position, enemy_count, radius, spin_speed);
+
+    printf("position x|y: %f|%f\nheight: %f\n\n", position.x, position.y, HEIGHT);
+    if (position.x > WIDTH || position.y > HEIGHT) {
+        position = starting_position;
+    }
+}
+
+void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed) {
+    float angle = 0;
+    for (int i = 0; i < enemy_count; i++) {
+        CP_Vector enemy_direction = rotate_vector(big_radius, angle + *p_spin, e1);
+        CP_Vector enemy_position = CP_Vector_Add(mid_position, enemy_direction);
+
+        print_enemy(enemy_position);
+        angle += 360.0f / enemy_count;
+    }
+    *p_spin += speed;
+}
+
+int ticks = 0;
+int tick(void) {
+    ticks++;
+    if (ticks == INT_MAX) ticks = 0;
+    return ticks;
+}
+
+void backnforth_multiplier(void) {
+
+}
+
+CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, CP_Vector* vector, float velocity_scale, int direction) {
+    switch (direction) {
+    case 1:
+        enemy_current.y -= velocity_scale;
+        break;
+    case 2:
+        enemy_current.y += velocity_scale;
+        break;
+    case 3:
+        enemy_current.x -= velocity_scale;
+        break;
+    case 4:
+        enemy_current.x += velocity_scale;
+        break;
+    }
+    return enemy_current;
+}
+
+//insert movement here above 
+
+
+void somethingelse(void) { // init
     EnemyspriteSheetImage = CP_Image_Load("./Assets/Enemydot.png");
 
     Enemy_size_windowsx = (CP_System_GetWindowWidth()) / 20.0f;
@@ -145,4 +231,10 @@ void something(void){
 
     Enemy_printer();
     cycleEnemyRemove();
+}
+// exit
+void erferfrefer(void)
+{
+    CP_Image_Free(&EnemyspriteSheetImage);
+
 }
