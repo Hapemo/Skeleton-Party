@@ -18,6 +18,26 @@
 
 
 #define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
+#define COLOR_GREEN CP_Color_Create(1, 255, 10, 255)
+#define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
+
+CP_Font myFont;
+struct Pause {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}pause;
+
+struct Continue {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}continueButton;
 
 /*I have  made the structs global by adding it to the header file*/
 //These variables are for enemyHealth and damage taking, for function 'enemy_taking_dmg' 
@@ -74,6 +94,34 @@ void enemy_movement() {
 		}
 	}
 
+}
+
+//Pause state
+void DrawPauseCanvas()
+{
+	CP_Font_Set(myFont);
+	float width = (float)CP_System_GetWindowWidth();
+	float height = (float)CP_System_GetWindowHeight();
+	pause.width = width;
+	pause.height = height;
+	if (pause.enabled == TRUE)
+	{
+		CP_Settings_Fill(COLOR_GRAY);
+		CP_Graphics_DrawRect(pause.posX, pause.posY, pause.width, pause.height);
+
+		CP_Settings_Fill(COLOR_GREEN);
+		continueButton.posX = pause.width / 8 * 3;
+		continueButton.posY = pause.height / 8 * 5;
+		continueButton.width = pause.width / 4;
+		continueButton.height = pause.height / 4;
+		CP_Graphics_DrawRect(continueButton.posX, continueButton.posY,
+			continueButton.width, continueButton.height);
+		CP_Settings_TextSize(6 * (continueButton.width / pause.width * 100));
+
+		CP_Settings_Fill(COLOR_WHITE);
+		CP_Font_DrawTextBox("Continue", continueButton.posX + continueButton.width / 6.5f, continueButton.posY + continueButton.height / 1.5f, continueButton.width);
+
+	}
 }
 
 //enemy collision with player attack

@@ -144,4 +144,6 @@ void enemy_movement();
 
 void enemy_damage();
 
+void DrawPauseCanvas();
+
 BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
