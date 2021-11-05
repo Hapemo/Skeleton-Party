@@ -12,6 +12,8 @@
 * ---------------------------------------------------------*/
 
 #include <stdio.h>
+#include <math.h>
+#include <limits.h>
 #include "cprocessing.h"
 #include "game.h"
 
@@ -22,7 +24,7 @@
 
 //These variables are for melee attacks, for function 'melee_attack' and 'activate_melee_by_mouse'
 int first_time = 1, * pfirst_time = &first_time; //First time running the function
-float melee_start_angle = 45; //Determines where the melee attack is facing. 45 is when it's facing north.
+float melee_start_angle = 45, melee_angle = 0; //Determines where the melee attack is facing. 45 is when it's facing north.
 int melee_max_angle = 90; //starting melee angle
 int melee_anticlockwise = TRUE; //clockwise or anti clockwise melee
 int melee_speed = 10; //speed of melee animation
@@ -39,7 +41,7 @@ int collide = 0, *pcollide = &collide;
 int lightbulb_i = 0;
 
 
-void melee_attack(float *melee_angle, CP_Vector position, CP_Vector *enemy) {
+void melee_attack(CP_Vector position, CP_Vector *enemy) {
 	//Set the melee angle for the first time
 	if (first_time) {
 		//Set sword size
@@ -47,9 +49,10 @@ void melee_attack(float *melee_angle, CP_Vector position, CP_Vector *enemy) {
 		sword_length = HEIGHT / 25;
 
 		*pfirst_time = 0;
+		
 		melee_start_angle -= melee_angle_upgrade;
 		melee_max_angle += (int)melee_start_angle + 2*melee_angle_upgrade;
-		*melee_angle = melee_start_angle;
+		melee_angle = melee_start_angle;
 
 		//Set univector
 		e1 = CP_Vector_Set(-1, 0);
@@ -57,33 +60,33 @@ void melee_attack(float *melee_angle, CP_Vector position, CP_Vector *enemy) {
 	}
 
 	//This determines the speed of the rectangle swinging. **Beware, it skips some areas, so might not hit enemies that are too small**
-	*melee_angle += melee_speed;
+	melee_angle += melee_speed;
 
 	//This determines if the attack is counter clockwise or clockwise
-	if (melee_anticlockwise) *melee_angle *= -1; 
+	if (melee_anticlockwise) melee_angle *= -1; 
 
 	print_melee_weapon(position, melee_angle);
 
-	CP_Vector vec1 = vector_from_position(sword_length, *melee_angle - 90, e1); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
-	CP_Vector vec2 = vector_from_position(sword_width, *melee_angle - 90, e2);
+	CP_Vector vec1 = rotate_vector(sword_length, melee_angle - 90, e1); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
+	CP_Vector vec2 = rotate_vector(sword_width, melee_angle - 90, e2);
 
 	sword_collision(*enemy, position, vec1, vec2);
 
 
 	//Resets the animation of the attack
-	if (!(-melee_max_angle < *melee_angle && *melee_angle < melee_max_angle)) {
-		*melee_angle = melee_start_angle;
+	if (!(-melee_max_angle < melee_angle && melee_angle < melee_max_angle)) {
+		melee_angle = melee_start_angle;
 		*pmelee_or_not = 0;
 	}
 	//Resets the melee angle back to positive
-	if (*melee_angle < 0) *melee_angle *= -1;
+	if (melee_angle < 0) melee_angle *= -1;
 }
 
 
-void print_melee_weapon(CP_Vector position, const float* melee_angle) {
+void print_melee_weapon(CP_Vector position, float angle) {
 	// Create transform matrices
 	CP_Matrix translate = CP_Matrix_Translate(position); //bring attack to position
-	CP_Matrix rotate = CP_Matrix_Rotate((float)*melee_angle);
+	CP_Matrix rotate = CP_Matrix_Rotate(angle);
 
 	// Combine transfrom -> translation and rotation
 	CP_Matrix transform = CP_Matrix_Multiply(translate, rotate);
@@ -124,7 +127,7 @@ void sword_collision(CP_Vector enemy, CP_Vector position, CP_Vector vec1, CP_Vec
 }
 
 
-CP_Vector vector_from_position(float scalar, float angle, CP_Vector unit_vector) {
+CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector) {
 	CP_Vector vector = CP_Vector_Scale(unit_vector, scalar);
 
 	CP_Matrix rotate = CP_Matrix_Rotate(angle);
@@ -135,7 +138,7 @@ CP_Vector vector_from_position(float scalar, float angle, CP_Vector unit_vector)
 }
 
 
-void activate_melee_by_mouse(float *melee_angle, CP_Vector position) {
+void activate_melee_by_mouse(CP_Vector position) {
 
 	CP_Vector enemy = CP_Vector_Set(WIDTH / 2, HEIGHT / 2);
 	CP_Graphics_DrawCircle(enemy.x, enemy.y, WIDTH / 500);
@@ -149,7 +152,7 @@ void activate_melee_by_mouse(float *melee_angle, CP_Vector position) {
 		}
 	}
 	if (*pmelee_or_not) {
-		melee_attack(melee_angle, position, &enemy);
+		melee_attack(position, &enemy);
 	}
 }
 
@@ -166,4 +169,87 @@ void lightbulb(void) {
 		CP_Settings_Fill(COLOR_WHITE);
 	}
 	CP_Graphics_DrawRect(WIDTH/10, HEIGHT/10, WIDTH / 10, HEIGHT / 10 );
+}
+
+
+CP_Vector vector_from_starting, position, * p_vector_from_starting = &vector_from_starting, starting_position;
+int movement_1_start = 1, spin = 0, *p_spin = &spin, spin_speed;
+float enemy_count, radius, enemy_speed_x, enemy_speed_y;
+
+
+int vector_1, vector_2;
+void movement_1(void) {
+	if (movement_1_start) {
+		//For general 
+		starting_position = CP_Vector_Set(WIDTH / 2, 0);
+		position = starting_position;
+		movement_1_start = 0;
+		vector_from_starting = e2;
+
+		//For enemy_moving_down
+		enemy_speed_y = 2;
+		enemy_speed_x = 10;
+		vector_1 = 2; //1 = up, 2 = down, 3 = left, 4 = right
+		vector_2 = 3;
+
+		//For enemy_pattern_circle
+		enemy_count = 5, radius = 50;
+		spin_speed = 2;
+	}
+
+	position = enemy_moving_up_down_left_right(position, p_vector_from_starting, enemy_speed_y, vector_1);
+
+	position = enemy_moving_up_down_left_right(position, p_vector_from_starting, enemy_speed_y, vector_2);
+	
+	enemy_pattern_circle(position, enemy_count, radius, spin_speed);
+
+	printf("position x|y: %f|%f\nheight: %f\n\n", position.x, position.y, HEIGHT);
+	if (position.x > WIDTH || position.y > HEIGHT) {
+		position = starting_position;
+	} 
+}
+
+void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed) {
+	float angle = 0;
+	for (int i = 0; i < enemy_count; i++) {
+		CP_Vector enemy_direction = rotate_vector(big_radius, angle + *p_spin, e1);
+		CP_Vector enemy_position = CP_Vector_Add(mid_position, enemy_direction);
+
+		print_enemy(enemy_position);
+		angle += 360.0f / enemy_count;
+	}
+	*p_spin += speed;
+}
+
+int ticks = 0; 
+int tick(void) {
+	ticks++;
+	if (ticks == INT_MAX) ticks = 0;
+	return ticks;
+}
+
+void backnforth_multiplier(void) {
+	
+}
+
+CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, CP_Vector *vector, float velocity_scale, int direction) {
+	switch (direction) {
+	case 1:
+		enemy_current.y -= velocity_scale;
+		break;
+	case 2:
+		enemy_current.y += velocity_scale;
+		break;
+	case 3:
+		enemy_current.x -= velocity_scale;
+		break;
+	case 4:
+		enemy_current.x += velocity_scale;
+		break;
+	}
+	return enemy_current;
+}
+
+void print_enemy(CP_Vector sprite_position) {
+	CP_Graphics_DrawCircle(sprite_position.x, sprite_position.y, WIDTH / 50);
 }

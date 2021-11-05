@@ -1,5 +1,7 @@
 ﻿  game.c
-  Processing_Sample.vcxproj -> C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\x64\Debug\Processing_Sample.exe
-  1 File(s) copied
-  1 File(s) copied
-  6 File(s) copied
+  isaac.c
+  jazz.c
+  keith.c
+  yithon.c
+C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\game.c(56,6): error C2220: the following warning is treated as an error
+C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\game.c(56,6): warning C4013: 'tick' undefined; assuming extern returning int

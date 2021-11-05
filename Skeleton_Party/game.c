@@ -3,7 +3,6 @@
 #include "game.h"
 
 /* Feel free to declare your own variables here */
-float melee_frame = 1; //For melee attack
 
 void game_init(void)
 {
@@ -25,7 +24,6 @@ void game_init(void)
 	init_enemy();
 	
 	CP_System_ShowConsole();
-	melee_frame++;//For melee attack
 }
 
 void game_update(void)
@@ -49,9 +47,13 @@ void game_update(void)
 
 	enemy_damage();
 
-	activate_melee_by_mouse(&melee_frame, knight.position);
+	activate_melee_by_mouse(knight.position);
 
 	lightbulb();
+
+	movement_1();
+
+	tick();
 
 	game_control();
 	
