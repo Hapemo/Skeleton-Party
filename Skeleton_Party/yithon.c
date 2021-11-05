@@ -37,6 +37,7 @@ void init_enemy() {
 	bug.enemyDead = CP_Image_Load("./Assets/deadenemy.jpg");
 	bug.width = 100;
 	bug.height = 100;
+	bug.alive = 1;
 
 }
 //check for collision 
@@ -59,8 +60,20 @@ BOOL check_enemy_collide(float posX, float posY, float widthBox, float heightBox
 //draw enemy & possible algo for the enemy future movement 
 void enemy_movement() {
 
-	CP_Image_Draw(bug.enemyDesign, bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, 255);
-	CP_Graphics_ClearBackground(COLOR_GRAY);
+	if (bug.alive == 1)
+	{
+		CP_Image_Draw(bug.enemyDesign, bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, 255);
+		//CP_Graphics_ClearBackground(COLOR_GRAY);
+
+
+		if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
+		{
+			
+			DropStuff(bug.enemyPosition.x, bug.enemyPosition.y);
+			bug.alive = 0;
+		}
+	}
+
 }
 
 //enemy collision with player attack

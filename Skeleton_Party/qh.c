@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include "cprocessing.h"
 
-#define speed 400 
+//#define speed 400 
 struct character
 {
     CP_Vector position;
     CP_Image sprite;
     float width;
     float height;
+    float speed;
 
 };
 
@@ -21,6 +22,7 @@ void init_char(void)
     knight.sprite = CP_Image_Load("./Assets/unknown.jpeg");
     knight.width = 200;
     knight.height = 200;
+    knight.speed = 100;
 }
 
 void game_control(void)
@@ -28,22 +30,22 @@ void game_control(void)
 
     if (CP_Input_KeyDown(KEY_W))
     {
-        knight.position.y -= CP_System_GetDt() * speed;
+        knight.position.y -= CP_System_GetDt() * knight.speed;
     }
 
     if (CP_Input_KeyDown(KEY_A))
     {
-        knight.position.x -= CP_System_GetDt() * speed;
+        knight.position.x -= CP_System_GetDt() * knight.speed;
     }
 
     if (CP_Input_KeyDown(KEY_S))
     {
-        knight.position.y += CP_System_GetDt() * speed;
+        knight.position.y += CP_System_GetDt() * knight.speed;
     }
 
     if (CP_Input_KeyDown(KEY_D))
     {
-        knight.position.x += CP_System_GetDt() * speed;
+        knight.position.x += CP_System_GetDt() * knight.speed;
     }
 
     if (knight.position.x < 0)

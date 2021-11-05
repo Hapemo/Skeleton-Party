@@ -14,6 +14,7 @@ struct character
     CP_Image sprite;
 	float width;
 	float height;
+	float speed;
 };
 
 struct character knight;
@@ -25,7 +26,20 @@ struct enemy
 	CP_Image enemyDead;
 	float width;
 	float height;
+	int alive;
 } bug;
+
+struct Item
+{
+	CP_Vector position;
+	CP_Image sprite;
+	int enabled;
+	int id;
+	float width;
+	float height;
+};
+
+struct Item item;
 
 
 void Damage(float damage);
@@ -48,7 +62,8 @@ void Player_Redheartprinter(void);
 void exit_PlayerHP(void);
 
 
-
+void DropStuff(float posX, float posY);
+void DrawItem();
 void TerminateFullscreen();
 void LoadFont();
 void LoadBackgroundImage();

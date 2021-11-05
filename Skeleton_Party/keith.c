@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "cprocessing.h"
 #include "game.h"
-
+#include <stdlib.h>
 
 #define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
 #define COLOR_GREEN CP_Color_Create(0, 255, 0, 255)
@@ -68,6 +68,9 @@ struct HealthBar {
 
 void InitializeVariables()
 {
+	item.height = 50;
+	item.width = 50;
+	item.enabled = 0;
 	healthBar.maxHealth = 5.0f;
 	healthBar.currentHealth = 5.0f;
 	float width = (float)CP_System_GetWindowWidth();
@@ -264,3 +267,45 @@ void TerminateFullscreen()
 	}
 }
 
+void DropStuff(float posX, float posY)
+{
+
+	item.position.x = posX;
+	item.position.y = posY;
+
+	
+	//item.id = id;
+	int randomChance = rand() % 2;
+	item.id = randomChance;
+	item.enabled = 1;
+}
+
+void DrawItem()
+{
+	if (item.enabled == 1)
+	{
+		switch (item.id)
+		{
+		case 0:
+			item.sprite = CP_Image_Load("./Assets/item1.png");
+			CP_Image_Draw(item.sprite, item.position.x, item.position.y, item.width, item.height, 255);
+			if (CheckIfBoxesOverlap(item.position.x, item.position.y, item.width, item.height, knight.position.x, knight.position.y, knight.width, knight.height))
+			{
+				PlayerHealed(1);
+				item.enabled = 0;
+			}
+			break;
+		case 1:
+			item.sprite = CP_Image_Load("./Assets/item2.png");
+			CP_Image_Draw(item.sprite, item.position.x, item.position.y, item.width, item.height, 255);
+			if (CheckIfBoxesOverlap(item.position.x, item.position.y, item.width, item.height, knight.position.x, knight.position.y, knight.width, knight.height))
+			{
+				knight.speed = 200;
+				item.enabled = 0;
+
+			}
+
+			break;
+		}
+	}
+}

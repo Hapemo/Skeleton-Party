@@ -62,12 +62,15 @@ void game_update(void)
 	
 	CP_Graphics_DrawRect(enemyPosX, enemyPosY, 100, 100);*/
 
-
-	if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
+	if (bug.alive == 1)
 	{
-		Playertakedamage(1);
+		if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
+		{
+			Playertakedamage(1);
+		}
 	}
 
+	DrawItem();
 
 	DrawMenuButton();
 
