@@ -6,6 +6,7 @@
 #define WIDTH (float)CP_System_GetWindowWidth()
 #define HEIGHT (float)CP_System_GetWindowHeight()
 #define PI 3.1415926535
+#define MAX_ENEMY 500
 
 struct character
 {

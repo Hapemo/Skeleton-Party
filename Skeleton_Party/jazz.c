@@ -253,3 +253,5 @@ CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, CP_Vector *ve
 void print_enemy(CP_Vector sprite_position) {
 	CP_Graphics_DrawCircle(sprite_position.x, sprite_position.y, WIDTH / 50);
 }
+
+

@@ -194,6 +194,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy_array.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="isaac.c" />
     <ClCompile Include="jazz.c" />
