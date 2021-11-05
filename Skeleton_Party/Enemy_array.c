@@ -1,8 +1,12 @@
 
 
-#include "game.h"
-#include "cprocessing.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include "cprocessing.h"
+#include "game.h"
+
+
+#define MAX_ENEMY 500
 
 static CP_Image spriteSheetImage;
 static CP_Image EnemyspriteSheetImage;
@@ -99,15 +103,15 @@ void Enemy_printer(void)
 void somethingelse(void) {
     EnemyspriteSheetImage = CP_Image_Load("./Assets/Enemydot.png");
 
-    Enemy_size_windowsx = WIDTH / 20.0f;
-    Enemy_size_windowsy = HEIGHT / 20.0f;
+    Enemy_size_windowsx = (CP_System_GetWindowWidth()) / 20.0f;
+    Enemy_size_windowsy = (CP_System_GetWindowHeight()) / 20.0f;
     EnemylocationX = 0.f;
     EnemylocationY = 0.f;
 }
 
 //insert to game update
 void something(void){
-    /*EnemylocationX = CP_Input_GetMouseX();
+    EnemylocationX = CP_Input_GetMouseX();
     EnemylocationY = CP_Input_GetMouseY();
 
     if (CP_Input_MouseTriggered(MOUSE_BUTTON_2))
@@ -115,7 +119,7 @@ void something(void){
 
         addEnemy(CP_Input_GetMouseX() + (float)40.0, CP_Input_GetMouseY() + (float)15.0, (float)5.0);
 
-    }*/
+    }
 
     for (int i = 0; i < MAX_ENEMY; i++) {
 
