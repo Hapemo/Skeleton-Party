@@ -227,8 +227,10 @@ void ButtonClicked()
 		float mousePosY = CP_Input_GetMouseY();
 		if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
 		{
+			
 			menu.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
+			gameState = PLAYING;
 		}
 
 		if (CheckCollisionWithBox(mousePosX, mousePosY, menuButton.width, menuButton.height, menuButton.posX, menuButton.posY))

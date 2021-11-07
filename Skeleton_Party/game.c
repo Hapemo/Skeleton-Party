@@ -7,6 +7,8 @@ int gamePause;
 
 void game_init(void)
 {
+
+	gameState = MAIN_MENU;
     CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
@@ -45,51 +47,45 @@ void game_update(void)
 		FullscreenKeyPressed();
 
 		FullscreenMode();
-
-		DrawGameCanvas();
-
-		// player hP bar printer to be added when the actual game starts. not to be included in title screen
-		Player_Redheartprinter();
-		Player_Emptyheartprinter();
-		//DrawPlayerHealth();
-
-
-		enemy_movement();
-
-		enemy_damage();
-
-		activate_melee_by_mouse(knight.position);
-
-		lightbulb();
-
-		movement_1();
-
-		tick();
-
-		game_control();
-
-		/*float enemyPosX = 500;
-		float enemyPosY = 500;
-
-		CP_Graphics_DrawRect(enemyPosX, enemyPosY, 100, 100);*/
-
-		if (bug.alive == 1)
+		switch (gameState)
 		{
-			if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
+		case PLAYING:
+			DrawGameCanvas();
+
+			// player hP bar printer to be added when the actual game starts. not to be included in title screen
+			Player_Redheartprinter();
+			Player_Emptyheartprinter();
+			//DrawPlayerHealth();
+			enemy_movement();
+			enemy_damage();
+			activate_melee_by_mouse(knight.position);
+			lightbulb();
+			movement_1();
+			tick();
+			game_control();
+
+			if (bug.alive == 1)
 			{
-				Playertakedamage(1);
+				if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
+				{
+					Playertakedamage(1);
+				}
 			}
+			DrawItem();
+
+			break;
+
+		case MAIN_MENU:
+
+			DrawMenuButton();
+
+			DrawMenuCanvas();
+
+			ButtonClicked();
+			break;
+
+
 		}
-
-		DrawItem();
-
-		DrawMenuButton();
-
-		DrawMenuCanvas();
-
-		ButtonClicked();
-
-
 	}
 
 }

@@ -8,6 +8,10 @@
 #define PI 3.1415926535
 #define MAX_ENEMY 500
 
+enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED };
+enum GameStates gameState;
+
+
 struct character
 {
     CP_Vector position;
