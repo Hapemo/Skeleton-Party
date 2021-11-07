@@ -31,25 +31,35 @@ void game_init(void)
 
 void game_update(void)
 {
-	if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
-	{
-		gamePause = !gamePause;
-	}
-	if (gamePause)
-	{
+	
+	TerminateFullscreen();
+
+	FullscreenKeyPressed();
+
+	FullscreenMode();
+	//if (gamePause)
+	//{
 		//DrawPauseCanvas();
-	}
-	else {
+	//}
+	//else {
 
 
-		TerminateFullscreen();
-
-		FullscreenKeyPressed();
-
-		FullscreenMode();
+		
 		switch (gameState)
 		{
 		case PLAYING:
+			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
+			{
+				gamePause = !gamePause;
+				if (gamePause == 1)
+				{
+					gameState = PAUSED;
+				}
+				else
+				{
+					gameState = PLAYING;
+				}
+			}
 			DrawGameCanvas();
 
 			// player hP bar printer to be added when the actual game starts. not to be included in title screen
@@ -74,6 +84,10 @@ void game_update(void)
 			DrawItem();
 
 			break;
+		case PAUSED:
+
+			//DrawPauseCanvas();
+			break;
 
 		case MAIN_MENU:
 
@@ -86,7 +100,7 @@ void game_update(void)
 
 
 		}
-	}
+	//}
 
 }
 
