@@ -13,59 +13,60 @@ struct character
 
 };
 
-struct character knight;
-struct character enemey;
 
-void init_char(void)
+
+
+void init_char(struct character *spritename, float spawnx, float spawny, char* pathname)
 {
-    knight.position = CP_Vector_Set(200, 200);
-    knight.sprite = CP_Image_Load("./Assets/unknown.jpeg");
-    knight.width = 200;
-    knight.height = 200;
-    knight.speed = 100;
+    spritename->position = CP_Vector_Set(spawnx, spawny);
+    spritename->sprite = CP_Image_Load(pathname);
+    spritename->width = 200;
+    spritename->height = 200;
+    spritename->speed = 100;
+
 }
 
-void game_control(void)
+void game_control(struct character *spritename )
 {
-
+    
     if (CP_Input_KeyDown(KEY_W))
     {
-        knight.position.y -= CP_System_GetDt() * knight.speed;
+        spritename->position.y -= CP_System_GetDt() * spritename->speed;
     }
 
     if (CP_Input_KeyDown(KEY_A))
     {
-        knight.position.x -= CP_System_GetDt() * knight.speed;
+        spritename->position.x -= CP_System_GetDt() * spritename->speed;
     }
 
     if (CP_Input_KeyDown(KEY_S))
     {
-        knight.position.y += CP_System_GetDt() * knight.speed;
+        spritename->position.y += CP_System_GetDt() * spritename->speed;
     }
 
     if (CP_Input_KeyDown(KEY_D))
     {
-        knight.position.x += CP_System_GetDt() * knight.speed;
+        spritename->position.x += CP_System_GetDt() * spritename->speed;
     }
 
-    if (knight.position.x < 0)
+    if (spritename->position.x < 0)
     {
-        knight.position.x = 0;
+        spritename->position.x = 0;
     }
-    else if (knight.position.x >  CP_System_GetWindowWidth())
+    else if (spritename->position.x >  CP_System_GetWindowWidth())
     {
-        knight.position.x = (float) CP_System_GetWindowWidth();
+        spritename->position.x = (float) CP_System_GetWindowWidth();
     }
 
-    if (knight.position.y < 0)
+    if (spritename->position.y < 0)
     {
-        knight.position.y = 0;
+        spritename->position.y = 0;
     }
-    else if (knight.position.y > CP_System_GetWindowHeight())
+    else if (spritename->position.y > CP_System_GetWindowHeight())
     {
-        knight.position.y = (float)CP_System_GetWindowHeight();
+        spritename->position.y = (float)CP_System_GetWindowHeight();
     }
    
     CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
-    CP_Image_Draw(knight.sprite, knight.position.x, knight.position.y, knight.width, knight.height, 255);
+    CP_Image_Draw(spritename->sprite, spritename->position.x, spritename->position.y, spritename->width, spritename->height, 255);
 }

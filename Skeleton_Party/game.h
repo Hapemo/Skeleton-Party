@@ -78,8 +78,8 @@ void ButtonClicked();
 void DrawGameCanvas();
 void DrawMenuButton();
 void DrawMenuCanvas();
-void game_control();
-void init_char();
+void game_control(struct character* spritename);
+void init_char(struct character* spritename, float spawnx, float spawny, char* pathname);
 
 BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2);
 

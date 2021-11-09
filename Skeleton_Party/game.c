@@ -4,6 +4,8 @@
 
 /* Feel free to declare your own variables here */
 int gamePause;
+struct character knight, mage, archer;
+
 
 void game_init(void)
 {
@@ -22,11 +24,18 @@ void game_init(void)
 
 	CP_Font_Set(CP_Font_GetDefault());
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	init_char(); 
+	
 
 	init_enemy();
 	
 	CP_System_ShowConsole();
+
+	init_char(&knight, 200, 200, "./Assets/knight.png");
+	init_char(&mage, 200, 200, "./Assets/mage.png");
+	init_char(&archer, 200, 200, "./Assests/archer");
+
+
+
 }
 
 void game_update(void)
@@ -67,7 +76,7 @@ void game_update(void)
 			lightbulb();
 			movement_1();
 			tick();
-			game_control();
+			game_control(&knight);
 
 			if (bug.alive == 1)
 			{
