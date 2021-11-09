@@ -7,7 +7,7 @@ int gamePause;
 
 void game_init(void)
 {
-
+	gamePause = 0;
 	gameState = MAIN_MENU;
     CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
@@ -51,15 +51,10 @@ void game_update(void)
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{
 				gamePause = !gamePause;
-				if (gamePause == 1)
-				{
-					gameState = PAUSED;
-				}
-				else
-				{
-					gameState = PLAYING;
-				}
+				gameState = PAUSED;
+				
 			}
+			
 			DrawGameCanvas();
 
 			// player hP bar printer to be added when the actual game starts. not to be included in title screen
@@ -85,8 +80,15 @@ void game_update(void)
 
 			break;
 		case PAUSED:
+			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
+			{
+				
+				gamePause = !gamePause;
+				gameState = PLAYING;
+				//DrawPauseCanvas();
 
-			//DrawPauseCanvas();
+			}
+			
 			break;
 
 		case MAIN_MENU:
