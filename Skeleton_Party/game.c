@@ -14,7 +14,9 @@ void game_init(void)
     CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
-	init_PlayerHP(); // playerHp init
+	//isaac's init function calls 
+	init_PlayerHP();	// defn in isaac.c
+	init_EnemySprite();	// def in Enemy_arrays.c
 
 
     CP_System_Fullscreen();
@@ -74,10 +76,23 @@ void game_update(void)
 			enemy_damage();
 			activate_melee_by_mouse(knight.position);
 			lightbulb();
-			movement_1();
+			//movement_1();
 			tick();
 			game_control(&knight);
 			shooting_check(knight.position);
+
+			//isaac's functions to spawn enemy
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) // left click
+			{
+				SpawnEnemyCircle(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+			}
+
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) // right click 
+			{
+				SpawnEnemySingle(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+			}
+
+
 
 			if (bug.alive == 1)
 			{
@@ -87,6 +102,10 @@ void game_update(void)
 				}
 			}
 			DrawItem();
+			// isaac's enemy movement functions. Update enemy and print 
+			UpdateEnemyMovement();
+			Enemy_printer();
+			cycleEnemyRemove();
 
 			break;
 		case PAUSED:
@@ -118,5 +137,6 @@ void game_update(void)
 
 void game_exit(void)
 {
+	exit_EnemySprite();
 	exit_PlayerHP();
 }

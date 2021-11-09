@@ -65,6 +65,24 @@ void Player_Redheartprinter(void);
 
 void exit_PlayerHP(void);
 
+//--------------------------------------------------------------------------------------------------------------------------------
+//isaac's EnemySprite Functions 
+//--------------------------------------------------------------------------------------------------------------------------------
+
+void addEnemy(float x, float y, float dx);
+void removeEnemy(int i);
+void cycleEnemyRemove(void);
+void Enemy_printer(void);
+void movement_1(float x, float y, float C_radius);
+CP_Vector Enemy_rotate_vector(float scalar, float angle, CP_Vector unit_vector);
+void enemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed, int enemynum);
+void addenemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed);
+void init_EnemySprite(void);
+void SpawnEnemyCircle(float Positionx, float Positiony);
+void SpawnEnemySingle(float Positionx, float Positiony);
+void UpdateEnemyMovement(void);
+void exit_EnemySprite(void);
+//----------------------------------------------------------------------------------------------------------------------------------
 
 void DropStuff(float posX, float posY);
 void DrawItem();
@@ -134,11 +152,11 @@ void lightbulb(void);
 
 CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocity_scale, int direction);
 
-void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed);
+//void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed);
 
-void movement_1(void);
+//void movement_1(void);
 
-void print_enemy(CP_Vector sprite_position);
+//void print_enemy(CP_Vector sprite_position);
 
 int tick(void);
 

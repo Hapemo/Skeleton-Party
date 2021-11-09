@@ -186,13 +186,13 @@ void lightbulb(void) {
 }
 
 
-CP_Vector vector_from_starting, movement_1_position, * p_vector_from_starting = &vector_from_starting, starting_position;
-int movement_1_start = 1, spin = 0, *p_spin = &spin, spin_speed;
+CP_Vector vector_from_starting, movement_1_position, /** p_vector_from_starting = &vector_from_starting, */starting_position;
+/*int movement_1_start = 1, spin = 0, * p_spin = &spin, spin_speed;*/
 float enemy_count, radius, enemy_speed_x, enemy_speed_y;
 
 
 int vector_1, vector_2;
-void movement_1(void) {
+/*void movement_1(void) {
 	if (movement_1_start) {
 		//For general 
 		starting_position = CP_Vector_Set(WIDTH / 2, 0);
@@ -221,9 +221,9 @@ void movement_1(void) {
 	if (out_of_screen(position)) position = starting_position;
 
 	movement_1_position = position;
-}
+}*/
 
-void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed) {
+/*void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed) {
 	float angle = 0;
 	for (int i = 0; i < enemy_count; i++) {
 		CP_Vector enemy_direction = rotate_vector(big_radius, angle + *p_spin, e1);
@@ -233,7 +233,7 @@ void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_
 		angle += 360.0f / enemy_count;
 	}
 	*p_spin += speed;
-}
+}*/
 
 int ticks = 0; 
 int tick(void) {
@@ -264,9 +264,9 @@ CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocit
 	return enemy_current;
 }
 
-void print_enemy(CP_Vector sprite_position) {
+/*void print_enemy(CP_Vector sprite_position) {
 	CP_Graphics_DrawCircle(sprite_position.x, sprite_position.y, WIDTH / 50);
-}
+}*/
 
 int out_of_screen(CP_Vector sprite_position) {
 	if (sprite_position.x > WIDTH || sprite_position.y > HEIGHT || sprite_position.x < 0 || sprite_position.y < 0) return 1;
