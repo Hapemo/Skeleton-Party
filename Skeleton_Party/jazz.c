@@ -102,6 +102,20 @@ void print_melee_weapon(CP_Vector position, float angle) {
 	CP_Settings_ResetMatrix();
 }
 
+//void sword_collision_checker(void) {
+//	enemy[];
+//	loop through every enemy in enemy[];
+//	if dead, ignore
+//	if alive, parse the CP_vector of the alive enemy into sword_collision()
+//	to check the collision of enemy with sword.
+//
+//	if collide, sword_collision returns killed (int killed = 10)
+//	then update enemy alive state to 0 or 1 accordingly.
+//}
+//
+//for every level, we would have a .c file containing enemy_array[], it is fixed size
+//Another way is we can assign a lot of enemy (eg. 5000) to array. 
+
 
 void sword_collision(CP_Vector enemy, CP_Vector position, CP_Vector vec1, CP_Vector vec2) {
 	//Following the formula drawn on the iPad
@@ -172,7 +186,7 @@ void lightbulb(void) {
 }
 
 
-CP_Vector vector_from_starting, position, * p_vector_from_starting = &vector_from_starting, starting_position;
+CP_Vector vector_from_starting, movement_1_position, * p_vector_from_starting = &vector_from_starting, starting_position;
 int movement_1_start = 1, spin = 0, *p_spin = &spin, spin_speed;
 float enemy_count, radius, enemy_speed_x, enemy_speed_y;
 
@@ -182,7 +196,7 @@ void movement_1(void) {
 	if (movement_1_start) {
 		//For general 
 		starting_position = CP_Vector_Set(WIDTH / 2, 0);
-		position = starting_position;
+		movement_1_position = starting_position;
 		movement_1_start = 0;
 		vector_from_starting = e2;
 
@@ -196,17 +210,19 @@ void movement_1(void) {
 		enemy_count = 5, radius = 50;
 		spin_speed = 2;
 	}
+	CP_Vector position = movement_1_position;
 
-	position = enemy_moving_up_down_left_right(position, p_vector_from_starting, enemy_speed_y, vector_1);
+	position = enemy_moving_up_down_left_right(position, enemy_speed_y, vector_1);
 
-	position = enemy_moving_up_down_left_right(position, p_vector_from_starting, enemy_speed_y, vector_2);
+	position = enemy_moving_up_down_left_right(position, enemy_speed_y, vector_2);
 	
 	enemy_pattern_circle(position, enemy_count, radius, spin_speed);
 
 	printf("position x|y: %f|%f\nheight: %f\n\n", position.x, position.y, HEIGHT);
-	if (position.x > WIDTH || position.y > HEIGHT) {
-		position = starting_position;
-	} 
+	
+	if (out_of_screen(position)) position = starting_position;
+
+	movement_1_position = position;
 }
 
 void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed) {
@@ -232,7 +248,7 @@ void backnforth_multiplier(void) {
 	
 }
 
-CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, CP_Vector *vector, float velocity_scale, int direction) {
+CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocity_scale, int direction) {
 	switch (direction) {
 	case 1:
 		enemy_current.y -= velocity_scale;
@@ -253,5 +269,106 @@ CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, CP_Vector *ve
 void print_enemy(CP_Vector sprite_position) {
 	CP_Graphics_DrawCircle(sprite_position.x, sprite_position.y, WIDTH / 50);
 }
+
+int out_of_screen(CP_Vector sprite_position) {
+	if (sprite_position.x > WIDTH || sprite_position.y > HEIGHT || sprite_position.x < 0 || sprite_position.y < 0) return 1;
+	return 0;
+}
+
+#define MAX_BULLET (20)
+CP_Vector bullet_pool[MAX_BULLET] = { 0 };
+
+//CP_Vector [0,1,1,0,0,1,1,0,1,1,1,1,0,1,1,1,1,1]
+
+
+void shooting_check(CP_Vector position) {
+	//CP_Vector position = CP_Vector_Set(WIDTH*(3.0f/4),HEIGHT * (3.0f / 4)); //Position of character
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
+		shoot_bullet(position);
+	}
+
+	update_bullet_travel();
+	print_bullet();
+}
+
+void shoot_bullet(CP_Vector position) {
+	for (int i = 0; i < MAX_BULLET; i++) {
+		if (bullet_pool[i].y == 0 && bullet_pool[i].x == 0) {
+			bullet_pool[i] = position;
+			break;
+		}
+	}
+}
+
+void update_bullet_travel(void) {
+	float bullet_speed = 20.0f;
+
+	for (int i = 0; i < MAX_BULLET; i++) {
+
+		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
+			bullet_pool[i] = enemy_moving_up_down_left_right(bullet_pool[i], bullet_speed, 1); //update it's position
+			
+			if (out_of_screen(bullet_pool[i])) bullet_pool[i] = CP_Vector_Set(0, 0);
+		}
+
+	}
+}
+
+void print_bullet(void) {
+	for (int i = 0; i < MAX_BULLET; i++) {
+
+		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
+			CP_Settings_Fill(COLOR_BLUE);
+			CP_Graphics_DrawCircle(bullet_pool[i].x, bullet_pool[i].y, WIDTH / 50);
+		}
+	}
+}
+
+
+//bullet_trajectory() {
+//	CP_Vector current_bullet;
+//	for (int i = 0; i < MAX_BULLET; i++) {
+//		current_bullet = bullet_pool[i];
+//
+//
+//	take the bullet cp vector as a pointer
+//	moving the bullet
+//	update the pointer
+//}
+//
+//
+//
+//void use_bullet(void) {
+//	CP_Vector current_bullet;
+//	for (int i = 0; i < MAX_BULLET; i++) {
+//		current_bullet = bullet_pool[i];
+//
+//		//if button is clicked, activate shoot bullet
+//		//shoot bullet draw the earliest possible bullet and activate it
+//		//pass the CP_vector of that bullet into bullet trajectory
+//		//Bullet trajectory will keep on updating the position of that bullet until it expires
+//		//and print the location of the bullet
+//		//When expires, Set CP_Vector to 0
+//	}
+//}
+
+
+
+//int basic_projectile_start = 1;
+//CP_Vector bullet_vector_p, * bullet_vector = &bullet_vector_p;
+//void basic_projectile(void) {
+//	CP_Vector starting_position = CP_Vector_Set(WIDTH * (3 / 4.0f), HEIGHT * (3 / 4.0f)); //set starting position of projectile
+//
+//	if (basic_projectile_start) {
+//		*bullet_vector = starting_position;
+//		basic_projectile_start = 0;
+//	}
+//
+//	*bullet_vector = enemy_moving_up_down_left_right(position, 1.0f, 1);
+//
+//	print_sprite(*bullet_vector);
+//
+//	if (out_of_screen(*bullet_vector)) *bullet_vector = starting_position;
+//}
 
 

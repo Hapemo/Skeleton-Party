@@ -132,7 +132,7 @@ void sword_collision(CP_Vector enemy, CP_Vector position, CP_Vector vec1, CP_Vec
 *//*______________________________________________________________*/
 void lightbulb(void);
 
-CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, CP_Vector* vector, float velocity_scale, int direction);
+CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocity_scale, int direction);
 
 void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed);
 
@@ -141,6 +141,16 @@ void movement_1(void);
 void print_enemy(CP_Vector sprite_position);
 
 int tick(void);
+
+int out_of_screen(CP_Vector sprite_position);
+
+void shooting_check(CP_Vector position);
+
+void shoot_bullet(CP_Vector position);
+
+void update_bullet_travel(void);
+
+void print_bullet(void);
 
 void init_enemy();
 
