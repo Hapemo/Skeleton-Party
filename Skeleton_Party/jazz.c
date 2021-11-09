@@ -218,8 +218,6 @@ void movement_1(void) {
 	
 	enemy_pattern_circle(position, enemy_count, radius, spin_speed);
 
-	printf("position x|y: %f|%f\nheight: %f\n\n", position.x, position.y, HEIGHT);
-	
 	if (out_of_screen(position)) position = starting_position;
 
 	movement_1_position = position;
@@ -291,6 +289,7 @@ void shooting_check(CP_Vector position) {
 
 	update_bullet_travel();
 	print_bullet(bullet_size);
+	bullet_collision(bullet_size);
 }
 
 void shoot_bullet(CP_Vector position) {
@@ -303,7 +302,7 @@ void shoot_bullet(CP_Vector position) {
 }
 
 void update_bullet_travel(void) {
-	float bullet_speed = 20.0f;
+	float bullet_speed = 10.0f;
 
 	for (int i = 0; i < MAX_BULLET; i++) {
 
@@ -320,21 +319,38 @@ void print_bullet(float bullet_size) {
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
 			CP_Settings_Fill(COLOR_BLUE);
-			CP_Graphics_DrawCircle(bullet_pool[i].x, bullet_pool[i].y, bullet_size);
+			CP_Graphics_DrawCircle(bullet_pool[i].x, bullet_pool[i].y, bullet_size*2); //This is in diameter so need to times 2
 		}
 	}
 }
 
-//void bullet_collision(float bullet_size) {
-//	//Check array of bullet with array of enemy
-//	for (int i = 0; i < MAX_BULLET; i++) {
-//		//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here
-//		
-//		CP_Vector enemy_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (3.0f / 4));
-//
-//
-//	}
-//}
+void bullet_collision(float bullet_size) {
+	//Check array of bullet with array of enemy
+	int killed;
+
+	//Placeholder for enemy
+	CP_Vector enemy_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (1.0f / 4));
+	float enemy_size = WIDTH / 25.0f; //This is in radius
+	CP_Settings_Fill(COLOR_GREEN);
+	CP_Graphics_DrawCircle(enemy_position.x, enemy_position.y, enemy_size*2); //This is in diameter, so needed to times 2
+
+	for (int i = 0; i < MAX_BULLET; i++) {
+		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
+			killed = 0;
+			//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here, enemy shall have size of WIDTH/25.
+
+			float distance_apart = CP_Vector_Distance(bullet_pool[i], enemy_position);
+			if (distance_apart <= (enemy_size + bullet_size)) killed = 1;
+
+			printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, bullet_size, enemy_size + bullet_size);
+
+			if (killed) {
+				bullet_pool[i] = CP_Vector_Set(0, 0);
+				//Suppose to change enemy alive or dead state here
+			}
+		}
+	}
+}
 
 //bullet_trajectory() {
 //	CP_Vector current_bullet;

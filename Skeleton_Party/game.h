@@ -152,6 +152,8 @@ void update_bullet_travel(void);
 
 void print_bullet(float bullet_size);
 
+void bullet_collision(float bullet_size);
+
 void init_enemy();
 
 void enemy_movement();
