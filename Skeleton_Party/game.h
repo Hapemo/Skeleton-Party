@@ -150,7 +150,7 @@ void shoot_bullet(CP_Vector position);
 
 void update_bullet_travel(void);
 
-void print_bullet(void);
+void print_bullet(float bullet_size);
 
 void init_enemy();
 

@@ -282,13 +282,15 @@ CP_Vector bullet_pool[MAX_BULLET] = { 0 };
 
 
 void shooting_check(CP_Vector position) {
+	float bullet_size = WIDTH / 50;
+
 	//CP_Vector position = CP_Vector_Set(WIDTH*(3.0f/4),HEIGHT * (3.0f / 4)); //Position of character
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 		shoot_bullet(position);
 	}
 
 	update_bullet_travel();
-	print_bullet();
+	print_bullet(bullet_size);
 }
 
 void shoot_bullet(CP_Vector position) {
@@ -314,16 +316,25 @@ void update_bullet_travel(void) {
 	}
 }
 
-void print_bullet(void) {
+void print_bullet(float bullet_size) {
 	for (int i = 0; i < MAX_BULLET; i++) {
-
 		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
 			CP_Settings_Fill(COLOR_BLUE);
-			CP_Graphics_DrawCircle(bullet_pool[i].x, bullet_pool[i].y, WIDTH / 50);
+			CP_Graphics_DrawCircle(bullet_pool[i].x, bullet_pool[i].y, bullet_size);
 		}
 	}
 }
 
+//void bullet_collision(float bullet_size) {
+//	//Check array of bullet with array of enemy
+//	for (int i = 0; i < MAX_BULLET; i++) {
+//		//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here
+//		
+//		CP_Vector enemy_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (3.0f / 4));
+//
+//
+//	}
+//}
 
 //bullet_trajectory() {
 //	CP_Vector current_bullet;

@@ -76,12 +76,8 @@ void game_update(void)
 			lightbulb();
 			movement_1();
 			tick();
-<<<<<<< Updated upstream
 			game_control(&knight);
-=======
 			shooting_check(knight.position);
-			game_control();
->>>>>>> Stashed changes
 
 			if (bug.alive == 1)
 			{
