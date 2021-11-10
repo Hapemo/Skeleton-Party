@@ -82,6 +82,7 @@ void game_update(void)
 			shooting_check(knight.position);
 			explosion_update();
 			temp_enemy();
+<<<<<<< Updated upstream
 
 			//isaac's functions to spawn enemy
 			if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) // left click
@@ -95,6 +96,8 @@ void game_update(void)
 			}
 
 
+=======
+>>>>>>> Stashed changes
 
 			if (bug.alive == 1)
 			{
