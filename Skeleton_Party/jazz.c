@@ -21,6 +21,7 @@
 #define COLOR_GREEN CP_Color_Create(0, 255, 0, 255)
 #define COLOR_BLUE CP_Color_Create(0, 0, 255, 255)
 #define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
+#define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 
 //These variables are for melee attacks, for function 'melee_attack' and 'activate_melee_by_mouse'
 int first_time = 1, * pfirst_time = &first_time; //First time running the function
@@ -273,11 +274,9 @@ int out_of_screen(CP_Vector sprite_position) {
 	return 0;
 }
 
+
 #define MAX_BULLET (20)
 CP_Vector bullet_pool[MAX_BULLET] = { 0 };
-
-//CP_Vector [0,1,1,0,0,1,1,0,1,1,1,1,0,1,1,1,1,1]
-
 
 void shooting_check(CP_Vector position) {
 	float bullet_size = WIDTH / 50;
@@ -324,27 +323,46 @@ void print_bullet(float bullet_size) {
 	}
 }
 
+
+CP_Vector enemy1_position, enemy2_position;
+float enemy_size; //This is in radius
+
+void temp_enemy(void) {
+	//Placeholder for enemy
+	enemy1_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (1.0f / 4));
+	enemy_size = WIDTH / 25.0f;
+	CP_Settings_Fill(COLOR_GREEN);
+	CP_Graphics_DrawCircle(enemy1_position.x, enemy1_position.y, enemy_size * 2); //This is in diameter, so needed to times 2
+
+	CP_Settings_Fill(CP_Color_Create(0, 255, 150, 255));
+	enemy2_position = CP_Vector_Set(WIDTH * (0.9f), HEIGHT * (0.3f));
+	CP_Graphics_DrawCircle(enemy2_position.x, enemy2_position.y, enemy_size * 2); //This is in diameter, so needed to times 2
+}
+
+
 void bullet_collision(float bullet_size) {
 	//Check array of bullet with array of enemy
 	int killed;
 
-	//Placeholder for enemy
-	CP_Vector enemy_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (1.0f / 4));
-	float enemy_size = WIDTH / 25.0f; //This is in radius
-	CP_Settings_Fill(COLOR_GREEN);
-	CP_Graphics_DrawCircle(enemy_position.x, enemy_position.y, enemy_size*2); //This is in diameter, so needed to times 2
+	////Placeholder for enemy
+	//CP_Vector enemy_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (1.0f / 4));
+	//float enemy_size = WIDTH / 25.0f; //This is in radius
+	//CP_Settings_Fill(COLOR_GREEN);
+	//CP_Graphics_DrawCircle(enemy_position.x, enemy_position.y, enemy_size*2); //This is in diameter, so needed to times 2
 
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
 			killed = 0;
 			//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here, enemy shall have size of WIDTH/25.
 
-			float distance_apart = CP_Vector_Distance(bullet_pool[i], enemy_position);
+			float distance_apart = CP_Vector_Distance(bullet_pool[i], enemy1_position);
 			if (distance_apart <= (enemy_size + bullet_size)) killed = 1;
 
-			printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, bullet_size, enemy_size + bullet_size);
+			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy2_position);
+			if (distance_apart <= (enemy_size + bullet_size)) killed = 1;
 
 			if (killed) {
+				explode(bullet_pool[i]);
 				bullet_pool[i] = CP_Vector_Set(0, 0);
 				//Suppose to change enemy alive or dead state here
 			}
@@ -352,50 +370,68 @@ void bullet_collision(float bullet_size) {
 	}
 }
 
-//bullet_trajectory() {
-//	CP_Vector current_bullet;
-//	for (int i = 0; i < MAX_BULLET; i++) {
-//		current_bullet = bullet_pool[i];
-//
-//
-//	take the bullet cp vector as a pointer
-//	moving the bullet
-//	update the pointer
-//}
-//
-//
-//
-//void use_bullet(void) {
-//	CP_Vector current_bullet;
-//	for (int i = 0; i < MAX_BULLET; i++) {
-//		current_bullet = bullet_pool[i];
-//
-//		//if button is clicked, activate shoot bullet
-//		//shoot bullet draw the earliest possible bullet and activate it
-//		//pass the CP_vector of that bullet into bullet trajectory
-//		//Bullet trajectory will keep on updating the position of that bullet until it expires
-//		//and print the location of the bullet
-//		//When expires, Set CP_Vector to 0
-//	}
-//}
+
+#define MAX_EXPLOSION (100)
+CP_Vector explosion_pool[MAX_EXPLOSION] = { 0 };
+float explosion_radius_pool[MAX_EXPLOSION] = { 0 };
+float explosion_speed = 10, max_explosion_radius = 150;
+
+//There is currrently a lot of for and if loop, certain functions can be combined together so it does not loop or do if statement so much. If the game lag because of this, can try integrate the functions together
+
+void explode(CP_Vector position) { //position where the bullet killed the enemy 
+	//Pass this function only to when enemy was killed by bullet
+
+	for (int i = 0; i < MAX_EXPLOSION; i++) { //loops through each explosion in explosion pool
+		if (explosion_pool[i].y == 0 && explosion_pool[i].x == 0) { //to find explosion = 0
+			explosion_pool[i] = position;
+			explosion_radius_pool[i] = 1;
+			break;
+		}
+	}
+}
+
+void explosion_update(void) {
+	for (int i = 0; i < MAX_EXPLOSION; i++) { 
+		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
+			explosion_radius_pool[i] += explosion_speed; //Increase radius of explosion each frame
+		}
+
+		if (explosion_radius_pool[i] >= max_explosion_radius) {
+			explosion_radius_pool[i] = 0; //Until it reaches the max radius, then zero it out
+			explosion_pool[i] = CP_Vector_Set(0,0);
+		}
+	}
+
+	explosion_collision();
+	explosion_print();
+}
+
+void explosion_print(void) {
+	for (int i = 0; i < MAX_EXPLOSION; i++) {
+		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
+			CP_Settings_Fill(COLOR_RED);
+			CP_Graphics_DrawCircle(explosion_pool[i].x, explosion_pool[i].y, explosion_radius_pool[i]*2); //This is in diameter so need to times 2
+		}
+	}
+}
+
+void explosion_collision(void) {
+	for (int i = 0; i < MAX_EXPLOSION; i++) {
+		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
+			int killed = 0;
+
+			float distance_apart = CP_Vector_Distance(explosion_pool[i], enemy1_position);
+			if (distance_apart <= (enemy_size + explosion_radius_pool[i])) killed = 1;
 
 
-
-//int basic_projectile_start = 1;
-//CP_Vector bullet_vector_p, * bullet_vector = &bullet_vector_p;
-//void basic_projectile(void) {
-//	CP_Vector starting_position = CP_Vector_Set(WIDTH * (3 / 4.0f), HEIGHT * (3 / 4.0f)); //set starting position of projectile
-//
-//	if (basic_projectile_start) {
-//		*bullet_vector = starting_position;
-//		basic_projectile_start = 0;
-//	}
-//
-//	*bullet_vector = enemy_moving_up_down_left_right(position, 1.0f, 1);
-//
-//	print_sprite(*bullet_vector);
-//
-//	if (out_of_screen(*bullet_vector)) *bullet_vector = starting_position;
-//}
+			printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, explosion_radius_pool[i], enemy_size + explosion_radius_pool[i]);
 
 
+			if (killed) {
+				collide = 1; //This changes the color of the lightbulb
+
+				//Suppose to change enemy alive or dead state here
+			}
+		}
+	}
+}

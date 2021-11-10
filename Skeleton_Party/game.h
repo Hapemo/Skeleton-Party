@@ -162,6 +162,8 @@ int tick(void);
 
 int out_of_screen(CP_Vector sprite_position);
 
+void temp_enemy(void);
+
 void shooting_check(CP_Vector position);
 
 void shoot_bullet(CP_Vector position);
@@ -171,6 +173,14 @@ void update_bullet_travel(void);
 void print_bullet(float bullet_size);
 
 void bullet_collision(float bullet_size);
+
+void explosion_update(void);
+
+void explosion_print(void);
+
+void explode(CP_Vector position);
+
+void explosion_collision(void);
 
 void init_enemy();
 
