@@ -380,7 +380,6 @@ float explosion_speed = 10, max_explosion_radius = 150;
 
 void explode(CP_Vector position) { //position where the bullet killed the enemy 
 	//Pass this function only to when enemy was killed by bullet
-<<<<<<< Updated upstream
 
 	for (int i = 0; i < MAX_EXPLOSION; i++) { //loops through each explosion in explosion pool
 		if (explosion_pool[i].y == 0 && explosion_pool[i].x == 0) { //to find explosion = 0
@@ -425,8 +424,6 @@ void explosion_collision(void) {
 			if (distance_apart <= (enemy_size + explosion_radius_pool[i])) killed = 1;
 
 
-=======
->>>>>>> Stashed changes
 			printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, explosion_radius_pool[i], enemy_size + explosion_radius_pool[i]);
 
 	for (int i = 0; i < MAX_EXPLOSION; i++) { //loops through each explosion in explosion pool
@@ -475,7 +472,6 @@ void explosion_collision(void) {
 			printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, explosion_radius_pool[i], enemy_size + explosion_radius_pool[i]);
 
 
->>>>>>> Stashed changes
 			if (killed) {
 				collide = 1; //This changes the color of the lightbulb
 
