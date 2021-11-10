@@ -429,6 +429,51 @@ void explosion_collision(void) {
 >>>>>>> Stashed changes
 			printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, explosion_radius_pool[i], enemy_size + explosion_radius_pool[i]);
 
+	for (int i = 0; i < MAX_EXPLOSION; i++) { //loops through each explosion in explosion pool
+		if (explosion_pool[i].y == 0 && explosion_pool[i].x == 0) { //to find explosion = 0
+			explosion_pool[i] = position;
+			explosion_radius_pool[i] = 1;
+			break;
+		}
+	}
+}
+
+void explosion_update(void) {
+	for (int i = 0; i < MAX_EXPLOSION; i++) { 
+		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
+			explosion_radius_pool[i] += explosion_speed; //Increase radius of explosion each frame
+		}
+
+		if (explosion_radius_pool[i] >= max_explosion_radius) {
+			explosion_radius_pool[i] = 0; //Until it reaches the max radius, then zero it out
+			explosion_pool[i] = CP_Vector_Set(0,0);
+		}
+	}
+
+	explosion_collision();
+	explosion_print();
+}
+
+void explosion_print(void) {
+	for (int i = 0; i < MAX_EXPLOSION; i++) {
+		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
+			CP_Settings_Fill(COLOR_RED);
+			CP_Graphics_DrawCircle(explosion_pool[i].x, explosion_pool[i].y, explosion_radius_pool[i]*2); //This is in diameter so need to times 2
+		}
+	}
+}
+
+void explosion_collision(void) {
+	for (int i = 0; i < MAX_EXPLOSION; i++) {
+		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
+			int killed = 0;
+
+			float distance_apart = CP_Vector_Distance(explosion_pool[i], enemy1_position);
+			if (distance_apart <= (enemy_size + explosion_radius_pool[i])) killed = 1;
+
+
+			printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, explosion_radius_pool[i], enemy_size + explosion_radius_pool[i]);
+
 
 >>>>>>> Stashed changes
 			if (killed) {
