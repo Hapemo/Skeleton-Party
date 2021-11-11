@@ -79,8 +79,8 @@ void game_update(void)
 			//movement_1();
 			tick();
 			game_control(&knight);
-			shooting_check(knight.position);
-			explosion_update();
+			
+			
 			temp_enemy();
 
 			//isaac's functions to spawn enemy
@@ -94,7 +94,8 @@ void game_update(void)
 				SpawnEnemySingle(CP_Input_GetMouseX(), CP_Input_GetMouseY());
 			}
 
-
+			shooting_check(knight.position);
+			explosion_update();
 
 			if (bug.alive == 1)
 			{

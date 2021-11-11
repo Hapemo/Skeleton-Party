@@ -6,22 +6,14 @@
 
 int imageIndex;
 static CP_Image EnemyspriteSheetImage;
-#define MAX_ENEMY 500
-#define Formationsingle 0
-#define Formationcircle 1
-#define Formationline 2
-#define ShapeSizecircle 7
-#define ShapeSizeline  5
-#define dropspeed 10.0f
+
+#define DROPSPEED 2.0f
 static const float Enemy_FRAME_DIMENSIONx = 59.0f;
 static const float Enemy_FRAME_DIMENSIONy = 59.0f;
 static  float Enemy_size_windowsx;
 static  float Enemy_size_windowsy;
 static float EnemylocationX;
 static float EnemylocationY;
-// jazz math define
-#define WIDTH (float)CP_System_GetWindowWidth()
-#define HEIGHT (float)CP_System_GetWindowHeight()
 //int ticks = 0;
 CP_Vector vector_from_starting, position, add_position, * p_vector_from_starting = &vector_from_starting, starting_position /*enemy_position*/;
 int movement_1_start = 1, spin = 0, * p_spin = &spin, spin_speed;
@@ -33,10 +25,7 @@ int vector_1, vector_2;
 
 // Enemy decleration --------------------------------------------------------------------------
 
-typedef struct EnemySprite
-{
-	float x, y, dx; // where dx is the velocity 
-}EnemySprite;
+
 
 EnemySprite* enemy[MAX_ENEMY] = { NULL }; // when used, if first one is null, all othjers will be set to 0 
 EnemySprite* enemycircle[MAX_ENEMY][ShapeSizecircle] = { NULL };
@@ -119,6 +108,7 @@ void Enemy_printer(void)
 			//spin = 0;
 			for (int p = 0; p < ShapeSizecircle; p++)
 			{
+				if (enemycircle[y][p]->x == 0 && enemycircle[y][p]->y == 0) continue;
 				CP_Vector mid_position = CP_Vector_Set(enemycircle[y][p]->x, enemycircle[y][p]->y);
 				CP_Vector enemy_direction = rotate_vector(radius, angle + *p_spin, e1); // causes rotation 
 				CP_Vector enemy_position = CP_Vector_Add(mid_position, enemy_direction); // affine P hat 
@@ -126,7 +116,7 @@ void Enemy_printer(void)
 				CP_Image_DrawSubImage(EnemyspriteSheetImage, // image used 
 					/*enemycircle[y][p]->x, enemycircle[y][p]->y,*/
 					enemy_position.x, enemy_position.y, // coordinates of where the sprite is drawn
-					Enemy_size_windowsx / 2, Enemy_size_windowsy / 2,   // image size on window 
+					ENEMY_SIZE_2, ENEMY_SIZE_2,   // image size on window 
 					imageIndex * Enemy_FRAME_DIMENSIONx, 0, // image selection  by parts. first image = 0 + 1 % 4 = 1, second image = 1 + 1 % 4 = 2, third image = 2 + 1 % 4 = 3 , forth image = 3+1 % 4 = 0 
 					// image 4 / 4 is the first one on the sprite sheet
 					// horizontal movement, vertical movement
@@ -177,9 +167,10 @@ CP_Vector Enemy_rotate_vector(float scalar, float angle, CP_Vector unit_vector) 
 	return vector;
 }
 
-void enemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed, int enemynum) {
+void enemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed, int enemynum) { //Update
 	float angle = 0;
 	for (int i = 0; i < ShapeSizecircle; i++) { // each i is one enemy 
+		if (enemycircle[enemynum][i]->x == 0 && enemycircle[enemynum][i]->y == 0) continue;
 		CP_Vector enemy_direction = Enemy_rotate_vector(big_radius, angle + *p_spin, e1); // causes rotation 
 		CP_Vector enemy_position = CP_Vector_Add(mid_position, enemy_direction); // affine P hat 
 		enemycircle[enemynum][i]->x = enemy_position.x;
@@ -190,7 +181,7 @@ void enemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed, i
 	*p_spin += speed; // speed of rotation
 }
 
-void addenemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed) {
+void addenemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed) { //Initialise
 	float angle = 0;
 	//printf("enemycircle added\n");
 	//int groupchecker=0, groupavailable=0;
@@ -212,7 +203,7 @@ void addenemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed
 			enemycircle[found][p] = (EnemySprite*)malloc(sizeof(enemycircle));
 			enemycircle[found][p]->x = enemy_position.x;
 			enemycircle[found][p]->y = enemy_position.y;
-			enemycircle[found][p]->dx = dropspeed;
+			enemycircle[found][p]->dx = DROPSPEED;
 			//printf("enemycircle added at %f\n", enemycircle[found][p]->y);
 
 			// add enemy needs 1 more identifer 
@@ -244,7 +235,7 @@ void SpawnEnemyCircle(float Positionx, float Positiony)
 
 void SpawnEnemySingle(float Positionx, float Positiony)
 {
-	addEnemy(Positionx, Positiony, (float)10.0);
+	addEnemy(Positionx, Positiony, DROPSPEED);
 }
 
 void UpdateEnemyMovement(void)
@@ -269,10 +260,13 @@ void UpdateEnemyMovement(void)
 			// add player homing here 
 			for (int p = 0; p < ShapeSizecircle; p++)
 			{
+				if (enemycircle[i][p]->x == 0 && enemycircle[i][p]->y == 0) continue;
 				enemycircle[i][p]->y += enemycircle[i][p]->dx;
 			}
 
-			if (enemycircle[i][ShapeSizecircle - 1]->y < -1000 || enemycircle[i][ShapeSizecircle - 1]->y >1000)
+			CP_Vector current_enemy = CP_Vector_Set(enemycircle[i][ShapeSizecircle - 1]->x, enemycircle[i][ShapeSizecircle - 1]->y);
+			
+			if (out_of_screen(current_enemy))
 			{
 				//printf("enemylocation Exceeded\n");
 				enemycircle[i][0] = NULL;

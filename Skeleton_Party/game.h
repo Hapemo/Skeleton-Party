@@ -7,10 +7,23 @@
 #define HEIGHT (float)CP_System_GetWindowHeight()
 #define PI 3.1415926535
 #define MAX_ENEMY 500
+#define Formationsingle 0
+#define Formationcircle 1
+#define Formationline 2
+#define ShapeSizecircle 7
+#define ShapeSizeline  5
+#define ENEMY_SIZE_2 10
 
 enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED };
 enum GameStates gameState;
 
+typedef struct EnemySprite
+{
+	float x, y, dx; // where dx is the velocity 
+}EnemySprite;
+EnemySprite* enemy[MAX_ENEMY]; // when used, if first one is null, all othjers will be set to 0 
+EnemySprite* enemycircle[MAX_ENEMY][ShapeSizecircle];
+EnemySprite* enemyline[MAX_ENEMY][ShapeSizeline];
 
 struct character
 {
@@ -32,6 +45,8 @@ struct enemy
 	float height;
 	int alive;
 } bug;
+
+
 
 struct Item
 {
@@ -170,9 +185,9 @@ void shoot_bullet(CP_Vector position);
 
 void update_bullet_travel(void);
 
-void print_bullet(float bullet_size);
+void print_bullet(void);
 
-void bullet_collision(float bullet_size);
+void bullet_collision(void);
 
 void explosion_update(void);
 
