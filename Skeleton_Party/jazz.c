@@ -305,10 +305,9 @@ void update_bullet_travel(void) {
 			
 			if (out_of_screen(bullet_pool[i])) bullet_pool[i] = CP_Vector_Set(0, 0);
 		}
-
-		print_bullet();
-		bullet_collision();
 	}
+	print_bullet();
+	bullet_collision();
 }
 
 void print_bullet(void) {
@@ -340,7 +339,7 @@ void temp_enemy(void) {
 void bullet_collision(void) {
 	//Check array of bullet with array of enemy
 	int killed;
-
+	float distance_apart;
 	////Placeholder for enemy
 	//CP_Vector enemy_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (1.0f / 4));
 	//float enemy_size = WIDTH / 25.0f; //This is in radius
@@ -352,21 +351,22 @@ void bullet_collision(void) {
 			killed = 0;
 			//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here, enemy shall have size of WIDTH/25.
 
-			/*
-			float distance_apart = CP_Vector_Distance(bullet_pool[i], enemy1_position);
+			
+			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy1_position);
 			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
 
 			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy2_position);
 			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
 
 			if (killed) {
-				explode(bullet_pool[i]);
+				//explode(bullet_pool[i]);
+				sharpnel(bullet_pool[i]);
+
 				bullet_pool[i] = CP_Vector_Set(0, 0);
 
-				//sharpnel_update(bullet_pool[i]);
 				//Suppose to change enemy alive or dead state here
 			}
-			*/
+			
 
 			for (int j = 0; j < MAX_ENEMY; j++) {
 				int checker = 0;
@@ -379,19 +379,20 @@ void bullet_collision(void) {
 						if (enemycircle[j][k]->x == 0 && enemycircle[j][k]->y == 0) continue;
 						CP_Vector current_enemy = CP_Vector_Set(enemycircle[j][k]->x, enemycircle[j][k]->y);
 
-						float distance_apart = CP_Vector_Distance(bullet_pool[i], current_enemy);
+						distance_apart = CP_Vector_Distance(bullet_pool[i], current_enemy);
 						if (distance_apart <= (ENEMY_SIZE_2 + BULLET_SIZE)) killed = 1;
 
 
 						if (killed) {
 							checker++;
 							explode(bullet_pool[i]);
+							sharpnel(bullet_pool[i]);
+
 							bullet_pool[i] = CP_Vector_Set(0, 0);
 
 							enemycircle[j][k]->x = 0;
 							enemycircle[j][k]->y = 0;
 
-							//sharpnel_update(bullet_pool[i]);
 							//Suppose to change enemy alive or dead state here
 						}
 					}
@@ -458,10 +459,6 @@ void explosion_collision(void) {
 			float distance_apart = CP_Vector_Distance(explosion_pool[i], enemy1_position);
 			if (distance_apart <= (enemy_size + explosion_radius_pool[i])) killed = 1;
 
-
-			printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, explosion_radius_pool[i], enemy_size + explosion_radius_pool[i]);
-
-
 			if (killed) {
 				collide = 1; //This changes the color of the lightbulb
 
@@ -471,73 +468,81 @@ void explosion_collision(void) {
 	}
 }
 
-//#define MAX_SHARPNEL (200)
-//float max_sharpnels = 5;
-//CP_Vector sharpnel_pool[MAX_SHARPNEL] = { 0 };
-//CP_Vector sharpnel_vector_pool[MAX_SHARPNEL] = { 0 };
-//
-//void sharpnel(CP_Vector position) {
-//	float theta = 0, sharpnel_speed = 5;
-//	for (int i = 0; i < max_sharpnels; i++) { //Loop through amount of sharpnel to generate in one explosion
-//		for (int j = 0; j < MAX_SHARPNEL; j++) { //Loop sharpnel pool to allocate unused sharpnel
-//			if (sharpnel_pool[i].y == 0 && sharpnel_pool[i].x == 0) {
-//				theta = (i / max_sharpnels) * 360;
-//				sharpnel_vector_pool[i] = rotate_vector(sharpnel_speed, theta, E1);
-//
-//				sharpnel_pool[i] = position;
-//
-//				break;
-//			}
-//		}
-//	}
-//}
-//
-//void sharpnel_update(void) {
-//	for (int i = 0; i < MAX_SHARPNEL; i++) {
-//		if (sharpnel_pool[i].y == 0 && sharpnel_pool[i].x == 0) return;
-//
-//		sharpnel_pool[i].x += sharpnel_vector_pool[i].x;
-//		sharpnel_pool[i].y += sharpnel_vector_pool[i].y;
-//
-//		if (out_of_screen(sharpnel_pool[i])) sharpnel_pool[i] = CP_Vector_Set(0, 0);
-//
-//		print_sharpnel();
-//
-//	}
-//}
-//
-//void print_sharpnel(void) {
-//	for (int i = 0; i < MAX_BULLET; i++) {
-//		if (!(sharpnel_pool[i].y == 0 && sharpnel_pool[i].x == 0)) { //If bullet is active
-//			CP_Settings_Fill(COLOR_BLUE);
-//			CP_Graphics_DrawCircle(sharpnel_pool[i].x, sharpnel_pool[i].y, BULLET_SIZE * 2); //This is in diameter so need to times 2
-//		}
-//	}
-//}
-//
-//void sharpnel_collision(void) {
-//	//Check array of bullet with array of enemy
-//	int killed;
-//	NOT DONE CONTINEU HERE
-//
-//	for (int i = 0; i < MAX_BULLET; i++) {
-//		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
-//			killed = 0;
-//			//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here, enemy shall have size of WIDTH/25.
-//
-//			float distance_apart = CP_Vector_Distance(bullet_pool[i], enemy1_position);
-//			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
-//
-//			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy2_position);
-//			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
-//
-//			if (killed) {
-//				explode(bullet_pool[i]);
-//				bullet_pool[i] = CP_Vector_Set(0, 0);
-//
-//				sharpnel_update(bullet_pool[i]);
-//				//Suppose to change enemy alive or dead state here
-//			}
-//		}
-//	}
-//}
+#define MAX_SHARPNEL (30)
+float max_sharpnels = 5;
+CP_Vector sharpnel_pool[MAX_SHARPNEL] = { 0 };
+CP_Vector sharpnel_vector_pool[MAX_SHARPNEL] = { 0 };
+
+void sharpnel(CP_Vector position) {
+	float theta = 0, sharpnel_speed = 5;
+	int j;
+
+	for (int i = 0; i < max_sharpnels; i++) {
+		theta = (i / max_sharpnels) * 360;
+		
+		for (j = 0; j < MAX_SHARPNEL; j++) {
+			if (!(sharpnel_pool[j].x == 0 && sharpnel_pool[j].y == 0)) continue;
+
+			sharpnel_pool[j] = position;
+			sharpnel_vector_pool[j] = rotate_vector(sharpnel_speed, theta, E1);
+
+			break;
+		}
+	}
+}
+
+void sharpnel_update(void) {
+	for (int i = 0; i < MAX_SHARPNEL; i++) {
+
+		if (!(sharpnel_pool[i].y == 0 && sharpnel_pool[i].x == 0)) {
+
+			sharpnel_pool[i].x += sharpnel_vector_pool[i].x;
+			sharpnel_pool[i].y += sharpnel_vector_pool[i].y;
+
+			if (out_of_screen(sharpnel_pool[i])) {
+				sharpnel_pool[i] = CP_Vector_Set(0, 0);
+				printf("sharpnel went out of the screen!");
+			}
+			
+		}
+	}
+	print_sharpnel();
+	sharpnel_collision();
+}
+
+void print_sharpnel(void) {
+	for (int i = 0; i < MAX_BULLET; i++) {
+		if (!(sharpnel_pool[i].y == 0 && sharpnel_pool[i].x == 0)) { //If bullet is active
+			CP_Settings_Fill(COLOR_RED);
+			CP_Graphics_DrawCircle(sharpnel_pool[i].x, sharpnel_pool[i].y, BULLET_SIZE * 2); //This is in diameter so need to times 2
+		}
+	}
+}
+
+void sharpnel_collision(void) {
+	//Check array of bullet with array of enemy
+	int killed;
+
+	for (int i = 0; i < MAX_BULLET; i++) {
+		if (!(sharpnel_pool[i].y == 0 && sharpnel_pool[i].x == 0)) { //If bullet is active
+			killed = 0;
+			//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here, enemy shall have size of WIDTH/25.
+
+			float distance_apart = CP_Vector_Distance(sharpnel_pool[i], enemy1_position);
+			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
+
+			distance_apart = CP_Vector_Distance(sharpnel_pool[i], enemy2_position);
+			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
+
+			//printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, BULLET_SIZE, enemy_size + explosion_radius_pool[i]);
+
+			if (killed) {
+				sharpnel_pool[i] = CP_Vector_Set(0, 0);
+				sharpnel_vector_pool[i] = CP_Vector_Set(0, 0);
+
+				collide = 1;
+				//Suppose to change enemy alive or dead state here
+			}
+		}
+	}
+}

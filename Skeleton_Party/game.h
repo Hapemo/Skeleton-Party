@@ -197,6 +197,14 @@ void explode(CP_Vector position);
 
 void explosion_collision(void);
 
+void sharpnel(CP_Vector position);
+
+void sharpnel_update(void);
+
+void print_sharpnel(void);
+
+void sharpnel_collision(void);
+
 void init_enemy();
 
 void enemy_movement();
