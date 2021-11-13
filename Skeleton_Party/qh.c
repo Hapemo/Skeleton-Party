@@ -21,8 +21,8 @@ void init_char(struct character *spritename, float spawnx, float spawny, char* p
 {
     spritename->position = CP_Vector_Set(spawnx, spawny);
     spritename->sprite = CP_Image_Load(pathname);
-    spritename->width = 200;
-    spritename->height = 200;
+    spritename->width = 50;
+    spritename->height = 100;
     spritename->speed = 100;
 
 }
