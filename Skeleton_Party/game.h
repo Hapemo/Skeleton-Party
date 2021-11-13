@@ -207,10 +207,13 @@ void shrapnel_collision(void);
 
 void init_enemy();
 
-void enemy_movement();
+void player_touch_enemy();
 
-void enemy_damage();
+//void enemy_movement();
+
+//void enemy_damage();
 
 void DrawPauseCanvas();
+void PauseButtonClicked();
 
-BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
+//BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
