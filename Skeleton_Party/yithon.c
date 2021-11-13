@@ -110,6 +110,8 @@ void player_touch_enemy() {
 		if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
 		{
 				Playertakedamage(1);
+				bug.alive = 0;
+				DropStuff(bug.enemyPosition.x, bug.enemyPosition.y);
 		}
 	}
 	
