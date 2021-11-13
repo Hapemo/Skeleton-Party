@@ -60,7 +60,7 @@ struct Item
 
 struct Item item;
 
-
+void EnableMenu();
 void Damage(float damage);
 void DrawPlayerHealth();
 void DrawHP(float currentHealth, float maxHealth );
@@ -111,6 +111,7 @@ void ButtonClicked();
 void DrawGameCanvas();
 void DrawMenuButton();
 void DrawMenuCanvas();
+void EnableMenu();
 void game_control(struct character* spritename);
 void init_char(struct character* spritename, float spawnx, float spawny, char* pathname);
 

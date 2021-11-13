@@ -336,6 +336,12 @@ void TerminateFullscreen()
 	}
 }
 
+void EnableMenu()
+{
+	menu.enabled = TRUE;
+}
+
+
 void DropStuff(float posX, float posY)
 {
 
