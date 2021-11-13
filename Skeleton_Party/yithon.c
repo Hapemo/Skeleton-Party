@@ -108,9 +108,9 @@ void player_touch_enemy() {
 		//CP_Graphics_ClearBackground(COLOR_GRAY);
 
 		if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
-			{
+		{
 				Playertakedamage(1);
-			}
+		}
 	}
 	
 }

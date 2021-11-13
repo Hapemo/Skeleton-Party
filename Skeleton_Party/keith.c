@@ -24,8 +24,10 @@
 #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
 
 CP_Image gameBackground = NULL;
-
-
+CP_Image playButtonImage = NULL;
+CP_Image titleImage = NULL;
+CP_Image creditButtonImage = NULL;
+CP_Image quitButtonImage = NULL;
 BOOL fullScreen = FALSE;
 
 CP_Font myFont;
@@ -40,6 +42,23 @@ struct PlayButton {
 	float width;
 	float height;
 }playButton;
+
+struct CreditsButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}creditButton;
+
+struct QuitButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}quitButton;
+
 
 struct Menu {
 	
@@ -79,6 +98,10 @@ void InitializeVariables()
 	menu.enabled = TRUE;
 	menu.width = width;
 	menu.height = height;
+	playButtonImage = CP_Image_Load("./Assets/play.png");
+	titleImage = CP_Image_Load("./Assets/skele_party.png");
+	creditButtonImage = CP_Image_Load("./Assets/credits.png");
+	quitButtonImage = CP_Image_Load("./Assets/quit.png");
 }
 
 void Damage(float damage)
@@ -144,8 +167,11 @@ BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, 
 }
 
 
-BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
+BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
 {
+	posBoxX = posBoxX - widthBox / 2;
+	posBoxY = posBoxY - heightBox / 2;
+	
 
 	float boundaryX = posBoxX + widthBox;
 	float boundaryY = posBoxY + heightBox;
@@ -161,6 +187,24 @@ BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightB
 
 		
 }
+BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
+{
+
+	float boundaryX = posBoxX + widthBox;
+	float boundaryY = posBoxY + heightBox;
+	if ((posX < boundaryX && posX > posBoxX)
+		&& (posY < boundaryY && posY > posBoxY))
+	{
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+
+
+}
+
 
 void DrawMenuCanvas()
 {
@@ -171,22 +215,36 @@ void DrawMenuCanvas()
 	menu.height = height;
 	if (menu.enabled ==  TRUE)
 	{
-		CP_Settings_Fill(COLOR_GRAY);
-		CP_Graphics_DrawRect(menu.posX, menu.posY,
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		CP_Settings_Fill(COLOR_BLACK);
+		CP_Graphics_DrawRect(menu.posX + menu.width/2, menu.posY + menu.height/2,
 			menu.width, menu.height);
 
 		CP_Settings_Fill(COLOR_GREEN);
-		playButton.posX = menu.width / 8 * 3;
-		playButton.posY = menu.height / 8 * 5;
-		playButton.width = menu.width / 4;
-		playButton.height = menu.height / 4;
-		CP_Graphics_DrawRect(playButton.posX, playButton.posY,
-			playButton.width, playButton.height);
-		CP_Settings_TextSize(6 * (playButton.width / menu.width * 100));
+		playButton.posX = menu.width / 2.0f;
+		playButton.posY = menu.height * (3.0f / 7.0f);
+		playButton.width = menu.width / 4.0f;
+		playButton.height = menu.height / 6.4f;
+
+		creditButton.posX = menu.width / 2.0f;
+		creditButton.posY = menu.height * (4.0f / 7.0f) + 25.0f;
+		creditButton.width = menu.width / 4.0f;
+	    creditButton.height = menu.height / 6.4f;
+
+		quitButton.posX = menu.width / 2.0f;
+		quitButton.posY = menu.height * (5.0f / 7.0f) + 50.0f;
+		quitButton.width = menu.width / 4.0f;
+		quitButton.height = menu.height / 6.4f;
+
+		CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+		CP_Image_Draw(creditButtonImage, creditButton.posX , creditButton.posY, creditButton.width, creditButton.height, 255);
+		CP_Image_Draw(quitButtonImage, quitButton.posX, quitButton.posY, quitButton.width, quitButton.height, 255);
+		CP_Image_Draw(titleImage, creditButton.posX, menu.height / 8.0f + 50.0f , menu.width * 0.75f, menu.height/ 6.0f ,255);
+		//CP_Settings_TextSize(6 * (playButton.width / menu.width * 100));
 
 		CP_Settings_Fill(COLOR_WHITE);
-		CP_Font_DrawTextBox("Play", playButton.posX + playButton.width / 6.5f, playButton.posY + playButton.height / 1.5f, playButton.width);
-
+		//CP_Font_DrawTextBox("Play", playButton.posX + playButton.width / 6.5f, playButton.posY + playButton.height / 1.5f, playButton.width);
+		CP_Settings_RectMode(CP_POSITION_CORNER);
 	}
 }
 
@@ -225,12 +283,19 @@ void ButtonClicked()
 	{
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
-		if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		printf("%f", mousePosX);
+		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		//{
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
 		{
-			
 			menu.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
 			gameState = PLAYING;
+		}
+		//}
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, quitButton.width, quitButton.height, quitButton.posX, quitButton.posY))
+		{
+			gameState = EXIT;
 		}
 
 		if (CheckCollisionWithBox(mousePosX, mousePosY, menuButton.width, menuButton.height, menuButton.posX, menuButton.posY))
@@ -238,6 +303,8 @@ void ButtonClicked()
 			menu.enabled = TRUE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
 		}
+
+		
 	}
 }
 

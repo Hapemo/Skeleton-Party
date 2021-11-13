@@ -135,9 +135,16 @@ void game_update(void)
 
 			ButtonClicked();
 			break;
+		
+		case EXIT:
 
+			CP_Engine_Terminate();
+			break;
 
 		}
+
+		
+
 	//}
 
 }
