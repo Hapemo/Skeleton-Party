@@ -79,8 +79,9 @@ void game_update(void)
 			//movement_1();
 			tick();
 			game_control(&knight);
-			
-			
+
+			SpeedBuffEffect();
+
 			temp_enemy();
 
 			//isaac's functions to spawn enemy

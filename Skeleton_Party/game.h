@@ -32,6 +32,7 @@ struct character
 	float width;
 	float height;
 	float speed;
+	BOOL speedbuff;
 };
 
 struct character knight;
@@ -99,6 +100,7 @@ void UpdateEnemyMovement(void);
 void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
 
+void SpeedBuffEffect();
 void DropStuff(float posX, float posY);
 void DrawItem();
 void TerminateFullscreen();

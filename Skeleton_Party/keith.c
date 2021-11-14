@@ -375,12 +375,61 @@ void DrawItem()
 			CP_Image_Draw(item.sprite, item.position.x, item.position.y, item.width, item.height, 255);
 			if (CheckIfBoxesOverlap(item.position.x, item.position.y, item.width, item.height, knight.position.x, knight.position.y, knight.width, knight.height))
 			{
-				knight.speed = 200;
+				knight.speedbuff = TRUE;
 				item.enabled = 0;
 
 			}
 
 			break;
 		}
+	}
+}
+
+void SpeedBuffEffect()
+{
+	static float originalSpeed = 0;
+	if (knight.speedbuff == TRUE)
+	{
+		/*BOOL hasActivated = TRUE;
+
+		if (hasActivated)
+		{
+			originalSpeed = knight.speed;
+			hasActivated = FALSE;
+		}*/
+
+
+
+		static float timer;
+		float duration = 3.0f;
+		if (knight.speed == originalSpeed)
+		{
+			knight.speed *= 3.0f;
+
+		}
+
+
+		if (timer < duration)
+		{
+
+			timer += CP_System_GetDt();
+			printf("Timer: %f\n", timer);
+		}
+		else
+		{
+			timer = 0;
+			knight.speed = originalSpeed;
+
+			knight.speedbuff = FALSE;
+
+		}
+
+		printf("Speed: %f\n",knight.speed);
+
+	}
+	else
+	{
+		originalSpeed = knight.speed;
+
 	}
 }

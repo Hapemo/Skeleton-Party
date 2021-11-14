@@ -1,20 +1,19 @@
 
 #include <stdio.h>
 #include "cprocessing.h"
-
+#include "game.h"
 //#define speed 400 
-struct character
-{
-    CP_Vector position;
-    CP_Image sprite;
-    float width;
-    float height;
-    float speed;
+//struct character
+//{
+//    CP_Vector position;
+//    CP_Image sprite;
+//    float width;
+//    float height;
+//    float speed;
+//
+//};
 
-};
-
-
-
+//Note: since using include game.h, I set struct to global do not need local struct
 
 
 void init_char(struct character *spritename, float spawnx, float spawny, char* pathname)
