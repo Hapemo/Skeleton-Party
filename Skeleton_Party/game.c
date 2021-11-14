@@ -63,7 +63,7 @@ void game_update(void)
 			{
 				gamePause = !gamePause;
 				gameState = PAUSED;
-				
+			
 			}
 			
 			DrawGameCanvas();
@@ -72,15 +72,16 @@ void game_update(void)
 			Player_Redheartprinter();
 			Player_Emptyheartprinter();
 			//DrawPlayerHealth();
-			enemy_movement();
-			enemy_damage();
+			//enemy_movement();
+			//enemy_damage();
 			activate_melee_by_mouse(knight.position);
 			lightbulb();
 			//movement_1();
 			tick();
 			game_control(&knight);
-			
-			
+
+			SpeedBuffEffect();
+
 			temp_enemy();
 
 			//isaac's functions to spawn enemy
@@ -96,14 +97,15 @@ void game_update(void)
 
 			shooting_check(knight.position);
 			explosion_update();
-
-			if (bug.alive == 1)
+			shrapnel_update();
+			player_touch_enemy();
+			/*if (bug.alive == 1)
 			{
 				if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
 				{
 					Playertakedamage(1);
 				}
-			}
+			}*/
 			DrawItem();
 			// isaac's enemy movement functions. Update enemy and print 
 			UpdateEnemyMovement();
@@ -112,13 +114,16 @@ void game_update(void)
 
 			break;
 		case PAUSED:
+			
+			DrawPauseCanvas();
+			PauseButtonClicked();
+
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{
-				
+			
 				gamePause = !gamePause;
 				gameState = PLAYING;
-				//DrawPauseCanvas();
-
+				
 			}
 			
 			break;
@@ -131,9 +136,16 @@ void game_update(void)
 
 			ButtonClicked();
 			break;
+		
+		case EXIT:
 
+			CP_Engine_Terminate();
+			break;
 
 		}
+
+		
+
 	//}
 
 }

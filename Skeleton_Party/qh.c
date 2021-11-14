@@ -1,29 +1,61 @@
 
 #include <stdio.h>
 #include "cprocessing.h"
-
+#include "game.h"
 //#define speed 400 
-struct character
-{
-    CP_Vector position;
-    CP_Image sprite;
-    float width;
-    float height;
-    float speed;
+//struct character
+//{
+//    CP_Vector position;
+//    CP_Image sprite;
+//    float width;
+//    float height;
+//    float speed;
+//
+//};
 
-};
-
-
+//Note: since using include game.h, I set struct to global do not need local struct
 
 
 void init_char(struct character *spritename, float spawnx, float spawny, char* pathname)
 {
     spritename->position = CP_Vector_Set(spawnx, spawny);
     spritename->sprite = CP_Image_Load(pathname);
-    spritename->width = 200;
-    spritename->height = 200;
+    spritename->width = 50;
+    spritename->height = 100;
     spritename->speed = 100;
 
+}
+
+/*void enemypattern1(void)
+{
+    struct character enemy;
+    
+    float x = CP_System_GetWindowWidth() / 3;
+    float y = CP_System_GetWindowHeight() / 3;
+    for (int i = 0; i < 3; i++)
+    {
+        init_char(enemy, (x+(x*i)), (y+(y*i)), "./Assets/Enemydot.png");
+        
+    }
+}
+*/
+
+void begintext(void)
+{
+    float x = (float)CP_System_GetWindowWidth() / 2;
+    float y = (float)CP_System_GetWindowHeight() / 2;
+    //color fill
+    CP_Graphics_DrawRect((x / 2), (y / 2), x, y);
+    CP_Font_DrawText("Welcome to the skeleton party, please save our princess!", ((x / 2) - 50), ((y / 2) - 50));
+}
+
+void endtext(void)
+{
+    float x = (float)CP_System_GetWindowWidth() / 2;
+    float y = (float)CP_System_GetWindowHeight() / 2;
+    //color fill
+    CP_Graphics_DrawRect((x / 2), (y / 2), x, y);
+    CP_Font_DrawText("Thank you for saving our princess! ", ((x / 2) - 50), ((y / 2) - 50));
 }
 
 void game_control(struct character *spritename )

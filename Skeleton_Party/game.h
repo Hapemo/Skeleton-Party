@@ -32,6 +32,7 @@ struct character
 	float width;
 	float height;
 	float speed;
+	BOOL speedbuff;
 };
 
 struct character knight;
@@ -60,7 +61,7 @@ struct Item
 
 struct Item item;
 
-
+void EnableMenu();
 void Damage(float damage);
 void DrawPlayerHealth();
 void DrawHP(float currentHealth, float maxHealth );
@@ -99,6 +100,7 @@ void UpdateEnemyMovement(void);
 void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
 
+void SpeedBuffEffect();
 void DropStuff(float posX, float posY);
 void DrawItem();
 void TerminateFullscreen();
@@ -111,12 +113,13 @@ void ButtonClicked();
 void DrawGameCanvas();
 void DrawMenuButton();
 void DrawMenuCanvas();
+void EnableMenu();
 void game_control(struct character* spritename);
 void init_char(struct character* spritename, float spawnx, float spawny, char* pathname);
 
 BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2);
 
-
+BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY);
 BOOL CheckCollisionWithBox(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
 
 /*!
@@ -197,12 +200,23 @@ void explode(CP_Vector position);
 
 void explosion_collision(void);
 
+void shrapnel(CP_Vector position);
+
+void shrapnel_update(void);
+
+void print_shrapnel(void);
+
+void shrapnel_collision(void);
+
 void init_enemy();
 
-void enemy_movement();
+void player_touch_enemy();
 
-void enemy_damage();
+//void enemy_movement();
+
+//void enemy_damage();
 
 void DrawPauseCanvas();
+void PauseButtonClicked();
 
-BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
+//BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
