@@ -124,11 +124,10 @@ BOOL CheckCollisionWithBox(float posX, float posY, float boundaryX, float bounda
 
 /*!
 @brief		Activates the melee attack for wherever the position of sprite is.
-@param		*melee_angle - This is should take in 1 for starter, the function will change it according to the angle of attack at specific frames
-			position - This is the position of the sprite, where the melee attack will happen from
+@param		position - This is the position of the sprite, where the melee attack will happen from
 @return		NIL
 *//*______________________________________________________________*/
-void melee_attack(CP_Vector position, CP_Vector *enemy);
+void melee_attack(CP_Vector position);
 
 /*!
 @brief		This function detects mouse click, and activate the melee attack function for wherever the mouse is at. (the position can be changed in future)
@@ -153,13 +152,15 @@ CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector);
 void print_melee_weapon(CP_Vector position, float angle);
 
 /*!
-@brief		Checks collision of sword with a point. This function is to be used inside function melee_attack
+@brief		Checks collision of rect with a circle. This function is to be used inside function melee_attack
 @param		enemy - position of enemy point
 			position - position of sword
-			vec1 - 
-@return		NIL
+			vec1 - width of sword
+			vec2 - length of sword
+			enemy_radius - radius of enemy
+@return		1 if collide, 0 if none
 *//*______________________________________________________________*/
-void sword_collision(CP_Vector enemy, CP_Vector position, CP_Vector vec1, CP_Vector vec2);
+int rect_collision(CP_Vector enemy, CP_Vector position, CP_Vector vec1, CP_Vector vec2, float enemy_radius);
 
 /*!
 @brief		A prototype stage function. To check if collision with target happened. Determines if collision happen via int collide.

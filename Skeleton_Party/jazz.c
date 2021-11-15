@@ -60,7 +60,7 @@ void temp_enemy(void) {
 }
 
 
-void melee_attack(CP_Vector position, CP_Vector *enemy1) {
+void melee_attack(CP_Vector position) {
 	//Set the melee angle for the first time
 	if (first_time) {
 		//Set sword size
@@ -84,9 +84,18 @@ void melee_attack(CP_Vector position, CP_Vector *enemy1) {
 
 	CP_Vector vec1 = rotate_vector(sword_length, melee_angle - 90, E1); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
 	CP_Vector vec2 = rotate_vector(sword_width, melee_angle - 90, E2);
-
-	sword_collision(*enemy1, position, vec1, vec2);
-
+	
+	if (rect_collision(enemy1_position, position, vec1, vec2, enemy_size)) { //If collide with enemy 1 
+		//Enemy should be set to dead when this runs, This can trigger sword explosion too
+		*pcollide = 1;
+		sword_explosion(enemy1_position);
+	}
+	
+	if (rect_collision(enemy2_position, position, vec1, vec2, enemy_size)) { //If collide with enemy 2
+		//Enemy should be set to dead when this runs, This can trigger sword explosion too
+		*pcollide = 1;
+		sword_explosion(enemy2_position);
+	}
 
 	//Resets the animation of the attack
 	if (!(-melee_max_angle < melee_angle && melee_angle < melee_max_angle)) {
@@ -132,7 +141,7 @@ void print_melee_weapon(CP_Vector position, float angle) {
 //Another way is we can assign a lot of enemy (eg. 5000) to array. 
 
 
-void sword_collision(CP_Vector enemy1, CP_Vector position, CP_Vector vec1, CP_Vector vec2) {
+int rect_collision(CP_Vector enemy1, CP_Vector position, CP_Vector vec1, CP_Vector vec2, float enemy_radius) {
 	//Following the formula drawn on the iPad
 	CP_Vector half_vec1 = CP_Vector_Scale(vec1, 0.5f);
 	CP_Vector half_vec2 = CP_Vector_Scale(vec2, 0.5f);
@@ -144,20 +153,18 @@ void sword_collision(CP_Vector enemy1, CP_Vector position, CP_Vector vec1, CP_Ve
 	float vec1_dot_product = CP_Vector_DotProduct(weapon_to_enemy, normalised_vec1);
 	if (vec1_dot_product < 0) vec1_dot_product *= -1;
 
-	if (!(vec1_dot_product <= CP_Vector_Length(half_vec1))) return;
+	if (!(vec1_dot_product <= CP_Vector_Length(half_vec1) + enemy_radius)) return 0;
 
 	CP_Vector normalised_vec2 = CP_Vector_Normalize(half_vec2);
 	float vec2_dot_product = CP_Vector_DotProduct(weapon_to_enemy, normalised_vec2);
 	if (vec2_dot_product < 0) vec2_dot_product *= -1;
 
-	if (vec2_dot_product <= CP_Vector_Length(half_vec2)) {
+	if (vec2_dot_product <= CP_Vector_Length(half_vec2) + enemy_radius) {
 		//This is when collision happens!
-		//Enemy should be set to dead when this runs, This can trigger sword explosion too
-		*pcollide = 1;
-
-		sword_explosion(enemy1);
-
+		
+		return 1;
 	}
+	else return 0;
 }
 
 
@@ -174,9 +181,6 @@ CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector) {
 
 void activate_melee_by_mouse(CP_Vector position) {
 
-	CP_Vector enemy1 = CP_Vector_Set(WIDTH / 2, HEIGHT / 2);
-	CP_Graphics_DrawCircle(enemy1.x, enemy1.y, WIDTH / 500);
-
 	//melee_position = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	//Check for mouse input
 	if (!(*pmelee_or_not)) {
@@ -186,7 +190,7 @@ void activate_melee_by_mouse(CP_Vector position) {
 		}
 	}
 	if (*pmelee_or_not) {
-		melee_attack(position, &enemy1);
+		melee_attack(position);
 	}
 }
 
@@ -225,10 +229,8 @@ void sword_explosion_update(void) {
 
 
 void sword_explosion_print(void) {
-	printf("it ran here!!");
 	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
 		if (!(sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0)) {
-			printf("it ran here double!!");
 			CP_Settings_Fill(COLOR_RED);
 			CP_Graphics_DrawCircle(sword_explosion_pool[i].x, sword_explosion_pool[i].y, sword_explosion_radius_pool[i] * 2); //This is in diameter so need to times 2
 		}
@@ -568,7 +570,6 @@ void shrapnel_update(void) {
 
 			if (out_of_screen(shrapnel_pool[i])) {
 				shrapnel_pool[i] = CP_Vector_Set(0, 0);
-				printf("shrapnel went out of the screen!");
 			}
 			
 		}
@@ -613,3 +614,120 @@ void shrapnel_collision(void) {
 		}
 	}
 }
+
+
+//
+//#define MAX_PIERCING_BULLET (20)
+//#define BULLET_WIDTH (WIDTH / 50)
+//#define BULLET_LENGTH (WIDTH / 25)
+//CP_Vector piercing_bullet_pool[MAX_BULLET] = { 0 };
+//
+//void shooting_check(CP_Vector position) {
+//
+//	//CP_Vector position = CP_Vector_Set(WIDTH*(3.0f/4),HEIGHT * (3.0f / 4)); //Position of character
+//	if (CP_Input_MouseTriggered(MOUSE_BUTTON_3)) {
+//		shoot_piercing_bullet(position);
+//	}
+//
+//	update_piercing_bullet_travel();
+//}
+//
+//void shoot_piercing_bullet(CP_Vector position) {
+//	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
+//		if (piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0) {
+//			piercing_bullet_pool[i] = position;
+//			break;
+//		}
+//	}
+//}
+//
+//void update_piercing_bullet_travel(void) {
+//	float bullet_speed = 10.0f;
+//
+//	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
+//
+//		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
+//			piercing_bullet_pool[i] = enemy_moving_up_down_left_right(piercing_bullet_pool[i], bullet_speed, 1); //update it's position
+//
+//			if (out_of_screen(piercing_bullet_pool[i])) piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
+//		}
+//	}
+//	print_piercing_bullet();
+//	piercing_bullet_collision();
+//}
+//
+//void piercing_print_bullet(void) {
+//	for (int i = 0; i < MAX_BULLET; i++) {
+//		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
+//			CP_Settings_Fill(COLOR_BLUE);
+//			CP_Graphics_DrawRect(piercing_bullet_pool[i].x, piercing_bullet_pool[i].y, BULLET_WIDTH, BULLET_LENGTH); //This is in diameter so need to times 2
+//		}
+//	}
+//}
+//
+//
+//void bullet_collision(void) {
+//	//Check array of bullet with array of enemy
+//	int killed;
+//	float distance_apart;
+//
+//	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
+//		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
+//			killed = 0;
+//			//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here, enemy shall have size of WIDTH/25.
+//
+//
+//
+//			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy1_position);
+//			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
+//
+//			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy2_position);
+//			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
+//
+//			if (killed) {
+//				explode(bullet_pool[i]);
+//				shrapnel(bullet_pool[i]);
+//
+//				bullet_pool[i] = CP_Vector_Set(0, 0);
+//
+//				//Suppose to change enemy alive or dead state here
+//			}
+//
+//
+//			for (int j = 0; j < MAX_ENEMY; j++) {
+//				int checker = 0;
+//				if (enemycircle[j][0] == NULL) continue;
+//				for (int k = 0; k < ShapeSizecircle; k++) {
+//					if (j >= MAX_ENEMY || k >= ShapeSizecircle) {
+//
+//					}
+//					else {
+//						if (enemycircle[j][k]->x == 0 && enemycircle[j][k]->y == 0) continue;
+//						CP_Vector current_enemy = CP_Vector_Set(enemycircle[j][k]->x, enemycircle[j][k]->y);
+//
+//						distance_apart = CP_Vector_Distance(bullet_pool[i], current_enemy);
+//						if (distance_apart <= (ENEMY_SIZE_2 + BULLET_SIZE)) killed = 1;
+//
+//
+//						if (killed) {
+//							checker++;
+//							explode(bullet_pool[i]);
+//							shrapnel(bullet_pool[i]);
+//
+//							bullet_pool[i] = CP_Vector_Set(0, 0);
+//
+//							enemycircle[j][k]->x = 0;
+//							enemycircle[j][k]->y = 0;
+//
+//							//Suppose to change enemy alive or dead state here
+//						}
+//					}
+//
+//				}
+//				if (checker == ShapeSizecircle) {
+//					enemycircle[j][0] = NULL;
+//				}
+//			}
+//		}
+//	}
+//}
