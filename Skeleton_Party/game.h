@@ -200,6 +200,16 @@ void explode(CP_Vector position);
 
 void explosion_collision(void);
 
+void sword_explosion(CP_Vector position);
+
+void sword_explosion_update(void);
+
+void sword_explosion_print(void);
+
+void sword_explosion_collision(void);
+
+void sword_explosion_update(void);
+
 void shrapnel(CP_Vector position);
 
 void shrapnel_update(void);

@@ -97,6 +97,7 @@ void game_update(void)
 
 			shooting_check(knight.position);
 			explosion_update();
+			sword_explosion_update();
 			shrapnel_update();
 			player_touch_enemy();
 			/*if (bug.alive == 1)

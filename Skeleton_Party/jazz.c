@@ -43,6 +43,23 @@ int collide = 0, *pcollide = &collide;
 int lightbulb_i = 0;
 
 
+
+CP_Vector enemy1_position, enemy2_position;
+float enemy_size; //This is in radius
+
+void temp_enemy(void) {
+	//Placeholder for enemy
+	enemy1_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (1.0f / 4));
+	enemy_size = WIDTH / 25.0f;
+	CP_Settings_Fill(COLOR_GREEN);
+	CP_Graphics_DrawCircle(enemy1_position.x, enemy1_position.y, enemy_size * 2); //This is in diameter, so needed to times 2
+
+	CP_Settings_Fill(CP_Color_Create(0, 255, 150, 255));
+	enemy2_position = CP_Vector_Set(WIDTH * (0.9f), HEIGHT * (0.3f));
+	CP_Graphics_DrawCircle(enemy2_position.x, enemy2_position.y, enemy_size * 2); //This is in diameter, so needed to times 2
+}
+
+
 void melee_attack(CP_Vector position, CP_Vector *enemy1) {
 	//Set the melee angle for the first time
 	if (first_time) {
@@ -134,7 +151,12 @@ void sword_collision(CP_Vector enemy1, CP_Vector position, CP_Vector vec1, CP_Ve
 	if (vec2_dot_product < 0) vec2_dot_product *= -1;
 
 	if (vec2_dot_product <= CP_Vector_Length(half_vec2)) {
+		//This is when collision happens!
+		//Enemy should be set to dead when this runs, This can trigger sword explosion too
 		*pcollide = 1;
+
+		sword_explosion(enemy1);
+
 	}
 }
 
@@ -168,6 +190,67 @@ void activate_melee_by_mouse(CP_Vector position) {
 	}
 }
 
+
+#define MAX_SWORD_EXPLOSION (100)
+CP_Vector sword_explosion_pool[MAX_SWORD_EXPLOSION] = { 0 };
+float sword_explosion_radius_pool[MAX_SWORD_EXPLOSION] = { 0 };
+float sword_explosion_speed = 15, max_sword_explosion_radius = 400;
+
+void sword_explosion(CP_Vector position) {
+	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) { //loops through each explosion in explosion pool
+		if (sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0) { //to find explosion = 0
+			sword_explosion_pool[i] = position;
+			sword_explosion_radius_pool[i] = 1;
+
+			break;
+		}
+	}
+}
+
+void sword_explosion_update(void) {
+	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
+		if (!(sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0)) {
+			sword_explosion_radius_pool[i] += sword_explosion_speed; //Increase radius of explosion each frame
+		}
+
+		if (sword_explosion_radius_pool[i] >= max_sword_explosion_radius) {
+			sword_explosion_radius_pool[i] = 0; //Until it reaches the max radius, then zero it out
+			sword_explosion_pool[i] = CP_Vector_Set(0, 0);
+		}
+	}
+
+	sword_explosion_collision();
+	sword_explosion_print();
+}
+
+
+void sword_explosion_print(void) {
+	printf("it ran here!!");
+	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
+		if (!(sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0)) {
+			printf("it ran here double!!");
+			CP_Settings_Fill(COLOR_RED);
+			CP_Graphics_DrawCircle(sword_explosion_pool[i].x, sword_explosion_pool[i].y, sword_explosion_radius_pool[i] * 2); //This is in diameter so need to times 2
+		}
+	}
+}
+
+void sword_explosion_collision(void) {
+	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
+		if (!(sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0)) {
+			int killed = 0;
+
+			float distance_apart = CP_Vector_Distance(sword_explosion_pool[i], enemy1_position);
+			if (distance_apart <= (enemy_size + sword_explosion_radius_pool[i])) killed = 1;
+
+			if (killed) {
+				collide = 1; //This changes the color of the lightbulb
+
+				//Suppose to change enemy alive or dead state here
+			}
+		}
+	}
+}
 
 void lightbulb(void) {
 	if (collide) {
@@ -317,22 +400,6 @@ void print_bullet(void) {
 			CP_Graphics_DrawCircle(bullet_pool[i].x, bullet_pool[i].y, BULLET_SIZE *2); //This is in diameter so need to times 2
 		}
 	}
-}
-
-
-CP_Vector enemy1_position, enemy2_position;
-float enemy_size; //This is in radius
-
-void temp_enemy(void) {
-	//Placeholder for enemy
-	enemy1_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (1.0f / 4));
-	enemy_size = WIDTH / 25.0f;
-	CP_Settings_Fill(COLOR_GREEN);
-	CP_Graphics_DrawCircle(enemy1_position.x, enemy1_position.y, enemy_size * 2); //This is in diameter, so needed to times 2
-
-	CP_Settings_Fill(CP_Color_Create(0, 255, 150, 255));
-	enemy2_position = CP_Vector_Set(WIDTH * (0.9f), HEIGHT * (0.3f));
-	CP_Graphics_DrawCircle(enemy2_position.x, enemy2_position.y, enemy_size * 2); //This is in diameter, so needed to times 2
 }
 
 
