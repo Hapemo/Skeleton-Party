@@ -11,17 +11,13 @@
  * Copyright © 2020 DigiPen, All rights reserved.
 * ---------------------------------------------------------*/
 
+#pragma once
+
 #include <stdio.h>
 #include <math.h>
 #include <limits.h>
 #include "cprocessing.h"
 #include "game.h"
-
-#define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
-#define COLOR_GREEN CP_Color_Create(0, 255, 0, 255)
-#define COLOR_BLUE CP_Color_Create(0, 0, 255, 255)
-#define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
-#define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 
 //These variables are for melee attacks, for function 'melee_attack' and 'activate_melee_by_mouse'
 int first_time = 1, * pfirst_time = &first_time; //First time running the function
@@ -41,23 +37,6 @@ CP_Vector melee_position; //Position of where the melee animation happens
 
 int collide = 0, *pcollide = &collide;
 int lightbulb_i = 0;
-
-
-
-CP_Vector enemy1_position, enemy2_position;
-float enemy_size; //This is in radius
-
-void temp_enemy(void) {
-	//Placeholder for enemy
-	enemy1_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (1.0f / 4));
-	enemy_size = WIDTH / 25.0f;
-	CP_Settings_Fill(COLOR_GREEN);
-	CP_Graphics_DrawCircle(enemy1_position.x, enemy1_position.y, enemy_size * 2); //This is in diameter, so needed to times 2
-
-	CP_Settings_Fill(CP_Color_Create(0, 255, 150, 255));
-	enemy2_position = CP_Vector_Set(WIDTH * (0.9f), HEIGHT * (0.3f));
-	CP_Graphics_DrawCircle(enemy2_position.x, enemy2_position.y, enemy_size * 2); //This is in diameter, so needed to times 2
-}
 
 
 void melee_attack(CP_Vector position) {
@@ -82,19 +61,17 @@ void melee_attack(CP_Vector position) {
 
 	print_melee_weapon(position, melee_angle);
 
-	CP_Vector vec1 = rotate_vector(sword_length, melee_angle - 90, E1); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
+	CP_Vector temp_vec = CP_Vector_Set(1, 0); //This CP_Vector is specially for sword. For some reason, when use E1, it will become inaccurate.
+	CP_Vector vec1 = rotate_vector(sword_length, melee_angle - 90, temp_vec); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
 	CP_Vector vec2 = rotate_vector(sword_width, melee_angle - 90, E2);
 	
-	if (rect_collision(enemy1_position, position, vec1, vec2, enemy_size)) { //If collide with enemy 1 
-		//Enemy should be set to dead when this runs, This can trigger sword explosion too
-		*pcollide = 1;
-		sword_explosion(enemy1_position);
-	}
-	
-	if (rect_collision(enemy2_position, position, vec1, vec2, enemy_size)) { //If collide with enemy 2
-		//Enemy should be set to dead when this runs, This can trigger sword explosion too
-		*pcollide = 1;
-		sword_explosion(enemy2_position);
+
+	for (int j = 0; j < MAX_ENEMY; j++) {
+		if (!(enemy_pool[j].alive)) continue;
+		if (rect_collision(enemy_pool[j].position, position, vec1, vec2, enemy_pool[j].size)) { //If collide with enemy
+			*pcollide = 1;
+			sword_explosion(enemy_pool[j].position);
+		}
 	}
 
 	//Resets the animation of the attack
@@ -146,8 +123,13 @@ int rect_collision(CP_Vector enemy1, CP_Vector position, CP_Vector vec1, CP_Vect
 	CP_Vector half_vec1 = CP_Vector_Scale(vec1, 0.5f);
 	CP_Vector half_vec2 = CP_Vector_Scale(vec2, 0.5f);
 
-	CP_Vector weapon_center = CP_Vector_Add(CP_Vector_Add(position, half_vec1), half_vec2);
+	CP_Vector weapon_center = CP_Vector_Add(CP_Vector_Subtract(position, half_vec1), half_vec2);
 	CP_Vector weapon_to_enemy = CP_Vector_Subtract(enemy1, weapon_center);
+
+	//CP_Graphics_DrawCircle(weapon_center.x, weapon_center.y, 5);
+	//CP_Graphics_DrawCircle(position.x, position.y, 10);
+	//CP_Graphics_DrawLine(weapon_center.x, weapon_center.y, weapon_center.x + half_vec1.x, weapon_center.y + half_vec1.y);
+	//CP_Graphics_DrawLine(weapon_center.x, weapon_center.y, weapon_center.x + half_vec2.x, weapon_center.y + half_vec2.y);
 
 	CP_Vector normalised_vec1 = CP_Vector_Normalize(half_vec1);
 	float vec1_dot_product = CP_Vector_DotProduct(weapon_to_enemy, normalised_vec1);
@@ -240,15 +222,18 @@ void sword_explosion_print(void) {
 void sword_explosion_collision(void) {
 	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
 		if (!(sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0)) {
-			int killed = 0;
 
-			float distance_apart = CP_Vector_Distance(sword_explosion_pool[i], enemy1_position);
-			if (distance_apart <= (enemy_size + sword_explosion_radius_pool[i])) killed = 1;
+			for (int j = 0; j < MAX_ENEMY; j++) {
+				if (!(enemy_pool[j].alive)) continue;
+				int killed = 0;
 
-			if (killed) {
-				collide = 1; //This changes the color of the lightbulb
+				float distance_apart = CP_Vector_Distance(sword_explosion_pool[i], enemy_pool[j].position);
+				if (distance_apart <= (enemy_pool[j].size + sword_explosion_radius_pool[i])) killed = 1;
 
-				//Suppose to change enemy alive or dead state here
+				if (killed) {
+					collide = 1; //This changes the color of the lightbulb
+					enemy_pool[j].alive = 0;
+				}
 			}
 		}
 	}
@@ -318,11 +303,12 @@ int vector_1, vector_2;
 	*p_spin += speed;
 }*/
 
-int ticks = 0; 
-int tick(void) {
-	ticks++;
-	if (ticks == INT_MAX) ticks = 0;
-	return ticks;
+float tick_p = 0, * tick = &tick_p;
+
+void timer(void) {
+	*tick += 1;
+	//ticks /= 2.0f;
+	if (*tick == INT_MAX) *tick = 0;
 }
 
 void backnforth_multiplier(void) {
@@ -386,7 +372,8 @@ void update_bullet_travel(void) {
 	for (int i = 0; i < MAX_BULLET; i++) {
 
 		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
-			bullet_pool[i] = enemy_moving_up_down_left_right(bullet_pool[i], bullet_speed, 1); //update it's position
+
+			bullet_pool[i] = enemy_moving_up_down_left_right(bullet_pool[i], bullet_speed, UP); //update it's position
 			
 			if (out_of_screen(bullet_pool[i])) bullet_pool[i] = CP_Vector_Set(0, 0);
 		}
@@ -409,66 +396,25 @@ void bullet_collision(void) {
 	//Check array of bullet with array of enemy
 	int killed;
 	float distance_apart;
-	////Placeholder for enemy
-	//CP_Vector enemy_position = CP_Vector_Set(WIDTH * (3.0f / 4), HEIGHT * (1.0f / 4));
-	//float enemy_size = WIDTH / 25.0f; //This is in radius
-	//CP_Settings_Fill(COLOR_GREEN);
-	//CP_Graphics_DrawCircle(enemy_position.x, enemy_position.y, enemy_size*2); //This is in diameter, so needed to times 2
 
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
-			killed = 0;
-			//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here, enemy shall have size of WIDTH/25.
-
-			
-			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy1_position);
-			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
-
-			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy2_position);
-			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
-
-			if (killed) {
-				explode(bullet_pool[i]);
-				shrapnel(bullet_pool[i]);
-
-				bullet_pool[i] = CP_Vector_Set(0, 0);
-
-				//Suppose to change enemy alive or dead state here
-			}
-			
 
 			for (int j = 0; j < MAX_ENEMY; j++) {
-				int checker = 0;
-				if (enemycircle[j][0] == NULL) continue;
-				for (int k = 0; k < ShapeSizecircle; k++) {
-					if (j >= MAX_ENEMY || k >= ShapeSizecircle) {
+				if (!(enemy_pool[j].alive)) continue;
+				killed = 0;
 
-					}
-					else {
-						if (enemycircle[j][k]->x == 0 && enemycircle[j][k]->y == 0) continue;
-						CP_Vector current_enemy = CP_Vector_Set(enemycircle[j][k]->x, enemycircle[j][k]->y);
+				distance_apart = CP_Vector_Distance(bullet_pool[i], enemy_pool[j].position);
 
-						distance_apart = CP_Vector_Distance(bullet_pool[i], current_enemy);
-						if (distance_apart <= (ENEMY_SIZE_2 + BULLET_SIZE)) killed = 1;
+				if (distance_apart <= (BULLET_SIZE + enemy_pool[j].size)) killed = 1;
 
+				if (killed) {
+					explode(bullet_pool[i]);
+					shrapnel(bullet_pool[i]);
 
-						if (killed) {
-							checker++;
-							explode(bullet_pool[i]);
-							shrapnel(bullet_pool[i]);
+					bullet_pool[i] = CP_Vector_Set(0, 0);
 
-							bullet_pool[i] = CP_Vector_Set(0, 0);
-
-							enemycircle[j][k]->x = 0;
-							enemycircle[j][k]->y = 0;
-
-							//Suppose to change enemy alive or dead state here
-						}
-					}
-					
-				}
-				if (checker == ShapeSizecircle) {
-					enemycircle[j][0] = NULL;
+					enemy_pool[j].alive = 0;
 				}
 			}
 		}
@@ -521,17 +467,21 @@ void explosion_print(void) {
 }
 
 void explosion_collision(void) {
+	int killed;
 	for (int i = 0; i < MAX_EXPLOSION; i++) {
 		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
-			int killed = 0;
 
-			float distance_apart = CP_Vector_Distance(explosion_pool[i], enemy1_position);
-			if (distance_apart <= (enemy_size + explosion_radius_pool[i])) killed = 1;
+			for (int j = 0; j < MAX_ENEMY; j++) {
+				if (!(enemy_pool[j].alive)) continue;
+				killed = 0;
 
-			if (killed) {
-				collide = 1; //This changes the color of the lightbulb
+				float distance_apart = CP_Vector_Distance(explosion_pool[i], enemy_pool[j].position);
+				if (distance_apart <= (enemy_pool[j].size + explosion_radius_pool[i])) killed = 1;
 
-				//Suppose to change enemy alive or dead state here
+				if (killed) {
+					collide = 1; //This changes the color of the lightbulb
+					enemy_pool[j].alive = 0;
+				}
 			}
 		}
 	}
@@ -593,141 +543,126 @@ void shrapnel_collision(void) {
 
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(shrapnel_pool[i].y == 0 && shrapnel_pool[i].x == 0)) { //If bullet is active
-			killed = 0;
-			//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here, enemy shall have size of WIDTH/25.
 
-			float distance_apart = CP_Vector_Distance(shrapnel_pool[i], enemy1_position);
-			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
+			for (int j = 0; j < MAX_ENEMY; j++) {
+				if (!(enemy_pool[j].alive)) continue;
+				killed = 0;
 
-			distance_apart = CP_Vector_Distance(shrapnel_pool[i], enemy2_position);
-			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
+				float distance_apart = CP_Vector_Distance(shrapnel_pool[i], enemy_pool[j].position);
+				if (distance_apart <= (enemy_pool[j].size + BULLET_SIZE)) killed = 1;
 
-			//printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, BULLET_SIZE, enemy_size + explosion_radius_pool[i]);
+				//printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, BULLET_SIZE, enemy_size + explosion_radius_pool[i]);
 
-			if (killed) {
-				shrapnel_pool[i] = CP_Vector_Set(0, 0);
-				shrapnel_vector_pool[i] = CP_Vector_Set(0, 0);
-
-				collide = 1;
-				//Suppose to change enemy alive or dead state here
+				if (killed) {
+					shrapnel_pool[i] = CP_Vector_Set(0, 0);
+					shrapnel_vector_pool[i] = CP_Vector_Set(0, 0);
+					enemy_pool[j].alive = 0;
+					collide = 1;
+					//Suppose to change enemy alive or dead state here
+				}
 			}
 		}
 	}
 }
 
 
-//
-//#define MAX_PIERCING_BULLET (20)
-//#define BULLET_WIDTH (WIDTH / 50)
-//#define BULLET_LENGTH (WIDTH / 25)
-//CP_Vector piercing_bullet_pool[MAX_BULLET] = { 0 };
-//
-//void shooting_check(CP_Vector position) {
-//
-//	//CP_Vector position = CP_Vector_Set(WIDTH*(3.0f/4),HEIGHT * (3.0f / 4)); //Position of character
-//	if (CP_Input_MouseTriggered(MOUSE_BUTTON_3)) {
-//		shoot_piercing_bullet(position);
-//	}
-//
-//	update_piercing_bullet_travel();
-//}
-//
-//void shoot_piercing_bullet(CP_Vector position) {
-//	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
-//		if (piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0) {
-//			piercing_bullet_pool[i] = position;
-//			break;
-//		}
-//	}
-//}
-//
-//void update_piercing_bullet_travel(void) {
-//	float bullet_speed = 10.0f;
-//
-//	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
-//
-//		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
-//			piercing_bullet_pool[i] = enemy_moving_up_down_left_right(piercing_bullet_pool[i], bullet_speed, 1); //update it's position
-//
-//			if (out_of_screen(piercing_bullet_pool[i])) piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
-//		}
-//	}
-//	print_piercing_bullet();
-//	piercing_bullet_collision();
-//}
-//
-//void piercing_print_bullet(void) {
-//	for (int i = 0; i < MAX_BULLET; i++) {
-//		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
-//			CP_Settings_Fill(COLOR_BLUE);
-//			CP_Graphics_DrawRect(piercing_bullet_pool[i].x, piercing_bullet_pool[i].y, BULLET_WIDTH, BULLET_LENGTH); //This is in diameter so need to times 2
-//		}
-//	}
-//}
-//
-//
-//void bullet_collision(void) {
-//	//Check array of bullet with array of enemy
-//	int killed;
-//	float distance_apart;
-//
-//	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
-//		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
-//			killed = 0;
-//			//Supposed to have another loop here to loop through every active enemy, but I'll just use a place holder here, enemy shall have size of WIDTH/25.
-//
-//
-//
-//			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy1_position);
-//			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
-//
-//			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy2_position);
-//			if (distance_apart <= (enemy_size + BULLET_SIZE)) killed = 1;
-//
-//			if (killed) {
-//				explode(bullet_pool[i]);
-//				shrapnel(bullet_pool[i]);
-//
-//				bullet_pool[i] = CP_Vector_Set(0, 0);
-//
-//				//Suppose to change enemy alive or dead state here
-//			}
-//
-//
-//			for (int j = 0; j < MAX_ENEMY; j++) {
-//				int checker = 0;
-//				if (enemycircle[j][0] == NULL) continue;
-//				for (int k = 0; k < ShapeSizecircle; k++) {
-//					if (j >= MAX_ENEMY || k >= ShapeSizecircle) {
-//
-//					}
-//					else {
-//						if (enemycircle[j][k]->x == 0 && enemycircle[j][k]->y == 0) continue;
-//						CP_Vector current_enemy = CP_Vector_Set(enemycircle[j][k]->x, enemycircle[j][k]->y);
-//
-//						distance_apart = CP_Vector_Distance(bullet_pool[i], current_enemy);
-//						if (distance_apart <= (ENEMY_SIZE_2 + BULLET_SIZE)) killed = 1;
-//
-//
-//						if (killed) {
-//							checker++;
-//							explode(bullet_pool[i]);
-//							shrapnel(bullet_pool[i]);
-//
-//							bullet_pool[i] = CP_Vector_Set(0, 0);
-//
-//							enemycircle[j][k]->x = 0;
-//							enemycircle[j][k]->y = 0;
-//
-//							//Suppose to change enemy alive or dead state here
-//						}
-//					}
-//
-//				}
-//				if (checker == ShapeSizecircle) {
-//					enemycircle[j][0] = NULL;
-//				}
-//			}
-//		}
-//	}
-//}
+/*
+#define MAX_PIERCING_BULLET (20)
+#define BULLET_WIDTH (WIDTH / 150)
+#define BULLET_LENGTH (WIDTH / 10)
+#define BULLET_ANGLE 0
+#define PIERCING_BULLET_SPEED 25.0f
+CP_Vector piercing_bullet_pool[MAX_BULLET] = { 0 };
+
+#define MAX_CHARGE (500.0f)
+#define MAX_CHARGE_POOL (20)
+float piercing_charge = 0, max_piercing_charge = 500.0f, charge_pool[MAX_CHARGE_POOL] = { 0 };
+
+void piercing_shooting_check(CP_Vector position) {
+
+	if (CP_Input_KeyDown(KEY_SPACE)) {
+		if (!(piercing_charge >= MAX_CHARGE)) piercing_charge++;
+
+		printf("charge: %f", piercing_charge);
+	} 
+
+	if (CP_Input_KeyReleased(KEY_SPACE)) {
+		shoot_piercing_bullet(position, piercing_charge);
+		piercing_charge = 0;
+	}
+
+	update_piercing_bullet_travel();
+}
+
+void shoot_piercing_bullet(CP_Vector position, float charge) {
+	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
+		if (piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0) {
+			piercing_bullet_pool[i] = position;
+			charge_pool[i] = charge/10;
+			break;
+		}
+	}
+}
+
+void update_piercing_bullet_travel(void) {
+	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
+
+		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
+			piercing_bullet_pool[i] = enemy_moving_up_down_left_right(piercing_bullet_pool[i], PIERCING_BULLET_SPEED, UP); //update it's position
+
+			if (out_of_screen(piercing_bullet_pool[i])) piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
+		}
+	}
+	print_piercing_bullet();
+	piercing_bullet_collision();
+}
+
+void print_piercing_bullet(void) {
+	for (int i = 0; i < MAX_BULLET; i++) {
+		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
+			CP_Settings_Fill(COLOR_BLUE);
+			// Create transform matrices
+			CP_Matrix translate = CP_Matrix_Translate(piercing_bullet_pool[i]); //bring attack to position
+			CP_Matrix rotate = CP_Matrix_Rotate(BULLET_ANGLE);
+
+			// Combine transfrom -> translation and rotation
+			CP_Matrix transform = CP_Matrix_Multiply(translate, rotate);
+
+			// Set the camera transfrom to the created matrix
+			CP_Settings_ApplyMatrix(transform);
+
+			// Draw a blue rectangle that rotates
+			CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
+			CP_Graphics_DrawRect(0, 0, BULLET_WIDTH * charge_pool[i], BULLET_LENGTH);
+
+			// Reset the matrix to the identity matrix
+			CP_Settings_ResetMatrix();
+		}
+	}
+}
+
+void piercing_bullet_collision(void) {
+	//Check array of bullet with array of enemy
+	int killed;
+
+	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
+		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
+
+			CP_Vector vec1 = rotate_vector(BULLET_WIDTH * charge_pool[i], BULLET_ANGLE, E1); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
+			CP_Vector vec2 = rotate_vector(BULLET_LENGTH, BULLET_ANGLE, E2);
+			
+			for (int j = 0; j < MAX_ENEMY; j++) {
+				if (!(enemy_pool[j].alive)) continue;
+				killed = 0;
+
+				if (rect_collision(enemy_pool[j].position, piercing_bullet_pool[i], vec1, vec2, enemy_pool[j].size)) {
+					//piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
+					*pcollide = 1;
+					enemy_pool[j].alive = 0;
+
+					//Suppose to change enemy alive or dead state here
+				}
+			}
+		}
+	}
+}*/

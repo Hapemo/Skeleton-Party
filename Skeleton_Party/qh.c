@@ -17,7 +17,7 @@
 
 float enemymin = 60.f;
 float enemymax = 400.f;
-float timer = 0.f;
+//float timer = 0.f;
 float duration = 10.f;
 
 float Lerp(float start, float end, float percentage)
@@ -26,18 +26,18 @@ float Lerp(float start, float end, float percentage)
 }
 
 
-void enemymov(void)
-{
-    timer += CP_System_GetDt();
-    if (timer >= duration)
-    {
-        timer = duration;
-    }
-
-    float enemypos = Lerp(enemymin, enemymax, timer / duration);
-    CP_Settings_Fill(COLOR_WHITE);
-    CP_Graphics_DrawCircle(150.f, enemypos, 50.f);
-}
+//void enemymov(void)
+//{
+//    timer += CP_System_GetDt();
+//    if (timer >= duration)
+//    {
+//        timer = duration;
+//    }
+//
+//    float enemypos = Lerp(enemymin, enemymax, timer / duration);
+//    CP_Settings_Fill(COLOR_WHITE);
+//    CP_Graphics_DrawCircle(150.f, enemypos, 50.f);
+//}
 
 void init_char(struct character *spritename, float spawnx, float spawny, char* pathname)
 {

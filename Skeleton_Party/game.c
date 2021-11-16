@@ -16,7 +16,7 @@ void game_init(void)
 
 	//isaac's init function calls 
 	init_PlayerHP();	// defn in isaac.c
-	init_EnemySprite();	// def in Enemy_arrays.c
+	//init_EnemySprite();	// def in Enemy_arrays.c
 
 
     CP_System_Fullscreen();
@@ -36,7 +36,7 @@ void game_init(void)
 	init_char(&mage, 200, 200, "./Assets/mage.png");
 	init_char(&archer, 200, 200, "./Assests/archer");
 
-
+	preload_spawn_map(); //This is for declarations in enemy_array
 
 }
 
@@ -76,29 +76,35 @@ void game_update(void)
 			//enemy_damage();
 			activate_melee_by_mouse(knight.position);
 			lightbulb();
+			shooting_check(knight.position);
+			//piercing_shooting_check(knight.position);
+			explosion_update();
+			sword_explosion_update();
+			shrapnel_update();
+			spawn_map();
+
+			// enemy movement patterns
+			movement_pattern_vertical_and_diagonal();
+
+
 			//movement_1();
-			tick();
+			timer();
 			game_control(&knight);
 
 			SpeedBuffEffect();
 
-			temp_enemy();
-
 			//isaac's functions to spawn enemy
-			if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) // left click
-			{
-				SpawnEnemyCircle(CP_Input_GetMouseX(), CP_Input_GetMouseY());
-			}
+			//if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) // left click
+			//{
+			//	SpawnEnemyCircle(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+			//}
 
-			if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) // right click 
-			{
-				SpawnEnemySingle(CP_Input_GetMouseX(), CP_Input_GetMouseY());
-			}
+			//if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) // right click 
+			//{
+			//	SpawnEnemySingle(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+			//}
 
-			shooting_check(knight.position);
-			explosion_update();
-			sword_explosion_update();
-			shrapnel_update();
+			
 			player_touch_enemy();
 			/*if (bug.alive == 1)
 			{
@@ -109,9 +115,9 @@ void game_update(void)
 			}*/
 			DrawItem();
 			// isaac's enemy movement functions. Update enemy and print 
-			UpdateEnemyMovement();
+			/*UpdateEnemyMovement();
 			Enemy_printer();
-			cycleEnemyRemove();
+			cycleEnemyRemove();*/
 
 			break;
 		case PAUSED:
@@ -153,6 +159,6 @@ void game_update(void)
 
 void game_exit(void)
 {
-	exit_EnemySprite();
+	//exit_EnemySprite();
 	exit_PlayerHP();
 }

@@ -16,10 +16,6 @@
 #include "game.h"
 
 
-#define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
-#define COLOR_GREEN CP_Color_Create(1, 255, 10, 255)
-#define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
-
 CP_Font myFont;
 struct Pause {
 	BOOL enabled;

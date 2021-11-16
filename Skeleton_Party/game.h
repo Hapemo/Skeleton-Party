@@ -1,4 +1,7 @@
 
+#pragma once
+extern float tick_p, * tick ; //This is for the tick timer. *tick will give back the tick 
+
 
 #define TRUE 1
 #define FALSE 0
@@ -6,7 +9,7 @@
 #define WIDTH (float)CP_System_GetWindowWidth()
 #define HEIGHT (float)CP_System_GetWindowHeight()
 #define PI 3.1415926535
-#define MAX_ENEMY 500
+#define MAX_ENEMY 1000
 #define Formationsingle 0
 #define Formationcircle 1
 #define Formationline 2
@@ -15,6 +18,12 @@
 #define ENEMY_SIZE_2 10
 #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
 #define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
+
+#define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
+#define COLOR_GREEN CP_Color_Create(0, 255, 0, 255)
+#define COLOR_BLUE CP_Color_Create(0, 0, 255, 255)
+#define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
+#define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 
 enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED };
 enum GameStates gameState;
@@ -61,6 +70,15 @@ struct Item
 	float height;
 };
 
+struct Enemy {
+	CP_Vector position;
+	int alive; //boolean 1 or 0
+	float size; //radius of enemy
+	int type;
+};
+
+struct Enemy enemy_pool[MAX_ENEMY];
+
 struct Item item;
 
 void EnableMenu();
@@ -87,21 +105,19 @@ void exit_PlayerHP(void);
 //isaac's EnemySprite Functions 
 //--------------------------------------------------------------------------------------------------------------------------------
 
-void addEnemy(float x, float y, float dx);
-void removeEnemy(int i);
-void cycleEnemyRemove(void);
-void Enemy_printer(void);
-void movement_1(float x, float y, float C_radius);
-CP_Vector Enemy_rotate_vector(float scalar, float angle, CP_Vector unit_vector);
-void enemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed, int enemynum);
-void addenemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed);
-void init_EnemySprite(void);
-void SpawnEnemyCircle(float Positionx, float Positiony);
-void SpawnEnemySingle(float Positionx, float Positiony);
-void UpdateEnemyMovement(void);
-void exit_EnemySprite(void);
-void enemymov(void);
-void Lerp(float start, float end, float percentage);
+//void addEnemy(float x, float y, float dx);
+//void removeEnemy(int i);
+//void cycleEnemyRemove(void);
+//void Enemy_printer(void);
+//void movement_1(float x, float y, float C_radius);
+//CP_Vector Enemy_rotate_vector(float scalar, float angle, CP_Vector unit_vector);
+//void enemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed, int enemynum);
+//void addenemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed);
+//void init_EnemySprite(void);
+//void SpawnEnemyCircle(float Positionx, float Positiony);
+//void SpawnEnemySingle(float Positionx, float Positiony);
+//void UpdateEnemyMovement(void);
+//void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
 
 void SpeedBuffEffect();
@@ -173,6 +189,7 @@ int rect_collision(CP_Vector enemy, CP_Vector position, CP_Vector vec1, CP_Vecto
 *//*______________________________________________________________*/
 void lightbulb(void);
 
+enum Direction { UP = 1, DOWN, LEFT, RIGHT };
 CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocity_scale, int direction);
 
 //void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed);
@@ -181,11 +198,9 @@ CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocit
 
 //void print_enemy(CP_Vector sprite_position);
 
-int tick(void);
+void timer(void);
 
 int out_of_screen(CP_Vector sprite_position);
-
-void temp_enemy(void);
 
 void shooting_check(CP_Vector position);
 
@@ -223,6 +238,46 @@ void print_shrapnel(void);
 
 void shrapnel_collision(void);
 
+//void piercing_bullet_collision(void);
+//
+//void print_piercing_bullet(void);
+//
+//void update_piercing_bullet_travel(void);
+//
+//void shoot_piercing_bullet(CP_Vector position, float charge);
+//
+//void piercing_shooting_check(CP_Vector position);
+
+void run_once_only(void);
+
+struct Enemy enemy_set(CP_Vector position, int alive, float size, int type);
+
+void update_basic_movement(void);
+
+void initialise_basic_movement(CP_Vector position, int type);
+
+void spawn_map(void);
+
+//Start of enemy array functions
+//-------------------------------
+void preload_spawn_map(void);
+
+/*!
+@brief		Assigns enemies to empty spawn_pool slots
+@param		position - position of first enemy spawned
+			spawn_speed_delay - delay between each enemy spawned (higher number = slower spawn rate)
+			start_spawn_tick - tick time at which the enemy starts spawning
+			spawn_amount - amount of enemy spawn
+			type - movement pattern
+@return		NIL
+*//*______________________________________________________________*/
+void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type);
+
+//These are the function that updates the positions every frame
+	void movement_pattern_vertical_and_diagonal(void);
+
+//-------------------------------
+//End of enemy array functions
 void init_enemy();
 
 void player_touch_enemy();
@@ -234,4 +289,4 @@ void player_touch_enemy();
 void DrawPauseCanvas();
 void PauseButtonClicked();
 
-//BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
+//BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY
