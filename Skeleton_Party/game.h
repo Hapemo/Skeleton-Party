@@ -100,6 +100,8 @@ void SpawnEnemyCircle(float Positionx, float Positiony);
 void SpawnEnemySingle(float Positionx, float Positiony);
 void UpdateEnemyMovement(void);
 void exit_EnemySprite(void);
+void enemymov(void);
+void Lerp(float start, float end, float percentage);
 //----------------------------------------------------------------------------------------------------------------------------------
 
 void SpeedBuffEffect();
