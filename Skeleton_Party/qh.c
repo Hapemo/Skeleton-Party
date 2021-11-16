@@ -36,7 +36,7 @@ void enemymov(void)
 
     float enemypos = Lerp(enemymin, enemymax, timer / duration);
     CP_Settings_Fill(COLOR_WHITE);
-    CP_Graphics_DrawCircle(enemypos, 150.f, 50.f);
+    CP_Graphics_DrawCircle(150.f, enemypos, 50.f);
 }
 
 void init_char(struct character *spritename, float spawnx, float spawny, char* pathname)
