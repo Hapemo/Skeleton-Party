@@ -13,6 +13,8 @@
 #define ShapeSizecircle 7
 #define ShapeSizeline  5
 #define ENEMY_SIZE_2 10
+#define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
+#define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
 
 enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED };
 enum GameStates gameState;

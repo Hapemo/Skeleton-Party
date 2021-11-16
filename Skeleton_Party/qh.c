@@ -15,6 +15,29 @@
 
 //Note: since using include game.h, I set struct to global do not need local struct
 
+float enemymin = 60.f;
+float enemymax = 400.f;
+float timer = 0.f;
+float duration = 10.f;
+
+float Lerp(float start, float end, float percentage)
+{
+    return ((1.f - percentage) * start + (percentage * end));
+}
+
+
+void enemymov(void)
+{
+    timer += CP_System_GetDt();
+    if (timer >= duration)
+    {
+        timer = duration;
+    }
+
+    float enemypos = Lerp(enemymin, enemymax, timer / duration);
+    CP_Settings_Fill(COLOR_WHITE);
+    CP_Graphics_DrawCircle(enemypos, 150.f, 50.f);
+}
 
 void init_char(struct character *spritename, float spawnx, float spawny, char* pathname)
 {
@@ -44,8 +67,9 @@ void begintext(void)
 {
     float x = (float)CP_System_GetWindowWidth() / 2;
     float y = (float)CP_System_GetWindowHeight() / 2;
-    //color fill
+    CP_Settings_Fill(COLOR_WHITE);
     CP_Graphics_DrawRect((x / 2), (y / 2), x, y);
+    CP_Settings_Fill(COLOR_BLACK);
     CP_Font_DrawText("Welcome to the skeleton party, please save our princess!", ((x / 2) - 50), ((y / 2) - 50));
 }
 
@@ -53,8 +77,9 @@ void endtext(void)
 {
     float x = (float)CP_System_GetWindowWidth() / 2;
     float y = (float)CP_System_GetWindowHeight() / 2;
-    //color fill
+    CP_Settings_Fill(COLOR_WHITE);
     CP_Graphics_DrawRect((x / 2), (y / 2), x, y);
+    CP_Settings_Fill(COLOR_BLACK);
     CP_Font_DrawText("Thank you for saving our princess! ", ((x / 2) - 50), ((y / 2) - 50));
 }
 
