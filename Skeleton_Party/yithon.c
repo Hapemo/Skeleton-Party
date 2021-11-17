@@ -32,6 +32,15 @@ struct Continue {
 	float width;
 	float height;
 }continueButton;
+
+struct ResetButton 
+{
+	float posX;
+	float posY;
+	float width;
+	float height;
+}resetPauseButton;
+
 struct MenuButton {
 
 	float posX;
@@ -126,29 +135,41 @@ void DrawPauseCanvas()
 		/*CP_Settings_Fill(COLOR_GRAY);
 		CP_Graphics_DrawRect(pause.posX, pause.posY, pause.width, pause.height);*/
 
-		CP_Settings_Fill(COLOR_GRAY);
 		continueButton.posX = width / 8 * 3;
-		continueButton.posY = height / 8 * 5;
+		continueButton.posY = height / 8 * 3;
 		continueButton.width = width / 6;
-		continueButton.height = height /6;
+		continueButton.height = height /8;
+
+		resetPauseButton.posX = continueButton.posX;
+		resetPauseButton.posY = continueButton.posY + continueButton.height + 10.f;
+		resetPauseButton.width = width / 6;
+		resetPauseButton.height = height / 8;
 
 		menuPauseButton.posX = continueButton.posX;
-		menuPauseButton.posY = continueButton.posY + continueButton.height + 10.f;
+		menuPauseButton.posY = resetPauseButton.posY + resetPauseButton.height + 10.f;
 		menuPauseButton.width = width / 6;
-		menuPauseButton.height = height / 6;
+		menuPauseButton.height = height / 8;
 
+		CP_Settings_Fill(COLOR_PURPLE);
 		//return to Game
 		CP_Graphics_DrawRect(continueButton.posX, continueButton.posY, continueButton.width, continueButton.height);
 		CP_Settings_TextSize(3 * (continueButton.width / width * 100));
 		CP_Settings_Fill(COLOR_WHITE);
 		CP_Font_DrawTextBox("Continue", continueButton.posX + continueButton.width / 6.5f, continueButton.posY + continueButton.height / 1.5f, continueButton.width);
 
-		CP_Settings_Fill(COLOR_GRAY);
+		CP_Settings_Fill(COLOR_PURPLE);
+		//reset
+		CP_Graphics_DrawRect(resetPauseButton.posX, resetPauseButton.posY, resetPauseButton.width, resetPauseButton.height);
+		CP_Settings_TextSize(3 * (menuPauseButton.width / width * 100));
+		CP_Settings_Fill(COLOR_WHITE);
+		CP_Font_DrawTextBox("Restart", resetPauseButton.posX + resetPauseButton.width / 6.5f, resetPauseButton.posY + resetPauseButton.height / 1.5f, resetPauseButton.width);
+
+		CP_Settings_Fill(COLOR_PURPLE);
 		//return to Menu
 		CP_Graphics_DrawRect(menuPauseButton.posX, menuPauseButton.posY, menuPauseButton.width, menuPauseButton.height);
 		CP_Settings_TextSize(3 * (menuPauseButton.width / width * 100));
 		CP_Settings_Fill(COLOR_WHITE);
-		CP_Font_DrawTextBox("MENU", menuPauseButton.posX + menuPauseButton.width / 6.5f, menuPauseButton.posY + menuPauseButton.height / 1.5f, menuPauseButton.width );
+		CP_Font_DrawTextBox("Menu", menuPauseButton.posX + menuPauseButton.width / 6.5f, menuPauseButton.posY + menuPauseButton.height / 1.5f, menuPauseButton.width );
 	}
 }
 
@@ -165,7 +186,12 @@ void PauseButtonClicked()
 			CP_Graphics_ClearBackground(COLOR_GRAY);
 			gameState = PLAYING;
 		}
-
+		if (CheckCollisionWithBox(mousePosX, mousePosY, resetPauseButton.width, resetPauseButton.height, resetPauseButton.posX, resetPauseButton.posY))
+		{
+			pause.enabled = TRUE;
+			CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = RESET;
+		}
 		if (CheckCollisionWithBox(mousePosX, mousePosY, menuPauseButton.width, menuPauseButton.height, menuPauseButton.posX, menuPauseButton.posY))
 		{
 			pause.enabled = TRUE;
