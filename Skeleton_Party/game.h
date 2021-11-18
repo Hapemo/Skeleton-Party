@@ -29,6 +29,9 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED };
 enum GameStates gameState;
 
+enum { knightint, mageint, archerint };
+
+
 typedef struct EnemySprite
 {
 	float x, y, dx; // where dx is the velocity 

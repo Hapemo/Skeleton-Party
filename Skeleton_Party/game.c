@@ -5,6 +5,7 @@
 /* Feel free to declare your own variables here */
 int gamePause;
 struct character knight, mage, archer;
+int CurrentCharacter = 0;
 
 
 void game_init(void)
@@ -65,22 +66,46 @@ void game_update(void)
 				gameState = PAUSED;
 			
 			}
-			
 			DrawGameCanvas();
 
-			// player hP bar printer to be added when the actual game starts. not to be included in title screen
-			Player_Redheartprinter();
-			Player_Emptyheartprinter();
+			if (CP_Input_KeyTriggered(KEY_1))
+			{
+				CurrentCharacter = knightint;
+			}
+
+			if (CP_Input_KeyTriggered(KEY_2))
+			{
+				CurrentCharacter = mageint;
+			}
+
+			if (CP_Input_KeyTriggered(KEY_3))
+			{
+				CurrentCharacter = archerint;
+			}
+
+
+			// class skill restriction 
+			if (CurrentCharacter == knightint)
+			{
+				activate_melee_by_mouse(knight.position);
+				sword_explosion_update();
+			}
+			else if (CurrentCharacter == mageint)
+			{
+				shooting_check(knight.position);
+				explosion_update();
+				shrapnel_update();
+			}
+			else if (CurrentCharacter == archerint)
+			{
+				//piercing_shooting_check(knight.position);
+			}
+			
 			//DrawPlayerHealth();
 			//enemy_movement();
 			//enemy_damage();
-			activate_melee_by_mouse(knight.position);
 			lightbulb();
-			shooting_check(knight.position);
-			//piercing_shooting_check(knight.position);
-			explosion_update();
-			sword_explosion_update();
-			shrapnel_update();
+			
 			spawn_map();
 
 			// enemy movement patterns
@@ -113,11 +138,18 @@ void game_update(void)
 					Playertakedamage(1);
 				}
 			}*/
+
+			/***********************************************************PRINTing*****************************************************************/
+
 			DrawItem();
 			// isaac's enemy movement functions. Update enemy and print 
 			/*UpdateEnemyMovement();
 			Enemy_printer();
 			cycleEnemyRemove();*/
+
+			// player hP bar printer to be added when the actual game starts. not to be included in title screen
+			Player_Redheartprinter();
+			Player_Emptyheartprinter();
 
 			break;
 		case PAUSED:
