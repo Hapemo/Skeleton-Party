@@ -21,6 +21,8 @@ void game_init(void)
 
 
     InitializeVariables();
+	InitializeSkillShopUI();
+
     LoadBackgroundImage();
     LoadFont();
 
@@ -63,6 +65,7 @@ void game_update(void)
 			{
 				gamePause = !gamePause;
 				gameState = PAUSED;
+				//gameState = PREPROOM;
 			
 			}
 			DrawGameCanvas();
@@ -172,6 +175,29 @@ void game_update(void)
 			CP_Engine_Terminate();
 			break;
 
+		case PREPROOM : 
+
+			Screen_PREPROOM_Print();
+			Screen_PREPROOM_ButtonClicked();
+
+			break;
+/*
+		case UPGRADES :
+
+			ButtonClicked();
+
+			break;
+		case SHOP :
+
+			ButtonClicked();
+
+			break;
+
+		case SKILL :
+
+			ButtonClicked();
+
+			break;*/
 		}
 
 		

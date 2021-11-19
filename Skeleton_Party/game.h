@@ -29,7 +29,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 #define COLOR_PURPLE CP_Color_Create(128,0,128, 255)
 
-enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED };
+enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL};
 enum GameStates gameState;
 
 enum { knightint, mageint, archerint };
@@ -322,3 +322,17 @@ void DrawPauseCanvas();
 void PauseButtonClicked();
 
 //BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY
+
+void InitializeSkillShopUI(void);
+
+void Screen_PREPROOM_Print(void);	
+
+void Screen_PREPROOM_ButtonClicked(void);
+
+void Screen_UPGRADE_ButtonClicked(void);
+
+void Screen_SHOP_ButtonClicked(void);
+
+void Screen_SKILL_ButtonClicked(void);
+
+

@@ -27,6 +27,31 @@ PlayerGethealth(void)   returns int current health amount
 
 #define pueple CP_Color_Create(255, 0, 0, 255)
 
+
+CP_Image Image_PrepRoom_Empty = NULL;
+CP_Image Image_Upgrade_Empty = NULL;
+CP_Image Image_Skill_Empty = NULL;
+CP_Image Image_Shop_Empty = NULL;
+
+CP_Image Image_Skill_HeartsOn = NULL;
+CP_Image Image_Skill_AgilitOn = NULL;
+CP_Image Image_Skill_AtkspeedOn = NULL;
+
+CP_Image Image_Skill_HeartsOff = NULL;
+CP_Image Image_Skill_AgilitOff = NULL;
+CP_Image Image_Skill_AtkspeedOff = NULL;
+
+
+CP_Image Image_Shop_HealOn = NULL;
+CP_Image Image_Shop_DropsOn = NULL;
+CP_Image Image_Shop_RezOn = NULL;
+CP_Image Image_Shop_ShrapnelOn = NULL;
+
+CP_Image Image_Shop_HealOff = NULL;
+CP_Image Image_Shop_DropsOff = NULL;
+CP_Image Image_Shop_RezOff = NULL;
+CP_Image Image_Shop_ShrapnelOff = NULL;
+
 //Heart sprite settings below
 static CP_Image spriteSheetImage;
 static int imageIndex; // decides what image it uses 
@@ -39,6 +64,9 @@ static  float Heart_size_windowsy;
 static float hplocationX = 100.0f;
 static float hplocationY = 100.0f;
 //Heart sprite settings above
+
+float isaac_width;
+float isaac_height;
 
 
 // do not temper any thing from here to next comment
@@ -86,6 +114,173 @@ void healer(HealthSystem* inst, int healamount)
 }
 // HealthSystem Object decleration above 
 
+
+struct PrepRoom_Background {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}PrepRoom_Background;
+
+struct PrepRoom_ContinueButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}PrepRoom_ContinueButton;
+
+struct PrepRoom_QuitButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}PrepRoom_QuitButton;
+
+struct PrepRoom_UpgrradesButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}PrepRoom_UpgradesButton;
+
+
+
+struct Upgrade_Background {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Upgrade_Background;
+
+struct Upgrade_SkillButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Upgrade_SkillButton;
+
+struct Upgrade_ShopButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Upgrade_ShopButton;
+
+struct Upgrade_BackButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Upgrade_BackButton;
+
+
+
+
+struct Skill_Background {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Skill_Background;
+
+struct Skill_HeartsButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Skill_HeartsButton;
+
+struct Skill_AgilityButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Skill_AgilityButton;
+
+struct Skill_AtkspeedButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Skill_AtkspeedButton;
+
+struct Skill_BackButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Skill_BackButton;
+
+
+
+struct Shop_Background {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Shop_Background;
+
+struct Shop_BackButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Shop_BackButton;
+
+struct Shop_HealButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Shop_HealButton;
+
+struct Shop_DropsButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Shop_DropsButton;
+
+struct Shop_RezButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Shop_RezButton;
+
+struct Shop_ShrapnelButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Shop_ShrapnelButton;
+
+
+
+
 //Heart sprite settings below
 
 //Heart sprite settings above
@@ -105,6 +300,67 @@ void init_PlayerHP(void)
 void exit_PlayerHP(void)
 {
 	CP_Image_Free(&spriteSheetImage);
+}
+
+
+void InitializeSkillShopUI(void)         // new function 
+{
+	
+	//isaac_width = (float)CP_System_GetWindowWidth();
+	//isaac_height = (float)CP_System_GetWindowHeight();
+
+	isaac_width = WIDTH;
+	isaac_height = HEIGHT;
+
+	PrepRoom_Background.enabled = TRUE;
+	PrepRoom_Background.width = isaac_width;
+	PrepRoom_Background.height = isaac_height;
+	PrepRoom_Background.posX = (float)(isaac_width /2.0);
+	PrepRoom_Background.posY = (float)(isaac_height /2.0);
+
+
+	Upgrade_Background.enabled = TRUE;
+	Upgrade_Background.width = isaac_width;
+	Upgrade_Background.height = isaac_height;
+	Upgrade_Background.posX = (float)(isaac_width /2.0);
+	Upgrade_Background.posY = (float)(isaac_height /2.0);
+
+	Skill_Background.enabled = TRUE;
+	Skill_Background.width = isaac_width;
+	Skill_Background.height = isaac_height;
+	Skill_Background.posX = (float)(isaac_width /2.0);
+	Skill_Background.posY = (float)(isaac_height /2.0);
+
+	Shop_Background.enabled = TRUE;
+	Shop_Background.width = isaac_width;
+	Shop_Background.height = isaac_height;
+	Shop_Background.posX = (float)(isaac_width /2.0);
+	Shop_Background.posY = (float)(isaac_height /2.0);
+
+
+	Image_PrepRoom_Empty = CP_Image_Load("./Assets/preproom.png");
+	Image_Upgrade_Empty = CP_Image_Load("./Assets/upgrades.png");
+	Image_Skill_Empty = CP_Image_Load("./Assets/Skill_empty.png");
+	Image_Shop_Empty = CP_Image_Load("./Assets/Shop_empty.png");
+
+	Image_Skill_HeartsOn = CP_Image_Load("./Assets/Skill_heartsOn.png");
+	Image_Skill_AgilitOn = CP_Image_Load("./Assets/Skill_agilityOn.png");
+	Image_Skill_AtkspeedOn = CP_Image_Load("./Assets/Skill_attackspeedOn.png");
+
+	Image_Skill_HeartsOff = CP_Image_Load("./Assets/Skill_heartsOff.png");
+	Image_Skill_AgilitOff = CP_Image_Load("./Assets/Skill_agilityOff.png");
+	Image_Skill_AtkspeedOff = CP_Image_Load("./Assets/Skill_attackspeedOff.png");
+
+	Image_Shop_HealOn = CP_Image_Load("./Assets/Shop_2xhealOn.png");
+	Image_Shop_DropsOn = CP_Image_Load("./Assets/Shop_2xdropsOn.png");
+	Image_Shop_RezOn = CP_Image_Load("./Assets/Shop_rezOn.png");
+	Image_Shop_ShrapnelOn = CP_Image_Load("./Assets/Shop_shrapnelOn.png");
+
+	Image_Shop_HealOff = CP_Image_Load("./Assets/Shop_2xhealOff.png");
+	Image_Shop_DropsOff = CP_Image_Load("./Assets/Shop_2xdropsOff.png");
+	Image_Shop_RezOff = CP_Image_Load("./Assets/Shop_rezOff.png");
+	Image_Shop_ShrapnelOff = CP_Image_Load("./Assets/Shop_shrapnelOff.png");
+	
 }
 
 //call function to set players base health 
@@ -178,4 +434,250 @@ void Player_Redheartprinter(void)
 			255); // alpha value that affects transpaarency
 	}
 	//CP_Image_Free(&spriteSheetImage);
+}
+
+
+void Screen_PREPROOM_Print(void)											//new functuon
+{
+	
+
+	PrepRoom_ContinueButton.posX = 270.0f;
+	PrepRoom_ContinueButton.posY = 550.0f;
+/*
+	PrepRoom_QuitButton.posX = menu.height * (3.0f / 7.0f);
+	PrepRoom_QuitButton.posY = menu.height * (3.0f / 7.0f);
+
+	PrepRoom_UpgrradesButton.posX = menu.height * (3.0f / 7.0f);
+	PrepRoom_UpgrradesButton.posY = menu.height * (3.0f / 7.0f);
+*/	
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	}
+	//CP_Graphics_ClearBackground(COLOR_BLACK);
+	CP_Image_Draw(Image_PrepRoom_Empty, PrepRoom_Background.posX, PrepRoom_Background.posY, isaac_width, isaac_height, 255);
+}
+	
+/*
+void Screen_UPGRADES_Print(void)											//new functuon
+{
+
+	Upgrade_SkillButton.posX = menu.width / 2.0f;
+	Upgrade_SkillButton.posY = menu.height * (3.0f / 7.0f);
+
+	Upgrade_ShopButton.posX = menu.width / 2.0f;
+	Upgrade_ShopButton.posY = menu.height * (3.0f / 7.0f);
+
+	Upgrade_BackButton.posX = menu.width / 2.0f;
+	Upgrade_BackButton.posY = menu.height * (3.0f / 7.0f);
+
+	CP_Image_Draw(Image_Upgrade_Empty, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+
+
+}
+
+void Screen_SHOP_Print(void)											//new functuon
+{
+	Shop_BackButton.posX = menu.width / 2.0f;
+	Shop_BackButton.posY = menu.height * (3.0f / 7.0f);
+
+	Shop_HealButton.posX = menu.width / 2.0f;
+	Shop_HealButton.posY = menu.height * (3.0f / 7.0f);
+
+	Shop_DropsButton.posX = menu.width / 2.0f;
+	Shop_DropsButton.posY = menu.height * (3.0f / 7.0f);
+
+	Shop_RezButton.posX = menu.width / 2.0f;
+	Shop_RezButton.posY = menu.height * (3.0f / 7.0f);
+
+	Shop_ShrapnelButton.posX = menu.width / 2.0f;
+	Shop_ShrapnelButton.posY = menu.height * (3.0f / 7.0f);
+
+	CP_Image_Draw(Image_Shop_Empty, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+
+	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+
+
+
+
+}
+
+void Screen_SKILL_Print(void)											//new functuon
+{
+	Skill_HeartsButton.posX = menu.width / 2.0f;
+	Skill_HeartsButton.posY = menu.height * (3.0f / 7.0f);
+
+	Skill_AgilityButton.posX = menu.width / 2.0f;
+	Skill_AgilityButton.posY = menu.height * (3.0f / 7.0f);
+
+	Skill_AtkspeedButton.posX = menu.width / 2.0f;
+	Skill_AtkspeedButton.posY = menu.height * (3.0f / 7.0f);
+
+	Skill_BackButton.posX = menu.width / 2.0f;
+	Skill_BackButton.posY = menu.height * (3.0f / 7.0f);
+
+	CP_Image_Draw(Image_Skill_Empty, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+
+	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+}
+*/
+
+BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy)											//new functuon
+{
+
+	if ((posX < endx && posX > startX)
+		&& (posY < endy && posY > starty))
+	{
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+
+}
+
+void Screen_PREPROOM_ButtonClicked(void)											//new functuon
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		//printf("%f", mousePosX);
+		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		//{
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 270.0, 550.0, 684.0, 676.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed continye \n");
+		}
+	
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed quit\n");
+		}
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 597.0, 827.0, 913.0, 915.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed upgrade\n");
+		}
+
+	}
+}
+
+void Screen_UPGRADE_ButtonClicked(void)											//new functuon
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		//printf("%f", mousePosX);
+		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		//{
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 270.0, 550.0, 684.0, 676.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed continye \n");
+		}
+
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed quit\n");
+		}
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 597.0, 827.0, 913.0, 915.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed upgrade\n");
+		}
+
+	}
+}
+
+void Screen_SHOP_ButtonClicked(void)											//new functuon
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		//printf("%f", mousePosX);
+		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		//{
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 270.0, 550.0, 684.0, 676.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed continye \n");
+		}
+
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed quit\n");
+		}
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 597.0, 827.0, 913.0, 915.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed upgrade\n");
+		}
+
+	}
+}
+
+void Screen_SKILL_ButtonClicked(void)											//new functuon
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		//printf("%f", mousePosX);
+		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		//{
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 270.0, 550.0, 684.0, 676.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed continye \n");
+		}
+
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed quit\n");
+		}
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 597.0, 827.0, 913.0, 915.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed upgrade\n");
+		}
+
+	}
 }
