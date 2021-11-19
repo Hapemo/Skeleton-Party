@@ -6,8 +6,8 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define TRUE 1
 #define FALSE 0
 #define BOOL CP_BOOL
-#define WIDTH (float)CP_System_GetWindowWidth()
-#define HEIGHT (float)CP_System_GetWindowHeight()
+#define WIDTH 960.0f
+#define HEIGHT 1035.0f
 #define PI 3.1415926535
 #define MAX_ENEMY 1000
 #define MAX_MOTHER_ENEMY 50
@@ -177,7 +177,8 @@ void melee_attack(CP_Vector position);
 @param		*melee_angle - This is should take in 1 from game.c, the function will change it later on according to the angle of attack at specific frames (it's to be parsed into function melee_attack
 @return		NIL
 *//*______________________________________________________________*/
-void activate_melee_by_mouse(CP_Vector position);
+void melee_update(CP_Vector position);
+void initiate_melee(void);
 
 /*!
 @brief		Calculate the vector direction due to change in rotation. Used in function melee_attack to calculate the angle 6

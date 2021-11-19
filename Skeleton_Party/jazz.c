@@ -25,7 +25,7 @@ float melee_start_angle = 45, melee_angle = 0; //Determines where the melee atta
 int melee_max_angle = 90; //starting melee angle
 int melee_anticlockwise = TRUE; //clockwise or anti clockwise melee
 int melee_speed = 10; //speed of melee animation
-int melee_angle_upgrade = 20; //angle upgrade for melee
+int melee_angle_upgrade = 0; //angle upgrade for melee
 float sword_length = 0;
 float sword_width = 0;
 
@@ -41,7 +41,7 @@ void melee_attack(CP_Vector position) {
 	if (first_time) {
 		//Set sword size
 		sword_width = WIDTH / 5;
-		sword_length = HEIGHT / 25;
+		sword_length = HEIGHT / 50;
 
 		*pfirst_time = 0;
 		
@@ -157,17 +157,18 @@ CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector) {
 	return vector;
 }
 
+void initiate_melee(void) {
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) *pmelee_or_not = 1;
+}
 
-void activate_melee_by_mouse(CP_Vector position) {
 
-	//melee_position = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
-	//Check for mouse input
-	if (!(*pmelee_or_not)) {
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
-			*pmelee_or_not = 1;
-			//Get mouse input position and parse into melee_attack
-		}
-	}
+void melee_update(CP_Vector position) {
+
+	////melee_position = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	////Check for mouse input
+	//if (!(*pmelee_or_not)) {
+	//	
+	//}
 	if (*pmelee_or_not) {
 		melee_attack(position);
 	}
@@ -177,7 +178,7 @@ void activate_melee_by_mouse(CP_Vector position) {
 #define MAX_SWORD_EXPLOSION (100)
 CP_Vector sword_explosion_pool[MAX_SWORD_EXPLOSION] = { 0 };
 float sword_explosion_radius_pool[MAX_SWORD_EXPLOSION] = { 0 };
-float sword_explosion_speed = 15, max_sword_explosion_radius = 400;
+float sword_explosion_speed = 15, max_sword_explosion_radius = 200;
 
 void sword_explosion(CP_Vector position) {
 	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) { //loops through each explosion in explosion pool
@@ -341,7 +342,7 @@ int out_of_screen(CP_Vector sprite_position) {
 
 
 #define MAX_BULLET (20)
-#define BULLET_SIZE (WIDTH / 50)
+#define BULLET_SIZE (WIDTH / 100)
 CP_Vector bullet_pool[MAX_BULLET] = { 0 };
 
 void shooting_check(CP_Vector position) {
@@ -350,8 +351,6 @@ void shooting_check(CP_Vector position) {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 		shoot_bullet(position);
 	}
-
-	update_bullet_travel();
 }
 
 void shoot_bullet(CP_Vector position) {
@@ -445,7 +444,7 @@ void bullet_collision(void) {
 #define MAX_EXPLOSION (100)
 CP_Vector explosion_pool[MAX_EXPLOSION] = { 0 };
 float explosion_radius_pool[MAX_EXPLOSION] = { 0 };
-float explosion_speed = 10, max_explosion_radius = 150;
+float explosion_speed = 10, max_explosion_radius = 100;
 
 //There is currrently a lot of for and if loop, certain functions can be combined together so it does not loop or do if statement so much. If the game lag because of this, can try integrate the functions together
 

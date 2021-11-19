@@ -86,14 +86,11 @@ void game_update(void)
 			// class skill restriction 
 			if (CurrentCharacter == knightint)
 			{
-				activate_melee_by_mouse(knight.position);
-				sword_explosion_update();
+				initiate_melee();
 			}
 			else if (CurrentCharacter == mageint)
 			{
 				shooting_check(knight.position);
-				explosion_update();
-				shrapnel_update();
 			}
 			else if (CurrentCharacter == archerint)
 			{
@@ -106,6 +103,13 @@ void game_update(void)
 			lightbulb();
 			
 			spawn_map();
+
+			//Attack updates
+			melee_update(knight.position);
+			update_bullet_travel();
+			explosion_update();
+			shrapnel_update();
+			sword_explosion_update();
 
 			// enemy movement patterns
 			movement_pattern_vertical_and_diagonal();
