@@ -324,7 +324,11 @@ void FullscreenMode()
 	}
 	else
 	{
-		CP_System_SetWindowSize(1280, 720);
+
+		int widthOfDisplay = CP_System_GetDisplayWidth();
+		float newWidthOfDisplay = widthOfDisplay / 2.0f;
+		int heightOfDisplay = CP_System_GetDisplayHeight();
+		CP_System_SetWindowSize((int)newWidthOfDisplay, heightOfDisplay);
 	}
 }
 

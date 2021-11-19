@@ -20,7 +20,6 @@ void game_init(void)
 	//init_EnemySprite();	// def in Enemy_arrays.c
 
 
-    CP_System_Fullscreen();
     InitializeVariables();
     LoadBackgroundImage();
     LoadFont();
@@ -46,7 +45,7 @@ void game_update(void)
 	
 	TerminateFullscreen();
 
-	FullscreenKeyPressed();
+	//FullscreenKeyPressed();
 
 	FullscreenMode();
 	//if (gamePause)
