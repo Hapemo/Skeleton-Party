@@ -66,6 +66,10 @@ void game_update(void)
 				gamePause = !gamePause;
 				gameState = PAUSED;
 				//gameState = PREPROOM;
+				//gameState = UPGRADES ;
+				//gameState = SHOP;
+				//gameState = SKILL;
+
 			
 			}
 			DrawGameCanvas();
@@ -181,23 +185,23 @@ void game_update(void)
 			Screen_PREPROOM_ButtonClicked();
 
 			break;
-/*
-		case UPGRADES :
 
-			ButtonClicked();
+		case UPGRADES :
+			Screen_UPGRADES_Print();
+			Screen_UPGRADE_ButtonClicked();
 
 			break;
 		case SHOP :
-
-			ButtonClicked();
+			Screen_SHOP_Print();
+			Screen_SHOP_ButtonClicked();
 
 			break;
 
 		case SKILL :
+			Screen_SKILL_Print();
+			Screen_SKILL_ButtonClicked();
 
-			ButtonClicked();
-
-			break;*/
+			break;
 		}
 
 		

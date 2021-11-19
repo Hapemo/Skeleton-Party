@@ -326,13 +326,14 @@ void PauseButtonClicked();
 void InitializeSkillShopUI(void);
 
 void Screen_PREPROOM_Print(void);	
+void Screen_UPGRADES_Print(void);
+void Screen_SHOP_Print(void);
+void Screen_SKILL_Print(void);
+
 
 void Screen_PREPROOM_ButtonClicked(void);
-
 void Screen_UPGRADE_ButtonClicked(void);
-
 void Screen_SHOP_ButtonClicked(void);
-
 void Screen_SKILL_ButtonClicked(void);
 
 
