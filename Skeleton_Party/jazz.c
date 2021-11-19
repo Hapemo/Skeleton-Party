@@ -304,7 +304,7 @@ float tick_p = 0, * tick = &tick_p;
 
 void timer(void) {
 	*tick += 1;
-	//ticks /= 2.0f;
+	//printf("tick count: %f", *tick);
 	if (*tick == INT_MAX) *tick = 0;
 }
 

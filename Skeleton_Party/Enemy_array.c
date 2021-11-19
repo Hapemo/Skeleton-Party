@@ -5,6 +5,8 @@
 #include "game.h"
 
 #define ENEMY_SIZE 20
+#define ENEMY_CIRCLE_COUNT 10
+#define ENEMY_SPEED 5
 
 struct Enemy enemy_pool[MAX_ENEMY] = { 0 };
 struct spawn spawn_pool[MAX_ENEMY] = { 0 };
@@ -23,12 +25,15 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 	return temp;
 }
 
+//1 for straight line, 2 for left diagonal, 3 for right diagonal, 5 for horizontal enemy, 101 for circle
+//Max screen is WDITH/1.5
+
 void preload_spawn_map(void) { //Put in game_init
 	CP_Vector line_1 = CP_Vector_Set(WIDTH / 4, 0);
-	spawn_pool_assigner(line_1, 20.0f, 15.0f, 50, 1);
+	spawn_pool_assigner(line_1, 20.0f, 50.0f, 50, 1);
 
-	CP_Vector line_15 = CP_Vector_Set(WIDTH / 2, 0);
-	spawn_pool_assigner(line_15, 25.0f, 15.0f, 5, 1);
+	//CP_Vector line_15 = CP_Vector_Set(WIDTH / 2, 0);
+	//spawn_pool_assigner(line_15, 25.0f, 15.0f, 5, 1);
 
 	/*CP_Vector line_2 = CP_Vector_Set(WIDTH/1.5f, 0);
 	spawn_pool_assigner(line_2, 20.0f, 20.0f, 50, 2);
@@ -39,8 +44,11 @@ void preload_spawn_map(void) { //Put in game_init
 	CP_Vector line_4 = CP_Vector_Set(WIDTH / 3.0f, 0);
 	spawn_pool_assigner(line_4, 50.0f, 20.0f, 50, 4);*/
 
-	CP_Vector line_5 = CP_Vector_Set(WIDTH / 6.0f, 0);
-	spawn_pool_assigner(line_5, 100.0f, 20.0f, 50, 101);
+	//CP_Vector line_5 = CP_Vector_Set(WIDTH / 6.0f, 0);
+	//spawn_pool_assigner(line_5, 100.0f, 20.0f, 50, 101);
+
+	//CP_Vector line_6 = CP_Vector_Set(WIDTH / 4.0f, 0);
+	//spawn_pool_assigner(line_6, 100.0f, 20.0f, 3, 5);
 }
 
 void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type) {
@@ -60,7 +68,6 @@ void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float star
 }
 
 void spawn_map(void) { //Should run continuously
-
 	/*for (int i = 0; i < 100; i++) {
 		printf("spawn_pool position: %f | %f, time: %f\n", spawn_pool[i].position.x, spawn_pool[i].position.y, spawn_pool[i].time);
 	}*/
@@ -81,8 +88,12 @@ void spawn_map(void) { //Should run continuously
 				case 4:
 					initialise_circle_shape(spawn_pool[i].position, 5, 100);
 					break;
+				case 5:
+					initialise_horizontal_line(spawn_pool[i].position, 5, WIDTH/1.5f, 1);
+					break;
 				case 101:
 					initialise_basic_movement(i);
+					break;
 			}
 
 		}
@@ -132,6 +143,24 @@ void initialise_circle_shape(CP_Vector mid_position, int enemy_count, float radi
 	}
 }
 
+void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float end_of_horizontal, int type) {
+
+	float total_distance_apart = end_of_horizontal - start_position.x;
+	float distance_apart = total_distance_apart / enemy_count;
+	CP_Vector position = start_position;
+	
+	for (int i = 0; i < enemy_count; i++) {
+		for (int j = 0; j < MAX_ENEMY; j++) {
+			if (enemy_pool[j].alive) continue;
+			position.x += (distance_apart);
+			enemy_pool[j] = enemy_set(position, 1, ENEMY_SIZE, type);
+			printf("position of %d: %f|%f\n", i, position.x, position.y);
+			//printf("enemy %d position: %f|%f\n", i, enemy_pool[i].position.x, enemy_pool[i].position.y);
+			break;
+		}
+	}
+}
+
 //void initialise_advance_movement(CP_Vector position, int type) {
 //	float ENEMY_SIZE = WIDTH / 25;
 //	for (int i = 0; i < MAX_ENEMY; i++) {
@@ -146,6 +175,9 @@ void initialise_circle_shape(CP_Vector mid_position, int enemy_count, float radi
 void movement_pattern_vertical_and_diagonal(void) {
 	CP_Settings_Fill(COLOR_BLUE);
 	for (int i = 0; i < MAX_ENEMY; i++) {
+
+		enemy_out_of_screen(1,i);
+
 		if (!(enemy_pool[i].alive)) continue;
 		enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, DOWN); //Updates position
 
@@ -165,7 +197,9 @@ void movement_pattern_vertical_and_diagonal(void) {
 void movement_pattern_spinning_circle(void) {
 	CP_Settings_Fill(COLOR_BLUE);
 	int children_alive;
+
 	for (int i = 0; i < MAX_MOTHER_ENEMY; i++) {
+		enemy_out_of_screen(0, i);
 		if (!(mother_enemy_pool[i].alive)) continue;
 		
 		//Check if chilrens are alive in mother, to decide whether mother is dead or not
@@ -178,11 +212,11 @@ void movement_pattern_spinning_circle(void) {
 		}
 		if (!(children_alive)) mother_enemy_pool[i].alive = 0;
 		
-		mother_enemy_pool[i].position = enemy_moving_up_down_left_right(mother_enemy_pool[i].position, 5, DOWN); //Updates position
+		mother_enemy_pool[i].position = enemy_moving_up_down_left_right(mother_enemy_pool[i].position, ENEMY_SPEED, DOWN); //Updates position
 
 		switch (mother_enemy_pool[i].type) {
 			case 101:
-				spin_enemy(i, 5, 100, mother_enemy_pool[i].position);
+				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, mother_enemy_pool[i].position);
 				break;
 		}
 	}
@@ -190,12 +224,12 @@ void movement_pattern_spinning_circle(void) {
 
 void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position) {
 	float angle = 0;
-	int spin_speed = 1;
+	int spin_speed = 0;
 	int randomizer = (int)mother_enemy_pool[mother_i].time % 36;
 	if (randomizer != 0) angle = 360.0f / randomizer;
 
 	for (int i = 0; i < enemy_count; i++) {
-		printf("this enemy's alive or dead state: %d\n", mother_enemy_pool[mother_i].children[i].alive);
+		//printf("this enemy's alive or dead state: %d\n", mother_enemy_pool[mother_i].children[i].alive);
 
 		mother_enemy_pool[mother_i].spare += spin_speed;
 
@@ -211,3 +245,21 @@ void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position)
 	}
 }
 
+
+void enemy_out_of_screen(int enemy_not_mother, int enemy_i) {
+	if (enemy_not_mother == 1) {
+		if (enemy_pool[enemy_i].position.y > HEIGHT * 1.1) {
+			if (!(enemy_pool[enemy_i].alive)) return;
+			enemy_pool[enemy_i].alive = 0;
+			printf("normal enemy out of screen!\n");
+		}
+	} else {
+		for (int i = 0; i < MAX_CHILDREN; i++) {
+			if (mother_enemy_pool[enemy_i].children[i].position.y > HEIGHT * 1.1) {
+				if (!(mother_enemy_pool[enemy_i].children[i].alive)) continue;
+				mother_enemy_pool[enemy_i].children[i].alive = 0;
+				printf("child of a mother enemy out of screen!\n");
+			}
+		}
+	}
+}
