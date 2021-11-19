@@ -64,10 +64,10 @@ void game_update(void)
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{
 				gamePause = !gamePause;
-				gameState = PAUSED;
+				//gameState = PAUSED;
 				//gameState = PREPROOM;
 				//gameState = UPGRADES ;
-				//gameState = SHOP;
+				gameState = SHOP;
 				//gameState = SKILL;
 
 			
@@ -191,6 +191,7 @@ void game_update(void)
 			Screen_UPGRADE_ButtonClicked();
 
 			break;
+
 		case SHOP :
 			Screen_SHOP_Print();
 			Screen_SHOP_ButtonClicked();
@@ -214,4 +215,5 @@ void game_exit(void)
 {
 	//exit_EnemySprite();
 	exit_PlayerHP();
+	exit_skilltreepictures();
 }

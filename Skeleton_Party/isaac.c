@@ -196,7 +196,7 @@ struct Skill_Background {
 }Skill_Background;
 
 struct Skill_HeartsButton {
-
+	BOOL enabled;
 	float posX;
 	float posY;
 	float width;
@@ -204,7 +204,7 @@ struct Skill_HeartsButton {
 }Skill_HeartsButton;
 
 struct Skill_AgilityButton {
-
+	BOOL enabled;
 	float posX;
 	float posY;
 	float width;
@@ -212,7 +212,7 @@ struct Skill_AgilityButton {
 }Skill_AgilityButton;
 
 struct Skill_AtkspeedButton {
-
+	BOOL enabled;
 	float posX;
 	float posY;
 	float width;
@@ -248,6 +248,7 @@ struct Shop_BackButton {
 
 struct Shop_HealButton {
 
+	BOOL enabled;
 	float posX;
 	float posY;
 	float width;
@@ -256,6 +257,7 @@ struct Shop_HealButton {
 
 struct Shop_DropsButton {
 
+	BOOL enabled;
 	float posX;
 	float posY;
 	float width;
@@ -264,6 +266,7 @@ struct Shop_DropsButton {
 
 struct Shop_RezButton {
 
+	BOOL enabled;
 	float posX;
 	float posY;
 	float width;
@@ -272,6 +275,7 @@ struct Shop_RezButton {
 
 struct Shop_ShrapnelButton {
 
+	BOOL enabled;
 	float posX;
 	float posY;
 	float width;
@@ -337,6 +341,15 @@ void InitializeSkillShopUI(void)         // new function
 	Shop_Background.posX = (float)(isaac_width /2.0);
 	Shop_Background.posY = (float)(isaac_height /2.0);
 
+
+	Skill_HeartsButton.enabled = TRUE;
+	Skill_AgilityButton.enabled = TRUE;
+	Skill_AtkspeedButton.enabled = TRUE;
+
+	Shop_HealButton.enabled = TRUE;
+	Shop_DropsButton.enabled = TRUE;
+	Shop_RezButton.enabled = TRUE;
+	Shop_ShrapnelButton.enabled = TRUE;
 
 	Image_PrepRoom_Empty = CP_Image_Load("./Assets/preproom.png");
 	Image_Upgrade_Empty = CP_Image_Load("./Assets/upgrades.png");
@@ -482,66 +495,94 @@ void Screen_UPGRADES_Print(void)											//new functuon
 
 }
 
-void Screen_SHOP_Print(void)											//new functuon
+void Screen_SHOP_Print(void)
+											//new functuon
 {
-/*
-	Shop_BackButton.posX = menu.width / 2.0f;
-	Shop_BackButton.posY = menu.height * (3.0f / 7.0f);
-
-	Shop_HealButton.posX = menu.width / 2.0f;
-	Shop_HealButton.posY = menu.height * (3.0f / 7.0f);
-
-	Shop_DropsButton.posX = menu.width / 2.0f;
-	Shop_DropsButton.posY = menu.height * (3.0f / 7.0f);
-
-	Shop_RezButton.posX = menu.width / 2.0f;
-	Shop_RezButton.posY = menu.height * (3.0f / 7.0f);
-
-	Shop_ShrapnelButton.posX = menu.width / 2.0f;
-	Shop_ShrapnelButton.posY = menu.height * (3.0f / 7.0f);
-
-*/
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
+	CP_Graphics_ClearBackground(COLOR_BLACK);
+
 	CP_Image_Draw(Image_Shop_Empty, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
-/*
-	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
-	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
-	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
-	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
-*/
 
+	if (Shop_HealButton.enabled == TRUE)
+	{
+		CP_Image_Draw(Image_Shop_HealOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
+	else
+	{
+		CP_Image_Draw(Image_Shop_HealOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255) ;
+	}
+		
 
+	if (Shop_DropsButton.enabled == TRUE)
+	{
+		(CP_Image_Draw(Image_Shop_DropsOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255));
+	}
+	else
+	{
+		//printf("False");
+		CP_Image_Draw(Image_Shop_DropsOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
 
+	if (Shop_RezButton.enabled == TRUE)
+	{
+		CP_Image_Draw(Image_Shop_RezOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
+	else
+	{
+		CP_Image_Draw(Image_Shop_RezOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
+
+	
+	if (Shop_ShrapnelButton.enabled == TRUE)
+	{
+		CP_Image_Draw(Image_Shop_ShrapnelOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
+	else
+	{
+		CP_Image_Draw(Image_Shop_ShrapnelOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
+	
 }
 
 void Screen_SKILL_Print(void)											//new functuon
 {
-/*
-	Skill_HeartsButton.posX = menu.width / 2.0f;
-	Skill_HeartsButton.posY = menu.height * (3.0f / 7.0f);
 
-	Skill_AgilityButton.posX = menu.width / 2.0f;
-	Skill_AgilityButton.posY = menu.height * (3.0f / 7.0f);
-
-	Skill_AtkspeedButton.posX = menu.width / 2.0f;
-	Skill_AtkspeedButton.posY = menu.height * (3.0f / 7.0f);
-
-	Skill_BackButton.posX = menu.width / 2.0f;
-	Skill_BackButton.posY = menu.height * (3.0f / 7.0f);
-*/
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
 	CP_Image_Draw(Image_Skill_Empty, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-/*
-	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
-	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
-	CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
-*/
+
+	if (Skill_HeartsButton.enabled == TRUE)
+	{
+		CP_Image_Draw(Image_Skill_HeartsOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	}
+	else
+	{
+		CP_Image_Draw(Image_Skill_HeartsOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	}
+
+	if (Skill_AgilityButton.enabled == TRUE)
+	{
+		CP_Image_Draw(Image_Skill_AgilitOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	}
+	else
+	{
+		P_Image_Draw(Image_Skill_AgilitOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	}
+
+	if (Skill_AtkspeedButton.enabled == TRUE)
+	{
+		CP_Image_Draw(Image_Skill_AtkspeedOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	}
+	else
+	{
+		CP_Image_Draw(Image_Skill_AtkspeedOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	}
+
 }
 
 
@@ -642,37 +683,43 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 787.0, 27.0, 936.0, 154.0))
 		{
 			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
 			printf("button pressed back \n");
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 26.0, 546.0, 459.0, 671.0))
 		{
 			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
 			printf("button pressed heal\n");
+			Shop_HealButton.enabled = FALSE;
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 25.0, 690.0, 460.0, 843.0))
 		{
 			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
 			printf("button pressed drop\n");
+			Shop_DropsButton.enabled = FALSE;
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 25.0, 833.0, 460.0, 955.0))
 		{
 			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
+			
 			printf("button pressed rez\n");
+			Shop_RezButton.enabled = FALSE;
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 511.0, 543.0, 943.0, 661.0))
 		{
 			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
 			printf("button pressed shrapnel\n");
+			Shop_ShrapnelButton.enabled = FALSE;
+
 		}
 
 	}
@@ -701,6 +748,8 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed hearts\n");
+			Skill_HeartsButton.enabled = FALSE;
+
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 683.0, 480.0, 811.0))
 		{
@@ -708,6 +757,7 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed agility\n");
+			Skill_AgilityButton.enabled = FALSE;
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 832.0, 480.0, 958.0))
 		{
@@ -715,7 +765,37 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed atkspeed\n");
+			Skill_AtkspeedButton.enabled = FALSE;
 		}
 
 	}
+}
+
+void exit_skilltreepictures(void) 
+{
+	CP_Image_Free(&Image_PrepRoom_Empty);
+	CP_Image_Free(&Image_Upgrade_Empty);
+	CP_Image_Free(&Image_Skill_Empty);
+	CP_Image_Free(&Image_Shop_Empty);
+
+	CP_Image_Free(&Image_Skill_HeartsOn);
+	CP_Image_Free(&Image_Skill_AgilitOn);
+	CP_Image_Free(&Image_Skill_AtkspeedOn);
+
+	CP_Image_Free(&Image_Skill_HeartsOff);
+	CP_Image_Free(&Image_Skill_AgilitOff);
+	CP_Image_Free(&Image_Skill_AtkspeedOff);
+
+	CP_Image_Free(&Image_Shop_HealOn);
+	CP_Image_Free(&Image_Shop_DropsOn);
+	CP_Image_Free(&Image_Shop_RezOn);
+	CP_Image_Free(&Image_Shop_ShrapnelOn);
+
+
+	CP_Image_Free(&Image_Shop_HealOff);
+	CP_Image_Free(&Image_Shop_DropsOff);
+	CP_Image_Free(&Image_Shop_RezOff);
+	CP_Image_Free(&Image_Shop_ShrapnelOff);
+
+
 }

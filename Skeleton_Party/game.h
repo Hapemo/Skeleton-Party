@@ -324,6 +324,7 @@ void PauseButtonClicked();
 //BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY
 
 void InitializeSkillShopUI(void);
+BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy);
 
 void Screen_PREPROOM_Print(void);	
 void Screen_UPGRADES_Print(void);
@@ -335,5 +336,7 @@ void Screen_PREPROOM_ButtonClicked(void);
 void Screen_UPGRADE_ButtonClicked(void);
 void Screen_SHOP_ButtonClicked(void);
 void Screen_SKILL_ButtonClicked(void);
+
+void exit_skilltreepictures(void);
 
 
