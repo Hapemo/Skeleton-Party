@@ -506,13 +506,14 @@ void Screen_SHOP_Print(void)
 
 	CP_Image_Draw(Image_Shop_Empty, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
 
+
 	if (Shop_HealButton.enabled == TRUE)
 	{
 		CP_Image_Draw(Image_Shop_HealOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
 	}
 	else
 	{
-		CP_Image_Draw(Image_Shop_HealOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255) ;
+		CP_Image_Draw(Image_Shop_HealOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 100) ;
 	}
 		
 
@@ -523,7 +524,7 @@ void Screen_SHOP_Print(void)
 	else
 	{
 		//printf("False");
-		CP_Image_Draw(Image_Shop_DropsOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+		CP_Image_Draw(Image_Shop_DropsOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 100);
 	}
 
 	if (Shop_RezButton.enabled == TRUE)
@@ -532,7 +533,7 @@ void Screen_SHOP_Print(void)
 	}
 	else
 	{
-		CP_Image_Draw(Image_Shop_RezOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+		CP_Image_Draw(Image_Shop_RezOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 100);
 	}
 
 	
@@ -542,7 +543,7 @@ void Screen_SHOP_Print(void)
 	}
 	else
 	{
-		CP_Image_Draw(Image_Shop_ShrapnelOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+		CP_Image_Draw(Image_Shop_ShrapnelOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 100);
 	}
 	
 }
@@ -571,7 +572,7 @@ void Screen_SKILL_Print(void)											//new functuon
 	}
 	else
 	{
-		P_Image_Draw(Image_Skill_AgilitOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		CP_Image_Draw(Image_Skill_AgilitOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 	}
 
 	if (Skill_AtkspeedButton.enabled == TRUE)
@@ -580,7 +581,7 @@ void Screen_SKILL_Print(void)											//new functuon
 	}
 	else
 	{
-		CP_Image_Draw(Image_Skill_AtkspeedOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		CP_Image_Draw(Image_Skill_AtkspeedOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
 	}
 
 }

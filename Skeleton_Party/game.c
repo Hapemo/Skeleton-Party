@@ -64,10 +64,10 @@ void game_update(void)
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{
 				gamePause = !gamePause;
-				//gameState = PAUSED;
+				gameState = PAUSED;
 				//gameState = PREPROOM;
 				//gameState = UPGRADES ;
-				gameState = SHOP;
+				//gameState = SHOP;
 				//gameState = SKILL;
 
 			
