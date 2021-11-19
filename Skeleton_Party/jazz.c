@@ -29,9 +29,6 @@ int melee_angle_upgrade = 20; //angle upgrade for melee
 float sword_length = 0;
 float sword_width = 0;
 
-#define E1 (CP_Vector_Set(-1, 0))
-#define E2 (CP_Vector_Set(0, 1))
-
 int melee_or_not = 0, * pmelee_or_not = &melee_or_not; //Determine if should melee or not
 CP_Vector melee_position; //Position of where the melee animation happens
 
@@ -399,6 +396,29 @@ void bullet_collision(void) {
 
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
+
+
+			for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {
+				if (!(mother_enemy_pool[j].alive)) continue;
+				for (int k = 0; k < MAX_CHILDREN; k++) {
+					if (!(mother_enemy_pool[j].children[k].alive)) continue;
+					killed = 0;
+					
+					distance_apart = CP_Vector_Distance(bullet_pool[i], mother_enemy_pool[j].children[k].position);
+
+					if (distance_apart <= (BULLET_SIZE + mother_enemy_pool[j].children[k].size)) killed = 1;
+
+					if (killed) {
+						explode(bullet_pool[i]);
+						shrapnel(bullet_pool[i]);
+
+						bullet_pool[i] = CP_Vector_Set(0, 0);
+
+						mother_enemy_pool[j].children[k].alive = 0;
+					}
+				}
+			}
+
 
 			for (int j = 0; j < MAX_ENEMY; j++) {
 				if (!(enemy_pool[j].alive)) continue;

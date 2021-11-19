@@ -110,25 +110,13 @@ void game_update(void)
 
 			// enemy movement patterns
 			movement_pattern_vertical_and_diagonal();
+			movement_pattern_spinning_circle();
 
 
-			//movement_1();
 			timer();
 			game_control(&knight);
 
 			SpeedBuffEffect();
-
-			//isaac's functions to spawn enemy
-			//if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) // left click
-			//{
-			//	SpawnEnemyCircle(CP_Input_GetMouseX(), CP_Input_GetMouseY());
-			//}
-
-			//if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) // right click 
-			//{
-			//	SpawnEnemySingle(CP_Input_GetMouseX(), CP_Input_GetMouseY());
-			//}
-
 			
 			player_touch_enemy();
 			/*if (bug.alive == 1)

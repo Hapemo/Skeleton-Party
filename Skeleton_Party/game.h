@@ -10,16 +10,19 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define HEIGHT (float)CP_System_GetWindowHeight()
 #define PI 3.1415926535
 #define MAX_ENEMY 1000
+#define MAX_MOTHER_ENEMY 50
+#define MAX_CHILDREN 50
 #define Formationsingle 0
 #define Formationcircle 1
 #define Formationline 2
 #define ShapeSizecircle 7
 #define ShapeSizeline  5
 #define ENEMY_SIZE_2 10
-#define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
-#define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
+#define E1 (CP_Vector_Set(-1, 0))
+#define E2 (CP_Vector_Set(0, 1))
 
 #define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
+#define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
 #define COLOR_GREEN CP_Color_Create(0, 255, 0, 255)
 #define COLOR_BLUE CP_Color_Create(0, 0, 255, 255)
 #define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
@@ -81,7 +84,23 @@ struct Enemy {
 	int type;
 };
 
+struct spawn {
+	CP_Vector position;
+	float time;
+	int type;
+};
+
+struct mother_enemy {
+	CP_Vector position;
+	float time;
+	int alive;
+	int type;
+	struct Enemy children[MAX_CHILDREN];
+	float spare;
+};
+
 struct Enemy enemy_pool[MAX_ENEMY];
+struct mother_enemy mother_enemy_pool[MAX_MOTHER_ENEMY];
 
 struct Item item;
 
@@ -258,7 +277,11 @@ struct Enemy enemy_set(CP_Vector position, int alive, float size, int type);
 
 void update_basic_movement(void);
 
-void initialise_basic_movement(CP_Vector position, int type);
+void initialise_basic_movement(int spawn_pool_i);
+
+void movement_pattern_spinning_circle(void);
+
+void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position);
 
 void spawn_map(void);
 
@@ -279,6 +302,7 @@ void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float star
 
 //These are the function that updates the positions every frame
 	void movement_pattern_vertical_and_diagonal(void);
+	void initialise_circle_shape(CP_Vector mid_position, int enemy_count, float radius);
 
 //-------------------------------
 //End of enemy array functions
