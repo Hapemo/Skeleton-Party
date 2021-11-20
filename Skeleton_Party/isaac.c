@@ -34,12 +34,29 @@ CP_Image Image_Skill_Empty = NULL;
 CP_Image Image_Shop_Empty = NULL;
 
 CP_Image Image_Skill_HeartsOn = NULL;
+CP_Image Image_Skill_HeartsOn1 = NULL;
+CP_Image Image_Skill_HeartsOn2 = NULL;
+CP_Image Image_Skill_HeartsOn3 = NULL;
+CP_Image Image_Skill_HeartsOn4 = NULL;
+CP_Image Image_Skill_HeartsOn5 = NULL;
+
 CP_Image Image_Skill_AgilitOn = NULL;
+CP_Image Image_Skill_AgilitOn1 = NULL;
+CP_Image Image_Skill_AgilitOn2 = NULL;
+CP_Image Image_Skill_AgilitOn3 = NULL;
+CP_Image Image_Skill_AgilitOn4 = NULL;
+CP_Image Image_Skill_AgilitOn5 = NULL;
+
+
+
+
+
+
 CP_Image Image_Skill_AtkspeedOn = NULL;
 
-CP_Image Image_Skill_HeartsOff = NULL;
-CP_Image Image_Skill_AgilitOff = NULL;
-CP_Image Image_Skill_AtkspeedOff = NULL;
+//CP_Image Image_Skill_HeartsOff = NULL;
+//CP_Image Image_Skill_AgilitOff = NULL;
+//CP_Image Image_Skill_AtkspeedOff = NULL;
 
 
 CP_Image Image_Shop_HealOn = NULL;
@@ -366,13 +383,27 @@ void InitializeSkillShopUI(void)         // new function
 	Image_Skill_Empty = CP_Image_Load("./Assets/Skill_empty.png");
 	Image_Shop_Empty = CP_Image_Load("./Assets/Shop_empty.png");
 
-	Image_Skill_HeartsOn = CP_Image_Load("./Assets/Skill_heartsOn.png");
-	Image_Skill_AgilitOn = CP_Image_Load("./Assets/Skill_agilityOn.png");
-	Image_Skill_AtkspeedOn = CP_Image_Load("./Assets/Skill_attackspeedOn.png");
+	Image_Skill_HeartsOn = CP_Image_Load("./Assets/skilltree/Skill_heartsOn.png");
+	Image_Skill_HeartsOn1 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn1.png");
+	Image_Skill_HeartsOn2 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn2.png");
+	Image_Skill_HeartsOn3 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn3.png");
+	Image_Skill_HeartsOn4 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn4.png");
+	Image_Skill_HeartsOn5 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn5.png");
 
-	Image_Skill_HeartsOff = CP_Image_Load("./Assets/Skill_heartsOff.png");
-	Image_Skill_AgilitOff = CP_Image_Load("./Assets/Skill_agilityOff.png");
-	Image_Skill_AtkspeedOff = CP_Image_Load("./Assets/Skill_attackspeedOff.png");
+	Image_Skill_AgilitOn = CP_Image_Load("./Assets/skilltree/Skill_agilityOn.png");
+	Image_Skill_AgilitOn1 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn1.png");
+	Image_Skill_AgilitOn2 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn2.png");
+	Image_Skill_AgilitOn3 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn3.png");
+	Image_Skill_AgilitOn4 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn4.png");
+	Image_Skill_AgilitOn5 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn5.png");
+
+	Image_Skill_AtkspeedOn = CP_Image_Load("./Assets/skilltree/Skill_attackspeedOn.png");
+
+
+
+	//Image_Skill_HeartsOff = CP_Image_Load("./Assets/Skill_heartsOff.png");
+	//Image_Skill_AgilitOff = CP_Image_Load("./Assets/Skill_agilityOff.png");
+	//Image_Skill_AtkspeedOff = CP_Image_Load("./Assets/Skill_attackspeedOff.png");
 
 	Image_Shop_HealOn = CP_Image_Load("./Assets/Shop_2xhealOn.png");
 	Image_Shop_DropsOn = CP_Image_Load("./Assets/Shop_2xdropsOn.png");
@@ -567,33 +598,59 @@ void Screen_SKILL_Print(void)											//new functuon
 	}
 	CP_Image_Draw(Image_Skill_Empty, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 
-	if (Skill_HeartsButton.enabled == TRUE)
-	{
-		CP_Image_Draw(Image_Skill_HeartsOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-	}
-	else
-	{
-		CP_Image_Draw(Image_Skill_HeartsOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	CP_Graphics_ClearBackground(COLOR_BLACK);
+
+	switch (additionalhp) {
+		case 0:
+			CP_Image_Draw(Image_Skill_HeartsOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+			break;
+		case 1:
+			CP_Image_Draw(Image_Skill_HeartsOn1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+			break;
+		case 2:
+			CP_Image_Draw(Image_Skill_HeartsOn2, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+			break;
+		case 3:
+			CP_Image_Draw(Image_Skill_HeartsOn3, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+			break;
+		case 4:
+			CP_Image_Draw(Image_Skill_HeartsOn4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+			break;
+		default:
+			CP_Image_Draw(Image_Skill_HeartsOn5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
+			break;
 	}
 
-	if (Skill_AgilityButton.enabled == TRUE)
-	{
+	switch (additionalspeed) {
+	case 0:
 		CP_Image_Draw(Image_Skill_AgilitOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-	}
-	else
-	{
-		CP_Image_Draw(Image_Skill_AgilitOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-	}
+		break;
 
-	if (Skill_AtkspeedButton.enabled == TRUE)
-	{
-		CP_Image_Draw(Image_Skill_AtkspeedOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-	}
-	else
-	{
-		CP_Image_Draw(Image_Skill_AtkspeedOff, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
-	}
+	case 20:
+		CP_Image_Draw(Image_Skill_AgilitOn1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
 
+	case 40:
+		CP_Image_Draw(Image_Skill_AgilitOn2, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
+
+	case 60:
+		CP_Image_Draw(Image_Skill_AgilitOn3, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
+
+	//case 80:
+		//CP_Image_Draw(Image_Skill_AgilitOn4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		//break; 
+
+	default:
+		CP_Image_Draw(Image_Skill_AgilitOn4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
+
+		//CP_Image_Draw(Image_Skill_AgilitOn5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
+			break;
+	}
+		
 }
 
 
@@ -770,14 +827,14 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			printf("button pressed hearts\n");
 			if (additionalhp < maxadditionalhp )
 			{ 
-				printf("hpadded %d" ,additionalhp);
 				additionalhp++;
+				//printf("hpadded %d" ,additionalhp);
 				p1.set(&p1, 5 + additionalhp);
 				// minus exp
 			}
 			else
 			{
-				printf("max rhp eached ");
+				//printf("max rhp eached ");
 
 				Skill_HeartsButton.enabled = FALSE;
 			}
@@ -792,7 +849,7 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			if (additionalspeed < maxadditionalspeed)
 			{
 				// minus exp
-				additionalspeed += 10; // or 20 increment ? 
+				additionalspeed += 20; // or 20 increment ? 
 				knight.speed += additionalspeed;
 				//mage.speed += additionalspeed;
 				//archer.speed += additionalspeed;
@@ -825,12 +882,24 @@ void exit_skilltreepictures(void)
 	CP_Image_Free(&Image_Shop_Empty);
 
 	CP_Image_Free(&Image_Skill_HeartsOn);
+	CP_Image_Free(&Image_Skill_HeartsOn1);
+	CP_Image_Free(&Image_Skill_HeartsOn2);
+	CP_Image_Free(&Image_Skill_HeartsOn3);
+	CP_Image_Free(&Image_Skill_HeartsOn4);
+	CP_Image_Free(&Image_Skill_HeartsOn5);
+
 	CP_Image_Free(&Image_Skill_AgilitOn);
+	CP_Image_Free(&Image_Skill_AgilitOn1);
+	CP_Image_Free(&Image_Skill_AgilitOn2);
+	CP_Image_Free(&Image_Skill_AgilitOn3);
+	CP_Image_Free(&Image_Skill_AgilitOn4);
+	CP_Image_Free(&Image_Skill_AgilitOn5);
+
 	CP_Image_Free(&Image_Skill_AtkspeedOn);
 
-	CP_Image_Free(&Image_Skill_HeartsOff);
-	CP_Image_Free(&Image_Skill_AgilitOff);
-	CP_Image_Free(&Image_Skill_AtkspeedOff);
+	//CP_Image_Free(&Image_Skill_HeartsOff);
+	//CP_Image_Free(&Image_Skill_AgilitOff);
+	//CP_Image_Free(&Image_Skill_AtkspeedOff);
 
 	CP_Image_Free(&Image_Shop_HealOn);
 	CP_Image_Free(&Image_Shop_DropsOn);
