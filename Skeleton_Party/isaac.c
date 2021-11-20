@@ -318,7 +318,7 @@ void init_PlayerHP(void)
 {
 	spriteSheetImage = CP_Image_Load("./Assets/HeartSprite.png");
 	NewHealthSystem(p1)
-	p1.set(&p1, 5);
+	p1.set(&p1, 3);
 
 	maxadditionalhp = 5;
 	additionalhp = 0;
@@ -898,7 +898,7 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			{ 
 				additionalhp++;
 				//printf("hpadded %d" ,additionalhp);
-				p1.set(&p1, 5 + additionalhp);
+				p1.set(&p1, 3 + additionalhp);
 				// minus exp
 			}
 			else

@@ -303,8 +303,6 @@ void ButtonClicked()
 			menu.enabled = TRUE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
 		}
-
-		
 	}
 }
 
