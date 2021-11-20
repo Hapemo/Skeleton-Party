@@ -163,9 +163,13 @@ void game_update(void)
 
 			break;
 		case PAUSED:
-		
+			
+			
+			//Screen_Pause_Print();
+			//Screen_PAUSE_ButtonClicked();
 			DrawPauseCanvas();
 			PauseButtonClicked();
+
 
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{

@@ -47,11 +47,6 @@ CP_Image Image_Skill_AgilitOn3 = NULL;
 CP_Image Image_Skill_AgilitOn4 = NULL;
 CP_Image Image_Skill_AgilitOn5 = NULL;
 
-
-
-
-
-
 CP_Image Image_Skill_AtkspeedOn = NULL;
 
 //CP_Image Image_Skill_HeartsOff = NULL;
@@ -68,6 +63,9 @@ CP_Image Image_Shop_HealOff = NULL;
 CP_Image Image_Shop_DropsOff = NULL;
 CP_Image Image_Shop_RezOff = NULL;
 CP_Image Image_Shop_ShrapnelOff = NULL;
+
+CP_Image Image_Pause_Mistake = NULL;
+
 
 //Heart sprite settings below
 static CP_Image spriteSheetImage;
@@ -134,6 +132,15 @@ void healer(HealthSystem* inst, int healamount)
 // HealthSystem Object decleration above 
 
 
+struct Pause_Background {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Pause_Background;
+
 struct PrepRoom_Background {
 
 	BOOL enabled;
@@ -166,7 +173,6 @@ struct PrepRoom_UpgrradesButton {
 	float width;
 	float height;
 }PrepRoom_UpgradesButton;
-
 
 
 struct Upgrade_Background {
@@ -343,6 +349,14 @@ void InitializeSkillShopUI(void)         // new function
 
 	shrapnelstate = FALSE;
 
+	Pause_Background.enabled = TRUE;
+	Pause_Background.width = isaac_width;
+	Pause_Background.height = isaac_height;
+	Pause_Background.posX = (float)(isaac_width / 2.0);
+	Pause_Background.posY = (float)(isaac_height / 2.0);
+
+
+
 	PrepRoom_Background.enabled = TRUE;
 	PrepRoom_Background.width = isaac_width;
 	PrepRoom_Background.height = isaac_height;
@@ -367,6 +381,9 @@ void InitializeSkillShopUI(void)         // new function
 	Shop_Background.height = isaac_height;
 	Shop_Background.posX = (float)(isaac_width /2.0);
 	Shop_Background.posY = (float)(isaac_height /2.0);
+
+
+
 
 
 	Skill_HeartsButton.enabled = TRUE;
@@ -414,6 +431,8 @@ void InitializeSkillShopUI(void)         // new function
 	Image_Shop_DropsOff = CP_Image_Load("./Assets/Shop_2xdropsOff.png");
 	Image_Shop_RezOff = CP_Image_Load("./Assets/Shop_rezOff.png");
 	Image_Shop_ShrapnelOff = CP_Image_Load("./Assets/Shop_shrapnelOff.png");
+
+	Image_Pause_Mistake = CP_Image_Load("./Assets/Pause_mistake.png");
 	
 }
 
@@ -491,12 +510,21 @@ void Player_Redheartprinter(void)
 }
 
 
+
+void Screen_Pause_Print(void)											//new functuon
+{
+
+
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	}
+
+	CP_Image_Draw(Image_Pause_Mistake, Pause_Background.posX, Pause_Background.posY, isaac_width, isaac_height, 255);
+}
+
 void Screen_PREPROOM_Print(void)											//new functuon
 {
-	
-
-	PrepRoom_ContinueButton.posX = 270.0f;
-	PrepRoom_ContinueButton.posY = 550.0f;
 /*
 	PrepRoom_QuitButton.posX = menu.height * (3.0f / 7.0f);
 	PrepRoom_QuitButton.posY = menu.height * (3.0f / 7.0f);
@@ -668,6 +696,47 @@ BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, fl
 	}
 
 }
+
+void Screen_PAUSE_ButtonClicked(void)											//new functuon
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		//printf("%f", mousePosX);
+		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		//{
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 270.0, 550.0, 684.0, 676.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed continue \n");
+			gamePause = !gamePause;
+			gameState = PLAYING;
+		}
+
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed retry\n");
+		}
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 597.0, 827.0, 913.0, 915.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed menu\n");
+			gameState = UPGRADES;
+		}
+
+	}
+}
+
+
+
 
 void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 {
@@ -911,6 +980,11 @@ void exit_skilltreepictures(void)
 	CP_Image_Free(&Image_Shop_DropsOff);
 	CP_Image_Free(&Image_Shop_RezOff);
 	CP_Image_Free(&Image_Shop_ShrapnelOff);
+
+
+	CP_Image_Free(&Image_Pause_Mistake);
+
+
 
 
 }
