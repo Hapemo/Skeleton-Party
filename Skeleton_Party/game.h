@@ -45,6 +45,8 @@ EnemySprite* enemy[MAX_ENEMY]; // when used, if first one is null, all othjers w
 EnemySprite* enemycircle[MAX_ENEMY][ShapeSizecircle];
 EnemySprite* enemyline[MAX_ENEMY][ShapeSizeline];
 
+
+
 struct character
 {
     CP_Vector position;

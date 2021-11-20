@@ -58,6 +58,8 @@ static int imageIndex; // decides what image it uses
 static const float Heart_FRAME_DIMENSIONx = 58.0f;
 static const float Heart_FRAME_DIMENSIONy = 45.0f;
 int player_maxhp;
+int additionalhp, maxadditionalhp;
+int additionalspeed, maxadditionalspeed;
 static  float Heart_size_windowsx;
 static  float Heart_size_windowsy;
 
@@ -293,7 +295,13 @@ void init_PlayerHP(void)
 {
 	spriteSheetImage = CP_Image_Load("./Assets/HeartSprite.png");
 	NewHealthSystem(p1)
-	p1.set(&p1, 10);
+	p1.set(&p1, 5);
+
+	maxadditionalhp = 5;
+	additionalhp = 0;
+
+	maxadditionalspeed = 80;
+	additionalspeed = 0;
 
 	hplocationX = (CP_System_GetWindowWidth()) / 10.0f;
 	hplocationY = (CP_System_GetWindowHeight()) / 8.0f;
@@ -760,7 +768,19 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed hearts\n");
-			Skill_HeartsButton.enabled = FALSE;
+			if (additionalhp < maxadditionalhp )
+			{ 
+				printf("hpadded %d" ,additionalhp);
+				additionalhp++;
+				p1.set(&p1, 5 + additionalhp);
+				// minus exp
+			}
+			else
+			{
+				printf("max rhp eached ");
+
+				Skill_HeartsButton.enabled = FALSE;
+			}
 
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 683.0, 480.0, 811.0))
@@ -769,7 +789,21 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed agility\n");
-			Skill_AgilityButton.enabled = FALSE;
+			if (additionalspeed < maxadditionalspeed)
+			{
+				// minus exp
+				additionalspeed += 10; // or 20 increment ? 
+				knight.speed += additionalspeed;
+				//mage.speed += additionalspeed;
+				//archer.speed += additionalspeed;
+			}
+			else
+			{
+				Skill_AgilityButton.enabled = FALSE;
+			}
+			
+
+
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 832.0, 480.0, 958.0))
 		{
