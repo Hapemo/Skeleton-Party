@@ -3,7 +3,7 @@
 #include "game.h"
 
 /* Feel free to declare your own variables here */
-int gamePause;
+//int gamePause;
 struct character knight, mage, archer;
 int CurrentCharacter = 0;
 
@@ -97,7 +97,9 @@ void game_update(void)
 			}
 			else if (CurrentCharacter == mageint)
 			{
-				shooting_check(knight.position);
+				shooting_check(knight.position);			
+				update_bullet_travel();
+
 			}
 			else if (CurrentCharacter == archerint)
 			{
@@ -112,10 +114,13 @@ void game_update(void)
 			spawn_map();
 
 			//Attack updates
+			// 
+			//if (shrapnelstate == TRUE)
+				shrapnel_update();
+
 			melee_update(knight.position);
-			update_bullet_travel();
 			explosion_update();
-			shrapnel_update();
+			
 			sword_explosion_update();
 
 			// enemy movement patterns
@@ -180,6 +185,7 @@ void game_update(void)
 			break;
 
 		case PREPROOM : 
+			gamePause = !gamePause;
 
 			Screen_PREPROOM_Print();
 			Screen_PREPROOM_ButtonClicked();

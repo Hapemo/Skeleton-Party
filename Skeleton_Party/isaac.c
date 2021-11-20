@@ -316,6 +316,8 @@ void InitializeSkillShopUI(void)         // new function
 	isaac_width = WIDTH;
 	isaac_height = HEIGHT;
 
+	shrapnelstate = FALSE;
+
 	PrepRoom_Background.enabled = TRUE;
 	PrepRoom_Background.width = isaac_width;
 	PrepRoom_Background.height = isaac_height;
@@ -617,6 +619,8 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed continye \n");
+			gamePause = !gamePause;
+			gameState = PLAYING;
 		}
 	
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
@@ -632,6 +636,7 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed upgrade\n");
+			gameState = UPGRADES;
 		}
 
 	}
@@ -652,6 +657,7 @@ void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed back \n");
+			gameState = PREPROOM;
 		}
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 31.0, 349.0, 414.0, 730.0))
@@ -660,6 +666,7 @@ void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed skill\n");
+			gameState = SKILL;
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 552.0, 353.0, 936.0, 730.0))
 		{
@@ -667,6 +674,7 @@ void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed shop\n");
+			gameState = SHOP;
 		}
 
 	}
@@ -687,6 +695,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
 			printf("button pressed back \n");
+			gameState = UPGRADES;
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 26.0, 546.0, 459.0, 671.0))
 		{
@@ -719,6 +728,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
 			printf("button pressed shrapnel\n");
+			shrapnelstate = TRUE;
 			Shop_ShrapnelButton.enabled = FALSE;
 
 		}
@@ -741,6 +751,7 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed back \n");
+			gameState = UPGRADES;
 		}
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))
