@@ -144,6 +144,7 @@ void game_update(void)
 			SpeedBuffEffect();
 			
 			player_touch_enemy();
+			EnemyCollision();
 			/*if (bug.alive == 1)
 			{
 				if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))

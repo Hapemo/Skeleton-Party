@@ -46,7 +46,7 @@ void init_char(struct character *spritename, float spawnx, float spawny, char* p
     spritename->width = 50;
     spritename->height = 100;
     spritename->speed = 100;
-
+    
 }
 
 /*void enemypattern1(void)

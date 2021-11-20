@@ -57,6 +57,7 @@ struct character
 	float height;
 	float speed;
 	BOOL speedbuff;
+	BOOL invulnerability;
 };
 
 struct character knight;
@@ -148,6 +149,8 @@ void exit_PlayerHP(void);
 //void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
 
+void InvulnerabilityFrame();
+void EnemyCollision();
 void SpeedBuffEffect();
 void DropStuff(float posX, float posY);
 void DrawItem();
