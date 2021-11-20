@@ -127,3 +127,8 @@ void game_control(struct character *spritename )
     CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
     CP_Image_Draw(spritename->sprite, spritename->position.x, spritename->position.y, spritename->width, spritename->height, 255);
 }
+
+void drawenemy(struct character* spritename)
+{
+    CP_Image_Draw(spritename->sprite, spritename->position.x, spritename->position.y, spritename->width, spritename->height, 255);
+}
