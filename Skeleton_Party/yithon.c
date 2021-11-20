@@ -49,15 +49,35 @@ struct MenuButton {
 	float height;
 }menuPauseButton;
 
-CP_Sound backGroundMusic;
 
+CP_Sound menubg = NULL;
+CP_Sound crit = NULL;
+
+/*
+load audio
+*/
 void load_audio() {
-	backGroundMusic = CP_Sound_LoadMusic("./Assets/newBGLoop"); //still testing
+	menubg = CP_Sound_LoadMusic("./Assets/newBGLoop.wav");
+	crit = CP_Sound_Load("./Assets/critHit.wav");
+}
+/*
+play menusound 
+*/
+void play_menubg() {
+	CP_Sound_PlayMusic(menubg);
+	//CP_Sound_PlayMusic(menubg, 0.2f, 0.85f, TRUE, CP_SOUND_GROUP_1);
+}
+/*play crit sound*/
+void play_crit() {
+	CP_Sound_PlayAdvanced(crit,0.3f,1.0f,FALSE,CP_SOUND_GROUP_3);
 }
 
-void play_audio() {
-	CP_Sound_PlayMusic(backGroundMusic);
+void free_audio() {
+	CP_Sound_Free(&menubg);
+	CP_Sound_Free(&crit);
 }
+
+
 /*I have  made the structs global by adding it to the header file*/
 //These variables are for enemyHealth and damage taking, for function 'enemy_taking_dmg' 
 //struct enemy
@@ -78,7 +98,6 @@ void init_enemy() {
 	bug.width = 100;
 	bug.height = 100;
 	bug.alive = 1;
-
 }
 //check for collision 
 /*BOOL check_enemy_collide(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
@@ -104,6 +123,7 @@ void init_enemy() {
 		bug.alive = 0;
 	}
 }*/
+
 //enemy touching player, player losing health
 void player_touch_enemy() {
 
@@ -122,7 +142,16 @@ void player_touch_enemy() {
 	
 }
 
-
+void drawWinScreen() {
+	CP_Font_Set(myFont);
+	float width = (float)CP_System_GetWindowWidth();
+	float height = (float)CP_System_GetWindowHeight();
+	if (gameState == WIN) {
+		CP_Settings_Fill(COLOR_BLACK);
+		CP_Graphics_DrawRect(width +width / 2, height +height / 2, width, height);
+		CP_Font_DrawTextBox("YOU WIN!",( width / 8 * 3) + (width / 6) / 6.5f, (height / 8 * 3) + (height / 8) / 1.5f, (width / 6));
+	}
+}
 
 //Pause state
 void DrawPauseCanvas()
@@ -172,7 +201,7 @@ void DrawPauseCanvas()
 		CP_Font_DrawTextBox("Menu", menuPauseButton.posX + menuPauseButton.width / 6.5f, menuPauseButton.posY + menuPauseButton.height / 1.5f, menuPauseButton.width );
 	}
 }
-
+//clicking buttons in pause state
 void PauseButtonClicked()
 {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))

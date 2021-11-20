@@ -29,7 +29,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 #define COLOR_PURPLE CP_Color_Create(128,0,128, 255)
 
-enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL};
+enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE};
 enum GameStates gameState;
 
 int gamePause;
@@ -68,7 +68,6 @@ struct enemy
 	float height;
 	int alive;
 } bug;
-
 
 
 struct Item
@@ -324,6 +323,11 @@ void player_touch_enemy();
 
 void DrawPauseCanvas();
 void PauseButtonClicked();
+void load_audio();
+void play_menubg();
+void play_crit();
+void free_audio();
+
 
 //BOOL check_enemy_collide(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY
 

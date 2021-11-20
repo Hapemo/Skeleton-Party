@@ -39,7 +39,7 @@ void game_init(void)
 	init_char(&archer, 200, 200, "./Assests/archer");
 
 	preload_spawn_map(); //This is for declarations in enemy_array
-
+	load_audio(); //load audio
 }
 
 void game_update(void)
@@ -72,20 +72,25 @@ void game_update(void)
 
 			
 			}
+			
 			DrawGameCanvas();
-
+			
 			if (CP_Input_KeyTriggered(KEY_1))
 			{
+				play_crit();//temp
 				CurrentCharacter = knightint;
+				
 			}
 
 			if (CP_Input_KeyTriggered(KEY_2))
 			{
+				play_crit();//temp
 				CurrentCharacter = mageint;
 			}
 
 			if (CP_Input_KeyTriggered(KEY_3))
 			{
+				play_crit();//temp
 				CurrentCharacter = archerint;
 			}
 
@@ -122,7 +127,9 @@ void game_update(void)
 			explosion_update();
 			
 			sword_explosion_update();
-
+	
+			
+			
 			// enemy movement patterns
 			movement_pattern_vertical_and_diagonal();
 			movement_pattern_spinning_circle();
@@ -156,7 +163,7 @@ void game_update(void)
 
 			break;
 		case PAUSED:
-			
+		
 			DrawPauseCanvas();
 			PauseButtonClicked();
 
@@ -172,13 +179,18 @@ void game_update(void)
 
 		case MAIN_MENU:
 
+			play_menubg();
 			DrawMenuButton();
 
 			DrawMenuCanvas();
-
+		
+		
 			ButtonClicked();
 			break;
-		
+		case WIN:
+			break;
+		case LOSE:
+			break;
 		case EXIT:
 
 			CP_Engine_Terminate();
@@ -222,4 +234,5 @@ void game_exit(void)
 	//exit_EnemySprite();
 	exit_PlayerHP();
 	exit_skilltreepictures();
+	free_audio();
 }
