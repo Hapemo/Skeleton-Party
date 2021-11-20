@@ -8,6 +8,7 @@ struct character knight, mage, archer;
 int CurrentCharacter = 0;
 
 
+
 void game_init(void)
 {
 	gamePause = 0;
@@ -64,11 +65,13 @@ void game_update(void)
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{
 				gamePause = !gamePause;
-				gameState = PAUSED;
+				//gameState = PAUSED;
 				//gameState = PREPROOM;
 				//gameState = UPGRADES ;
 				//gameState = SHOP;
 				//gameState = SKILL;
+				gameState = WIN;
+
 
 			
 			}
@@ -165,10 +168,10 @@ void game_update(void)
 		case PAUSED:
 			
 			
-			//Screen_Pause_Print();
-			//Screen_PAUSE_ButtonClicked();
-			DrawPauseCanvas();
-			PauseButtonClicked();
+			Screen_PAUSE_Print();
+			Screen_PAUSE_ButtonClicked();
+			//DrawPauseCanvas();
+			//PauseButtonClicked();
 
 
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
@@ -183,6 +186,7 @@ void game_update(void)
 
 		case MAIN_MENU:
 
+			EnableMenu();
 			play_menubg();
 			DrawMenuButton();
 
@@ -192,9 +196,15 @@ void game_update(void)
 			ButtonClicked();
 			break;
 		case WIN:
+
+			Screen_WIN_Print();
+			Screen_WIN_ButtonClicked();
+
 			break;
 		case LOSE:
+
 			break;
+
 		case EXIT:
 
 			CP_Engine_Terminate();

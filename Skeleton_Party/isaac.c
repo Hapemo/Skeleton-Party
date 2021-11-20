@@ -65,6 +65,8 @@ CP_Image Image_Shop_RezOff = NULL;
 CP_Image Image_Shop_ShrapnelOff = NULL;
 
 CP_Image Image_Pause_Mistake = NULL;
+CP_Image Image_Win_Background = NULL;
+
 
 
 //Heart sprite settings below
@@ -130,6 +132,15 @@ void healer(HealthSystem* inst, int healamount)
 	//inst->health += healamount;
 }
 // HealthSystem Object decleration above 
+
+struct Win_Background {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Win_Background;
 
 
 struct Pause_Background {
@@ -349,6 +360,13 @@ void InitializeSkillShopUI(void)         // new function
 
 	shrapnelstate = FALSE;
 
+
+	Win_Background.enabled = TRUE;
+	Win_Background.width = isaac_width;
+	Win_Background.height = isaac_height;
+	Win_Background.posX = (float)(isaac_width / 2.0);
+	Win_Background.posY = (float)(isaac_height / 2.0);
+
 	Pause_Background.enabled = TRUE;
 	Pause_Background.width = isaac_width;
 	Pause_Background.height = isaac_height;
@@ -432,7 +450,10 @@ void InitializeSkillShopUI(void)         // new function
 	Image_Shop_RezOff = CP_Image_Load("./Assets/Shop_rezOff.png");
 	Image_Shop_ShrapnelOff = CP_Image_Load("./Assets/Shop_shrapnelOff.png");
 
-	Image_Pause_Mistake = CP_Image_Load("./Assets/Pause_mistake.png");
+	Image_Pause_Mistake = CP_Image_Load("./Assets/pause_mistake1.png");
+
+	Image_Win_Background = CP_Image_Load("./Assets/winscreen.png");
+
 	
 }
 
@@ -510,10 +531,20 @@ void Player_Redheartprinter(void)
 }
 
 
-
-void Screen_Pause_Print(void)											//new functuon
+void Screen_WIN_Print(void)											//new functuon
 {
 
+
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	}
+
+	CP_Image_Draw(Image_Win_Background, Win_Background.posX, Win_Background.posY, isaac_width, isaac_height, 255);
+}
+
+void Screen_PAUSE_Print(void)											//new functuon
+{
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
@@ -697,6 +728,33 @@ BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, fl
 
 }
 
+
+
+void Screen_WIN_ButtonClicked(void)											//new functuon
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		printf("button pressed  \n");
+
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		//printf("%f", mousePosX);
+		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		//{
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 206.0, 628.0, 727.0, 829.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+
+			printf("button pressed continue \n");
+			gameState = PREPROOM;
+		}
+
+
+	}
+}
+
 void Screen_PAUSE_ButtonClicked(void)											//new functuon
 {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
@@ -706,7 +764,7 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 		//printf("%f", mousePosX);
 		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
 		//{
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 270.0, 550.0, 684.0, 676.0))
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 199.0, 350.0, 699.0, 507.0))
 		{
 			//menu.enabled = FALSE;
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
@@ -716,26 +774,27 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 			gameState = PLAYING;
 		}
 
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 297.0, 510.0, 580.0, 622.0))
 		{
 			//menu.enabled = FALSE;
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed retry\n");
 		}
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 597.0, 827.0, 913.0, 915.0))
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 299.0, 661.0, 595.0, 781.0))
 		{
 			//menu.enabled = FALSE;
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed menu\n");
-			gameState = UPGRADES;
+
+			//gamePause = !gamePause;
+			gameState = MAIN_MENU;
+			//gameState = UPGRADES;
 		}
 
 	}
 }
-
-
 
 
 void Screen_PREPROOM_ButtonClicked(void)											//new functuon
@@ -983,7 +1042,7 @@ void exit_skilltreepictures(void)
 
 
 	CP_Image_Free(&Image_Pause_Mistake);
-
+	CP_Image_Free(&Image_Win_Background);
 
 
 
