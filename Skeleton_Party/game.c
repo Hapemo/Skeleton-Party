@@ -34,7 +34,7 @@ void game_init(void)
 	
 	CP_System_ShowConsole();
 
-	init_char(&knight, 200, 200, "./Assets/knight.png");
+	init_char(&knight, 200, 200, "./Assets/knightpa.png");
 	init_char(&mage, 200, 200, "./Assets/mage.png");
 	init_char(&archer, 200, 200, "./Assests/archer.png");
 

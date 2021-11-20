@@ -44,16 +44,16 @@ void preload_spawn_map(void) { //Put in game_init
 
 	//second wave
 	CP_Vector line_5 = CP_Vector_Set((WIDTH / 1.5f), -400);
-	spawn_pool_assigner(line_5, 50.0f, 50.0f, 50, 2);
+	spawn_pool_assigner(line_5, 80.0f, 50.0f, 50, 2);
 
 	CP_Vector line_6 = CP_Vector_Set(((WIDTH / 1.5f) + 50), -400);
-	spawn_pool_assigner(line_6, 50.0f, 20.0f, 50, 2);
+	spawn_pool_assigner(line_6, 80.0f, 20.0f, 50, 2);
 
 	CP_Vector line_7 = CP_Vector_Set((WIDTH /1.5f), -400);
-	spawn_pool_assigner(line_7, 50.0f, 50.0f, 50, 2);
+	spawn_pool_assigner(line_7, 80.0f, 50.0f, 50, 2);
 
 	CP_Vector line_8 = CP_Vector_Set(((WIDTH / 1.5f) + 100), -400);
-	spawn_pool_assigner(line_8, 50.0f, 20.0f, 50, 2);
+	spawn_pool_assigner(line_8, 80.0f, 20.0f, 50, 2);
 
 
 	/*CP_Vector line_5 = CP_Vector_Set(WIDTH / 6.0f, 0);
