@@ -29,29 +29,38 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 //Max screen is WDITH/1.5
 
 void preload_spawn_map(void) { //Put in game_init
-	CP_Vector line_1 = CP_Vector_Set(WIDTH, 0);
-	spawn_pool_assigner(line_1, 2.0f, 50.0f, 500, 1);
+	//first wave
+	CP_Vector line_1 = CP_Vector_Set(WIDTH/3, -5);
+	spawn_pool_assigner(line_1, 50.0f, 50.0f, 30, 1);
 
-	CP_Vector line_11 = CP_Vector_Set(0, 0);
-	spawn_pool_assigner(line_11, 20.0f, 50.0f, 50, 1);
+	CP_Vector line_2 = CP_Vector_Set(((WIDTH/3)+50), -5);
+	spawn_pool_assigner(line_2, 50.0f, 10.0f, 30, 1);
 
-	CP_Vector line_15 = CP_Vector_Set(WIDTH / 2, 0);
-	spawn_pool_assigner(line_15, 25.0f, 15.0f, 5, 1);
+	CP_Vector line_3 = CP_Vector_Set(((WIDTH / 3) -50), -5);
+	spawn_pool_assigner(line_3, 50.0f, 50.0f, 30, 1);
 
-	CP_Vector line_2 = CP_Vector_Set(WIDTH/1.5f, 0);
-	spawn_pool_assigner(line_2, 20.0f, 20.0f, 50, 2);
+	CP_Vector line_4 = CP_Vector_Set(((WIDTH / 3) + 100), -5);
+	spawn_pool_assigner(line_4, 50.0f, 10.0f, 30, 1);
 
-	CP_Vector line_3 = CP_Vector_Set(0, 0);
-	spawn_pool_assigner(line_3, 20.0f, 20.0f, 50, 3);
-	
-	CP_Vector line_4 = CP_Vector_Set(WIDTH / 3.0f, 0);
-	spawn_pool_assigner(line_4, 50.0f, 20.0f, 50, 4);
+	//second wave
+	CP_Vector line_5 = CP_Vector_Set((WIDTH / 1.5f), -400);
+	spawn_pool_assigner(line_5, 50.0f, 50.0f, 50, 2);
 
-	CP_Vector line_5 = CP_Vector_Set(WIDTH / 6.0f, 0);
+	CP_Vector line_6 = CP_Vector_Set(((WIDTH / 1.5f) + 50), -400);
+	spawn_pool_assigner(line_6, 50.0f, 20.0f, 50, 2);
+
+	CP_Vector line_7 = CP_Vector_Set((WIDTH /1.5f), -400);
+	spawn_pool_assigner(line_7, 50.0f, 50.0f, 50, 2);
+
+	CP_Vector line_8 = CP_Vector_Set(((WIDTH / 1.5f) + 100), -400);
+	spawn_pool_assigner(line_8, 50.0f, 20.0f, 50, 2);
+
+
+	/*CP_Vector line_5 = CP_Vector_Set(WIDTH / 6.0f, 0);
 	spawn_pool_assigner(line_5, 100.0f, 20.0f, 50, 101);
 
 	CP_Vector line_6 = CP_Vector_Set(WIDTH / 4.0f, 0);
-	spawn_pool_assigner(line_6, 100.0f, 20.0f, 3, 5);
+	spawn_pool_assigner(line_6, 100.0f, 20.0f, 3, 5);*/
 }
 
 void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type) {

@@ -130,7 +130,8 @@ void DrawHP(float currentHealth, float maxHealth)
 
 void LoadBackgroundImage()
 {
-	gameBackground = CP_Image_Load("./Assets/BackgroundTest.png");
+	gameBackground = CP_Image_Load("./Assets/bgpic.jpg");
+	
 }
 
 
