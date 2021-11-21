@@ -976,17 +976,27 @@ void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
 		//printf("%f", mousePosX);
 		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
 		//{
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 8.0, 6.0, 951.0, 1028.0))
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 820.0, 403.0, 939.0))
 		{
 			//menu.enabled = FALSE;
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			// pressany button to coninure 
 
-			printf("button pressed continue \n");
-			//gameState = PREPROOM;
+			printf("button pressed mm \n");
+			gameState = MAIN_MENU;
 		}
 
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 557.0, 822.0, 906.0, 936.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			// pressany button to coninure 
+
+			printf("button pressed retry \n");
+			//gameState = MAIN_MENU;
+		}
 
 	}
 }

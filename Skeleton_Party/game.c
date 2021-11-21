@@ -238,7 +238,7 @@ void game_update(void)
 		case LOSE:
 			TerminateFullscreen();
 			Screen_GAMEOVER_Print();
-			//Screen_GAMEOVER_ButtonClicked();
+			Screen_GAMEOVER_ButtonClicked();
 
 			break;
 
