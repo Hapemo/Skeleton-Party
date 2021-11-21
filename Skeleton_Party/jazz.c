@@ -748,7 +748,6 @@ void print_piercing_bullet(void) {
 
 void piercing_bullet_collision(void) {
 	//Check array of bullet with array of enemy
-	int killed;
 
 	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
 		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
