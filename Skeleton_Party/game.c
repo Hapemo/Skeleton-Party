@@ -152,6 +152,7 @@ void game_update(void)
 			
 			player_touch_enemy();
 			EnemyCollision();
+			DrawItem()
 			/*if (bug.alive == 1)
 			{
 				if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
@@ -162,7 +163,7 @@ void game_update(void)
 
 			/***********************************************************PRINTing*****************************************************************/
 
-			DrawItem();
+			;
 			// isaac's enemy movement functions. Update enemy and print 
 			/*UpdateEnemyMovement();
 			Enemy_printer();

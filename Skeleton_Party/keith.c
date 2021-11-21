@@ -349,52 +349,80 @@ void EnableMenu()
 
 void DropStuff(float posX, float posY)
 {
+	for (int i = 0, j = 0; i <= j && j < MAX_DROP; i++)
+	{
+		if (item_pool[i].enabled == 0)
+		{
+			int randomChanceSpawnRate = CP_Random_RangeInt(0, 99);
 
-	item.position.x = posX;
-	item.position.y = posY;
+			if (randomChanceSpawnRate >= 0 && randomChanceSpawnRate < 19)
+			{
+				item_pool[i].position.x = posX;
+				item_pool[i].position.y = posY;
+				item_pool[i].width = 45;
+				item_pool[i].height = 50;
+				item_pool[i].enabled = 1;
+				int randomChance = CP_Random_RangeInt(0, 2);
+				item_pool[i].id = randomChance;
+				j++;
+				printf("Spawned: %d", item_pool[i].enabled);
+			}
+		}
+		else
+		{
+			j++;
+		}
+	}
 
-	
-	//item.id = id;
-	int randomChance = rand() % 2;
-	item.id = randomChance;
-	item.enabled = 1;
 }
 
 void DrawItem()
 {
-	if (item.enabled == 1)
+	for (int i = 0; i < MAX_DROP; i++)
 	{
-		switch (item.id)
+		if (item_pool[i].enabled == 1)
 		{
-		case 0:
-			item.sprite = CP_Image_Load("./Assets/healthBoost.png");
-			CP_Image_Draw(item.sprite, item.position.x, item.position.y, item.width, item.height, 255);
-			if (CheckIfBoxesOverlap(item.position.x, item.position.y, item.width, item.height, knight.position.x, knight.position.y, knight.width, knight.height))
+			switch (item_pool[i].id)
 			{
-				if (DoubleHeal == TRUE)
+			case 0:
+				item_pool[i].sprite = CP_Image_Load("./Assets/healthBoost.png");
+				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, 255);
+				if (CheckIfBoxesOverlap(item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, knight.position.x, knight.position.y, knight.width, knight.height))
 				{
-					PlayerHealed(2);
-					item.enabled = 0;
+					if (DoubleHeal == TRUE)
+					{
+						PlayerHealed(2);
+						item_pool[i].enabled = 0;
+					}
+					else
+					{
+						PlayerHealed(1);
+						item_pool[i].enabled = 0;
+					}
+
 				}
-				else
+				break;
+			case 1:
+				item_pool[i].sprite = CP_Image_Load("./Assets/speedBoost.png");
+				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, 255);
+				if (CheckIfBoxesOverlap(item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, knight.position.x, knight.position.y, knight.width, knight.height))
 				{
-					PlayerHealed(1);
-					item.enabled = 0;
+					knight.speedbuff = TRUE;
+					item_pool[i].enabled = 0;
+
 				}
-				
-			}
-			break;
-		case 1:
-			item.sprite = CP_Image_Load("./Assets/speedBoost.png");
-			CP_Image_Draw(item.sprite, item.position.x, item.position.y, item.width, item.height, 255);
-			if (CheckIfBoxesOverlap(item.position.x, item.position.y, item.width, item.height, knight.position.x, knight.position.y, knight.width, knight.height))
-			{
-				knight.speedbuff = TRUE;
-				item.enabled = 0;
+
+				break;
+			default:
+				/*item_pool[i].position.x = 0;
+				item_pool[i].position.y = 0;
+				item_pool[i].width = 0;
+				item_pool[i].height = 0;
+				item_pool[i].enabled = 0;*/
+				//printf
+				break;
 
 			}
-
-			break;
 		}
 	}
 }

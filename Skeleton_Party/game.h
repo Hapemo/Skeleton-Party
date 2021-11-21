@@ -3,6 +3,7 @@
 extern float tick_p, * tick ; //This is for the tick timer. *tick will give back the tick 
 
 
+#define MAX_DROP 100
 #define TRUE 1
 #define FALSE 0
 #define BOOL CP_BOOL
@@ -115,6 +116,8 @@ struct Enemy enemy_pool[MAX_ENEMY];
 struct mother_enemy mother_enemy_pool[MAX_MOTHER_ENEMY];
 
 struct Item item;
+struct Item item_pool[MAX_DROP];
+
 
 void EnableMenu();
 void Damage(float damage);

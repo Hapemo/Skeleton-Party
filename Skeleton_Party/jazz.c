@@ -230,6 +230,7 @@ void sword_explosion_collision(void) {
 
 				if (killed) {
 					collide = 1; //This changes the color of the lightbulb
+					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 					enemy_pool[j].alive = 0;
 				}
 			}
