@@ -41,26 +41,27 @@ void preload_spawn_map(void) { //Put in game_init
 
 	CP_Vector line_4 = CP_Vector_Set(((WIDTH / 3) + 100), -5);
 	spawn_pool_assigner(line_4, 50.0f, 10.0f, 30, 1);
+	
 
 	//second wave
 	CP_Vector line_5 = CP_Vector_Set((WIDTH / 1.5f), -400);
-	spawn_pool_assigner(line_5, 100.0f, 50.0f, 50, 5);
+	spawn_pool_assigner(line_5, 20.0f, 1600.0f, 50, 5);
 
 	CP_Vector line_6 = CP_Vector_Set(((WIDTH / 1.5f) + 50), -400);
-	spawn_pool_assigner(line_6, 100.0f, 20.0f, 50, 5);
+	spawn_pool_assigner(line_6, 50.0f, 1600.0f, 50, 5);
 
 	CP_Vector line_7 = CP_Vector_Set((WIDTH /1.5f), -400);
-	spawn_pool_assigner(line_7, 100.0f, 50.0f, 50, 5);
+	spawn_pool_assigner(line_7, 20.0f, 1600.0f, 50, 5);
 
 	CP_Vector line_8 = CP_Vector_Set(((WIDTH / 1.5f) + 100), -400);
-	spawn_pool_assigner(line_8, 100.0f, 20.0f, 50, 5);
+	spawn_pool_assigner(line_8, 50.0f, 1600.0f, 50, 5);
 
 	//third wave
 	CP_Vector line_9 = CP_Vector_Set((WIDTH / 2)+150, -400);
-	spawn_pool_assigner(line_9, 200.0f, 20.0f, 50, 101);
+	spawn_pool_assigner(line_9, 20.0f, 4300.0f, 50, 101);
 
 	CP_Vector line_10 = CP_Vector_Set(WIDTH / 2, -400);
-	spawn_pool_assigner(line_10, 200.0f, 20.0f, 3, 101);
+	spawn_pool_assigner(line_10, 20.0f, 4300.0f, 3, 101);
 }
 
 
