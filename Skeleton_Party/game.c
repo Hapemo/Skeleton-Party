@@ -70,12 +70,12 @@ void game_update(void)
 			{
 				gamePause = !gamePause;
 				gameState = PAUSED;
-				//gameState = PREPROOM;
-				//gameState = UPGRADES ;
-				//gameState = SHOP;
-				//gameState = SKILL;
-				//gameState = WIN;
-				//gameState = LOSE;
+				gameState = PREPROOM;
+				gameState = UPGRADES ;
+				gameState = SHOP;
+				gameState = SKILL;
+				gameState = WIN;
+				gameState = LOSE;
 			}
 			
 			DrawGameCanvas();
@@ -113,7 +113,7 @@ void game_update(void)
 			}
 			else if (CurrentCharacter == archerint)
 			{
-				//piercing_shooting_check(knight.position);
+				piercing_shooting_check(knight.position);
 			}
 			
 			//DrawPlayerHealth();
@@ -130,7 +130,7 @@ void game_update(void)
 
 			melee_update(knight.position);
 			explosion_update();
-			
+			update_piercing_bullet_travel();
 	
 			
 			

@@ -281,15 +281,15 @@ void print_shrapnel(void);
 
 void shrapnel_collision(void);
 
-//void piercing_bullet_collision(void);
-//
-//void print_piercing_bullet(void);
-//
-//void update_piercing_bullet_travel(void);
-//
-//void shoot_piercing_bullet(CP_Vector position, float charge);
-//
-//void piercing_shooting_check(CP_Vector position);
+void piercing_bullet_collision(void);
+
+void print_piercing_bullet(void);
+
+void update_piercing_bullet_travel(void);
+
+void shoot_piercing_bullet(CP_Vector position, float charge);
+
+void piercing_shooting_check(CP_Vector position);
 
 void run_once_only(void);
 
@@ -321,6 +321,10 @@ void preload_spawn_map(void);
 void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type);
 
 void enemy_out_of_screen(int enemy_not_mother, int enemy_i);
+
+void print_enemy(CP_Vector position, float size);
+
+void print_charge(CP_Vector position, float charge);
 
 //These are the function that updates the positions every frame
 	void movement_pattern_vertical_and_diagonal(void);

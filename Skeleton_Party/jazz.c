@@ -101,23 +101,9 @@ void melee_attack(CP_Vector position) {
 				unsigned int random_int = CP_Random_RangeInt(0, 1000);
 				if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
 			}
-
-
 			enemy_pool[j].alive = 0;
 		}
 	}
-
-	//Old sword collision
-	//for (int j = 0; j < MAX_ENEMY; j++) {
-	//	if (!(enemy_pool[j].alive)) continue;
-
-	//	if (rect_collision(enemy_pool[j].position, position, vec1, vec2, enemy_pool[j].size)) { //If collide with enemy
-	//		*pcollide = 1;
-
-	//		unsigned int random_int = CP_Random_RangeInt(0, 1000);
-	//		if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
-	//	}
-	//}
 
 	//Resets the animation of the attack
 	if (!(-melee_max_angle < melee_angle && melee_angle < melee_max_angle)) {
@@ -360,7 +346,7 @@ float tick_p = 0, * tick = &tick_p;
 
 void timer(void) {
 	*tick += 1;
-	//printf("tick count: %f", *tick);
+	//printf("tick count: %f\n", *tick);
 	if (*tick == INT_MAX) *tick = 0;
 }
 
@@ -659,15 +645,15 @@ void shrapnel_collision(void) {
 }
 
 
-/*
+
 #define MAX_PIERCING_BULLET (20)
-#define BULLET_WIDTH (WIDTH / 150)
-#define BULLET_LENGTH (WIDTH / 10)
+#define BULLET_WIDTH (WIDTH / 1000 * 14)
+#define BULLET_LENGTH (WIDTH / 1000 * 69)
 #define BULLET_ANGLE 0
 #define PIERCING_BULLET_SPEED 25.0f
 CP_Vector piercing_bullet_pool[MAX_BULLET] = { 0 };
 
-#define MAX_CHARGE (500.0f)
+#define MAX_CHARGE (50.0f)
 #define MAX_CHARGE_POOL (20)
 float piercing_charge = 0, max_piercing_charge = 500.0f, charge_pool[MAX_CHARGE_POOL] = { 0 };
 
@@ -675,7 +661,7 @@ void piercing_shooting_check(CP_Vector position) {
 
 	if (CP_Input_KeyDown(KEY_SPACE)) {
 		if (!(piercing_charge >= MAX_CHARGE)) piercing_charge++;
-
+		print_charge(position, piercing_charge);
 		printf("charge: %f", piercing_charge);
 	} 
 
@@ -692,9 +678,31 @@ void shoot_piercing_bullet(CP_Vector position, float charge) {
 		if (piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0) {
 			piercing_bullet_pool[i] = position;
 			charge_pool[i] = charge/10;
+			piercing_bullet_pool[i].x = piercing_bullet_pool[i].x - (BULLET_WIDTH / 2.0f)* charge / 10; //if not the collision will be wrong
 			break;
 		}
 	}
+}
+
+void print_charge(CP_Vector position, float charge) {
+
+	float ratio = charge / MAX_CHARGE;
+
+	// Create transform matrices
+	CP_Matrix translate = CP_Matrix_Translate(position); //bring attack to position
+
+	// Set the camera transfrom to the created matrix
+	CP_Settings_ApplyMatrix(translate);
+
+	// Draw a blue rectangle that rotates
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Graphics_DrawRect(-50, 70, 100, 20);
+
+	CP_Settings_Fill(CP_Color_Create(0, 0, 100, 255));
+	CP_Graphics_DrawRect(-50, 70, 100*ratio, 20);
+
+	// Reset the matrix to the identity matrix
+	CP_Settings_ResetMatrix();
 }
 
 void update_piercing_bullet_travel(void) {
@@ -713,6 +721,9 @@ void update_piercing_bullet_travel(void) {
 void print_piercing_bullet(void) {
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
+
+			CP_Image arrow_pic = CP_Image_Load("./Assets/arrow.png");
+
 			CP_Settings_Fill(COLOR_BLUE);
 			// Create transform matrices
 			CP_Matrix translate = CP_Matrix_Translate(piercing_bullet_pool[i]); //bring attack to position
@@ -725,8 +736,9 @@ void print_piercing_bullet(void) {
 			CP_Settings_ApplyMatrix(transform);
 
 			// Draw a blue rectangle that rotates
-			CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
-			CP_Graphics_DrawRect(0, 0, BULLET_WIDTH * charge_pool[i], BULLET_LENGTH);
+			/*CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
+			CP_Graphics_DrawRect(0, 0, BULLET_WIDTH * charge_pool[i], BULLET_LENGTH * charge_pool[i]);*/
+			CP_Image_Draw(arrow_pic, BULLET_WIDTH * charge_pool[i] / 2, 0, BULLET_WIDTH * charge_pool[i], BULLET_LENGTH * charge_pool[i], 255);
 
 			// Reset the matrix to the identity matrix
 			CP_Settings_ResetMatrix();
@@ -742,12 +754,10 @@ void piercing_bullet_collision(void) {
 		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
 
 			CP_Vector vec1 = rotate_vector(BULLET_WIDTH * charge_pool[i], BULLET_ANGLE, E1); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
-			CP_Vector vec2 = rotate_vector(BULLET_LENGTH, BULLET_ANGLE, E2);
+			CP_Vector vec2 = rotate_vector(BULLET_LENGTH * charge_pool[i], BULLET_ANGLE, E2);
 			
 			for (int j = 0; j < MAX_ENEMY; j++) {
 				if (!(enemy_pool[j].alive)) continue;
-				killed = 0;
-
 				if (rect_collision(enemy_pool[j].position, piercing_bullet_pool[i], vec1, vec2, enemy_pool[j].size)) {
 					//piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
 					*pcollide = 1;
@@ -756,6 +766,20 @@ void piercing_bullet_collision(void) {
 					//Suppose to change enemy alive or dead state here
 				}
 			}
+
+			for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {
+				if (!(mother_enemy_pool[j].alive)) continue;
+				for (int k = 0; k < MAX_CHILDREN; k++) {
+					if (!(mother_enemy_pool[j].children[k].alive)) continue;
+
+					if (rect_collision(mother_enemy_pool[j].children[k].position, piercing_bullet_pool[i], vec1, vec2, mother_enemy_pool[j].children[k].size)) {
+						*pcollide = 1;
+
+						mother_enemy_pool[j].children[k].alive = 0;
+					}
+				}
+			}
 		}
 	}
-}*/
+
+}

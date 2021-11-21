@@ -4,7 +4,7 @@
 #include "cprocessing.h"
 #include "game.h"
 
-#define ENEMY_SIZE 20
+#define ENEMY_SIZE 20.0f
 #define ENEMY_CIRCLE_COUNT 10
 #define ENEMY_SPEED 5
 
@@ -202,7 +202,8 @@ void movement_pattern_vertical_and_diagonal(void) {
 				break;
 		}
 
-		CP_Graphics_DrawCircle(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size * 2); //Prints enemy
+		//CP_Graphics_DrawCircle(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size * 2); //Prints enemy
+		print_enemy(enemy_pool[i].position, enemy_pool[i].size);
 	}
 }
 
@@ -253,7 +254,8 @@ void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position)
 
 
 		if (!(mother_enemy_pool[mother_i].children[i].alive)) continue;
-		CP_Graphics_DrawCircle(mother_enemy_pool[mother_i].children[i].position.x, mother_enemy_pool[mother_i].children[i].position.y, mother_enemy_pool[mother_i].children[i].size * 2); //Prints enemy
+		print_enemy(mother_enemy_pool[mother_i].children[i].position, mother_enemy_pool[mother_i].children[i].size);
+		//CP_Graphics_DrawCircle(mother_enemy_pool[mother_i].children[i].position.x, mother_enemy_pool[mother_i].children[i].position.y, mother_enemy_pool[mother_i].children[i].size * 2); //Prints enemy
 	}
 }
 
@@ -274,4 +276,9 @@ void enemy_out_of_screen(int enemy_not_mother, int enemy_i) {
 			}
 		}
 	}
+}
+
+void print_enemy(CP_Vector position, float size) {
+	CP_Image enemy_pic = CP_Image_Load("./Assets/enemy.png");
+	CP_Image_Draw(enemy_pic, position.x, position.y, size*2, size*2, 255);
 }
