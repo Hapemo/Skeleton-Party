@@ -23,11 +23,15 @@
 #define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
 
+CP_Image instructionScreen  = NULL;
 CP_Image gameBackground = NULL;
 CP_Image playButtonImage = NULL;
 CP_Image titleImage = NULL;
 CP_Image creditButtonImage = NULL;
 CP_Image quitButtonImage = NULL;
+CP_Image instructionsButtonImage = NULL;
+CP_Image returnImage = NULL;
+
 BOOL fullScreen = FALSE;
 
 CP_Font myFont;
@@ -35,30 +39,24 @@ CP_Font myFont;
 
 //BOOL clicked = FALSE;
 
-struct PlayButton {
+struct Button {
 
 	float posX;
 	float posY;
 	float width;
 	float height;
-}playButton;
+};
 
-struct CreditsButton {
 
-	float posX;
-	float posY;
-	float width;
-	float height;
-}creditButton;
+struct Button playButton;
+struct Button creditButton;
+struct Button quitButton;
+struct Button instructionsButton;
+struct Button returnButton;
 
-struct QuitButton {
 
-	float posX;
-	float posY;
-	float width;
-	float height;
-}quitButton;
 
+void ReturnMainMenuClicked();
 
 struct Menu {
 	
@@ -104,6 +102,9 @@ void InitializeVariables()
 	titleImage = CP_Image_Load("./Assets/skele_party.png");
 	creditButtonImage = CP_Image_Load("./Assets/credits.png");
 	quitButtonImage = CP_Image_Load("./Assets/quit.png");
+	returnImage = CP_Image_Load("./Assets/return.png");
+	instructionsButtonImage = CP_Image_Load("./Assets/Instructions.png");
+	
 }
 
 void Damage(float damage)
@@ -223,29 +224,36 @@ void DrawMenuCanvas()
 		CP_Graphics_DrawRect(menu.posX + menu.width/2, menu.posY + menu.height/2,
 			menu.width, menu.height);
 
-		CP_Settings_Fill(COLOR_GREEN);
 		playButton.posX = menu.width / 2.0f;
-		playButton.posY = menu.height * (3.0f / 7.0f);
-		playButton.width = menu.width / 4.0f;
-		playButton.height = menu.height / 6.4f;
+		playButton.posY = menu.height * (2.0f / 6.0f);
+		playButton.width = menu.width / 3.0f;
+		playButton.height = menu.height / 8.0f;
+
+		instructionsButton.posX = menu.width/ 2.0f;
+		instructionsButton.posY = menu.height * (3.0f / 6.0f) + 15.0f;
+		instructionsButton.width = menu.width / 3.0f;
+		instructionsButton.height = menu.height / 8.0f;
 
 		creditButton.posX = menu.width / 2.0f;
-		creditButton.posY = menu.height * (4.0f / 7.0f) + 25.0f;
-		creditButton.width = menu.width / 4.0f;
-	    creditButton.height = menu.height / 6.4f;
+		creditButton.posY = menu.height * (4.0f / 6.0f) + 30.0f;
+		creditButton.width = menu.width / 3.0f;
+	    creditButton.height = menu.height / 8.0f;
 
 		quitButton.posX = menu.width / 2.0f;
-		quitButton.posY = menu.height * (5.0f / 7.0f) + 50.0f;
-		quitButton.width = menu.width / 4.0f;
-		quitButton.height = menu.height / 6.4f;
+		quitButton.posY = menu.height * (5.0f / 6.0f) + 45.0f;
+		quitButton.width = menu.width / 3.0f;
+		quitButton.height = menu.height / 8.0f;
+
+
 
 		CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
 		CP_Image_Draw(creditButtonImage, creditButton.posX , creditButton.posY, creditButton.width, creditButton.height, 255);
 		CP_Image_Draw(quitButtonImage, quitButton.posX, quitButton.posY, quitButton.width, quitButton.height, 255);
+		CP_Image_Draw(instructionsButtonImage, instructionsButton.posX, instructionsButton.posY, instructionsButton.width, instructionsButton.height, 255);
 		CP_Image_Draw(titleImage, creditButton.posX, menu.height / 8.0f + 50.0f , menu.width * 0.75f, menu.height/ 6.0f ,255);
 		//CP_Settings_TextSize(6 * (playButton.width / menu.width * 100));
 
-		CP_Settings_Fill(COLOR_WHITE);
+		//CP_Settings_Fill(COLOR_WHITE);
 		//CP_Font_DrawTextBox("Play", playButton.posX + playButton.width / 6.5f, playButton.posY + playButton.height / 1.5f, playButton.width);
 		CP_Settings_RectMode(CP_POSITION_CORNER);
 	}
@@ -280,6 +288,35 @@ void DrawGameCanvas()
 }
 
 
+void DrawInstructionsCanvas()
+{
+
+	instructionScreen = CP_Image_Load("./Assets/tutScreen.png");
+	float width = (float)CP_System_GetWindowWidth();
+	float height = (float)CP_System_GetWindowHeight();
+	CP_Image_Draw(instructionScreen, width / 2, height / 2, width, height, 255);
+
+	returnButton.posX = width / 10.0f;
+	returnButton.posY = height *(0.925f);
+	returnButton.width = width / 7.0f;
+	returnButton.height = height / 15.0f;
+	CP_Image_Draw(returnImage, returnButton.posX, returnButton.posY, returnButton.width, returnButton.height, 255);
+
+}
+
+void ReturnMainMenuClicked()
+{
+	float mousePosX = CP_Input_GetMouseX();
+	float mousePosY = CP_Input_GetMouseY();
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, returnButton.width, returnButton.height, returnButton.posX, returnButton.posY))
+		{
+			gameState = MAIN_MENU;
+		}
+	}
+}
+
 void ButtonClicked()
 {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
@@ -306,6 +343,10 @@ void ButtonClicked()
 			menu.enabled = TRUE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
 		}
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, instructionsButton.width, instructionsButton.height, instructionsButton.posX, instructionsButton.posY))
+		{
+			gameState = INSTRUCTIONS;
+		}
 	}
 }
 
@@ -326,10 +367,10 @@ void FullscreenMode()
 	else
 	{
 
-		int widthOfDisplay = CP_System_GetDisplayWidth();
-		float newWidthOfDisplay = widthOfDisplay / 2.0f;
-		int heightOfDisplay = CP_System_GetDisplayHeight();
-		CP_System_SetWindowSize((int)newWidthOfDisplay, heightOfDisplay);
+		//int widthOfDisplay = CP_System_GetDisplayWidth();
+		float newWidthOfDisplay = WIDTH;
+		float heightOfDisplay = HEIGHT;
+		CP_System_SetWindowSize((int)newWidthOfDisplay, (int)heightOfDisplay);
 	}
 }
 
@@ -407,6 +448,7 @@ void DrawItem()
 				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, 255);
 				if (CheckIfBoxesOverlap(item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, knight.position.x, knight.position.y, knight.width, knight.height))
 				{
+					
 					knight.speedbuff = TRUE;
 					item_pool[i].enabled = 0;
 

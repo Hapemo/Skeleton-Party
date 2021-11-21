@@ -75,7 +75,6 @@ void melee_attack(CP_Vector position) {
 			if (rect_collision(mother_enemy_pool[j].children[k].position, position, vec1, vec2, mother_enemy_pool[j].children[k].size)) killed = 1;
 			if (killed) {
 				*pcollide = 1;
-
 				if (shockwavestate) {
 					printf("explosion is activated");
 					unsigned int random_int = CP_Random_RangeInt(0, 1000);
@@ -96,7 +95,7 @@ void melee_attack(CP_Vector position) {
 
 		if (killed) {
 			*pcollide = 1;
-
+			DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 			if (shockwavestate) {
 				printf("explosion is activated");
 				unsigned int random_int = CP_Random_RangeInt(0, 1000);

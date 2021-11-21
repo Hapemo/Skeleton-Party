@@ -207,7 +207,10 @@ void game_update(void)
 		
 			ButtonClicked();
 			break;
-
+		case INSTRUCTIONS:
+			DrawInstructionsCanvas();
+			ReturnMainMenuClicked();
+			break;
 		case WIN:
 
 			if (DoubleDrop == TRUE)

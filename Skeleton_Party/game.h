@@ -33,7 +33,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define darkviolet CP_Color_Create(148, 0, 211, 255)
 
 
-enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE};
+enum GameStates { MAIN_MENU, INSTRUCTIONS, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE};
 enum GameStates gameState;
 
 int Exp, Gold ;
@@ -158,7 +158,8 @@ void exit_PlayerHP(void);
 //void UpdateEnemyMovement(void);
 //void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
-
+void ReturnMainMenuClicked();
+void DrawInstructionsCanvas();
 void InvulnerabilityFrame();
 void EnemyCollision();
 void SpeedBuffEffect();
