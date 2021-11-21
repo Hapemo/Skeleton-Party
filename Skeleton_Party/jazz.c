@@ -686,7 +686,7 @@ void shoot_piercing_bullet(CP_Vector position, float charge) {
 
 void print_charge(CP_Vector position, float charge) {
 
-	//float ratio = charge / MAX_CHARGE;
+	float ratio = charge / MAX_CHARGE;
 
 	// Create transform matrices
 	CP_Matrix translate = CP_Matrix_Translate(position); //bring attack to position
@@ -695,11 +695,11 @@ void print_charge(CP_Vector position, float charge) {
 	CP_Settings_ApplyMatrix(translate);
 
 	// Draw a blue rectangle that rotates
-	//CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	//CP_Graphics_DrawRect(-50, 70, 100, 20);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Graphics_DrawRect(-50, 70, 100, 20);
 
-	//CP_Settings_Fill(CP_Color_Create(0, 0, 100, 255));
-	//CP_Graphics_DrawRect(-50, 70, 100*ratio, 20);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 100, 255));
+	CP_Graphics_DrawRect(-50, 70, 100*ratio, 20);
 
 	// Reset the matrix to the identity matrix
 	CP_Settings_ResetMatrix();

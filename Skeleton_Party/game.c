@@ -13,7 +13,7 @@ float originalYposition;
 void game_init(void)
 {
 	gamePause = 0;
-	gameState = MAIN_MENU;
+	gameState = LOGO;
     CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
@@ -65,6 +65,12 @@ void game_update(void)
 		
 		switch (gameState)
 		{
+		case LOGO:
+		DrawLogoScreen();
+
+		break;
+
+
 		case PLAYING:
 
 			DeathCondition();
