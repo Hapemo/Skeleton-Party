@@ -8,6 +8,7 @@ struct character knight, mage, archer;
 int CurrentCharacter = 0;
 
 
+
 void game_init(void)
 {
 	gamePause = 0;
@@ -45,7 +46,7 @@ void game_init(void)
 void game_update(void)
 {
 	
-	TerminateFullscreen();
+	//TerminateFullscreen();
 
 	//FullscreenKeyPressed();
 
@@ -61,6 +62,10 @@ void game_update(void)
 		switch (gameState)
 		{
 		case PLAYING:
+
+			//DeathCondition();
+			TerminateFullscreen();
+
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{
 				gamePause = !gamePause;
@@ -69,8 +74,8 @@ void game_update(void)
 				//gameState = UPGRADES ;
 				//gameState = SHOP;
 				//gameState = SKILL;
-
-			
+				//gameState = WIN;
+				//gameState = LOSE;
 			}
 			
 			DrawGameCanvas();
@@ -120,13 +125,18 @@ void game_update(void)
 
 			//Attack updates
 			// 
-			//if (shrapnelstate == TRUE)
+			if (shrapnelstate == TRUE)
 				shrapnel_update();
+
+			if (shockwavestate == TRUE)
+			{
+				
+			}
 
 			melee_update(knight.position);
 			explosion_update();
-			
 			sword_explosion_update();
+			
 	
 			
 			
@@ -141,6 +151,7 @@ void game_update(void)
 			SpeedBuffEffect();
 			
 			player_touch_enemy();
+			EnemyCollision();
 			/*if (bug.alive == 1)
 			{
 				if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
@@ -161,14 +172,23 @@ void game_update(void)
 			Player_Redheartprinter();
 			Player_Emptyheartprinter();
 
+			CP_Settings_TextSize(100);
+			CP_Settings_Fill(darkviolet);
+			ScorePrinter(Exp, 850, 80);
+
+
+			CP_Settings_Fill(darkviolet);
+			ScorePrinter(Gold, 690, 80);
+
+
 			break;
 		case PAUSED:
 			
 			
-			//Screen_Pause_Print();
-			//Screen_PAUSE_ButtonClicked();
-			DrawPauseCanvas();
-			PauseButtonClicked();
+			Screen_PAUSE_Print();
+			Screen_PAUSE_ButtonClicked();
+			//DrawPauseCanvas();
+			//PauseButtonClicked();
 
 
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
@@ -183,6 +203,8 @@ void game_update(void)
 
 		case MAIN_MENU:
 
+			TerminateFullscreen();
+			EnableMenu();
 			play_menubg();
 			DrawMenuButton();
 
@@ -191,10 +213,31 @@ void game_update(void)
 		
 			ButtonClicked();
 			break;
+
 		case WIN:
+
+			if (DoubleDrop == TRUE)
+			{
+				Exp += (additionalExp*2 );
+				Gold += (additionalGold*2);
+			}
+			else
+			{
+				Exp += additionalExp;
+				Gold += additionalGold;
+			}
+
+			Screen_WIN_Print();
+			Screen_WIN_ButtonClicked();
+
 			break;
 		case LOSE:
+			TerminateFullscreen();
+			Screen_GAMEOVER_Print();
+			//Screen_GAMEOVER_ButtonClicked();
+
 			break;
+
 		case EXIT:
 
 			CP_Engine_Terminate();

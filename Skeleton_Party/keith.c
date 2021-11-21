@@ -87,6 +87,8 @@ struct HealthBar {
 
 void InitializeVariables()
 {
+	knight.speedbuff = FALSE;
+	knight.invulnerability = FALSE;
 	item.height = 50;
 	item.width = 50;
 	item.enabled = 0;
@@ -365,16 +367,25 @@ void DrawItem()
 		switch (item.id)
 		{
 		case 0:
-			item.sprite = CP_Image_Load("./Assets/item1.png");
+			item.sprite = CP_Image_Load("./Assets/healthBoost.png");
 			CP_Image_Draw(item.sprite, item.position.x, item.position.y, item.width, item.height, 255);
 			if (CheckIfBoxesOverlap(item.position.x, item.position.y, item.width, item.height, knight.position.x, knight.position.y, knight.width, knight.height))
 			{
-				PlayerHealed(1);
-				item.enabled = 0;
+				if (DoubleHeal == TRUE)
+				{
+					PlayerHealed(2);
+					item.enabled = 0;
+				}
+				else
+				{
+					PlayerHealed(1);
+					item.enabled = 0;
+				}
+				
 			}
 			break;
 		case 1:
-			item.sprite = CP_Image_Load("./Assets/item2.png");
+			item.sprite = CP_Image_Load("./Assets/speedBoost.png");
 			CP_Image_Draw(item.sprite, item.position.x, item.position.y, item.width, item.height, 255);
 			if (CheckIfBoxesOverlap(item.position.x, item.position.y, item.width, item.height, knight.position.x, knight.position.y, knight.width, knight.height))
 			{
@@ -385,6 +396,23 @@ void DrawItem()
 
 			break;
 		}
+	}
+}
+
+
+
+void InvulnerabilityFrame()
+{
+	static float timer = 30.0f;
+
+	if (timer > 0)
+	{
+		timer -= CP_System_GetDt();
+		printf("timer: %f\n", timer);
+	}
+	else
+	{	knight.invulnerability = FALSE;
+		timer = 30.0f;
 	}
 }
 
@@ -434,5 +462,27 @@ void SpeedBuffEffect()
 	{
 		originalSpeed = knight.speed;
 
+	}
+}
+
+void EnemyCollision()
+{
+
+	for (int i = 0; i < MAX_ENEMY; i++)
+	{
+		if (enemy_pool[i].alive == 1)
+		{
+			if (CheckIfBoxesOverlap(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size, enemy_pool[i].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
+			{
+				Playertakedamage(1);
+				printf("Damage Taken: %d\n", 1);
+				knight.invulnerability = TRUE;
+			}
+			if (knight.invulnerability == TRUE)
+			{
+				InvulnerabilityFrame();
+				//printf("knight.invulnerability: %u\n", knight.invulnerability);
+			}
+		}
 	}
 }

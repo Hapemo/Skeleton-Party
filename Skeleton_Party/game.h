@@ -28,13 +28,21 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
 #define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 #define COLOR_PURPLE CP_Color_Create(128,0,128, 255)
+#define pueple CP_Color_Create(255, 0, 0, 255)
+#define darkviolet CP_Color_Create(148, 0, 211, 255)
+
 
 enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE};
 enum GameStates gameState;
 
+int Exp, Gold ;
+int additionalExp, additionalGold;
+
+BOOL DoubleExp, DoubleGold, DoubleHeal, DoubleDrop ;
+
 int gamePause;
 enum { knightint, mageint, archerint };
-BOOL shrapnelstate;
+BOOL shrapnelstate, shockwavestate;
 
 
 typedef struct EnemySprite
@@ -55,6 +63,7 @@ struct character
 	float height;
 	float speed;
 	BOOL speedbuff;
+	BOOL invulnerability;
 };
 
 struct character knight;
@@ -119,11 +128,12 @@ void PlayerHealed(int healAmt);
 int PlayerGethealth(void);
 
 
+
 void init_PlayerHP(void);
 
 void Player_Emptyheartprinter(void);
 void Player_Redheartprinter(void);
-
+void DeathCondition(void);
 
 void exit_PlayerHP(void);
 
@@ -146,6 +156,8 @@ void exit_PlayerHP(void);
 //void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
 
+void InvulnerabilityFrame();
+void EnemyCollision();
 void SpeedBuffEffect();
 void DropStuff(float posX, float posY);
 void DrawItem();
@@ -334,13 +346,17 @@ void free_audio();
 void InitializeSkillShopUI(void);
 BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy);
 
-
-void Screen_Pause_Print(void);
+void ScorePrinter(int score, float x, float y);
+void Screen_GAMEOVER_Print(void);
+void Screen_WIN_Print(void);
+void Screen_PAUSE_Print(void);
 void Screen_PREPROOM_Print(void);	
 void Screen_UPGRADES_Print(void);
 void Screen_SHOP_Print(void);
 void Screen_SKILL_Print(void);
 
+void Screen_GAMEOVER_ButtonClicked(void);
+void Screen_WIN_ButtonClicked(void);
 void Screen_PAUSE_ButtonClicked(void);
 void Screen_PREPROOM_ButtonClicked(void);
 void Screen_UPGRADE_ButtonClicked(void);
