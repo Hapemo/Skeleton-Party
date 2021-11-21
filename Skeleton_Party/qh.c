@@ -49,6 +49,24 @@ void init_char(struct character *spritename, float spawnx, float spawny, char* p
     
 }
 
+void update_char(int CurrentCharacter, struct character* spritename)
+{
+    if (CurrentCharacter == knightint)
+    {
+        spritename->sprite = CP_Image_Load("./Assets/knightpa.png");
+    }
+    else if (CurrentCharacter == mageint)
+    {
+        
+        spritename->sprite = CP_Image_Load("./Assets/magepa.png");
+
+    }
+    else if (CurrentCharacter == archerint)
+    {
+        spritename->sprite = CP_Image_Load("./Assets/archerpa.png");
+    }
+}
+
 /*void enemypattern1(void)
 {
     struct character enemy;

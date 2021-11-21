@@ -130,6 +130,7 @@ void Playertakedamage(int damageAmt);
 void PlayerHealed(int healAmt);
 int PlayerGethealth(void);
 
+void update_char(int CurrentCharacter, struct character* spritename);
 
 
 void init_PlayerHP(void);

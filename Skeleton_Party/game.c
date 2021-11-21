@@ -36,8 +36,7 @@ void game_init(void)
 	CP_System_ShowConsole();
 
 	init_char(&knight, 200, 200, "./Assets/knightpa.png");
-	init_char(&mage, 200, 200, "./Assets/mage.png");
-	init_char(&archer, 200, 200, "./Assests/archer.png");
+	
 
 	preload_spawn_map(); //This is for declarations in enemy_array
 	load_audio(); //load audio
@@ -98,29 +97,32 @@ void game_update(void)
 				play_crit();//temp
 				CurrentCharacter = archerint;
 			}
-
+			update_char(CurrentCharacter, &knight);
 
 			// class skill restriction 
 			if (CurrentCharacter == knightint)
 			{
 				initiate_melee();
+				
 			}
 			else if (CurrentCharacter == mageint)
 			{
 				shooting_check(knight.position);			
 				update_bullet_travel();
+				
 
 			}
 			else if (CurrentCharacter == archerint)
 			{
 				piercing_shooting_check(knight.position);
+				
 			}
 			
 			//DrawPlayerHealth();
 			//enemy_movement();
 			//enemy_damage();
 			lightbulb();
-			
+			game_control(&knight);
 			spawn_map();
 
 			//Attack updates
@@ -140,7 +142,7 @@ void game_update(void)
 
 
 			timer();
-			game_control(&knight);
+			
 
 			SpeedBuffEffect();
 			
