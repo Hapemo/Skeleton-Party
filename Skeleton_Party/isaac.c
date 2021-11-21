@@ -429,8 +429,8 @@ void InitializeSkillShopUI(void)         // new function
 
 
 
-	Exp = 20;
-	Gold = 20;
+	Exp = 0;
+	Gold = 0;
 	additionalExp = 2;
 	additionalGold = 1;
 	DoubleExp = FALSE;
