@@ -443,6 +443,7 @@ void InitializeSkillShopUI(void)         // new function
 
 	shrapnelstate = FALSE;
 	shockwavestate = FALSE;
+	RewardGiven = FALSE;
 
 
 
@@ -1314,18 +1315,22 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed hearts\n");
-			if (additionalhp < maxadditionalhp )
-			{ 
-				additionalhp++;
-				//printf("hpadded %d" ,additionalhp);
-				p1.set(&p1, 3 + additionalhp);
-				// minus exp
-			}
-			else
+			if (Exp > 0)
 			{
-				//printf("max rhp eached ");
+				if (additionalhp < maxadditionalhp)
+				{
+					Exp -= 1;
+					additionalhp++;
+					//printf("hpadded %d" ,additionalhp);
+					p1.set(&p1, 3 + additionalhp);
+					// minus exp
+				}
+				else
+				{
+					//printf("max rhp eached ");
 
-				Skill_HeartsButton.enabled = FALSE;
+					Skill_HeartsButton.enabled = FALSE;
+				}
 			}
 
 		}
@@ -1335,17 +1340,20 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed agility\n");
-			if (additionalspeed < maxadditionalspeed)
+			if (Exp > 0)
 			{
-				// minus exp
-				additionalspeed += 20; // or 20 increment ? 
-				knight.speed += additionalspeed;
-				//mage.speed += additionalspeed;
-				//archer.speed += additionalspeed;
-			}
-			else
-			{
-				Skill_AgilityButton.enabled = FALSE;
+				if (additionalspeed < maxadditionalspeed)
+				{
+					Exp -= 1;
+					additionalspeed += 20; // or 20 increment ? 
+					knight.speed += additionalspeed;
+					//mage.speed += additionalspeed;
+					//archer.speed += additionalspeed;
+				}
+				else
+				{
+					Skill_AgilityButton.enabled = FALSE;
+				}
 			}
 			
 
