@@ -199,6 +199,7 @@ void game_update(void)
 			break;
 
 		case MAIN_MENU:
+			PlayerSetHealth(3);
 
 			TerminateFullscreen();
 			EnableMenu();
