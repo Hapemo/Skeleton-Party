@@ -19,6 +19,8 @@
 #include "cprocessing.h"
 #include "game.h"
 
+#define SWORD_CRIT_CHANCE 10
+
 //These variables are for melee attacks, for function 'melee_attack' and 'activate_melee_by_mouse'
 int first_time = 1, * pfirst_time = &first_time; //First time running the function
 float melee_start_angle = 45, melee_angle = 0; //Determines where the melee attack is facing. 45 is when it's facing north.
@@ -44,9 +46,9 @@ void melee_attack(CP_Vector position) {
 		sword_length = HEIGHT / 50;
 
 		*pfirst_time = 0;
-		
+
 		melee_start_angle -= melee_angle_upgrade;
-		melee_max_angle += (int)melee_start_angle + 2*melee_angle_upgrade;
+		melee_max_angle += (int)melee_start_angle + 2 * melee_angle_upgrade;
 		melee_angle = melee_start_angle;
 	}
 
@@ -54,22 +56,69 @@ void melee_attack(CP_Vector position) {
 	melee_angle += melee_speed;
 
 	//This determines if the attack is counter clockwise or clockwise
-	if (melee_anticlockwise) melee_angle *= -1; 
+	if (melee_anticlockwise) melee_angle *= -1;
 
 	print_melee_weapon(position, melee_angle);
 
 	CP_Vector temp_vec = CP_Vector_Set(1, 0); //This CP_Vector is specially for sword. For some reason, when use E1, it will become inaccurate.
 	CP_Vector vec1 = rotate_vector(sword_length, melee_angle - 90, temp_vec); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
 	CP_Vector vec2 = rotate_vector(sword_width, melee_angle - 90, E2);
-	
+
+	int killed;
+	for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {
+		if (!(mother_enemy_pool[j].alive)) continue;
+
+		for (int k = 0; k < MAX_CHILDREN; k++) {
+			if (!(mother_enemy_pool[j].children[k].alive)) continue;
+			killed = 0;
+
+			if (rect_collision(mother_enemy_pool[j].children[k].position, position, vec1, vec2, mother_enemy_pool[j].children[k].size)) killed = 1;
+			if (killed) {
+				*pcollide = 1;
+
+				if (shockwavestate) {
+					printf("explosion is activated");
+					unsigned int random_int = CP_Random_RangeInt(0, 1000);
+					if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
+				}
+
+				mother_enemy_pool[j].children[k].alive = 0;
+			}
+		}
+	}
+
 
 	for (int j = 0; j < MAX_ENEMY; j++) {
 		if (!(enemy_pool[j].alive)) continue;
-		if (rect_collision(enemy_pool[j].position, position, vec1, vec2, enemy_pool[j].size)) { //If collide with enemy
+		killed = 0;
+
+		if (rect_collision(enemy_pool[j].position, position, vec1, vec2, enemy_pool[j].size)) killed = 1;
+
+		if (killed) {
 			*pcollide = 1;
-			sword_explosion(enemy_pool[j].position);
+
+			if (shockwavestate) {
+				printf("explosion is activated");
+				unsigned int random_int = CP_Random_RangeInt(0, 1000);
+				if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
+			}
+
+
+			enemy_pool[j].alive = 0;
 		}
 	}
+
+	//Old sword collision
+	//for (int j = 0; j < MAX_ENEMY; j++) {
+	//	if (!(enemy_pool[j].alive)) continue;
+
+	//	if (rect_collision(enemy_pool[j].position, position, vec1, vec2, enemy_pool[j].size)) { //If collide with enemy
+	//		*pcollide = 1;
+
+	//		unsigned int random_int = CP_Random_RangeInt(0, 1000);
+	//		if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
+	//	}
+	//}
 
 	//Resets the animation of the attack
 	if (!(-melee_max_angle < melee_angle && melee_angle < melee_max_angle)) {
@@ -82,9 +131,14 @@ void melee_attack(CP_Vector position) {
 
 
 void print_melee_weapon(CP_Vector position, float angle) {
+
+	CP_Image sword_pic = CP_Image_Load("./Assets/sword.png");
+	//CP_Vector sword_position = CP_Vector_Set(position.x, position.y);
 	// Create transform matrices
 	CP_Matrix translate = CP_Matrix_Translate(position); //bring attack to position
-	CP_Matrix rotate = CP_Matrix_Rotate(angle);
+	CP_Matrix rotate = CP_Matrix_Rotate(angle+90);
+
+
 
 	// Combine transfrom -> translation and rotation
 	CP_Matrix transform = CP_Matrix_Multiply(translate, rotate);
@@ -93,8 +147,9 @@ void print_melee_weapon(CP_Vector position, float angle) {
 	CP_Settings_ApplyMatrix(transform);
 
 	// Draw a blue rectangle that rotates
-	CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
-	CP_Graphics_DrawRect(0, 0, sword_width, sword_length);
+	//CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
+	//CP_Graphics_DrawRect(0, 0, sword_width, sword_length);
+	CP_Image_Draw(sword_pic, 0, -sword_width / 2, sword_length, sword_width, 255);
 
 	// Reset the matrix to the identity matrix
 	CP_Settings_ResetMatrix();
@@ -343,7 +398,7 @@ int out_of_screen(CP_Vector sprite_position) {
 
 
 #define MAX_BULLET (20)
-#define BULLET_SIZE (WIDTH / 100)
+#define BULLET_SIZE (WIDTH / 50)
 CP_Vector bullet_pool[MAX_BULLET] = { 0 };
 
 void shooting_check(CP_Vector position) {
@@ -382,8 +437,27 @@ void update_bullet_travel(void) {
 void print_bullet(void) {
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
-			CP_Settings_Fill(COLOR_BLUE);
-			CP_Graphics_DrawCircle(bullet_pool[i].x, bullet_pool[i].y, BULLET_SIZE *2); //This is in diameter so need to times 2
+
+			CP_Image fireball_pic = CP_Image_Load("./Assets/fireball.png");
+			//CP_Vector sword_position = CP_Vector_Set(position.x, position.y);
+			// Create transform matrices
+			CP_Matrix translate = CP_Matrix_Translate(bullet_pool[i]); //bring attack to position
+			CP_Matrix rotate = CP_Matrix_Rotate(90);
+
+			// Combine transfrom -> translation and rotation
+			CP_Matrix transform = CP_Matrix_Multiply(translate, rotate);
+
+			// Set the camera transfrom to the created matrix
+			CP_Settings_ApplyMatrix(transform);
+
+			// Draw a blue rectangle that rotates
+			//CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
+			//CP_Graphics_DrawRect(0, 0, sword_width, sword_length);
+			CP_Image_Draw(fireball_pic, 0, 0, BULLET_SIZE, BULLET_SIZE, 255);
+
+			CP_Settings_ResetMatrix();
+			//CP_Settings_Fill(COLOR_BLUE);
+			//CP_Graphics_DrawCircle(bullet_pool[i].x, bullet_pool[i].y, BULLET_SIZE *2); //This is in diameter so need to times 2
 		}
 	}
 }
@@ -406,11 +480,11 @@ void bullet_collision(void) {
 					
 					distance_apart = CP_Vector_Distance(bullet_pool[i], mother_enemy_pool[j].children[k].position);
 
-					if (distance_apart <= (BULLET_SIZE + mother_enemy_pool[j].children[k].size)) killed = 1;
+					if (distance_apart <= (BULLET_SIZE + mother_enemy_pool[j].children[k].size*34.0f/50.0f)) killed = 1;
 
 					if (killed) {
 						explode(bullet_pool[i]);
-						shrapnel(bullet_pool[i]);
+						if (shrapnelstate) shrapnel(bullet_pool[i]);
 
 						bullet_pool[i] = CP_Vector_Set(0, 0);
 
@@ -426,7 +500,7 @@ void bullet_collision(void) {
 
 				distance_apart = CP_Vector_Distance(bullet_pool[i], enemy_pool[j].position);
 
-				if (distance_apart <= (BULLET_SIZE + enemy_pool[j].size)) killed = 1;
+				if (distance_apart <= (BULLET_SIZE + enemy_pool[j].size * 34.0f / 50.0f)) killed = 1;
 
 				if (killed) {
 					explode(bullet_pool[i]);

@@ -124,18 +124,12 @@ void game_update(void)
 			spawn_map();
 
 			//Attack updates
-			// 
-			if (shrapnelstate == TRUE)
-				shrapnel_update();
+			if (shrapnelstate) shrapnel_update();
 
-			if (shockwavestate == TRUE)
-			{
-				
-			}
+			if (shockwavestate) sword_explosion_update();
 
 			melee_update(knight.position);
 			explosion_update();
-			sword_explosion_update();
 			
 	
 			
