@@ -336,7 +336,7 @@ void print_charge(CP_Vector position, float charge);
 
 //-------------------------------
 //End of enemy array functions
-void init_enemy();
+//void init_enemy();
 
 void player_touch_enemy();
 

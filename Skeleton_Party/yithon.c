@@ -129,14 +129,14 @@ void free_audio() {
 
 //struct enemy bug={ 500, 500, "./Assets/Enemydot.png", 100, 100, 1 };
 
-void init_enemy() {
+/*void init_enemy() {
 	bug.enemyPosition = CP_Vector_Set(500, 500);
 	//CP_Settings_ImageMode(CP_POSITION_CENTER);
 	bug.enemyDesign = CP_Image_Load("./Assets/Enemydot.png");
 	bug.width = 100;
 	bug.height = 100;
 	bug.alive = 1;
-}
+}*/
 //check for collision 
 /*BOOL check_enemy_collide(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
 {
