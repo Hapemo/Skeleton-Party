@@ -44,6 +44,7 @@ BOOL DoubleExp, DoubleGold, DoubleHeal, DoubleDrop ;
 int gamePause;
 enum { knightint, mageint, archerint };
 BOOL shrapnelstate, shockwavestate;
+BOOL RewardGiven;
 
 
 typedef struct EnemySprite

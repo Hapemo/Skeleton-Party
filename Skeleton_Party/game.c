@@ -62,19 +62,19 @@ void game_update(void)
 		{
 		case PLAYING:
 
-			//DeathCondition();
+			DeathCondition();
 			TerminateFullscreen();
 
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{
 				gamePause = !gamePause;
 				gameState = PAUSED;
-				gameState = PREPROOM;
-				gameState = UPGRADES ;
-				gameState = SHOP;
-				gameState = SKILL;
-				gameState = WIN;
-				gameState = LOSE;
+				//gameState = PREPROOM;
+				//gameState = UPGRADES ;
+				//gameState = SHOP;
+				//gameState = SKILL;
+				//gameState = WIN;
+				//gameState = LOSE;
 			}
 			
 			DrawGameCanvas();
@@ -216,15 +216,19 @@ void game_update(void)
 			break;
 		case WIN:
 
-			if (DoubleDrop == TRUE)
+			if (RewardGiven == FALSE)
 			{
-				Exp += (additionalExp*2 );
-				Gold += (additionalGold*2);
-			}
-			else
-			{
-				Exp += additionalExp;
-				Gold += additionalGold;
+				RewardGiven = TRUE;
+				if (DoubleDrop == TRUE)
+				{
+					Exp += (additionalExp * 2);
+					Gold += (additionalGold * 2);
+				}
+				else
+				{
+					Exp += additionalExp;
+					Gold += additionalGold;
+				}
 			}
 
 			Screen_WIN_Print();
