@@ -46,7 +46,7 @@ void game_init(void)
 void game_update(void)
 {
 	
-	TerminateFullscreen();
+	//TerminateFullscreen();
 
 	//FullscreenKeyPressed();
 
@@ -62,6 +62,10 @@ void game_update(void)
 		switch (gameState)
 		{
 		case PLAYING:
+
+			//DeathCondition();
+			TerminateFullscreen();
+
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{
 				gamePause = !gamePause;
@@ -69,11 +73,9 @@ void game_update(void)
 				//gameState = PREPROOM;
 				//gameState = UPGRADES ;
 				//gameState = SHOP;
-				//gameState = SKILL;
-				gameState = WIN;
-
-
-			
+				gameState = SKILL;
+				//gameState = WIN;
+				//gameState = LOSE;
 			}
 			
 			DrawGameCanvas();
@@ -187,6 +189,7 @@ void game_update(void)
 
 		case MAIN_MENU:
 
+			TerminateFullscreen();
 			EnableMenu();
 			play_menubg();
 			DrawMenuButton();
@@ -196,13 +199,28 @@ void game_update(void)
 		
 			ButtonClicked();
 			break;
+
 		case WIN:
+
+			if (DoubleDrop == TRUE)
+			{
+				Exp += (additionalExp*2 );
+				Gold += (additionalGold*2);
+			}
+			else
+			{
+				Exp += additionalExp;
+				Gold += additionalGold;
+			}
 
 			Screen_WIN_Print();
 			Screen_WIN_ButtonClicked();
 
 			break;
 		case LOSE:
+			TerminateFullscreen();
+			Screen_GAMEOVER_Print();
+			//Screen_GAMEOVER_ButtonClicked();
 
 			break;
 

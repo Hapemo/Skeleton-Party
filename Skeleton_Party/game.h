@@ -32,7 +32,10 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 enum GameStates { MAIN_MENU, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE};
 enum GameStates gameState;
 
-//int Exp = 0, gold = 0;
+int Exp, Gold ;
+int additionalExp, additionalGold;
+
+BOOL DoubleExp, DoubleGold, DoubleHeal, DoubleDrop ;
 
 int gamePause;
 enum { knightint, mageint, archerint };
@@ -122,11 +125,12 @@ void PlayerHealed(int healAmt);
 int PlayerGethealth(void);
 
 
+
 void init_PlayerHP(void);
 
 void Player_Emptyheartprinter(void);
 void Player_Redheartprinter(void);
-
+void DeathCondition(void);
 
 void exit_PlayerHP(void);
 
@@ -339,7 +343,8 @@ void free_audio();
 void InitializeSkillShopUI(void);
 BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy);
 
-
+void ScorePrinter(int score, float x, float y);
+void Screen_GAMEOVER_Print(void);
 void Screen_WIN_Print(void);
 void Screen_PAUSE_Print(void);
 void Screen_PREPROOM_Print(void);	
@@ -347,7 +352,7 @@ void Screen_UPGRADES_Print(void);
 void Screen_SHOP_Print(void);
 void Screen_SKILL_Print(void);
 
-
+void Screen_GAMEOVER_ButtonClicked(void);
 void Screen_WIN_ButtonClicked(void);
 void Screen_PAUSE_ButtonClicked(void);
 void Screen_PREPROOM_ButtonClicked(void);

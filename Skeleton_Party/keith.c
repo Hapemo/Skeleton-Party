@@ -367,16 +367,25 @@ void DrawItem()
 		switch (item.id)
 		{
 		case 0:
-			item.sprite = CP_Image_Load("./Assets/item1.png");
+			item.sprite = CP_Image_Load("./Assets/healthBoost.png");
 			CP_Image_Draw(item.sprite, item.position.x, item.position.y, item.width, item.height, 255);
 			if (CheckIfBoxesOverlap(item.position.x, item.position.y, item.width, item.height, knight.position.x, knight.position.y, knight.width, knight.height))
 			{
-				PlayerHealed(1);
-				item.enabled = 0;
+				if (DoubleHeal == TRUE)
+				{
+					PlayerHealed(2);
+					item.enabled = 0;
+				}
+				else
+				{
+					PlayerHealed(1);
+					item.enabled = 0;
+				}
+				
 			}
 			break;
 		case 1:
-			item.sprite = CP_Image_Load("./Assets/item2.png");
+			item.sprite = CP_Image_Load("./Assets/speedBoost.png");
 			CP_Image_Draw(item.sprite, item.position.x, item.position.y, item.width, item.height, 255);
 			if (CheckIfBoxesOverlap(item.position.x, item.position.y, item.width, item.height, knight.position.x, knight.position.y, knight.width, knight.height))
 			{
