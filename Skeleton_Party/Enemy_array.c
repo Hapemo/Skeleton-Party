@@ -44,16 +44,16 @@ void preload_spawn_map(void) { //Put in game_init
 	
 
 	//second wave
-	CP_Vector line_5 = CP_Vector_Set((WIDTH / 1.5f), -400);
-	spawn_pool_assigner(line_5, 20.0f, 1600.0f, 50, 5);
+	CP_Vector line_5 = CP_Vector_Set(-180, -400);
+	spawn_pool_assigner(line_5, 20.0f, 100.0f, 50, 5);
 
-	CP_Vector line_6 = CP_Vector_Set(((WIDTH / 1.5f) + 50), -400);
+	CP_Vector line_6 = CP_Vector_Set(((WIDTH / 4) + 50), -400);
 	spawn_pool_assigner(line_6, 50.0f, 1600.0f, 50, 5);
 
-	CP_Vector line_7 = CP_Vector_Set((WIDTH /1.5f), -400);
+	CP_Vector line_7 = CP_Vector_Set((WIDTH/4), -400);
 	spawn_pool_assigner(line_7, 20.0f, 1600.0f, 50, 5);
 
-	CP_Vector line_8 = CP_Vector_Set(((WIDTH / 1.5f) + 100), -400);
+	CP_Vector line_8 = CP_Vector_Set(((WIDTH/4) + 100), -400);
 	spawn_pool_assigner(line_8, 50.0f, 1600.0f, 50, 5);
 
 	//third wave
@@ -105,7 +105,7 @@ void spawn_map(void) { //Should run continuously
 					initialise_circle_shape(spawn_pool[i].position, 5, 100);
 					break;
 				case 5:
-					initialise_horizontal_line(spawn_pool[i].position, 5, WIDTH/1.5f, 1);
+					initialise_horizontal_line(spawn_pool[i].position, 5, WIDTH/1.1f, 1);
 					break;
 				case 101:
 					initialise_basic_movement(i);
