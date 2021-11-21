@@ -80,7 +80,7 @@ void melee_attack(CP_Vector position) {
 					unsigned int random_int = CP_Random_RangeInt(0, 1000);
 					if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
 				}
-
+				DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 				mother_enemy_pool[j].children[k].alive = 0;
 			}
 		}
@@ -95,12 +95,13 @@ void melee_attack(CP_Vector position) {
 
 		if (killed) {
 			*pcollide = 1;
-			DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
+			
 			if (shockwavestate) {
 				printf("explosion is activated");
 				unsigned int random_int = CP_Random_RangeInt(0, 1000);
 				if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
 			}
+			DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 			enemy_pool[j].alive = 0;
 		}
 	}
@@ -468,11 +469,13 @@ void bullet_collision(void) {
 					if (distance_apart <= (BULLET_SIZE + mother_enemy_pool[j].children[k].size*34.0f/50.0f)) killed = 1;
 
 					if (killed) {
+
+						
 						explode(bullet_pool[i]);
 						if (shrapnelstate) shrapnel(bullet_pool[i]);
 
 						bullet_pool[i] = CP_Vector_Set(0, 0);
-
+						DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 						mother_enemy_pool[j].children[k].alive = 0;
 					}
 				}
@@ -492,7 +495,7 @@ void bullet_collision(void) {
 					shrapnel(bullet_pool[i]);
 
 					bullet_pool[i] = CP_Vector_Set(0, 0);
-
+					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 					enemy_pool[j].alive = 0;
 				}
 			}
@@ -558,7 +561,9 @@ void explosion_collision(void) {
 				if (distance_apart <= (enemy_pool[j].size + explosion_radius_pool[i])) killed = 1;
 
 				if (killed) {
+					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 					collide = 1; //This changes the color of the lightbulb
+
 					enemy_pool[j].alive = 0;
 				}
 			}
@@ -633,6 +638,7 @@ void shrapnel_collision(void) {
 				//printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, BULLET_SIZE, enemy_size + explosion_radius_pool[i]);
 
 				if (killed) {
+					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 					shrapnel_pool[i] = CP_Vector_Set(0, 0);
 					shrapnel_vector_pool[i] = CP_Vector_Set(0, 0);
 					enemy_pool[j].alive = 0;
@@ -761,7 +767,7 @@ void piercing_bullet_collision(void) {
 					//piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
 					*pcollide = 1;
 					enemy_pool[j].alive = 0;
-
+					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 					//Suppose to change enemy alive or dead state here
 				}
 			}
@@ -773,7 +779,7 @@ void piercing_bullet_collision(void) {
 
 					if (rect_collision(mother_enemy_pool[j].children[k].position, piercing_bullet_pool[i], vec1, vec2, mother_enemy_pool[j].children[k].size)) {
 						*pcollide = 1;
-
+						DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
 						mother_enemy_pool[j].children[k].alive = 0;
 					}
 				}
