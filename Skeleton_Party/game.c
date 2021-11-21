@@ -31,7 +31,7 @@ void game_init(void)
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	
 
-	init_enemy();
+	//init_enemy();
 	
 	CP_System_ShowConsole();
 
