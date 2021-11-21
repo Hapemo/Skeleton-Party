@@ -72,8 +72,8 @@ void game_update(void)
 				//gameState = PAUSED;
 				//gameState = PREPROOM;
 				//gameState = UPGRADES ;
-				//gameState = SHOP;
-				gameState = SKILL;
+				gameState = SHOP;
+				//gameState = SKILL;
 				//gameState = WIN;
 				//gameState = LOSE;
 			}
@@ -125,13 +125,18 @@ void game_update(void)
 
 			//Attack updates
 			// 
-			//if (shrapnelstate == TRUE)
+			if (shrapnelstate == TRUE)
 				shrapnel_update();
+
+			if (shockwavestate == TRUE)
+			{
+				
+			}
 
 			melee_update(knight.position);
 			explosion_update();
-			
 			sword_explosion_update();
+			
 	
 			
 			

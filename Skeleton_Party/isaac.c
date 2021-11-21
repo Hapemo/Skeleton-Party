@@ -85,6 +85,7 @@ CP_Image Image_Shop_HealOn = NULL;
 CP_Image Image_Shop_DropsOn = NULL;
 CP_Image Image_Shop_RezOn = NULL;
 CP_Image Image_Shop_ShrapnelOn = NULL;
+CP_Image Image_Shop_Shockwave = NULL;
 
 CP_Image Image_Shop_HealOff = NULL;
 CP_Image Image_Shop_DropsOff = NULL;
@@ -363,6 +364,16 @@ struct Shop_ShrapnelButton {
 	float height;
 }Shop_ShrapnelButton;
 
+struct Shop_Shockwave {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Shop_Shockwave;
+
+
 
 
 
@@ -416,6 +427,7 @@ void InitializeSkillShopUI(void)         // new function
 	isaac_height = HEIGHT;
 
 	shrapnelstate = FALSE;
+	shockwavestate = FALSE;
 	
 	GameOver_Background.enabled = TRUE;
 	GameOver_Background.width = isaac_width;
@@ -500,11 +512,14 @@ void InitializeSkillShopUI(void)         // new function
 	Image_Shop_DropsOn = CP_Image_Load("./Assets/Shop_2xdropsOn.png");
 	Image_Shop_RezOn = CP_Image_Load("./Assets/Shop_rezOn.png");
 	Image_Shop_ShrapnelOn = CP_Image_Load("./Assets/Shop_shrapnelOn.png");
+	Image_Shop_Shockwave = CP_Image_Load("./Assets/Shop_ShockWave.png");
+
 
 	Image_Shop_HealOff = CP_Image_Load("./Assets/Shop_2xhealOff.png");
 	Image_Shop_DropsOff = CP_Image_Load("./Assets/Shop_2xdropsOff.png");
 	Image_Shop_RezOff = CP_Image_Load("./Assets/Shop_rezOff.png");
 	Image_Shop_ShrapnelOff = CP_Image_Load("./Assets/Shop_shrapnelOff.png");
+	
 
 	Image_Pause_Mistake = CP_Image_Load("./Assets/pause_mistake1.png");
 
@@ -797,6 +812,18 @@ void Screen_SHOP_Print(void)
 	{
 		CP_Image_Draw(Image_Shop_ShrapnelOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 100);
 	}
+
+
+	if (shockwavestate == FALSE)
+	{
+		CP_Image_Draw(Image_Shop_Shockwave, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
+	else
+	{
+		CP_Image_Draw(Image_Shop_Shockwave, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 100);
+	}
+
+
 
 	CP_Settings_TextSize(100);
 	CP_Settings_Fill(COLOR_WHITE);
@@ -1190,7 +1217,25 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			{
 				printf("not enough gold ");
 			}
-			
+		}
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 511.0, 686.0, 943.0, 811.0))
+		{
+			//menu.enabled = FALSE;
+			CP_Graphics_ClearBackground(COLOR_BLACK);
+			//gameState = PLAYING;
+			printf("button pressed shockwave\n");
+
+			if (Gold > 2)
+			{
+				Gold -= 2;
+				shockwavestate = TRUE;
+
+			}
+			else
+			{
+				printf("not enough gold ");
+			}
+
 
 		}
 
@@ -1307,7 +1352,7 @@ void exit_skilltreepictures(void)
 	CP_Image_Free(&Image_Shop_DropsOn);
 	CP_Image_Free(&Image_Shop_RezOn);
 	CP_Image_Free(&Image_Shop_ShrapnelOn);
-
+	CP_Image_Free(&Image_Shop_Shockwave);
 
 	CP_Image_Free(&Image_Shop_HealOff);
 	CP_Image_Free(&Image_Shop_DropsOff);
