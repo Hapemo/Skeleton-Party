@@ -335,9 +335,15 @@ void player_touch_enemy();
 
 void DrawPauseCanvas();
 void PauseButtonClicked();
+
 void load_audio();
+
 void play_menubg();
 void play_crit();
+void play_death();
+void play_swordHit();
+void play_healthDrop();
+void play_speedDrop();
 void free_audio();
 
 

@@ -52,29 +52,67 @@ struct MenuButton {
 
 CP_Sound menubg = NULL;
 CP_Sound crit = NULL;
-
+CP_Sound death = NULL;
+CP_Sound meleeHit = NULL;
+CP_Sound heathDrop = NULL;
+CP_Sound speedDrop = NULL;
 /*
-load audio
+load audio 
 */
 void load_audio() {
 	menubg = CP_Sound_LoadMusic("./Assets/newBGLoop.wav");
 	crit = CP_Sound_Load("./Assets/critHit.wav");
+	death = CP_Sound_Load("./Assets/dead.wav");
+	meleeHit = CP_Sound_Load("./Assets/swordHit.wav");
+	heathDrop = CP_Sound_Load("./Assets/healthBoostUp.wav");
+	speedDrop = CP_Sound_Load("./Assets/SpeedBoostUp.wav");
 }
-/*
-play menusound 
-*/
+
+//play menusound 
 void play_menubg() {
 	CP_Sound_PlayMusic(menubg);
-	//CP_Sound_PlayMusic(menubg, 0.2f, 0.85f, TRUE, CP_SOUND_GROUP_1);
+	//CP_Sound_PlayAdvanced(menubg, 1.0f, 1.0f, TRUE, CP_SOUND_GROUP_1);
+	/*if (gameState == PREPROOM) {
+		//CP_Sound_PauseAll();
+		CP_Sound_PauseGroup(CP_SOUND_GROUP_1);
+	}
+	else
+	{
+		//CP_Sound_ResumeAll();
+		CP_Sound_ResumeGroup(CP_SOUND_GROUP_1);
+	}*/
+	//CP_Sound_PlayMusic(menubg, 1.0f, 1.0f, TRUE, CP_SOUND_GROUP_1);
 }
+
 /*play crit sound*/
 void play_crit() {
 	CP_Sound_PlayAdvanced(crit,0.3f,1.0f,FALSE,CP_SOUND_GROUP_3);
 }
 
+//play when player dies
+void play_death() {
+	CP_Sound_PlayAdvanced(death,0.3f,1.0f,FALSE,CP_SOUND_GROUP_3);
+}
+
+//play knight swing sword
+void play_swordHit() {
+	CP_Sound_PlayAdvanced(meleeHit, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+}
+
+//play when player get health boost
+void play_healthDrop() {
+	CP_Sound_PlayAdvanced(heathDrop, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+}
+
+void play_speedDrop() {
+	CP_Sound_PlayAdvanced(speedDrop, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+}
 void free_audio() {
 	CP_Sound_Free(&menubg);
 	CP_Sound_Free(&crit);
+	CP_Sound_Free(&death);
+	CP_Sound_Free(&meleeHit);
+	CP_Sound_Free(&heathDrop);
 }
 
 
