@@ -167,6 +167,15 @@ void game_update(void)
 			Player_Redheartprinter();
 			Player_Emptyheartprinter();
 
+			CP_Settings_TextSize(100);
+			CP_Settings_Fill(darkviolet);
+			ScorePrinter(Exp, 850, 80);
+
+
+			CP_Settings_Fill(darkviolet);
+			ScorePrinter(Gold, 690, 80);
+
+
 			break;
 		case PAUSED:
 			

@@ -403,8 +403,8 @@ void InitializeSkillShopUI(void)         // new function
 
 
 
-	Exp = 0;
-	Gold = 0;
+	Exp = 20;
+	Gold = 20;
 	additionalExp = 2;
 	additionalGold = 1;
 	DoubleExp = FALSE;
@@ -712,12 +712,12 @@ void Screen_PREPROOM_Print(void)											//new functuon
 
 	PrepRoom_UpgrradesButton.posX = menu.height * (3.0f / 7.0f);
 	PrepRoom_UpgrradesButton.posY = menu.height * (3.0f / 7.0f);
-	
+*/	
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
-*/
+
 	//CP_Graphics_ClearBackground(COLOR_BLACK);
 	CP_Image_Draw(Image_PrepRoom_Empty, PrepRoom_Background.posX, PrepRoom_Background.posY, isaac_width, isaac_height, 255);
 }
@@ -1004,8 +1004,8 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 
 void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 {
+/*
 
-/*  
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
 		printf("button pressed back esc \n");
