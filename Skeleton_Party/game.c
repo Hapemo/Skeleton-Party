@@ -124,6 +124,7 @@ void game_update(void)
 			lightbulb();
 			game_control(&knight);
 			spawn_map();
+			
 
 			//Attack updates
 			if (shrapnelstate) shrapnel_update();

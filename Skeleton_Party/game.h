@@ -305,6 +305,7 @@ void movement_pattern_spinning_circle(void);
 void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position);
 
 void spawn_map(void);
+void spawnerthing(CP_Vector position, int spawn_amount, int type);
 
 //Start of enemy array functions
 //-------------------------------

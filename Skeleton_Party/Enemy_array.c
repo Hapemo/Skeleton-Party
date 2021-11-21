@@ -44,24 +44,27 @@ void preload_spawn_map(void) { //Put in game_init
 
 	//second wave
 	CP_Vector line_5 = CP_Vector_Set((WIDTH / 1.5f), -400);
-	spawn_pool_assigner(line_5, 80.0f, 50.0f, 50, 2);
+	spawn_pool_assigner(line_5, 100.0f, 50.0f, 50, 5);
 
 	CP_Vector line_6 = CP_Vector_Set(((WIDTH / 1.5f) + 50), -400);
-	spawn_pool_assigner(line_6, 80.0f, 20.0f, 50, 2);
+	spawn_pool_assigner(line_6, 100.0f, 20.0f, 50, 5);
 
 	CP_Vector line_7 = CP_Vector_Set((WIDTH /1.5f), -400);
-	spawn_pool_assigner(line_7, 80.0f, 50.0f, 50, 2);
+	spawn_pool_assigner(line_7, 100.0f, 50.0f, 50, 5);
 
 	CP_Vector line_8 = CP_Vector_Set(((WIDTH / 1.5f) + 100), -400);
-	spawn_pool_assigner(line_8, 80.0f, 20.0f, 50, 2);
+	spawn_pool_assigner(line_8, 100.0f, 20.0f, 50, 5);
 
+	//third wave
+	CP_Vector line_9 = CP_Vector_Set((WIDTH / 2)+150, -400);
+	spawn_pool_assigner(line_9, 200.0f, 20.0f, 50, 101);
 
-	/*CP_Vector line_5 = CP_Vector_Set(WIDTH / 6.0f, 0);
-	spawn_pool_assigner(line_5, 100.0f, 20.0f, 50, 101);
-
-	CP_Vector line_6 = CP_Vector_Set(WIDTH / 4.0f, 0);
-	spawn_pool_assigner(line_6, 100.0f, 20.0f, 3, 5);*/
+	CP_Vector line_10 = CP_Vector_Set(WIDTH / 2, -400);
+	spawn_pool_assigner(line_10, 200.0f, 20.0f, 3, 101);
 }
+
+
+
 
 void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type) {
 	float spawn_tick = start_spawn_tick;
@@ -237,7 +240,7 @@ void movement_pattern_spinning_circle(void) {
 
 void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position) {
 	float angle = 0;
-	int spin_speed = 1000;
+	int spin_speed = 100;
 	int randomizer = (int)mother_enemy_pool[mother_i].time % 36;
 	if (randomizer != 0) angle = 360.0f / randomizer;
 
