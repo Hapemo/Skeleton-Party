@@ -56,6 +56,8 @@ CP_Font SkullFont;
 //SkullFont = CP_Font_Load( "./Assets/Font/Skull-Story.ttf");
 
 CP_Image Image_GoldSprite = NULL;
+CP_Image Image_ExpSprite = NULL;
+
 
 
 CP_Image Image_PrepRoom_Empty = NULL;
@@ -513,6 +515,7 @@ void InitializeSkillShopUI(void)         // new function
 	Shop_ShrapnelButton.enabled = TRUE;
 
 	Image_GoldSprite = CP_Image_Load("./Assets/goldsprite.png");
+	Image_ExpSprite = CP_Image_Load("./Assets/Exporb.png");
 
 	Image_PrepRoom_Empty = CP_Image_Load("./Assets/preproom.png");
 	Image_Upgrade_Empty = CP_Image_Load("./Assets/upgrades.png");
@@ -648,6 +651,8 @@ void DeathCondition(void)
 void Screen_Currency_Print(void)
 {
 	CP_Image_Draw(Image_GoldSprite, Currency_Sprite.posX, Currency_Sprite.posY, isaac_width, isaac_height, 255);
+	CP_Image_Draw(Image_ExpSprite, Currency_Sprite.posX, Currency_Sprite.posY, isaac_width, isaac_height, 255);
+
 }
 
 void Screen_GAMEOVER_Print(void)											//new functuon
@@ -1364,6 +1369,7 @@ void exit_skilltreepictures(void)
 
 	
 	CP_Image_Free(&Image_GoldSprite);
+	CP_Image_Free(&Image_ExpSprite);
 
 
 
