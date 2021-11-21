@@ -225,7 +225,7 @@ void sword_explosion(CP_Vector position) {
 		if (sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0) { //to find explosion = 0
 			sword_explosion_pool[i] = position;
 			sword_explosion_radius_pool[i] = 1;
-
+			play_crit();
 			break;
 		}
 	}
@@ -515,6 +515,7 @@ void explode(CP_Vector position) { //position where the bullet killed the enemy
 		if (explosion_pool[i].y == 0 && explosion_pool[i].x == 0) { //to find explosion = 0
 			explosion_pool[i] = position;
 			explosion_radius_pool[i] = 1;
+			play_crit();
 			break;
 		}
 	}

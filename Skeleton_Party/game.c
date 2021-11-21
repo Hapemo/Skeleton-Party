@@ -81,20 +81,17 @@ void game_update(void)
 			
 			if (CP_Input_KeyTriggered(KEY_1))
 			{
-				play_crit();//temp
 				CurrentCharacter = knightint;
 				
 			}
 
 			if (CP_Input_KeyTriggered(KEY_2))
 			{
-				play_crit();//temp
 				CurrentCharacter = mageint;
 			}
 
 			if (CP_Input_KeyTriggered(KEY_3))
 			{
-				play_crit();//temp
 				CurrentCharacter = archerint;
 			}
 			update_char(CurrentCharacter, &knight);
