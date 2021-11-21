@@ -108,14 +108,11 @@ void game_update(void)
 			else if (CurrentCharacter == mageint)
 			{
 				shooting_check(knight.position);			
-				update_bullet_travel();
-				
 
 			}
 			else if (CurrentCharacter == archerint)
 			{
 				piercing_shooting_check(knight.position);
-				
 			}
 			
 			//DrawPlayerHealth();
@@ -124,6 +121,7 @@ void game_update(void)
 			lightbulb();
 			game_control(&knight);
 			spawn_map();
+			update_bullet_travel();
 
 			//Attack updates
 			if (shrapnelstate) shrapnel_update();
