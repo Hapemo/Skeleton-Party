@@ -4,10 +4,11 @@
 
 /* Feel free to declare your own variables here */
 //int gamePause;
-struct character knight, mage, archer;
+struct character mage, archer;
 int CurrentCharacter = 0;
 
-
+float originalXposition;
+float originalYposition;
 
 void game_init(void)
 {
@@ -34,8 +35,12 @@ void game_init(void)
 	//init_enemy();
 	
 	CP_System_ShowConsole();
+	float width = (float)CP_System_GetWindowWidth();
+	float height = (float)CP_System_GetWindowHeight();
+	originalXposition = width * 1.25f;
+	originalYposition = height * 2.25f;
 
-	init_char(&knight, 200, 200, "./Assets/knightpa.png");
+	init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
 	
 
 	preload_spawn_map(); //This is for declarations in enemy_array
@@ -200,7 +205,8 @@ void game_update(void)
 
 		case MAIN_MENU:
 			PlayerSetHealth(3);
-
+			knight.position.x = originalXposition;
+			knight.position.y = originalYposition;
 			TerminateFullscreen();
 			EnableMenu();
 			play_menubg();
