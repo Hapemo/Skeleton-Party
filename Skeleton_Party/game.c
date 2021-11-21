@@ -174,12 +174,11 @@ void game_update(void)
 
 			CP_Settings_TextSize(100);
 			CP_Settings_Fill(darkviolet);
-			ScorePrinter(Exp, 850, 80);
-
+			ScorePrinter(Exp, 690, 80);
 
 			CP_Settings_Fill(darkviolet);
-			ScorePrinter(Gold, 690, 80);
-
+			ScorePrinter(Gold, 850, 80);
+			Screen_Currency_Print();
 
 			break;
 		case PAUSED:

@@ -55,6 +55,9 @@ CP_Font SkullFont;
 
 //SkullFont = CP_Font_Load( "./Assets/Font/Skull-Story.ttf");
 
+CP_Image Image_GoldSprite = NULL;
+
+
 CP_Image Image_PrepRoom_Empty = NULL;
 CP_Image Image_Upgrade_Empty = NULL;
 CP_Image Image_Skill_Empty = NULL;
@@ -170,6 +173,16 @@ void healer(HealthSystem* inst, int healamount)
 	//inst->health += healamount;
 }
 // HealthSystem Object decleration above 
+
+
+struct Currency_Sprite {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Currency_Sprite;
 
 struct GameOver_Background {
 
@@ -428,6 +441,23 @@ void InitializeSkillShopUI(void)         // new function
 
 	shrapnelstate = FALSE;
 	shockwavestate = FALSE;
+
+
+
+	
+	Currency_Sprite.enabled = TRUE;
+	Currency_Sprite.width = isaac_width;
+	Currency_Sprite.height = isaac_height;
+	Currency_Sprite.posX = (float)(isaac_width / 2.0);
+	Currency_Sprite.posY = (float)(isaac_height / 2.0);
+
+
+
+	GameOver_Background.enabled = TRUE;
+	GameOver_Background.width = isaac_width;
+	GameOver_Background.height = isaac_height;
+	GameOver_Background.posX = (float)(isaac_width / 2.0);
+	GameOver_Background.posY = (float)(isaac_height / 2.0);
 	
 	GameOver_Background.enabled = TRUE;
 	GameOver_Background.width = isaac_width;
@@ -481,6 +511,8 @@ void InitializeSkillShopUI(void)         // new function
 	Shop_DropsButton.enabled = TRUE;
 	Shop_RezButton.enabled = TRUE;
 	Shop_ShrapnelButton.enabled = TRUE;
+
+	Image_GoldSprite = CP_Image_Load("./Assets/goldsprite.png");
 
 	Image_PrepRoom_Empty = CP_Image_Load("./Assets/preproom.png");
 	Image_Upgrade_Empty = CP_Image_Load("./Assets/upgrades.png");
@@ -613,6 +645,10 @@ void DeathCondition(void)
 
 
 
+void Screen_Currency_Print(void)
+{
+	CP_Image_Draw(Image_GoldSprite, Currency_Sprite.posX, Currency_Sprite.posY, isaac_width, isaac_height, 255);
+}
 
 void Screen_GAMEOVER_Print(void)											//new functuon
 {
@@ -696,6 +732,7 @@ void ScorePrinter(int score, float x, float y)
 
 	}
 }
+
 void Screen_WIN_Print(void)											//new functuon
 {
 
@@ -1323,6 +1360,13 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 
 void exit_skilltreepictures(void) 
 {
+
+
+	
+	CP_Image_Free(&Image_GoldSprite);
+
+
+
 	CP_Image_Free(&Image_PrepRoom_Empty);
 	CP_Image_Free(&Image_Upgrade_Empty);
 	CP_Image_Free(&Image_Skill_Empty);

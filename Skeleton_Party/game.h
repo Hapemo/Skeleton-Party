@@ -346,6 +346,8 @@ void free_audio();
 void InitializeSkillShopUI(void);
 BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy);
 
+
+void Screen_Currency_Print(void);
 void ScorePrinter(int score, float x, float y);
 void Screen_GAMEOVER_Print(void);
 void Screen_WIN_Print(void);
