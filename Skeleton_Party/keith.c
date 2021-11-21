@@ -31,7 +31,7 @@ CP_Image creditButtonImage = NULL;
 CP_Image quitButtonImage = NULL;
 CP_Image instructionsButtonImage = NULL;
 CP_Image returnImage = NULL;
-
+CP_Image digipenLogo = NULL;
 BOOL fullScreen = FALSE;
 
 CP_Font myFont;
@@ -104,7 +104,7 @@ void InitializeVariables()
 	quitButtonImage = CP_Image_Load("./Assets/quit.png");
 	returnImage = CP_Image_Load("./Assets/return.png");
 	instructionsButtonImage = CP_Image_Load("./Assets/Instructions.png");
-	
+	digipenLogo = CP_Image_Load("./Assets/DigiPen_WHITE.png");
 }
 
 void Damage(float damage)
@@ -207,6 +207,30 @@ BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightB
 	}
 
 
+}
+
+void DrawLogoScreen()
+{
+	static float timer = 3.0f;
+
+	if (timer > 0)
+	{
+		timer -= CP_System_GetDt();
+		float width = (float)CP_System_GetWindowWidth();
+		float height = (float)CP_System_GetWindowHeight();
+		CP_Settings_Fill(COLOR_BLACK);
+		CP_Graphics_DrawRect(0,0,width,height);
+
+		
+		CP_Image_Draw(digipenLogo, width/2, height / 2, width/2, height/2, (int)(255 * timer) );
+		
+		
+
+	}
+	else
+	{
+		gameState = MAIN_MENU;
+	}
 }
 
 
