@@ -63,8 +63,8 @@ void preload_spawn_map(void) { //Put in game_init
 	CP_Vector line_1 = CP_Vector_Set(WIDTH/3, -5);
 	spawn_pool_assigner(line_1, 50.0f, 50.0f, 30, 1);
 
-	CP_Vector line_11 = CP_Vector_Set(WIDTH / 1.1f, -5);
-	spawn_pool_assigner(line_11, 80.0f, 50.0f, 30, 102);
+	CP_Vector line_11 = CP_Vector_Set(WIDTH / 2, -5);
+	spawn_pool_assigner(line_11, 80.0f, 50.0f, 30, 103);
 
 	//CP_Vector line_2 = CP_Vector_Set(((WIDTH/3)+50), -5);
 	//spawn_pool_assigner(line_2, 50.0f, 10.0f, 30, 1);
@@ -146,6 +146,9 @@ void spawn_map(void) { //Should run continuously
 					initialise_basic_movement(i);
 					break;
 				case 102:
+					initialise_basic_movement(i);
+					break;
+				case 103:
 					initialise_basic_movement(i);
 					break;
 			}
@@ -292,6 +295,12 @@ void movement_pattern_spinning_circle(void) {
 				//printf("sine: %f, speed: %f\n", angle, speed);
 				mother_enemy_pool[i].position.x += (float)speed;
 				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, mother_enemy_pool[i].position);
+				break;
+			case 103:
+				speed = 10;
+				speed = sine(speed, i);
+				mother_enemy_pool[i].position.x += (float)speed;
+				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100 + (float)speed*10, mother_enemy_pool[i].position);
 				break;
 		}
 	}
