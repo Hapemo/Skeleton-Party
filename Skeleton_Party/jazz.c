@@ -38,6 +38,51 @@ int collide = 0, *pcollide = &collide;
 int lightbulb_i = 0;
 
 
+//-------------------------------------------------------
+//Sword explosion
+#define MAX_SWORD_EXPLOSION (100)
+CP_Vector sword_explosion_pool[MAX_SWORD_EXPLOSION] = { 0 };
+float sword_explosion_radius_pool[MAX_SWORD_EXPLOSION] = { 0 };
+float sword_explosion_speed = 15, max_sword_explosion_radius = 200;
+
+//-------------------------------------------------------
+//Bullet
+#define MAX_BULLET (20)
+#define BULLET_SIZE (WIDTH / 50)
+CP_Vector bullet_pool[MAX_BULLET] = { 0 };
+
+//-------------------------------------------------------
+//Explosion
+#define MAX_EXPLOSION (100)
+CP_Vector explosion_pool[MAX_EXPLOSION] = { 0 };
+float explosion_radius_pool[MAX_EXPLOSION] = { 0 };
+float explosion_speed = 10, max_explosion_radius = 100;
+
+//-------------------------------------------------------
+//Shrapnel
+#define MAX_SHRAPNEL (30)
+float max_shrapnels = 5;
+CP_Vector shrapnel_pool[MAX_SHRAPNEL] = { 0 };
+CP_Vector shrapnel_vector_pool[MAX_SHRAPNEL] = { 0 };
+
+
+
+//-------------------------------------------------------
+//Arrow
+#define MAX_PIERCING_BULLET (20)
+#define BULLET_WIDTH (WIDTH / 1000 * 14)
+#define BULLET_LENGTH (WIDTH / 1000 * 69)
+#define BULLET_ANGLE 0
+#define PIERCING_BULLET_SPEED 25.0f
+CP_Vector piercing_bullet_pool[MAX_BULLET] = { 0 };
+
+#define MAX_CHARGE (50.0f)
+#define MAX_CHARGE_POOL (20)
+float piercing_charge = 0, max_piercing_charge = 500.0f, charge_pool[MAX_CHARGE_POOL] = { 0 };
+
+
+
+
 void melee_attack(CP_Vector position) {
 	//Set the melee angle for the first time
 	if (first_time) {
@@ -81,7 +126,7 @@ void melee_attack(CP_Vector position) {
 					unsigned int random_int = CP_Random_RangeInt(0, 1000);
 					if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
 				}
-				DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
+				DropStuffs(mother_enemy_pool[j].children[k].position);
 				mother_enemy_pool[j].children[k].alive = 0;
 			}
 		}
@@ -98,11 +143,10 @@ void melee_attack(CP_Vector position) {
 			*pcollide = 1;
 			
 			if (shockwavestate) {
-				printf("explosion is activated");
 				unsigned int random_int = CP_Random_RangeInt(0, 1000);
 				if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
 			}
-			DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
+			DropStuffs(enemy_pool[j].position);
 			enemy_pool[j].alive = 0;
 		}
 	}
@@ -142,20 +186,156 @@ void print_melee_weapon(CP_Vector position, float angle) {
 	CP_Settings_ResetMatrix();
 }
 
-//void sword_collision_checker(void) {
-//	enemy[];
-//	loop through every enemy in enemy[];
-//	if dead, ignore
-//	if alive, parse the CP_vector of the alive enemy into sword_collision()
-//	to check the collision of enemy with sword.
-//
-//	if collide, sword_collision returns killed (int killed = 10)
-//	then update enemy alive state to 0 or 1 accordingly.
-//}
-//
-//for every level, we would have a .c file containing enemy_array[], it is fixed size
-//Another way is we can assign a lot of enemy (eg. 5000) to array. 
 
+void weapon_to_enemy_collision(void) {
+	float distance_apart;
+
+	//enemy_pool
+	for (int j = 0; j < MAX_ENEMY; j++) {
+		if (!(enemy_pool[j].alive)) continue; //Enemy not alive
+
+		if (enemy_pool[j].position.y < -30) continue; //Enemy not yet in screen 
+		//Sword
+		//Placed in melee_attack
+
+		//Sword explosion
+		for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
+			if (sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0) continue;
+
+			distance_apart = CP_Vector_Distance(sword_explosion_pool[i], enemy_pool[j].position);
+			if (distance_apart <= (enemy_pool[j].size + sword_explosion_radius_pool[i])) {
+				DropStuffs(enemy_pool[j].position);
+				enemy_pool[j].alive = 0;
+			}
+		}
+
+		//Bullet
+		for (int i = 0; i < MAX_BULLET; i++) {
+			if (bullet_pool[i].y == 0 && bullet_pool[i].x == 0) continue;
+
+			distance_apart = CP_Vector_Distance(bullet_pool[i], enemy_pool[j].position);
+			if (distance_apart <= (BULLET_SIZE + enemy_pool[j].size * 34.0f / 50.0f)) {
+				explode(bullet_pool[i]);
+				if (shrapnelstate) shrapnel(bullet_pool[i]);
+
+				bullet_pool[i] = CP_Vector_Set(0, 0);
+				DropStuffs(enemy_pool[j].position);
+				enemy_pool[j].alive = 0;
+			}
+		}
+
+		//Explosion
+		for (int i = 0; i < MAX_EXPLOSION; i++) {
+			if (explosion_pool[i].y == 0 && explosion_pool[i].x == 0) continue;
+			distance_apart = CP_Vector_Distance(explosion_pool[i], enemy_pool[j].position);
+
+			if (distance_apart <= (enemy_pool[j].size + explosion_radius_pool[i])) {
+				DropStuffs(enemy_pool[j].position);
+				enemy_pool[j].alive = 0;
+			}
+		}
+
+		//Shrapnel
+		for (int i = 0; i < MAX_BULLET; i++) {
+			if (shrapnel_pool[i].y == 0 && shrapnel_pool[i].x == 0) continue;
+			distance_apart = CP_Vector_Distance(shrapnel_pool[i], enemy_pool[j].position);
+			if (distance_apart <= (enemy_pool[j].size + BULLET_SIZE)) {
+				DropStuffs(enemy_pool[j].position);
+				shrapnel_pool[i] = CP_Vector_Set(0, 0);
+				shrapnel_vector_pool[i] = CP_Vector_Set(0, 0);
+				enemy_pool[j].alive = 0;
+			}
+		}
+
+		//Arrow
+		for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
+			if (piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0) continue; //If bullet is not active, skip.
+
+			CP_Vector vec1 = rotate_vector(BULLET_WIDTH * charge_pool[i], BULLET_ANGLE, E1); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
+			CP_Vector vec2 = rotate_vector(BULLET_LENGTH * charge_pool[i], BULLET_ANGLE, E2);
+
+			if (rect_collision(enemy_pool[j].position, piercing_bullet_pool[i], vec1, vec2, enemy_pool[j].size)) {
+				enemy_pool[j].alive = 0;
+				DropStuffs(enemy_pool[j].position);
+			}
+		}
+	}
+
+	//mother_enemy_pool
+	for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {
+		if (!(mother_enemy_pool[j].alive)) continue;
+		for (int k = 0; k < MAX_CHILDREN; k++) {
+			if (!(mother_enemy_pool[j].children[k].alive)) continue;
+
+			if (mother_enemy_pool[j].children[k].position.y < -30) continue; //Enemy not yet in screen 
+
+			//Sword
+			//Placed in melee_attack
+
+			//Sword explosion
+			for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
+				if (sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0) continue;
+
+				distance_apart = CP_Vector_Distance(sword_explosion_pool[i], mother_enemy_pool[j].children[k].position);
+				if (distance_apart <= (mother_enemy_pool[j].children[k].size + sword_explosion_radius_pool[i])) {
+					DropStuffs(mother_enemy_pool[j].children[k].position);
+					mother_enemy_pool[j].children[k].alive = 0;
+				}
+			}
+
+			//Bullet
+			for (int i = 0; i < MAX_BULLET; i++) {
+				if (bullet_pool[i].y == 0 && bullet_pool[i].x == 0) continue;
+
+				distance_apart = CP_Vector_Distance(bullet_pool[i], mother_enemy_pool[j].children[k].position);
+				if (distance_apart <= (BULLET_SIZE + mother_enemy_pool[j].children[k].size * 34.0f / 50.0f)) {
+					explode(bullet_pool[i]);
+					if (shrapnelstate) shrapnel(bullet_pool[i]);
+
+					bullet_pool[i] = CP_Vector_Set(0, 0);
+					DropStuffs(mother_enemy_pool[j].children[k].position);
+					mother_enemy_pool[j].children[k].alive = 0;
+				}
+			}
+
+			//Explosion
+			for (int i = 0; i < MAX_EXPLOSION; i++) {
+				if (explosion_pool[i].y == 0 && explosion_pool[i].x == 0) continue;
+				distance_apart = CP_Vector_Distance(explosion_pool[i], mother_enemy_pool[j].children[k].position);
+
+				if (distance_apart <= (mother_enemy_pool[j].children[k].size + explosion_radius_pool[i])) {
+					DropStuffs(mother_enemy_pool[j].children[k].position);
+					mother_enemy_pool[j].children[k].alive = 0;
+				}
+			}
+
+			//Shrapnel
+			for (int i = 0; i < MAX_BULLET; i++) {
+				if (shrapnel_pool[i].y == 0 && shrapnel_pool[i].x == 0) continue;
+				distance_apart = CP_Vector_Distance(shrapnel_pool[i], mother_enemy_pool[j].children[k].position);
+				if (distance_apart <= (mother_enemy_pool[j].children[k].size + BULLET_SIZE)) {
+					DropStuffs(mother_enemy_pool[j].children[k].position);
+					shrapnel_pool[i] = CP_Vector_Set(0, 0);
+					shrapnel_vector_pool[i] = CP_Vector_Set(0, 0);
+					enemy_pool[j].alive = 0;
+				}
+			}
+
+			//Arrow
+			for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
+				if (piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0) continue; //If bullet is not active, skip.
+
+				CP_Vector vec1 = rotate_vector(BULLET_WIDTH * charge_pool[i], BULLET_ANGLE, E1); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
+				CP_Vector vec2 = rotate_vector(BULLET_LENGTH * charge_pool[i], BULLET_ANGLE, E2);
+
+				if (rect_collision(mother_enemy_pool[j].children[k].position, piercing_bullet_pool[i], vec1, vec2, mother_enemy_pool[j].children[k].size)) {
+					mother_enemy_pool[j].children[k].alive = 0;
+					DropStuffs(mother_enemy_pool[j].children[k].position);
+				}
+			}
+		}
+	}
+}
 
 int rect_collision(CP_Vector enemy1, CP_Vector position, CP_Vector vec1, CP_Vector vec2, float enemy_radius) {
 	//Following the formula drawn on the iPad
@@ -217,10 +397,7 @@ void melee_update(CP_Vector position) {
 }
 
 
-#define MAX_SWORD_EXPLOSION (100)
-CP_Vector sword_explosion_pool[MAX_SWORD_EXPLOSION] = { 0 };
-float sword_explosion_radius_pool[MAX_SWORD_EXPLOSION] = { 0 };
-float sword_explosion_speed = 15, max_sword_explosion_radius = 200;
+
 
 void sword_explosion(CP_Vector position) {
 	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) { //loops through each explosion in explosion pool
@@ -245,7 +422,6 @@ void sword_explosion_update(void) {
 		}
 	}
 
-	sword_explosion_collision();
 	sword_explosion_print();
 }
 
@@ -259,26 +435,6 @@ void sword_explosion_print(void) {
 	}
 }
 
-void sword_explosion_collision(void) {
-	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
-		if (!(sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0)) {
-
-			for (int j = 0; j < MAX_ENEMY; j++) {
-				if (!(enemy_pool[j].alive)) continue;
-				int killed = 0;
-
-				float distance_apart = CP_Vector_Distance(sword_explosion_pool[i], enemy_pool[j].position);
-				if (distance_apart <= (enemy_pool[j].size + sword_explosion_radius_pool[i])) killed = 1;
-
-				if (killed) {
-					collide = 1; //This changes the color of the lightbulb
-					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
-					enemy_pool[j].alive = 0;
-				}
-			}
-		}
-	}
-}
 
 void lightbulb(void) {
 	if (collide) {
@@ -293,56 +449,6 @@ void lightbulb(void) {
 	}
 	//CP_Graphics_DrawRect(WIDTH/10, HEIGHT/10, WIDTH / 10, HEIGHT / 10 );
 }
-
-
-CP_Vector vector_from_starting, movement_1_position, /** p_vector_from_starting = &vector_from_starting, */starting_position;
-/*int movement_1_start = 1, spin = 0, * p_spin = &spin, spin_speed;*/
-float enemy_count, radius, enemy_speed_x, enemy_speed_y;
-
-
-int vector_1, vector_2;
-/*void movement_1(void) {
-	if (movement_1_start) {
-		//For general 
-		starting_position = CP_Vector_Set(WIDTH / 2, 0);
-		movement_1_position = starting_position;
-		movement_1_start = 0;
-		vector_from_starting = e2;
-
-		//For enemy_moving_down
-		enemy_speed_y = 2;
-		enemy_speed_x = 10;
-		vector_1 = 2; //1 = up, 2 = down, 3 = left, 4 = right
-		vector_2 = 3;
-
-		//For enemy_pattern_circle
-		enemy_count = 5, radius = 50;
-		spin_speed = 2;
-	}
-	CP_Vector position = movement_1_position;
-
-	position = enemy_moving_up_down_left_right(position, enemy_speed_y, vector_1);
-
-	position = enemy_moving_up_down_left_right(position, enemy_speed_y, vector_2);
-	
-	enemy_pattern_circle(position, enemy_count, radius, spin_speed);
-
-	if (out_of_screen(position)) position = starting_position;
-
-	movement_1_position = position;
-}*/
-
-/*void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed) {
-	float angle = 0;
-	for (int i = 0; i < enemy_count; i++) {
-		CP_Vector enemy_direction = rotate_vector(big_radius, angle + *p_spin, e1);
-		CP_Vector enemy_position = CP_Vector_Add(mid_position, enemy_direction);
-
-		print_enemy(enemy_position);
-		angle += 360.0f / enemy_count;
-	}
-	*p_spin += speed;
-}*/
 
 float tick_p = 0, * tick = &tick_p;
 
@@ -374,19 +480,10 @@ CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocit
 	return enemy_current;
 }
 
-/*void print_enemy(CP_Vector sprite_position) {
-	CP_Graphics_DrawCircle(sprite_position.x, sprite_position.y, WIDTH / 50);
-}*/
-
 int out_of_screen(CP_Vector sprite_position) {
 	if (sprite_position.x > WIDTH || sprite_position.y > HEIGHT || sprite_position.x < 0 || sprite_position.y < 0) return 1;
 	return 0;
 }
-
-
-#define MAX_BULLET (20)
-#define BULLET_SIZE (WIDTH / 50)
-CP_Vector bullet_pool[MAX_BULLET] = { 0 };
 
 void shooting_check(CP_Vector position) {
 
@@ -418,7 +515,7 @@ void update_bullet_travel(void) {
 		}
 	}
 	print_bullet();
-	bullet_collision();
+	//bullet_collision();
 }
 
 void print_bullet(void) {
@@ -450,68 +547,6 @@ void print_bullet(void) {
 }
 
 
-void bullet_collision(void) {
-	//Check array of bullet with array of enemy
-	int killed;
-	float distance_apart;
-
-	for (int i = 0; i < MAX_BULLET; i++) {
-		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
-
-
-			for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {
-				if (!(mother_enemy_pool[j].alive)) continue;
-				for (int k = 0; k < MAX_CHILDREN; k++) {
-					if (!(mother_enemy_pool[j].children[k].alive)) continue;
-					killed = 0;
-					
-					distance_apart = CP_Vector_Distance(bullet_pool[i], mother_enemy_pool[j].children[k].position);
-
-					if (distance_apart <= (BULLET_SIZE + mother_enemy_pool[j].children[k].size*34.0f/50.0f)) killed = 1;
-
-					if (killed) {
-
-						
-						explode(bullet_pool[i]);
-						if (shrapnelstate) shrapnel(bullet_pool[i]);
-
-						bullet_pool[i] = CP_Vector_Set(0, 0);
-						DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
-						mother_enemy_pool[j].children[k].alive = 0;
-					}
-				}
-			}
-
-
-			for (int j = 0; j < MAX_ENEMY; j++) {
-				if (!(enemy_pool[j].alive)) continue;
-				killed = 0;
-
-				distance_apart = CP_Vector_Distance(bullet_pool[i], enemy_pool[j].position);
-
-				if (distance_apart <= (BULLET_SIZE + enemy_pool[j].size * 34.0f / 50.0f)) killed = 1;
-
-				if (killed) {
-					explode(bullet_pool[i]);
-					shrapnel(bullet_pool[i]);
-
-					bullet_pool[i] = CP_Vector_Set(0, 0);
-					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
-					enemy_pool[j].alive = 0;
-				}
-			}
-		}
-	}
-}
-
-
-#define MAX_EXPLOSION (100)
-CP_Vector explosion_pool[MAX_EXPLOSION] = { 0 };
-float explosion_radius_pool[MAX_EXPLOSION] = { 0 };
-float explosion_speed = 10, max_explosion_radius = 100;
-
-//There is currrently a lot of for and if loop, certain functions can be combined together so it does not loop or do if statement so much. If the game lag because of this, can try integrate the functions together
-
 void explode(CP_Vector position) { //position where the bullet killed the enemy 
 	//Pass this function only to when enemy was killed by bullet
 
@@ -537,7 +572,7 @@ void explosion_update(void) {
 		}
 	}
 
-	explosion_collision();
+	//explosion_collision();
 	explosion_print();
 }
 
@@ -550,33 +585,6 @@ void explosion_print(void) {
 	}
 }
 
-void explosion_collision(void) {
-	int killed;
-	for (int i = 0; i < MAX_EXPLOSION; i++) {
-		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
-
-			for (int j = 0; j < MAX_ENEMY; j++) {
-				if (!(enemy_pool[j].alive)) continue;
-				killed = 0;
-
-				float distance_apart = CP_Vector_Distance(explosion_pool[i], enemy_pool[j].position);
-				if (distance_apart <= (enemy_pool[j].size + explosion_radius_pool[i])) killed = 1;
-
-				if (killed) {
-					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
-					collide = 1; //This changes the color of the lightbulb
-
-					enemy_pool[j].alive = 0;
-				}
-			}
-		}
-	}
-}
-
-#define MAX_SHRAPNEL (30)
-float max_shrapnels = 5;
-CP_Vector shrapnel_pool[MAX_SHRAPNEL] = { 0 };
-CP_Vector shrapnel_vector_pool[MAX_SHRAPNEL] = { 0 };
 
 void shrapnel(CP_Vector position) {
 	float theta = 0, shrapnel_speed = 5;
@@ -611,7 +619,7 @@ void shrapnel_update(void) {
 		}
 	}
 	print_shrapnel();
-	shrapnel_collision();
+	//shrapnel_collision();
 }
 
 void print_shrapnel(void) {
@@ -623,47 +631,6 @@ void print_shrapnel(void) {
 	}
 }
 
-void shrapnel_collision(void) {
-	//Check array of bullet with array of enemy
-	int killed;
-
-	for (int i = 0; i < MAX_BULLET; i++) {
-		if (!(shrapnel_pool[i].y == 0 && shrapnel_pool[i].x == 0)) { //If bullet is active
-
-			for (int j = 0; j < MAX_ENEMY; j++) {
-				if (!(enemy_pool[j].alive)) continue;
-				killed = 0;
-
-				float distance_apart = CP_Vector_Distance(shrapnel_pool[i], enemy_pool[j].position);
-				if (distance_apart <= (enemy_pool[j].size + BULLET_SIZE)) killed = 1;
-
-				//printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, enemy_size, BULLET_SIZE, enemy_size + explosion_radius_pool[i]);
-
-				if (killed) {
-					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
-					shrapnel_pool[i] = CP_Vector_Set(0, 0);
-					shrapnel_vector_pool[i] = CP_Vector_Set(0, 0);
-					enemy_pool[j].alive = 0;
-					collide = 1;
-					//Suppose to change enemy alive or dead state here
-				}
-			}
-		}
-	}
-}
-
-
-
-#define MAX_PIERCING_BULLET (20)
-#define BULLET_WIDTH (WIDTH / 1000 * 14)
-#define BULLET_LENGTH (WIDTH / 1000 * 69)
-#define BULLET_ANGLE 0
-#define PIERCING_BULLET_SPEED 25.0f
-CP_Vector piercing_bullet_pool[MAX_BULLET] = { 0 };
-
-#define MAX_CHARGE (50.0f)
-#define MAX_CHARGE_POOL (20)
-float piercing_charge = 0, max_piercing_charge = 500.0f, charge_pool[MAX_CHARGE_POOL] = { 0 };
 
 void piercing_shooting_check(CP_Vector position) {
 
@@ -723,7 +690,7 @@ void update_piercing_bullet_travel(void) {
 		}
 	}
 	print_piercing_bullet();
-	piercing_bullet_collision();
+	//piercing_bullet_collision();
 }
 
 void print_piercing_bullet(void) {
@@ -754,39 +721,3 @@ void print_piercing_bullet(void) {
 	}
 }
 
-void piercing_bullet_collision(void) {
-	//Check array of bullet with array of enemy
-
-	for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
-		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
-
-			CP_Vector vec1 = rotate_vector(BULLET_WIDTH * charge_pool[i], BULLET_ANGLE, E1); //-90 because the lines are initialised to pointing downwards, resetting them to point towards y = 0
-			CP_Vector vec2 = rotate_vector(BULLET_LENGTH * charge_pool[i], BULLET_ANGLE, E2);
-			
-			for (int j = 0; j < MAX_ENEMY; j++) {
-				if (!(enemy_pool[j].alive)) continue;
-				if (rect_collision(enemy_pool[j].position, piercing_bullet_pool[i], vec1, vec2, enemy_pool[j].size)) {
-					//piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
-					*pcollide = 1;
-					enemy_pool[j].alive = 0;
-					DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
-					//Suppose to change enemy alive or dead state here
-				}
-			}
-
-			for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {
-				if (!(mother_enemy_pool[j].alive)) continue;
-				for (int k = 0; k < MAX_CHILDREN; k++) {
-					if (!(mother_enemy_pool[j].children[k].alive)) continue;
-
-					if (rect_collision(mother_enemy_pool[j].children[k].position, piercing_bullet_pool[i], vec1, vec2, mother_enemy_pool[j].children[k].size)) {
-						*pcollide = 1;
-						DropStuff(enemy_pool[j].position.x, enemy_pool[j].position.y);
-						mother_enemy_pool[j].children[k].alive = 0;
-					}
-				}
-			}
-		}
-	}
-
-}

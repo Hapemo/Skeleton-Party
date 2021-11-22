@@ -414,6 +414,9 @@ void EnableMenu()
 	menu.enabled = TRUE;
 }
 
+void DropStuffs(CP_Vector position) {
+	DropStuff(position.x, position.y);
+}
 
 void DropStuff(float posX, float posY)
 {

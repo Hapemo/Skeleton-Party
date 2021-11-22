@@ -31,7 +31,6 @@ void game_init(void)
 	CP_Font_Set(CP_Font_GetDefault());
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	
-
 	//init_enemy();
 	
 	CP_System_ShowConsole();
@@ -126,6 +125,7 @@ void game_update(void)
 			//enemy_movement();
 			//enemy_damage();
 			update_bullet_travel();
+			weapon_to_enemy_collision();
 			lightbulb();
 			game_control(&knight);
 			spawn_map();

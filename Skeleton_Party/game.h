@@ -10,7 +10,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define WIDTH 960.0f
 #define HEIGHT 1035.0f
 #define PI 3.1415926535
-#define MAX_ENEMY 1000
+#define MAX_ENEMY 10000
 #define MAX_MOTHER_ENEMY 50
 #define MAX_CHILDREN 50
 #define Formationsingle 0
@@ -167,6 +167,7 @@ void InvulnerabilityFrame();
 void EnemyCollision();
 void SpeedBuffEffect();
 void DropStuff(float posX, float posY);
+void DropStuffs(CP_Vector position);
 void DrawItem();
 void TerminateFullscreen();
 void LoadFont();
@@ -256,7 +257,7 @@ void update_bullet_travel(void);
 
 void print_bullet(void);
 
-void bullet_collision(void);
+//void bullet_collision(void);
 
 void explosion_update(void);
 
@@ -264,7 +265,7 @@ void explosion_print(void);
 
 void explode(CP_Vector position);
 
-void explosion_collision(void);
+//void explosion_collision(void);
 
 void sword_explosion(CP_Vector position);
 
@@ -272,7 +273,7 @@ void sword_explosion_update(void);
 
 void sword_explosion_print(void);
 
-void sword_explosion_collision(void);
+//void sword_explosion_collision(void);
 
 void sword_explosion_update(void);
 
@@ -282,9 +283,10 @@ void shrapnel_update(void);
 
 void print_shrapnel(void);
 
-void shrapnel_collision(void);
+//void shrapnel_collision(void);
 
-void piercing_bullet_collision(void);
+//void piercing_bullet_collision(void);
+void weapon_to_enemy_collision(void);
 
 void print_piercing_bullet(void);
 
@@ -293,6 +295,8 @@ void update_piercing_bullet_travel(void);
 void shoot_piercing_bullet(CP_Vector position, float charge);
 
 void piercing_shooting_check(CP_Vector position);
+
+double sine(double speed, int randomiser);
 
 void run_once_only(void);
 

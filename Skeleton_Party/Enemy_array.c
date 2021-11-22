@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "cprocessing.h"
 #include "game.h"
-
+#include <math.h>
 #define ENEMY_SIZE 20.0f
 #define ENEMY_CIRCLE_COUNT 10
 #define ENEMY_SPEED 5
@@ -28,40 +28,75 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 //1 for straight line, 2 for left diagonal, 3 for right diagonal, 5 for horizontal enemy, 101 for circle
 //Max screen is WDITH/1.5
 
+//typedef float (*EasingFunctionType)(float, float, float);
+//
+//typedef struct {
+//	EasingFunctionType function;
+//	const char* name;
+//} EasingFunctionInfo;
+//
+static float Linear(float start, float end, float value)
+{
+	return (1.f - value) * start + value * end;
+}
+//#define DECLARE_EASING_INFO(name) { name, #name },
+//
+//DECLARE_EASING_INFO(Linear)
+
+static float EaseInOutQuad(float start, float end, float value)
+{
+	value /= .5f;
+	end -= start;
+	float something;
+	if (value < 1) something = end * 0.5f * value * value + start;
+	else {
+		value--;
+		something = -end * 0.5f * (value * (value - 2) - 1) + start;
+	}
+	printf("something: %f, value = %f\n", something, value);
+	return something;
+}
+
+
 void preload_spawn_map(void) { //Put in game_init
 	//first wave
 	CP_Vector line_1 = CP_Vector_Set(WIDTH/3, -5);
 	spawn_pool_assigner(line_1, 50.0f, 50.0f, 30, 1);
 
-	CP_Vector line_2 = CP_Vector_Set(((WIDTH/3)+50), -5);
-	spawn_pool_assigner(line_2, 50.0f, 10.0f, 30, 1);
+	CP_Vector line_11 = CP_Vector_Set(WIDTH / 1.1f, -5);
+	spawn_pool_assigner(line_11, 80.0f, 50.0f, 30, 102);
 
-	CP_Vector line_3 = CP_Vector_Set(((WIDTH / 3) -50), -5);
-	spawn_pool_assigner(line_3, 50.0f, 50.0f, 30, 1);
+	//CP_Vector line_2 = CP_Vector_Set(((WIDTH/3)+50), -5);
+	//spawn_pool_assigner(line_2, 50.0f, 10.0f, 30, 1);
 
-	CP_Vector line_4 = CP_Vector_Set(((WIDTH / 3) + 100), -5);
-	spawn_pool_assigner(line_4, 50.0f, 10.0f, 30, 1);
-	
+	//CP_Vector line_3 = CP_Vector_Set(((WIDTH / 3) -50), -5);
+	//spawn_pool_assigner(line_3, 50.0f, 50.0f, 30, 1);
 
-	//second wave
-	CP_Vector line_5 = CP_Vector_Set(-180, -400);
-	spawn_pool_assigner(line_5, 20.0f, 100.0f, 50, 5);
+	//CP_Vector line_4 = CP_Vector_Set(((WIDTH / 3) + 100), -5);
+	//spawn_pool_assigner(line_4, 50.0f, 10.0f, 30, 1);
+	//
 
-	CP_Vector line_6 = CP_Vector_Set(((WIDTH / 4) + 50), -400);
-	spawn_pool_assigner(line_6, 50.0f, 1600.0f, 50, 5);
+	////second wave
+	//CP_Vector line_5 = CP_Vector_Set(-180, -400);
+	//spawn_pool_assigner(line_5, 20.0f, 100.0f, 50, 5);
 
-	CP_Vector line_7 = CP_Vector_Set((WIDTH/4), -400);
-	spawn_pool_assigner(line_7, 20.0f, 1600.0f, 50, 5);
+	//CP_Vector line_6 = CP_Vector_Set(((WIDTH / 4) + 50), -400);
+	//spawn_pool_assigner(line_6, 50.0f, 1600.0f, 50, 5);
 
-	CP_Vector line_8 = CP_Vector_Set(((WIDTH/4) + 100), -400);
-	spawn_pool_assigner(line_8, 50.0f, 1600.0f, 50, 5);
+	//CP_Vector line_7 = CP_Vector_Set((WIDTH/4), -400);
+	//spawn_pool_assigner(line_7, 20.0f, 1600.0f, 50, 5);
 
-	//third wave
-	CP_Vector line_9 = CP_Vector_Set((WIDTH / 2)+150, -400);
-	spawn_pool_assigner(line_9, 20.0f, 4300.0f, 50, 101);
+	//CP_Vector line_8 = CP_Vector_Set(((WIDTH/4) + 100), -400);
+	//spawn_pool_assigner(line_8, 50.0f, 1600.0f, 50, 5);
 
-	CP_Vector line_10 = CP_Vector_Set(WIDTH / 2, -400);
-	spawn_pool_assigner(line_10, 20.0f, 4300.0f, 3, 101);
+	////third wave
+	//CP_Vector line_9 = CP_Vector_Set((WIDTH / 2)+150, -400);
+	//spawn_pool_assigner(line_9, 20.0f, 4300.0f, 50, 101);
+
+	//CP_Vector line_10 = CP_Vector_Set(WIDTH / 2, -400);
+	//spawn_pool_assigner(line_10, 20.0f, 4300.0f, 3, 101);
+
+
 }
 
 
@@ -102,12 +137,15 @@ void spawn_map(void) { //Should run continuously
 					initialise_basic_movement(i);
 					break;
 				case 4:
-					initialise_circle_shape(spawn_pool[i].position, 5, 100);
+					initialise_basic_movement(i);
 					break;
 				case 5:
 					initialise_horizontal_line(spawn_pool[i].position, 5, WIDTH/1.1f, 1);
 					break;
 				case 101:
+					initialise_basic_movement(i);
+					break;
+				case 102:
 					initialise_basic_movement(i);
 					break;
 			}
@@ -189,6 +227,11 @@ void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float
 
 //------------------ Enemy Patterns ------------------- (Should run continously in game_update)
 void movement_pattern_vertical_and_diagonal(void) {
+	/*float multiplier;
+	int timer, duration;*/
+	double speed;
+
+
 	CP_Settings_Fill(COLOR_BLUE);
 	for (int i = 0; i < MAX_ENEMY; i++) {
 
@@ -204,16 +247,24 @@ void movement_pattern_vertical_and_diagonal(void) {
 			case 3:
 				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT); //Updates position
 				break;
+			case 4:
+				speed = 10;
+				speed = sine(speed, i);
+				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
+				enemy_pool[i].position.x += (float)speed;
+				break;
 		}
 
 		//CP_Graphics_DrawCircle(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size * 2); //Prints enemy
 		print_enemy(enemy_pool[i].position, enemy_pool[i].size);
 	}
+
 }
 
 void movement_pattern_spinning_circle(void) {
 	CP_Settings_Fill(COLOR_BLUE);
 	int children_alive;
+	double speed;
 
 	for (int i = 0; i < MAX_MOTHER_ENEMY; i++) {
 		enemy_out_of_screen(0, i);
@@ -235,13 +286,20 @@ void movement_pattern_spinning_circle(void) {
 			case 101:
 				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, mother_enemy_pool[i].position);
 				break;
+			case 102:
+				speed = 10;
+				speed = sine(speed, i);
+				//printf("sine: %f, speed: %f\n", angle, speed);
+				mother_enemy_pool[i].position.x += (float)speed;
+				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, mother_enemy_pool[i].position);
+				break;
 		}
 	}
 }
 
 void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position) {
 	float angle = 0;
-	int spin_speed = 100;
+	float spin_speed = 0.5f;
 	int randomizer = (int)mother_enemy_pool[mother_i].time % 36;
 	if (randomizer != 0) angle = 360.0f / randomizer;
 
@@ -286,3 +344,11 @@ void print_enemy(CP_Vector position, float size) {
 	CP_Image enemy_pic = CP_Image_Load("./Assets/enemy.png");
 	CP_Image_Draw(enemy_pic, position.x, position.y, size*2, size*2, 255);
 }
+
+
+
+double sine(double speed, int randomiser) {
+	double angle = *tick * PI / 360.0;
+	return speed * sin(randomiser + angle * 10);
+}
+
