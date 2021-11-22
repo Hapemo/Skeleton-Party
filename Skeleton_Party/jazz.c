@@ -76,6 +76,7 @@ void melee_attack(CP_Vector position) {
 			if (killed) {
 				*pcollide = 1;
 				if (shockwavestate) {
+					play_crit();
 					printf("explosion is activated");
 					unsigned int random_int = CP_Random_RangeInt(0, 1000);
 					if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
@@ -518,6 +519,7 @@ void explode(CP_Vector position) { //position where the bullet killed the enemy
 		if (explosion_pool[i].y == 0 && explosion_pool[i].x == 0) { //to find explosion = 0
 			explosion_pool[i] = position;
 			explosion_radius_pool[i] = 1;
+			play_crit();
 			break;
 		}
 	}

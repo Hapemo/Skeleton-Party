@@ -92,20 +92,17 @@ void game_update(void)
 			
 			if (CP_Input_KeyTriggered(KEY_1))
 			{
-				play_crit();//temp
 				CurrentCharacter = knightint;
 				
 			}
 
 			if (CP_Input_KeyTriggered(KEY_2))
 			{
-				play_crit();//temp
 				CurrentCharacter = mageint;
 			}
 
 			if (CP_Input_KeyTriggered(KEY_3))
 			{
-				play_crit();//temp
 				CurrentCharacter = archerint;
 			}
 			update_char(CurrentCharacter, &knight);
@@ -114,14 +111,10 @@ void game_update(void)
 			if (CurrentCharacter == knightint)
 			{
 				initiate_melee();
-				
 			}
 			else if (CurrentCharacter == mageint)
 			{
 				shooting_check(knight.position);			
-				update_bullet_travel();
-				
-
 			}
 			else if (CurrentCharacter == archerint)
 			{
@@ -132,6 +125,7 @@ void game_update(void)
 			//DrawPlayerHealth();
 			//enemy_movement();
 			//enemy_damage();
+			update_bullet_travel();
 			lightbulb();
 			game_control(&knight);
 			spawn_map();
