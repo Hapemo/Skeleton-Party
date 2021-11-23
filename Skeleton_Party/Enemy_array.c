@@ -60,11 +60,101 @@ static float EaseInOutQuad(float start, float end, float value)
 
 void preload_spawn_map(void) { //Put in game_init
 	//first wave
-	CP_Vector line_1 = CP_Vector_Set(WIDTH/3, -5);
-	spawn_pool_assigner(line_1, 50.0f, 50.0f, 30, 1);
+	
+	//-------------------------------------------------
+	//Standard lines
+	CP_Vector level_011 = CP_Vector_Set(WIDTH / 3, -5);
+	CP_Vector level_012 = CP_Vector_Set(WIDTH / 3 * 2, -5);
 
-	CP_Vector line_11 = CP_Vector_Set(WIDTH / 2, -5);
-	spawn_pool_assigner(line_11, 80.0f, 50.0f, 30, 103);
+	spawn_pool_assigner(level_011, 15.0f, 50.0f, 10, 1);
+	spawn_pool_assigner(level_012, 15.0f, 50.0f, 10, 1);
+
+	spawn_pool_assigner(level_011, 15.0f, 250.0f, 10, 1);
+	spawn_pool_assigner(level_012, 15.0f, 250.0f, 10, 1);
+
+	spawn_pool_assigner(level_011, 15.0f, 450.0f, 10, 1);
+	spawn_pool_assigner(level_012, 15.0f, 450.0f, 10, 1);
+
+	spawn_pool_assigner(level_011, 15.0f, 700.0f, 10, 1);
+	spawn_pool_assigner(level_012, 15.0f, 700.0f, 10, 1);
+
+	CP_Vector level_013 = CP_Vector_Set(WIDTH / 2, -5);
+	CP_Vector level_014 = CP_Vector_Set(WIDTH / 4, -5);
+	CP_Vector level_015 = CP_Vector_Set(WIDTH / 4 * 3, -5);
+
+	spawn_pool_assigner(level_013, 15.0f, 900.0f, 10, 1);
+	spawn_pool_assigner(level_014, 15.0f, 900.0f, 10, 1);
+	spawn_pool_assigner(level_015, 15.0f, 900.0f, 10, 1);
+
+	spawn_pool_assigner(level_013, 15.0f, 1100.0f, 10, 1);
+	spawn_pool_assigner(level_014, 15.0f, 1100.0f, 10, 1);
+	spawn_pool_assigner(level_015, 15.0f, 1100.0f, 10, 1);
+
+	spawn_pool_assigner(level_013, 15.0f, 1300.0f, 10, 1);
+	spawn_pool_assigner(level_014, 15.0f, 1300.0f, 10, 1);
+	spawn_pool_assigner(level_015, 15.0f, 1300.0f, 10, 1);
+
+	spawn_pool_assigner(level_013, 15.0f, 1500.0f, 10, 1);
+	spawn_pool_assigner(level_014, 15.0f, 1500.0f, 10, 1);
+	spawn_pool_assigner(level_015, 15.0f, 1500.0f, 10, 1);
+
+	CP_Vector level_016 = CP_Vector_Set(WIDTH / 5, -5);
+	CP_Vector level_017 = CP_Vector_Set(WIDTH / 5 * 2, -5);
+	CP_Vector level_018 = CP_Vector_Set(WIDTH / 5 * 3, -5);
+	CP_Vector level_019 = CP_Vector_Set(WIDTH / 5 * 4, -5);
+
+	spawn_pool_assigner(level_016, 15.0f, 1700.0f, 10, 1);
+	spawn_pool_assigner(level_017, 15.0f, 1700.0f, 10, 1);
+	spawn_pool_assigner(level_018, 15.0f, 1700.0f, 10, 1);
+	spawn_pool_assigner(level_019, 15.0f, 1700.0f, 10, 1);
+
+	spawn_pool_assigner(level_016, 15.0f, 1900.0f, 10, 1);
+	spawn_pool_assigner(level_017, 15.0f, 1900.0f, 10, 1);
+	spawn_pool_assigner(level_018, 15.0f, 1900.0f, 10, 1);
+	spawn_pool_assigner(level_019, 15.0f, 1900.0f, 10, 1);
+
+	spawn_pool_assigner(level_016, 15.0f, 2100.0f, 10, 1);
+	spawn_pool_assigner(level_017, 15.0f, 2100.0f, 10, 1);
+	spawn_pool_assigner(level_018, 15.0f, 2100.0f, 10, 1);
+	spawn_pool_assigner(level_019, 15.0f, 2100.0f, 10, 1);
+
+	spawn_pool_assigner(level_016, 15.0f, 2300.0f, 10, 1);
+	spawn_pool_assigner(level_017, 15.0f, 2300.0f, 10, 1);
+	spawn_pool_assigner(level_018, 15.0f, 2300.0f, 10, 1);
+	spawn_pool_assigner(level_019, 15.0f, 2300.0f, 10, 1);
+
+	CP_Vector level_0120 = CP_Vector_Set(WIDTH / 10 * 1.8f, -5);
+	spawn_pool_assigner(level_0120, 20.0f, 2500.0f, 10, 012);
+	spawn_pool_assigner(level_0120, 20.0f, 2800.0f, 10, 012);
+	spawn_pool_assigner(level_0120, 20.0f, 3100.0f, 10, 012);
+	spawn_pool_assigner(level_0120, 20.0f, 3400.0f, 10, 012);
+
+	CP_Vector level_0121 = CP_Vector_Set(WIDTH / 10, -5);
+	spawn_pool_assigner(level_0120, 20.0f, 3700.0f, 20, 012);
+	spawn_pool_assigner(level_0121, 20.0f, 3750.0f, 20, 011);
+	spawn_pool_assigner(level_0120, 20.0f, 4200.0f, 20, 012);
+	spawn_pool_assigner(level_0121, 20.0f, 4250.0f, 20, 011);
+	spawn_pool_assigner(level_0120, 20.0f, 4700.0f, 20, 012);
+	spawn_pool_assigner(level_0121, 20.0f, 4750.0f, 20, 011);
+	spawn_pool_assigner(level_0120, 20.0f, 5200.0f, 20, 012);
+	spawn_pool_assigner(level_0121, 20.0f, 5250.0f, 20, 011);
+
+	/*CP_Vector level_0150 = CP_Vector_Set(WIDTH / 10, -5);
+	spawn_pool_assigner(level_012, 30.0f, 0.0f, 10, 011);*/
+
+	//-------------------------------------------------
+	//Web pattern
+	/*CP_Vector level_012 = CP_Vector_Set(WIDTH/10, -5);
+	spawn_pool_assigner(level_012, 30.0f, 0.0f, 10, 011);
+
+	CP_Vector level_013 = CP_Vector_Set(WIDTH/10*1.8f, -5);
+	spawn_pool_assigner(level_013, 30.0f, 15.0f, 10, 012);*/
+	//-------------------------------------------------
+	
+	
+
+	//CP_Vector line_11 = CP_Vector_Set(WIDTH / 2, -5);
+	//spawn_pool_assigner(line_11, 80.0f, 50.0f, 30, 103);
 
 	//CP_Vector line_2 = CP_Vector_Set(((WIDTH/3)+50), -5);
 	//spawn_pool_assigner(line_2, 50.0f, 10.0f, 30, 1);
@@ -139,8 +229,11 @@ void spawn_map(void) { //Should run continuously
 				case 4:
 					initialise_basic_movement(i);
 					break;
-				case 5:
+				case 011:
 					initialise_horizontal_line(spawn_pool[i].position, 5, WIDTH/1.1f, 1);
+					break;
+				case 012:
+					initialise_horizontal_line(spawn_pool[i].position, 4, WIDTH / 1.2f, 1);
 					break;
 				case 101:
 					initialise_basic_movement(i);
@@ -206,12 +299,11 @@ void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float
 	float distance_apart = total_distance_apart / enemy_count;
 	CP_Vector position = start_position;
 	
-	for (int i = 0; i < enemy_count; i++) {
+	for (int i = 0; i <= enemy_count; i++) {
 		for (int j = 0; j < MAX_ENEMY; j++) {
 			if (enemy_pool[j].alive) continue;
-			position.x += (distance_apart);
 			enemy_pool[j] = enemy_set(position, 1, ENEMY_SIZE, type);
-			printf("position of %d: %f|%f\n", i, position.x, position.y);
+			position.x += (distance_apart);
 			//printf("enemy %d position: %f|%f\n", i, enemy_pool[i].position.x, enemy_pool[i].position.y);
 			break;
 		}
