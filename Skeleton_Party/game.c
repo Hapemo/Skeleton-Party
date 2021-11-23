@@ -4,16 +4,16 @@
 
 /* Feel free to declare your own variables here */
 //int gamePause;
-struct character mage, archer;
+
 int CurrentCharacter = 0;
 
-float originalXposition;
-float originalYposition;
+
 
 void game_init(void)
 {
 	gamePause = 0;
 	gameState = LOGO;
+	currentState = LEVEL_1;
     CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
@@ -25,7 +25,7 @@ void game_init(void)
     InitializeVariables();
 	InitializeSkillShopUI();
 
-    LoadBackgroundImage();
+    LoadBackgroundImage(1);
     LoadFont();
 
 	CP_Font_Set(CP_Font_GetDefault());
@@ -36,10 +36,10 @@ void game_init(void)
 	CP_System_ShowConsole();
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
-	originalXposition = width * 1.25f;
-	originalYposition = height * 2.25f;
+	originalPlayerPositionX = width * 1.25f;
+	originalPlayerPositionY = height * 2.25f;
 
-	init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
+	init_char(&knight, originalPlayerPositionX, originalPlayerPositionY, "./Assets/knightpa.png");
 	
 
 	preload_spawn_map(); //This is for declarations in enemy_array
@@ -70,42 +70,30 @@ void game_update(void)
 		break;
 
 
-		case PLAYING:
-
+		case LEVEL_1:
+			LoadBackgroundImage(1);
 			DeathCondition();
 			TerminateFullscreen();
-
 			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 			{
 				gamePause = !gamePause;
-				//gameState = PAUSED;
-				//gameState = PREPROOM;
-				//gameState = UPGRADES ;
-				//gameState = SHOP;
-				//gameState = SKILL;
-				//gameState = WIN;
-				gameState = LOSE;
+				gameState = PAUSED;
 			}
-			
 			DrawGameCanvas();
-			
 			if (CP_Input_KeyTriggered(KEY_1))
 			{
 				CurrentCharacter = knightint;
 				
 			}
-
 			if (CP_Input_KeyTriggered(KEY_2))
 			{
 				CurrentCharacter = mageint;
 			}
-
 			if (CP_Input_KeyTriggered(KEY_3))
 			{
 				CurrentCharacter = archerint;
 			}
 			update_char(CurrentCharacter, &knight);
-
 			// class skill restriction 
 			if (CurrentCharacter == knightint)
 			{
@@ -120,16 +108,11 @@ void game_update(void)
 				piercing_shooting_check(knight.position);
 				
 			}
-			
-			//DrawPlayerHealth();
-			//enemy_movement();
-			//enemy_damage();
 			update_bullet_travel();
 			weapon_to_enemy_collision();
 			lightbulb();
 			game_control(&knight);
 			spawn_map();
-			
 
 			//Attack updates
 			if (shrapnelstate == TRUE) shrapnel_update();
@@ -139,51 +122,173 @@ void game_update(void)
 			melee_update(knight.position);
 			explosion_update();
 			update_piercing_bullet_travel();
-	
-			
-			
 			// enemy movement patterns
 			movement_pattern_vertical_and_diagonal();
 			movement_pattern_spinning_circle();
-
-
 			timer();
-			
 
 			SpeedBuffEffect();
-			
 			player_touch_enemy();
 			EnemyCollision();
-			DrawItem()
-			/*if (bug.alive == 1)
-			{
-				if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
-				{
-					Playertakedamage(1);
-				}
-			}*/
-
-			/***********************************************************PRINTing*****************************************************************/
-
-			;
-			// isaac's enemy movement functions. Update enemy and print 
-			/*UpdateEnemyMovement();
-			Enemy_printer();
-			cycleEnemyRemove();*/
-
+			DrawItem();
 			// player hP bar printer to be added when the actual game starts. not to be included in title screen
 			Player_Redheartprinter();
 			Player_Emptyheartprinter();
-
 			CP_Settings_TextSize(100);
 			CP_Settings_Fill(darkviolet);
 			ScorePrinter(Exp, 690, 80);
+			CP_Settings_Fill(darkviolet);
+			ScorePrinter(Gold, 850, 80);
+			Screen_Currency_Print();
+			WinCondition();
+			break;
 
+		case LEVEL_2:
+			LoadBackgroundImage(2);
+			DeathCondition();
+			TerminateFullscreen();
+			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
+			{
+				gamePause = !gamePause;
+				gameState = PAUSED;
+			}
+			DrawGameCanvas();
+			if (CP_Input_KeyTriggered(KEY_1))
+			{
+				CurrentCharacter = knightint;
+
+			}
+			if (CP_Input_KeyTriggered(KEY_2))
+			{
+				CurrentCharacter = mageint;
+			}
+			if (CP_Input_KeyTriggered(KEY_3))
+			{
+				CurrentCharacter = archerint;
+			}
+			update_char(CurrentCharacter, &knight);
+			// class skill restriction 
+			if (CurrentCharacter == knightint)
+			{
+				initiate_melee();
+			}
+			else if (CurrentCharacter == mageint)
+			{
+				shooting_check(knight.position);
+			}
+			else if (CurrentCharacter == archerint)
+			{
+				piercing_shooting_check(knight.position);
+
+			}
+			update_bullet_travel();
+			weapon_to_enemy_collision();
+			lightbulb();
+			game_control(&knight);
+			spawn_map();
+
+			//Attack updates
+			if (shrapnelstate == TRUE) shrapnel_update();
+
+			if (shockwavestate == TRUE) sword_explosion_update();
+
+			melee_update(knight.position);
+			explosion_update();
+			update_piercing_bullet_travel();
+			// enemy movement patterns
+			movement_pattern_vertical_and_diagonal();
+			movement_pattern_spinning_circle();
+			timer();
+			SpeedBuffEffect();
+			player_touch_enemy();
+			EnemyCollision();
+			DrawItem();
+			// player hP bar printer to be added when the actual game starts. not to be included in title screen
+			Player_Redheartprinter();
+			Player_Emptyheartprinter();
+			CP_Settings_TextSize(100);
+			CP_Settings_Fill(darkviolet);
+			ScorePrinter(Exp, 690, 80);
 			CP_Settings_Fill(darkviolet);
 			ScorePrinter(Gold, 850, 80);
 			Screen_Currency_Print();
 
+			WinCondition();
 			break;
+
+		case LEVEL_3:
+			LoadBackgroundImage(3);
+			DeathCondition();
+			TerminateFullscreen();
+			if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
+			{
+				gamePause = !gamePause;
+				gameState = PAUSED;
+			}
+			DrawGameCanvas();
+			if (CP_Input_KeyTriggered(KEY_1))
+			{
+				CurrentCharacter = knightint;
+
+			}
+			if (CP_Input_KeyTriggered(KEY_2))
+			{
+				CurrentCharacter = mageint;
+			}
+			if (CP_Input_KeyTriggered(KEY_3))
+			{
+				CurrentCharacter = archerint;
+			}
+			update_char(CurrentCharacter, &knight);
+			// class skill restriction 
+			if (CurrentCharacter == knightint)
+			{
+				initiate_melee();
+			}
+			else if (CurrentCharacter == mageint)
+			{
+				shooting_check(knight.position);
+			}
+			else if (CurrentCharacter == archerint)
+			{
+				piercing_shooting_check(knight.position);
+
+			}
+			update_bullet_travel();
+			weapon_to_enemy_collision();
+			lightbulb();
+			game_control(&knight);
+			spawn_map();
+
+			//Attack updates
+			if (shrapnelstate == TRUE) shrapnel_update();
+
+			if (shockwavestate == TRUE) sword_explosion_update();
+
+			melee_update(knight.position);
+			explosion_update();
+			update_piercing_bullet_travel();
+			// enemy movement patterns
+			movement_pattern_vertical_and_diagonal();
+			movement_pattern_spinning_circle();
+			timer();
+			SpeedBuffEffect();
+			player_touch_enemy();
+			EnemyCollision();
+			DrawItem();
+			// player hP bar printer to be added when the actual game starts. not to be included in title screen
+			Player_Redheartprinter();
+			Player_Emptyheartprinter();
+			CP_Settings_TextSize(100);
+			CP_Settings_Fill(darkviolet);
+			ScorePrinter(Exp, 690, 80);
+			CP_Settings_Fill(darkviolet);
+			ScorePrinter(Gold, 850, 80);
+			Screen_Currency_Print();
+
+			WinCondition();
+			break;
+
 		case PAUSED:
 			
 			
@@ -197,16 +302,15 @@ void game_update(void)
 			{
 			
 				gamePause = !gamePause;
-				gameState = PLAYING;
+				gameState = currentState;
 				
 			}
 			
 			break;
 
 		case MAIN_MENU:
-			PlayerSetHealth(3);
-			knight.position.x = originalXposition;
-			knight.position.y = originalYposition;
+			
+			
 			TerminateFullscreen();
 			EnableMenu();
 			play_menubg();
@@ -222,7 +326,7 @@ void game_update(void)
 			ReturnMainMenuClicked();
 			break;
 		case WIN:
-
+			ResetState();
 			if (RewardGiven == FALSE)
 			{
 				RewardGiven = TRUE;
@@ -243,7 +347,7 @@ void game_update(void)
 
 			break;
 		case LOSE:
-
+			ResetState();
 			//TerminateFullscreen();
 			Screen_GAMEOVER_Print();
 			Screen_GAMEOVER_ButtonClicked();
@@ -280,10 +384,10 @@ void game_update(void)
 			Screen_SKILL_ButtonClicked();
 
 			break;
-		case RETRY : 
+		//case RETRY : 
 
 
-			resetPool();
+			
 			//exit_PlayerHP();
 			//exit_skilltreepictures();
 			//free_audio();
@@ -299,8 +403,7 @@ void game_update(void)
 			//init_PlayerHP();	// defn in isaac.c
 			//init_EnemySprite();	// def in Enemy_arrays.c
 
-			InitializeRetry();
-			InitializeVariables();
+			
 			//InitializeSkillShopUI();
 
 			//LoadBackgroundImage();
@@ -310,17 +413,17 @@ void game_update(void)
 			//CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 			//init_enemy();
 			//CP_System_ShowConsole();
-			float width = (float)CP_System_GetWindowWidth();
-			float height = (float)CP_System_GetWindowHeight();
-			originalXposition = width * 1.25f;
-			originalYposition = height * 2.25f;
-			init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
-			preload_spawn_map(); //This is for declarations in enemy_array
-			load_audio(); //load audio
-			
+			/*float width = (float)CP_System_GetWindowWidth();
+			float height = (float)CP_System_GetWindowHeight();*/
+			//originalXposition = width * 1.25f;
+			//originalYposition = height * 2.25f;
+			//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
+			//preload_spawn_map(); //This is for declarations in enemy_array
+			//load_audio(); //load audio
+			//
 
-			Player_FullHeal();
-			gameState = PREPROOM;
+			//Player_FullHeal();
+			//gameState = PREPROOM;
 
 			break;
 		}
@@ -330,6 +433,8 @@ void game_update(void)
 	//}
 
 }
+
+
 
 void game_exit(void)
 {

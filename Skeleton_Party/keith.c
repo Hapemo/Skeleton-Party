@@ -133,11 +133,28 @@ void DrawHP(float currentHealth, float maxHealth)
 }
 
 
-void LoadBackgroundImage()
+void LoadBackgroundImage(int id)
 {
-	gameBackground = CP_Image_Load("./Assets/bgpic.jpg");
+	
+	switch (id)
+	{
+	case 1:
+
+		gameBackground = CP_Image_Load("./Assets/bgpic.jpg");
+		break;
+	case 2:
+		gameBackground = CP_Image_Load("./Assets/bg.png");
+		break;
+
+	case 3:
+		gameBackground = CP_Image_Load("./Assets/bg2.png");
+		break;
+
+	}
 	
 }
+
+
 
 
 void LoadFont()
@@ -357,7 +374,7 @@ void ButtonClicked()
 		{
 			menu.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
-			gameState = PLAYING;
+			gameState = LEVEL_1;
 		}
 		//}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, quitButton.width, quitButton.height, quitButton.posX, quitButton.posY))
@@ -414,9 +431,53 @@ void EnableMenu()
 	menu.enabled = TRUE;
 }
 
+
+void ResetState()
+{
+	ResetItemPool();
+	timer_reset();
+	reset_enemy_and_weapon();
+	knight.position.x = originalPlayerPositionX;
+	knight.position.y = originalPlayerPositionY;
+	//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
+	preload_spawn_map(); //This is for declarations in enemy_array
+	load_audio(); //load audio
+	Player_FullHeal();
+
+}
+
+
+void WinCondition()
+{
+	//static float timer = 300.0f;
+
+	//if (timer > 0)
+	//{
+	//	timer -= CP_System_GetDt();
+	//	printf("survive timer: %f\n", timer);
+	//}
+	//else
+	//{
+	//	currentState++;
+	//	timer = 300.0f;
+	//	gameState = WIN;
+	//}
+	if (*tick == 1000)
+	{
+		if (currentState < LEVEL_3)
+		{
+			currentState++;
+		}
+		gameState = WIN;
+
+	}
+
+}
+
 void DropStuffs(CP_Vector position) {
 	DropStuff(position.x, position.y);
 }
+
 
 void DropStuff(float posX, float posY)
 {
@@ -433,6 +494,7 @@ void DropStuff(float posX, float posY)
 				item_pool[i].width = 45;
 				item_pool[i].height = 50;
 				item_pool[i].enabled = 1;
+				
 				int randomChance = CP_Random_RangeInt(0, 2);
 				item_pool[i].id = randomChance;
 				j++;
@@ -449,10 +511,13 @@ void DropStuff(float posX, float posY)
 
 void DrawItem()
 {
+	
 	for (int i = 0; i < MAX_DROP; i++)
 	{
+		
 		if (item_pool[i].enabled == 1)
 		{
+
 			switch (item_pool[i].id)
 			{
 			case 0:
@@ -496,14 +561,17 @@ void DrawItem()
 
 			}
 		}
+		
 	}
+	
+	
 }
 
 
 
 void InvulnerabilityFrame()
 {
-	static float timer = 30.0f;
+	static float timer = 10.0f;
 
 	if (timer > 0)
 	{
@@ -512,7 +580,7 @@ void InvulnerabilityFrame()
 	}
 	else
 	{	knight.invulnerability = FALSE;
-		timer = 30.0f;
+		timer = 10.0f;
 	}
 }
 
@@ -544,7 +612,7 @@ void SpeedBuffEffect()
 		{
 
 			timer += CP_System_GetDt();
-			printf("Timer: %f\n", timer);
+			//printf("Timer: %f\n", timer);
 		}
 		else
 		{
@@ -561,6 +629,17 @@ void SpeedBuffEffect()
 	else
 	{
 		originalSpeed = knight.speed;
+
+	}
+}
+
+void ResetItemPool()
+{
+	for (int i = 0; i < MAX_DROP; i++)
+	{
+		item_pool[i].enabled = 0;
+		item_pool[i].position.x = 0;
+		item_pool[i].position.y = 0;
 
 	}
 }

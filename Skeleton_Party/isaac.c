@@ -1162,7 +1162,8 @@ void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
 
 			printf("button pressed retry \n");
 			gamePause = 1;
-			gameState = RETRY;
+			//gameState = RETRY;
+			gameState = currentState;
 			//gameState = MAIN_MENU;
 		}
 
@@ -1216,7 +1217,7 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 		printf("button pressed back esc \n");
 		printf("button pressed continue \n");
 		gamePause = !gamePause;
-		gameState = PLAYING;
+		gameState = currentState;
 	}
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
@@ -1233,7 +1234,7 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed continue \n");
 			gamePause = !gamePause;
-			gameState = PLAYING;
+			gameState = currentState;
 		}
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 297.0, 510.0, 580.0, 622.0))
@@ -1241,7 +1242,9 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 			//menu.enabled = FALSE;
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
+			
 			printf("button pressed retry\n");
+			gameState = currentState;
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 299.0, 661.0, 595.0, 781.0))
 		{
@@ -1274,7 +1277,7 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 		printf("button pressed back esc \n");
 		printf("button pressed continue \n");
 		gamePause = !gamePause;
-		gameState = PLAYING;
+		gameState = PAUSED;
 	}
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
@@ -1291,7 +1294,7 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed continye \n");
 			gamePause = !gamePause;
-			gameState = PLAYING;
+			gameState = currentState;
 		}
 	
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
@@ -1351,6 +1354,7 @@ void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 			//menu.enabled = FALSE;
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
+			
 			printf("button pressed shop\n");
 			gameState = SHOP;
 		}

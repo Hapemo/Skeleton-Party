@@ -33,9 +33,12 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define darkviolet CP_Color_Create(148, 0, 211, 255)
 
 
-enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY};
+enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_1, LEVEL_2, LEVEL_3, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY};
 enum GameStates gameState;
 
+
+float originalPlayerPositionX;
+float originalPlayerPositionY;
 int Exp, Gold ;
 int additionalExp, additionalGold;
 
@@ -68,7 +71,7 @@ struct character
 	BOOL invulnerability;
 };
 
-struct character knight;
+struct character knight, mage, archer;
 
 struct enemy
 {
@@ -162,6 +165,10 @@ void exit_PlayerHP(void);
 //void UpdateEnemyMovement(void);
 //void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
+void ResetItemPool();
+void WinCondition();
+int currentState;
+void ResetState();
 void DrawLogoScreen();
 void ReturnMainMenuClicked();
 void DrawInstructionsCanvas();
@@ -171,9 +178,10 @@ void SpeedBuffEffect();
 void DropStuff(float posX, float posY);
 void DropStuffs(CP_Vector position);
 void DrawItem();
+
 void TerminateFullscreen();
 void LoadFont();
-void LoadBackgroundImage();
+void LoadBackgroundImage(int id);
 void InitializeVariables();
 void FullscreenKeyPressed();
 void FullscreenMode();
@@ -248,6 +256,8 @@ CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocit
 //void print_enemy(CP_Vector sprite_position);
 
 void timer(void);
+
+void timer_reset(void);
 
 int out_of_screen(CP_Vector sprite_position);
 

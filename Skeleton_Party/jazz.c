@@ -453,11 +453,17 @@ void lightbulb(void) {
 float tick_p = 0, * tick = &tick_p;
 
 void timer(void) {
+	
 	*tick += 1;
+	//printf("GAME_TIMER: %f", *tick);
 	//printf("tick count: %f\n", *tick);
 	if (*tick == INT_MAX) *tick = 0;
 }
 
+void timer_reset(void)
+{
+	*tick = 0;
+}
 
 CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocity_scale, int direction) {
 	switch (direction) {
