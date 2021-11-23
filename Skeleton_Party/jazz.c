@@ -458,9 +458,6 @@ void timer(void) {
 	if (*tick == INT_MAX) *tick = 0;
 }
 
-void backnforth_multiplier(void) {
-	
-}
 
 CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocity_scale, int direction) {
 	switch (direction) {
@@ -721,3 +718,37 @@ void print_piercing_bullet(void) {
 	}
 }
 
+void reset_enemy_and_weapon(void) {
+	//enemy_pool
+
+	memset(enemy_pool, '0', sizeof(enemy_pool));
+	memset(spawn_pool, '0', sizeof(spawn_pool));
+	memset(mother_enemy_pool, '0', sizeof(mother_enemy_pool));
+
+	memset(bullet_pool, '0', sizeof(bullet_pool));
+	memset(explosion_pool, '0', sizeof(explosion_pool));
+	memset(shrapnel_pool, '0', sizeof(shrapnel_pool));
+	memset(sword_explosion_pool, '0', sizeof(sword_explosion_pool));
+	memset(shrapnel_vector_pool, '0', sizeof(shrapnel_vector_pool));
+	memset(piercing_bullet_pool, '0', sizeof(piercing_bullet_pool));
+
+	memset(charge_pool, '0', sizeof(charge_pool));
+	memset(explosion_radius_pool, '0', sizeof(explosion_radius_pool));
+	memset(sword_explosion_radius_pool, '0', sizeof(sword_explosion_radius_pool));
+
+
+	//static const struct Enemy enemy_pool[MAX_ENEMY] = { 0 };
+	//static const struct spawn spawn_pool[MAX_ENEMY] = { 0 };
+	//static const struct spawn mother_enemy_pool[MAX_MOTHER_ENEMY] = { 0 };
+
+	/*static const CP_Vector sword_explosion_pool[MAX_SWORD_EXPLOSION] = { 0 };
+	static const CP_Vector bullet_pool[MAX_BULLET] = { 0 };
+	static const CP_Vector explosion_pool[MAX_EXPLOSION] = { 0 };
+	static const CP_Vector shrapnel_pool[MAX_BULLET] = { 0 };
+	static const CP_Vector shrapnel_vector_pool[MAX_SHRAPNEL] = { 0 };
+	static const CP_Vector piercing_bullet_pool[MAX_PIERCING_BULLET] = { 0 };
+
+	static const float charge_pool[MAX_CHARGE_POOL] = { 0 };
+	static const float explosion_radius_pool[MAX_EXPLOSION] = { 0 };
+	static const float sword_explosion_radius_pool[MAX_SWORD_EXPLOSION] = { 0 };*/
+}

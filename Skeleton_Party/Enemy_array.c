@@ -28,41 +28,7 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 //1 for straight line, 2 for left diagonal, 3 for right diagonal, 5 for horizontal enemy, 101 for circle
 //Max screen is WDITH/1.5
 
-//typedef float (*EasingFunctionType)(float, float, float);
-//
-//typedef struct {
-//	EasingFunctionType function;
-//	const char* name;
-//} EasingFunctionInfo;
-//
-static float Linear(float start, float end, float value)
-{
-	return (1.f - value) * start + value * end;
-}
-//#define DECLARE_EASING_INFO(name) { name, #name },
-//
-//DECLARE_EASING_INFO(Linear)
-
-static float EaseInOutQuad(float start, float end, float value)
-{
-	value /= .5f;
-	end -= start;
-	float something;
-	if (value < 1) something = end * 0.5f * value * value + start;
-	else {
-		value--;
-		something = -end * 0.5f * (value * (value - 2) - 1) + start;
-	}
-	printf("something: %f, value = %f\n", something, value);
-	return something;
-}
-
-
-void preload_spawn_map(void) { //Put in game_init
-	//first wave
-	
-	//-------------------------------------------------
-	//Standard lines
+void level_1(void) {
 	CP_Vector level_011 = CP_Vector_Set(WIDTH / 3, -5);
 	CP_Vector level_012 = CP_Vector_Set(WIDTH / 3 * 2, -5);
 
@@ -138,6 +104,15 @@ void preload_spawn_map(void) { //Put in game_init
 	spawn_pool_assigner(level_0121, 20.0f, 4750.0f, 20, 011);
 	spawn_pool_assigner(level_0120, 20.0f, 5200.0f, 20, 012);
 	spawn_pool_assigner(level_0121, 20.0f, 5250.0f, 20, 011);
+}
+
+void preload_spawn_map(void) { //Put in game_init
+	//first wave
+	//-------------------------------------------------
+	//Standard lines
+	if (1) level_1();
+
+
 
 	/*CP_Vector level_0150 = CP_Vector_Set(WIDTH / 10, -5);
 	spawn_pool_assigner(level_012, 30.0f, 0.0f, 10, 011);*/
@@ -185,12 +160,7 @@ void preload_spawn_map(void) { //Put in game_init
 
 	//CP_Vector line_10 = CP_Vector_Set(WIDTH / 2, -400);
 	//spawn_pool_assigner(line_10, 20.0f, 4300.0f, 3, 101);
-
-
 }
-
-
-
 
 void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type) {
 	float spawn_tick = start_spawn_tick;
@@ -214,6 +184,11 @@ void spawn_map(void) { //Should run continuously
 	}*/
 
 	for (int i = 0; i < MAX_ENEMY; i++) {
+
+		if (*tick == 500) {
+			reset_enemy_and_weapon();
+		}
+
 		if (spawn_pool[i].time == *tick) {
 			//printf("time: %f | tick: %f\n", spawn_pool[i].time, *tick);
 			switch (spawn_pool[i].type) {
@@ -428,14 +403,12 @@ void enemy_out_of_screen(int enemy_not_mother, int enemy_i) {
 		if (enemy_pool[enemy_i].position.y > HEIGHT * 1.1) {
 			if (!(enemy_pool[enemy_i].alive)) return;
 			enemy_pool[enemy_i].alive = 0;
-			printf("normal enemy out of screen!\n");
 		}
 	} else {
 		for (int i = 0; i < MAX_CHILDREN; i++) {
 			if (mother_enemy_pool[enemy_i].children[i].position.y > HEIGHT * 1.1) {
 				if (!(mother_enemy_pool[enemy_i].children[i].alive)) continue;
 				mother_enemy_pool[enemy_i].children[i].alive = 0;
-				printf("child of a mother enemy out of screen!\n");
 			}
 		}
 	}
