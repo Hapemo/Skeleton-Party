@@ -201,6 +201,7 @@ BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float he
 	if ((posX < boundaryX && posX > posBoxX)
 		&& (posY < boundaryY && posY > posBoxY))
 	{
+		play_click();
 		return TRUE;
 	}
 	else
@@ -218,6 +219,7 @@ BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightB
 	if ((posX < boundaryX && posX > posBoxX)
 		&& (posY < boundaryY && posY > posBoxY))
 	{
+		
 		return TRUE;
 	}
 	else
@@ -525,6 +527,7 @@ void DrawItem()
 				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, 255);
 				if (CheckIfBoxesOverlap(item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, knight.position.x, knight.position.y, knight.width, knight.height))
 				{
+					play_healthDrop();
 					if (DoubleHeal == TRUE)
 					{
 						PlayerHealed(2);
@@ -543,7 +546,7 @@ void DrawItem()
 				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, 255);
 				if (CheckIfBoxesOverlap(item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, knight.position.x, knight.position.y, knight.width, knight.height))
 				{
-					
+					play_speedDrop();
 					knight.speedbuff = TRUE;
 					item_pool[i].enabled = 0;
 

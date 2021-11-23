@@ -347,6 +347,7 @@ void game_update(void)
 
 			break;
 		case LOSE:
+			play_death();
 			ResetState();
 			//TerminateFullscreen();
 			Screen_GAMEOVER_Print();

@@ -373,6 +373,8 @@ void play_death();
 void play_swordHit();
 void play_healthDrop();
 void play_speedDrop();
+void play_swordSwing();
+void play_click();
 void free_audio();
 
 

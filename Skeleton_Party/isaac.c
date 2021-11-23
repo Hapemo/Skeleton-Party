@@ -1112,6 +1112,7 @@ BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, fl
 	if ((posX < endx && posX > startX)
 		&& (posY < endy && posY > starty))
 	{
+		play_click();
 		return TRUE;
 	}
 	else

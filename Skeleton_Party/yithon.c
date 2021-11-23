@@ -56,6 +56,8 @@ CP_Sound death = NULL;
 CP_Sound meleeHit = NULL;
 CP_Sound heathDrop = NULL;
 CP_Sound speedDrop = NULL;
+CP_Sound swordSwing = NULL;
+CP_Sound click = NULL;
 /*
 load audio 
 */
@@ -66,6 +68,8 @@ void load_audio() {
 	meleeHit = CP_Sound_Load("./Assets/swordHit.wav");
 	heathDrop = CP_Sound_Load("./Assets/healthBoostUp.wav");
 	speedDrop = CP_Sound_Load("./Assets/SpeedBoostUp.wav");
+	swordSwing = CP_Sound_Load("./Assets/sword.wav");
+	click = CP_Sound_Load("./Assets/clickSound.wav");
 }
 
 //play menusound 
@@ -86,16 +90,15 @@ void play_menubg() {
 
 /*play crit sound*/
 void play_crit() {
-	CP_Sound_PlayAdvanced(crit,0.1f,1.0f,FALSE,CP_SOUND_GROUP_3);
+	CP_Sound_PlayAdvanced(crit, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
 
 //play when player dies
 void play_death() {
-	CP_Sound_PlayAdvanced(death,0.1f,1.0f,FALSE,CP_SOUND_GROUP_3);
-	
+	CP_Sound_PlayAdvanced(death, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
 
-//play knight swing sword
+//play when sword hit enemy
 void play_swordHit() {
 	CP_Sound_PlayAdvanced(meleeHit, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
@@ -104,9 +107,16 @@ void play_swordHit() {
 void play_healthDrop() {
 	CP_Sound_PlayAdvanced(heathDrop, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
-
+//speed drop collect
 void play_speedDrop() {
-	CP_Sound_PlayAdvanced(speedDrop, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+	CP_Sound_PlayAdvanced(speedDrop, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+}
+// when player swing sword 
+void play_swordSwing() {
+	CP_Sound_PlayAdvanced(swordSwing, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+}
+void play_click() {
+	CP_Sound_PlayAdvanced(click, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_4);
 }
 void free_audio() {
 	CP_Sound_Free(&menubg);
@@ -114,6 +124,8 @@ void free_audio() {
 	CP_Sound_Free(&death);
 	CP_Sound_Free(&meleeHit);
 	CP_Sound_Free(&heathDrop);
+	CP_Sound_Free(&swordSwing);
+	CP_Sound_Free(&click);
 }
 
 
@@ -249,19 +261,21 @@ void PauseButtonClicked()
 		float mousePosY = CP_Input_GetMouseY();
 		if (CheckCollisionWithBox(mousePosX, mousePosY, continueButton.width, continueButton.height, continueButton.posX, continueButton.posY))
 		{
-
+			play_click();
 			pause.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
 			gameState = currentState;
 		}
 		if (CheckCollisionWithBox(mousePosX, mousePosY, resetPauseButton.width, resetPauseButton.height, resetPauseButton.posX, resetPauseButton.posY))
 		{
+			play_click();
 			pause.enabled = TRUE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = RESET;
 		}
 		if (CheckCollisionWithBox(mousePosX, mousePosY, menuPauseButton.width, menuPauseButton.height, menuPauseButton.posX, menuPauseButton.posY))
 		{
+			play_click();
 			pause.enabled = TRUE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
 			EnableMenu();
