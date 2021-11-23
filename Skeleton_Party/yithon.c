@@ -70,8 +70,8 @@ void load_audio() {
 
 //play menusound 
 void play_menubg() {
-	CP_Sound_PlayMusic(menubg);
-	//CP_Sound_PlayAdvanced(menubg, 1.0f, 1.0f, TRUE, CP_SOUND_GROUP_1);
+	//CP_Sound_PlayMusic(menubg);
+	CP_Sound_PlayAdvanced(menubg, 1.0f, 1.0f, TRUE, CP_SOUND_GROUP_1);
 	/*if (gameState == PREPROOM) {
 		//CP_Sound_PauseAll();
 		CP_Sound_PauseGroup(CP_SOUND_GROUP_1);
@@ -86,12 +86,13 @@ void play_menubg() {
 
 /*play crit sound*/
 void play_crit() {
-	CP_Sound_PlayAdvanced(crit,0.3f,1.0f,FALSE,CP_SOUND_GROUP_3);
+	CP_Sound_PlayAdvanced(crit,0.1f,1.0f,FALSE,CP_SOUND_GROUP_3);
 }
 
 //play when player dies
 void play_death() {
-	CP_Sound_PlayAdvanced(death,0.3f,1.0f,FALSE,CP_SOUND_GROUP_3);
+	CP_Sound_PlayAdvanced(death,0.1f,1.0f,FALSE,CP_SOUND_GROUP_3);
+	
 }
 
 //play knight swing sword
