@@ -33,7 +33,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define darkviolet CP_Color_Create(148, 0, 211, 255)
 
 
-enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE};
+enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, PLAYING, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY};
 enum GameStates gameState;
 
 int Exp, Gold ;
@@ -135,6 +135,7 @@ void update_char(int CurrentCharacter, struct character* spritename);
 
 
 void init_PlayerHP(void);
+void Player_FullHeal(void);
 
 void Player_Emptyheartprinter(void);
 void Player_Redheartprinter(void);
@@ -368,7 +369,7 @@ void free_audio();
 void InitializeSkillShopUI(void);
 BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy);
 
-
+void InitializeRetry(void);
 void Screen_Currency_Print(void);
 void ScorePrinter(int score, float x, float y);
 void Screen_GAMEOVER_Print(void);
@@ -388,5 +389,6 @@ void Screen_SHOP_ButtonClicked(void);
 void Screen_SKILL_ButtonClicked(void);
 
 void exit_skilltreepictures(void);
+void resetPool(void);
 
 

@@ -453,3 +453,11 @@ double sine(double speed, int randomiser) {
 	return speed * sin(randomiser + angle * 10);
 }
 
+void resetPool(void)
+{
+		for (int j = 0; j < MAX_ENEMY; j++) {
+			enemy_pool[j].alive = 0;
+		}
+
+
+}

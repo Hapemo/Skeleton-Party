@@ -429,8 +429,8 @@ void InitializeSkillShopUI(void)         // new function
 
 
 
-	Exp = 0;
-	Gold = 0;
+	Exp = 18;
+	Gold = 19;
 	additionalExp = 2;
 	additionalGold = 1;
 	DoubleExp = FALSE;
@@ -563,8 +563,168 @@ void InitializeSkillShopUI(void)         // new function
 
 	Image_Gameover_Background = CP_Image_Load("./Assets/GameOver.png");
 
+	maxadditionalhp = 5;
+	additionalhp = 0;
+
+	maxadditionalspeed = 80;
+	additionalspeed = 0;
+
+	hplocationX = (CP_System_GetWindowWidth()) / 10.0f;
+	hplocationY = (CP_System_GetWindowHeight()) / 8.0f;
+	// size of the heart 
+	Heart_size_windowsx = (CP_System_GetWindowWidth()) / 5.0f;
+	Heart_size_windowsy = (CP_System_GetWindowHeight()) / 5.0f;
+
 
 }
+
+void InitializeRetry(void)
+        // new function 
+	{
+
+		//SkullFont = CP_Font_GetDefault();
+
+		SkullFont = CP_Font_Load("./Assets/Font/Skull-Story.ttf");
+
+
+
+		Exp = 18;
+		Gold = 19;
+		additionalExp = 2;
+		additionalGold = 1;
+		//DoubleExp = FALSE;
+		//DoubleGold = FALSE;
+		//DoubleDrop = FALSE;
+		//DoubleHeal = FALSE;
+
+		isaac_width = WIDTH;
+		isaac_height = HEIGHT;
+
+		//shrapnelstate = FALSE;
+		//shockwavestate = FALSE;
+		//RewardGiven = FALSE;
+
+
+
+
+		Currency_Sprite.enabled = TRUE;
+		Currency_Sprite.width = isaac_width;
+		Currency_Sprite.height = isaac_height;
+		Currency_Sprite.posX = (float)(isaac_width / 2.0);
+		Currency_Sprite.posY = (float)(isaac_height / 2.0);
+
+
+
+		GameOver_Background.enabled = TRUE;
+		GameOver_Background.width = isaac_width;
+		GameOver_Background.height = isaac_height;
+		GameOver_Background.posX = (float)(isaac_width / 2.0);
+		GameOver_Background.posY = (float)(isaac_height / 2.0);
+
+		GameOver_Background.enabled = TRUE;
+		GameOver_Background.width = isaac_width;
+		GameOver_Background.height = isaac_height;
+		GameOver_Background.posX = (float)(isaac_width / 2.0);
+		GameOver_Background.posY = (float)(isaac_height / 2.0);
+
+		Win_Background.enabled = TRUE;
+		Win_Background.width = isaac_width;
+		Win_Background.height = isaac_height;
+		Win_Background.posX = (float)(isaac_width / 2.0);
+		Win_Background.posY = (float)(isaac_height / 2.0);
+
+		Pause_Background.enabled = TRUE;
+		Pause_Background.width = isaac_width;
+		Pause_Background.height = isaac_height;
+		Pause_Background.posX = (float)(isaac_width / 2.0);
+		Pause_Background.posY = (float)(isaac_height / 2.0);
+
+
+		PrepRoom_Background.enabled = TRUE;
+		PrepRoom_Background.width = isaac_width;
+		PrepRoom_Background.height = isaac_height;
+		PrepRoom_Background.posX = (float)(isaac_width / 2.0);
+		PrepRoom_Background.posY = (float)(isaac_height / 2.0);
+
+
+		Upgrade_Background.enabled = TRUE;
+		Upgrade_Background.width = isaac_width;
+		Upgrade_Background.height = isaac_height;
+		Upgrade_Background.posX = (float)(isaac_width / 2.0);
+		Upgrade_Background.posY = (float)(isaac_height / 2.0);
+
+		Skill_Background.enabled = TRUE;
+		Skill_Background.width = isaac_width;
+		Skill_Background.height = isaac_height;
+		Skill_Background.posX = (float)(isaac_width / 2.0);
+		Skill_Background.posY = (float)(isaac_height / 2.0);
+
+		Shop_Background.enabled = TRUE;
+		Shop_Background.width = isaac_width;
+		Shop_Background.height = isaac_height;
+		Shop_Background.posX = (float)(isaac_width / 2.0);
+		Shop_Background.posY = (float)(isaac_height / 2.0);
+
+		Skill_HeartsButton.enabled = TRUE;
+		Skill_AgilityButton.enabled = TRUE;
+		Skill_AtkspeedButton.enabled = TRUE;
+
+		Shop_HealButton.enabled = TRUE;
+		Shop_DropsButton.enabled = TRUE;
+		Shop_RezButton.enabled = TRUE;
+		Shop_ShrapnelButton.enabled = TRUE;
+
+		//Image_GoldSprite = CP_Image_Load("./Assets/goldsprite.png");
+		//Image_ExpSprite = CP_Image_Load("./Assets/Exporb.png");
+
+		//Image_PrepRoom_Empty = CP_Image_Load("./Assets/preproom.png");
+		//Image_Upgrade_Empty = CP_Image_Load("./Assets/upgrades.png");
+		//Image_Skill_Empty = CP_Image_Load("./Assets/Skill_empty.png");
+		//Image_Shop_Empty = CP_Image_Load("./Assets/Shop_empty.png");
+
+		//Image_Skill_HeartsOn = CP_Image_Load("./Assets/skilltree/Skill_heartsOn.png");
+		//Image_Skill_HeartsOn1 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn1.png");
+		//Image_Skill_HeartsOn2 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn2.png");
+		//Image_Skill_HeartsOn3 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn3.png");
+		//Image_Skill_HeartsOn4 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn4.png");
+		//Image_Skill_HeartsOn5 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn5.png");
+
+		//Image_Skill_AgilitOn = CP_Image_Load("./Assets/skilltree/Skill_agilityOn.png");
+		//Image_Skill_AgilitOn1 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn1.png");
+		//Image_Skill_AgilitOn2 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn2.png");
+		//Image_Skill_AgilitOn3 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn3.png");
+		//Image_Skill_AgilitOn4 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn4.png");
+		//Image_Skill_AgilitOn5 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn5.png");
+
+		//Image_Skill_AtkspeedOn = CP_Image_Load("./Assets/skilltree/Skill_attackspeedOn.png");
+
+
+		//Image_Skill_HeartsOff = CP_Image_Load("./Assets/Skill_heartsOff.png");
+		//Image_Skill_AgilitOff = CP_Image_Load("./Assets/Skill_agilityOff.png");
+		//Image_Skill_AtkspeedOff = CP_Image_Load("./Assets/Skill_attackspeedOff.png");
+
+		//Image_Shop_HealOn = CP_Image_Load("./Assets/Shop_2xhealOn.png");
+		//Image_Shop_DropsOn = CP_Image_Load("./Assets/Shop_2xdropsOn.png");
+		//Image_Shop_RezOn = CP_Image_Load("./Assets/Shop_rezOn.png");
+		//Image_Shop_ShrapnelOn = CP_Image_Load("./Assets/Shop_shrapnelOn.png");
+		//Image_Shop_Shockwave = CP_Image_Load("./Assets/Shop_ShockWave.png");
+
+
+		//Image_Shop_HealOff = CP_Image_Load("./Assets/Shop_2xhealOff.png");
+		//Image_Shop_DropsOff = CP_Image_Load("./Assets/Shop_2xdropsOff.png");
+		//Image_Shop_RezOff = CP_Image_Load("./Assets/Shop_rezOff.png");
+		//Image_Shop_ShrapnelOff = CP_Image_Load("./Assets/Shop_shrapnelOff.png");
+
+
+		//Image_Pause_Mistake = CP_Image_Load("./Assets/pause_mistake1.png");
+
+		//Image_Win_Background = CP_Image_Load("./Assets/winscreen.png");
+
+		//Image_Gameover_Background = CP_Image_Load("./Assets/GameOver.png");
+
+
+	}
+
 
 //call function to set players base health 
 void PlayerSetHealth (int Basehealth)
@@ -589,6 +749,18 @@ int PlayerGethealth(void)
 }
 
 
+
+void Player_FullHeal(void)
+{
+	int playerhp = p1.get(&p1);
+	int Eplayerhp = player_maxhp - playerhp;
+	while (Eplayerhp > 0)
+	{
+		PlayerHealed(1);
+		printf("playerfull healed \n");
+		Eplayerhp -= 1;
+	}
+}
 void Player_Emptyheartprinter(void)
 {
 	int playerhp = p1.get(&p1);
@@ -639,13 +811,7 @@ void Player_Redheartprinter(void)
 	//CP_Image_Free(&spriteSheetImage);
 }
 
-void DeathCondition(void)
-{
-	if (PlayerGethealth() == 0)
-	{
-		gameState = LOSE;
-	}
-}
+
 
 
 
@@ -995,13 +1161,23 @@ void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
 			// pressany button to coninure 
 
 			printf("button pressed retry \n");
+			gamePause = 1;
+			gameState = RETRY;
 			//gameState = MAIN_MENU;
 		}
 
 	}
 }
 
-
+void DeathCondition(void)
+{
+	if (PlayerGethealth() == 0)
+	{
+		gamePause = !gamePause;
+		//Player_FullHeal();
+		gameState = LOSE;
+	}
+}
 void Screen_WIN_ButtonClicked(void)											//new functuon
 {
 /*
@@ -1092,6 +1268,14 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 		gameState = UPGRADES;
 	}
 */
+	// temporary access to shop 
+	if (CP_Input_KeyTriggered(KEY_ESCAPE))
+	{
+		printf("button pressed back esc \n");
+		printf("button pressed continue \n");
+		gamePause = !gamePause;
+		gameState = PLAYING;
+	}
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
