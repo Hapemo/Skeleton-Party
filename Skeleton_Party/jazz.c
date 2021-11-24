@@ -362,7 +362,7 @@ int rect_collision(CP_Vector enemy1, CP_Vector position, CP_Vector vec1, CP_Vect
 
 	if (vec2_dot_product <= CP_Vector_Length(half_vec2) + enemy_radius) {
 		//This is when collision happens!
-		
+		play_swordHit();
 		return 1;
 	}
 	else return 0;
@@ -380,7 +380,8 @@ CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector) {
 }
 
 void initiate_melee(void) {
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) *pmelee_or_not = 1;
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) *pmelee_or_not = 1, play_swordSwing();;
+	
 }
 
 

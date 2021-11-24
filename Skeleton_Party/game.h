@@ -375,6 +375,7 @@ void play_healthDrop();
 void play_speedDrop();
 void play_swordSwing();
 void play_click();
+void play_charswitch();
 void free_audio();
 
 

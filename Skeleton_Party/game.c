@@ -82,15 +82,18 @@ void game_update(void)
 			DrawGameCanvas();
 			if (CP_Input_KeyTriggered(KEY_1))
 			{
+				play_charswitch();
 				CurrentCharacter = knightint;
 				
 			}
 			if (CP_Input_KeyTriggered(KEY_2))
 			{
+				play_charswitch();
 				CurrentCharacter = mageint;
 			}
 			if (CP_Input_KeyTriggered(KEY_3))
 			{
+				play_charswitch();
 				CurrentCharacter = archerint;
 			}
 			update_char(CurrentCharacter, &knight);
@@ -155,15 +158,18 @@ void game_update(void)
 			DrawGameCanvas();
 			if (CP_Input_KeyTriggered(KEY_1))
 			{
+				play_charswitch();
 				CurrentCharacter = knightint;
 
 			}
 			if (CP_Input_KeyTriggered(KEY_2))
 			{
+				play_charswitch();
 				CurrentCharacter = mageint;
 			}
 			if (CP_Input_KeyTriggered(KEY_3))
 			{
+				play_charswitch();
 				CurrentCharacter = archerint;
 			}
 			update_char(CurrentCharacter, &knight);
@@ -228,15 +234,18 @@ void game_update(void)
 			DrawGameCanvas();
 			if (CP_Input_KeyTriggered(KEY_1))
 			{
+				play_charswitch();
 				CurrentCharacter = knightint;
 
 			}
 			if (CP_Input_KeyTriggered(KEY_2))
 			{
+				play_charswitch();
 				CurrentCharacter = mageint;
 			}
 			if (CP_Input_KeyTriggered(KEY_3))
 			{
+				play_charswitch();
 				CurrentCharacter = archerint;
 			}
 			update_char(CurrentCharacter, &knight);

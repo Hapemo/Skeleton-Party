@@ -58,6 +58,7 @@ CP_Sound heathDrop = NULL;
 CP_Sound speedDrop = NULL;
 CP_Sound swordSwing = NULL;
 CP_Sound click = NULL;
+CP_Sound switchChar = NULL;
 /*
 load audio 
 */
@@ -70,6 +71,7 @@ void load_audio() {
 	speedDrop = CP_Sound_Load("./Assets/SpeedBoostUp.wav");
 	swordSwing = CP_Sound_Load("./Assets/sword.wav");
 	click = CP_Sound_Load("./Assets/clickSound.wav");
+	switchChar = CP_Sound_Load("./Assets/switchChar.wav");
 }
 
 //play menusound 
@@ -100,7 +102,7 @@ void play_death() {
 
 //play when sword hit enemy
 void play_swordHit() {
-	CP_Sound_PlayAdvanced(meleeHit, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+	CP_Sound_PlayAdvanced(meleeHit, 0.4f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
 
 //play when player get health boost
@@ -109,14 +111,18 @@ void play_healthDrop() {
 }
 //speed drop collect
 void play_speedDrop() {
-	CP_Sound_PlayAdvanced(speedDrop, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+	CP_Sound_PlayAdvanced(speedDrop, 0.5f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
 // when player swing sword 
 void play_swordSwing() {
-	CP_Sound_PlayAdvanced(swordSwing, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+	CP_Sound_PlayAdvanced(swordSwing, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
+//clickSound for buttona
 void play_click() {
 	CP_Sound_PlayAdvanced(click, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_4);
+}
+void play_charswitch() {
+	CP_Sound_PlayAdvanced(switchChar, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
 void free_audio() {
 	CP_Sound_Free(&menubg);
@@ -126,6 +132,7 @@ void free_audio() {
 	CP_Sound_Free(&heathDrop);
 	CP_Sound_Free(&swordSwing);
 	CP_Sound_Free(&click);
+	CP_Sound_Free(&switchChar);
 }
 
 
