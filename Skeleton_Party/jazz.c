@@ -30,6 +30,8 @@ int melee_speed = 10; //speed of melee animation
 int melee_angle_upgrade = 0; //angle upgrade for melee
 float sword_length = 0;
 float sword_width = 0;
+int sword_cooldown = 0;
+int sword_attack_speed = 60 * 2;
 
 int melee_or_not = 0, * pmelee_or_not = &melee_or_not; //Determine if should melee or not
 CP_Vector melee_position; //Position of where the melee animation happens
@@ -50,6 +52,9 @@ float sword_explosion_speed = 15, max_sword_explosion_radius = 200;
 #define MAX_BULLET (20)
 #define BULLET_SIZE (WIDTH / 50)
 CP_Vector bullet_pool[MAX_BULLET] = { 0 };
+int fireball_attack_speed = 60 / 2;
+int fireball_cooldown = 0;
+
 
 //-------------------------------------------------------
 //Explosion
@@ -80,7 +85,7 @@ CP_Vector piercing_bullet_pool[MAX_BULLET] = { 0 };
 #define MAX_CHARGE_POOL (20)
 float piercing_charge = 0, max_piercing_charge = 500.0f, charge_pool[MAX_CHARGE_POOL] = { 0 };
 
-
+extern int CurrentCharacter; 
 
 
 void melee_attack(CP_Vector position) {
@@ -380,24 +385,45 @@ CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector) {
 }
 
 void initiate_melee(void) {
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) *pmelee_or_not = 1, play_swordSwing();;
-	
-}
-
-
-void melee_update(CP_Vector position) {
-
-	////melee_position = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
-	////Check for mouse input
-	//if (!(*pmelee_or_not)) {
-	//	
-	//}
-	if (*pmelee_or_not) {
-		melee_attack(position);
+	if (sword_cooldown++ < sword_attack_speed) return;
+	if (CP_Input_KeyTriggered(KEY_SPACE)) {
+		*pmelee_or_not = 1;
+		play_swordSwing();
+		sword_cooldown = 0;
 	}
 }
 
+void melee_update(CP_Vector position) {
+	if (*pmelee_or_not) {
+		melee_attack(position);
+	} else {
+		if (!(CurrentCharacter == knightint))return;
+		if (sword_cooldown > sword_attack_speed) return;
+		print_cooldown(position, 0);
+	}
+}
 
+void print_cooldown(CP_Vector position, int weapon) {
+	float ratio;
+	if (weapon) ratio = fireball_cooldown/ (float)fireball_attack_speed;
+	else ratio = sword_cooldown/(float)sword_attack_speed;
+
+	// Create transform matrices
+	CP_Matrix translate = CP_Matrix_Translate(position); //bring attack to position
+
+	// Set the camera transfrom to the created matrix
+	CP_Settings_ApplyMatrix(translate);
+
+	// Draw a blue rectangle that rotates
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Graphics_DrawRect(-50, 70, 100, 20);
+
+	CP_Settings_Fill(CP_Color_Create(0, 0, 100, 255));
+	CP_Graphics_DrawRect(-50, 70, 100 - 100 * ratio, 20);
+
+	// Reset the matrix to the identity matrix
+	CP_Settings_ResetMatrix();
+}
 
 
 void sword_explosion(CP_Vector position) {
@@ -422,7 +448,6 @@ void sword_explosion_update(void) {
 			sword_explosion_pool[i] = CP_Vector_Set(0, 0);
 		}
 	}
-
 	sword_explosion_print();
 }
 
@@ -491,10 +516,17 @@ int out_of_screen(CP_Vector sprite_position) {
 
 void shooting_check(CP_Vector position) {
 
-	//CP_Vector position = CP_Vector_Set(WIDTH*(3.0f/4),HEIGHT * (3.0f / 4)); //Position of character
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
+	if (fireball_cooldown++ < fireball_attack_speed) {
+		print_cooldown(position, 1);
+	} else if (CP_Input_KeyDown(KEY_SPACE)) {
 		shoot_bullet(position);
+		fireball_cooldown = 0;
 	}
+
+	//CP_Vector position = CP_Vector_Set(WIDTH*(3.0f/4),HEIGHT * (3.0f / 4)); //Position of character
+	/*if (CP_Input_KeyDown(KEY_SPACE)) {
+		shoot_bullet(position);
+	}*/
 }
 
 void shoot_bullet(CP_Vector position) {

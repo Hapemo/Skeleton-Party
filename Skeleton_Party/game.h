@@ -204,6 +204,7 @@ BOOL CheckCollisionWithBox(float posX, float posY, float boundaryX, float bounda
 @return		NIL
 *//*______________________________________________________________*/
 void melee_attack(CP_Vector position);
+void print_cooldown(CP_Vector position, int weapon); //int weapon, 0 for sword, 1 for fireball
 
 /*!
 @brief		This function detects mouse click, and activate the melee attack function for wherever the mouse is at. (the position can be changed in future)
