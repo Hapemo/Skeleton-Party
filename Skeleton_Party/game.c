@@ -127,7 +127,7 @@ void game_update(void)
 			ReturnMainMenuClicked();
 			break;
 		case WIN:
-			/*ResetState();
+			ResetState();
 			if (RewardGiven == FALSE)
 			{
 				RewardGiven = TRUE;
@@ -144,7 +144,7 @@ void game_update(void)
 			}
 
 			Screen_WIN_Print();
-			Screen_WIN_ButtonClicked();*/
+			Screen_WIN_ButtonClicked();
 
 			break;
 		case LOSE:
@@ -186,48 +186,7 @@ void game_update(void)
 			Screen_SKILL_ButtonClicked();
 
 			break;
-		//case RETRY : 
 
-
-			
-			//exit_PlayerHP();
-			//exit_skilltreepictures();
-			//free_audio();
-
-
-
-			//gamePause = 0;
-			//gameState = LOGO;
-			//CP_System_SetFrameRate(60);
-			/* Initialization of your other variables here */
-
-			//isaac's init function calls 
-			//init_PlayerHP();	// defn in isaac.c
-			//init_EnemySprite();	// def in Enemy_arrays.c
-
-			
-			//InitializeSkillShopUI();
-
-			//LoadBackgroundImage();
-			//LoadFont();
-
-			//CP_Font_Set(CP_Font_GetDefault());
-			//CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			//init_enemy();
-			//CP_System_ShowConsole();
-			/*float width = (float)CP_System_GetWindowWidth();
-			float height = (float)CP_System_GetWindowHeight();*/
-			//originalXposition = width * 1.25f;
-			//originalYposition = height * 2.25f;
-			//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
-			//preload_spawn_map(); //This is for declarations in enemy_array
-			//load_audio(); //load audio
-			//
-
-			//Player_FullHeal();
-			//gameState = PREPROOM;
-
-			
 		}
 
 		

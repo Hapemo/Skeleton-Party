@@ -472,7 +472,7 @@ void WinCondition()
 	//}
 	if (*tick == 1000)
 	{
-		if (currentState < LEVEL_3)
+		if (currentState < LEVEL_5)
 		{
 			currentState++;
 		}
