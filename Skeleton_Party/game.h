@@ -33,7 +33,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define darkviolet CP_Color_Create(148, 0, 211, 255)
 
 
-enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_1, LEVEL_2, LEVEL_3, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY};
+enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_SELECTION, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY};
 enum GameStates gameState;
 
 

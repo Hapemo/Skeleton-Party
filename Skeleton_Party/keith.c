@@ -133,21 +133,27 @@ void DrawHP(float currentHealth, float maxHealth)
 }
 
 
-void LoadBackgroundImage(int id)
+void LoadBackgroundImage(int currentState)
 {
 	
-	switch (id)
+	switch (currentState)
 	{
-	case 1:
+	case LEVEL_1:
 
 		gameBackground = CP_Image_Load("./Assets/bgpic.jpg");
 		break;
-	case 2:
+	case LEVEL_2:
 		gameBackground = CP_Image_Load("./Assets/bg.png");
 		break;
 
-	case 3:
+	case LEVEL_3:
 		gameBackground = CP_Image_Load("./Assets/bg2.png");
+		break;
+	case LEVEL_4:
+		gameBackground = CP_Image_Load("./Assets/bgpic.jpg");
+		break;
+	case LEVEL_5:
+		gameBackground = CP_Image_Load("./Assets/bg.png");
 		break;
 
 	}
