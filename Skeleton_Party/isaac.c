@@ -441,7 +441,7 @@ void InitializeSkillShopUI(void)         // new function
 	isaac_width = WIDTH;
 	isaac_height = HEIGHT;
 
-	shrapnelstate = FALSE;
+	shrapnelstate = TRUE;
 	shockwavestate = FALSE;
 	RewardGiven = FALSE;
 

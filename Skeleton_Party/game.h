@@ -321,7 +321,7 @@ void initialise_basic_movement(int spawn_pool_i);
 
 void movement_pattern_spinning_circle(void);
 
-void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position);
+void spin_enemy(int mother_i, int enemy_count, float spin_speed, float radius, CP_Vector position);
 
 void spawn_map(void);
 void spawnerthing(CP_Vector position, int spawn_amount, int type);

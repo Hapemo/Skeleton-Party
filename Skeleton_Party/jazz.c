@@ -661,8 +661,27 @@ void shrapnel_update(void) {
 void print_shrapnel(void) {
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(shrapnel_pool[i].y == 0 && shrapnel_pool[i].x == 0)) { //If bullet is active
+
+			CP_Image fireball_pic = CP_Image_Load("./Assets/fireball.png");
+			//CP_Vector sword_position = CP_Vector_Set(position.x, position.y);
+			// Create transform matrices
+			CP_Matrix translate = CP_Matrix_Translate(bullet_pool[i]); //bring attack to position
+			CP_Matrix rotate = CP_Matrix_Rotate(90);
+
+			// Combine transfrom -> translation and rotation
+			CP_Matrix transform = CP_Matrix_Multiply(translate, rotate);
+
+			// Set the camera transfrom to the created matrix
+			CP_Settings_ApplyMatrix(transform);
+		
 			CP_Settings_Fill(COLOR_RED);
 			CP_Graphics_DrawCircle(shrapnel_pool[i].x, shrapnel_pool[i].y, BULLET_SIZE * 2); //This is in diameter so need to times 2
+
+			CP_Image_Draw(fireball_pic, 0, 0, BULLET_SIZE, BULLET_SIZE, 255);
+
+			CP_Settings_ResetMatrix();
+			//CP_Settings_Fill(COLOR_BLUE);
+			//CP_Graphics_DrawCircle(bullet_pool[i].x, bullet_pool[i].y, BULLET_SIZE *2); //This is in diameter so need to times 2
 		}
 	}
 }

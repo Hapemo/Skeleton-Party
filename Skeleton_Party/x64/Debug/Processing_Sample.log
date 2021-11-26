@@ -1,5 +1,13 @@
 ﻿  Enemy_array.c
-  Processing_Sample.vcxproj -> C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\x64\Debug\Processing_Sample.exe
-  1 File(s) copied
-  1 File(s) copied
-  119 File(s) copied
+  game.c
+  isaac.c
+  jazz.c
+  keith.c
+  qh.c
+  yithon.c
+C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\game.c(76,12): error C2220: the following warning is treated as an error
+C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\game.c(76,12): warning C4013: 'PlayGame' undefined; assuming extern returning int
+C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\game.c(199,6): error C2371: 'PlayGame': redefinition; different basic types
+C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\keith.c(136,30): error C2220: the following warning is treated as an error
+C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\keith.c(136,30): warning C4459: declaration of 'currentState' hides global declaration
+C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\game.h(170,5): message : see declaration of 'currentState' (compiling source file keith.c)

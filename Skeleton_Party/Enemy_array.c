@@ -113,8 +113,20 @@ void level_1(void) {
 
 void level_2(void) {
 
-	CP_Vector level_021 = CP_Vector_Set(WIDTH / 2, -5);
-	spawn_pool_assigner(level_021, 1.0f, 50.0f, 100, 5); //Freaking cool pattern, idk what just happened
+	//CP_Vector level_021 = CP_Vector_Set(WIDTH / 2, -5);
+	//spawn_pool_assigner(level_021, 1.0f, 50.0f, 100, 5); //Freaking cool pattern, idk what just happened
+
+	CP_Vector level_021 = CP_Vector_Set(WIDTH / 8, -1000);
+	spawn_pool_assigner(level_021, 1.0f, 50.0f, 1, 104);
+	spawn_pool_assigner(level_021, 1.0f, 150.0f, 1, 104);
+	spawn_pool_assigner(level_021, 1.0f, 250.0f, 1, 104);
+	spawn_pool_assigner(level_021, 1.0f, 350.0f, 1, 104);
+
+	CP_Vector level_022 = CP_Vector_Set(WIDTH / 8 * 7, -1000);
+	spawn_pool_assigner(level_022, 1.0f, 50.0f, 1, 105);
+	spawn_pool_assigner(level_022, 1.0f, 150.0f, 1, 105);
+	spawn_pool_assigner(level_022, 1.0f, 250.0f, 1, 105);
+	spawn_pool_assigner(level_022, 1.0f, 350.0f, 1, 105);
 
 	//spawn_pool_assigner(level_021, 5.0f, 50.0f, 50, 4); //This makes enemies move left and right in sine graph pattern
 }
@@ -135,11 +147,9 @@ void preload_spawn_map(int level) { //Put in game_init
 	}*/
 
 
-	printf("current state: %d", level);
-	if (level == LEVEL_1) level_1();
-	if (level == LEVEL_2) level_2();
-	printf("current state: %d", level);
-
+	//if (level == LEVEL_1) level_1();
+	//if (level == LEVEL_2) level_2();
+	if (1) level_2();
 
 	/*CP_Vector level_0150 = CP_Vector_Set(WIDTH / 10, -5);
 	spawn_pool_assigner(level_012, 30.0f, 0.0f, 10, 011);*/
@@ -193,10 +203,8 @@ void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float star
 	float spawn_tick = start_spawn_tick;
 	int start_count = 0;
 	for (int i = 0; i < MAX_ENEMY; i++) {
-		printf("spawn_pool[i].type: %d\n", spawn_pool[i].type);
 		if (!(spawn_pool[i].type == 0 || spawn_pool[i].type == 808464432)) continue;
 		start_count = i;
-		printf("start count: %d\n", start_count);
 		break;
 	}
 
@@ -221,21 +229,13 @@ void spawn_map(void) { //Should run continuously
 		if (spawn_pool[i].time == *tick) {
 			//printf("time: %f | tick: %f\n", spawn_pool[i].time, *tick);
 			if (1 <= spawn_pool[i].type && spawn_pool[i].type <= 5) initialise_basic_movement(i);
+			if (101 <= spawn_pool[i].type && spawn_pool[i].type <= 105) initialise_basic_movement(i);
 			switch (spawn_pool[i].type) {
 				case 011:
 					initialise_horizontal_line(spawn_pool[i].position, 5, WIDTH/1.1f, 1);
 					break;
 				case 012:
 					initialise_horizontal_line(spawn_pool[i].position, 4, WIDTH / 1.2f, 1);
-					break;
-				case 101:
-					initialise_basic_movement(i);
-					break;
-				case 102:
-					initialise_basic_movement(i);
-					break;
-				case 103:
-					initialise_basic_movement(i);
 					break;
 			}
 
@@ -378,28 +378,33 @@ void movement_pattern_spinning_circle(void) {
 
 		switch (mother_enemy_pool[i].type) {
 			case 101:
-				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, mother_enemy_pool[i].position);
+				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, 0.5f, mother_enemy_pool[i].position);
 				break;
 			case 102: // makes circle follow a sine graph path
 				speed = 10;
 				speed = sine(speed, i);
 				//printf("sine: %f, speed: %f\n", angle, speed);
 				mother_enemy_pool[i].position.x += (float)speed;
-				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, mother_enemy_pool[i].position);
+				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, 0.5f, mother_enemy_pool[i].position);
 				break;
 			case 103: //makes spinning circle grow in and out
 				speed = 10;
 				speed = sine(speed, i);
 				mother_enemy_pool[i].position.x += (float)speed;
-				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100 + (float)speed*10, mother_enemy_pool[i].position);
+				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100 + (float)speed*10, 0.5f, mother_enemy_pool[i].position);
+				break;
+			case 104: //giant spinning circle
+				spin_enemy(i, 50, 0.01f, 800, mother_enemy_pool[i].position);
+				break;
+			case 105: //giant spinning circle (reversed)
+				spin_enemy(i, 50, -0.01f, 800, mother_enemy_pool[i].position);
 				break;
 		}
 	}
 }
 
-void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position) {
+void spin_enemy(int mother_i, int enemy_count, float spin_speed, float radius, CP_Vector position) {
 	float angle = 0;
-	float spin_speed = 0.5f;
 	int randomizer = (int)mother_enemy_pool[mother_i].time % 36;
 	if (randomizer != 0) angle = 360.0f / randomizer;
 
