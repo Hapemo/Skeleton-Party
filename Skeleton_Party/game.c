@@ -42,7 +42,7 @@ void game_init(void)
 	init_char(&knight, originalPlayerPositionX, originalPlayerPositionY, "./Assets/knightpa.png");
 	
 
-	preload_spawn_map(); //This is for declarations in enemy_array
+	preload_spawn_map(LEVEL_1); //This is for declarations in enemy_array
 	load_audio(); //load audio
 }
 
@@ -319,7 +319,6 @@ void game_update(void)
 
 		case MAIN_MENU:
 			
-			
 			TerminateFullscreen();
 			EnableMenu();
 			play_menubg();
@@ -335,7 +334,7 @@ void game_update(void)
 			ReturnMainMenuClicked();
 			break;
 		case WIN:
-			ResetState();
+			/*ResetState();
 			if (RewardGiven == FALSE)
 			{
 				RewardGiven = TRUE;
@@ -352,7 +351,7 @@ void game_update(void)
 			}
 
 			Screen_WIN_Print();
-			Screen_WIN_ButtonClicked();
+			Screen_WIN_ButtonClicked();*/
 
 			break;
 		case LOSE:
@@ -435,7 +434,7 @@ void game_update(void)
 			//Player_FullHeal();
 			//gameState = PREPROOM;
 
-			break;
+			
 		}
 
 		

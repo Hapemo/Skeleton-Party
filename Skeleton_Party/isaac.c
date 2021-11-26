@@ -1164,7 +1164,10 @@ void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
 			printf("button pressed retry \n");
 			gamePause = 1;
 			//gameState = RETRY;
+			*tick = 0;
+			
 			gameState = currentState;
+			preload_spawn_map(gameState);
 			//gameState = MAIN_MENU;
 		}
 
@@ -1177,6 +1180,7 @@ void DeathCondition(void)
 	{
 		gamePause = !gamePause;
 		//Player_FullHeal();
+		reset_enemy_and_weapon();
 		gameState = LOSE;
 	}
 }

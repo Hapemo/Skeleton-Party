@@ -31,7 +31,7 @@ int melee_angle_upgrade = 0; //angle upgrade for melee
 float sword_length = 0;
 float sword_width = 0;
 int sword_cooldown = 0;
-int sword_attack_speed = 60 * 2;
+int sword_attack_speed = 60/2;
 
 int melee_or_not = 0, * pmelee_or_not = &melee_or_not; //Determine if should melee or not
 CP_Vector melee_position; //Position of where the melee animation happens
@@ -52,7 +52,7 @@ float sword_explosion_speed = 15, max_sword_explosion_radius = 200;
 #define MAX_BULLET (20)
 #define BULLET_SIZE (WIDTH / 50)
 CP_Vector bullet_pool[MAX_BULLET] = { 0 };
-int fireball_attack_speed = 60 / 2;
+int fireball_attack_speed = 60 / 4;
 int fireball_cooldown = 0;
 
 
@@ -92,7 +92,7 @@ void melee_attack(CP_Vector position) {
 	//Set the melee angle for the first time
 	if (first_time) {
 		//Set sword size
-		sword_width = WIDTH / 5;
+		sword_width = WIDTH / 8;
 		sword_length = HEIGHT / 50;
 
 		*pfirst_time = 0;
@@ -759,7 +759,7 @@ void print_piercing_bullet(void) {
 
 void reset_enemy_and_weapon(void) {
 	//enemy_pool
-
+	printf("resets enemy and weapon!!!\n");
 	memset(enemy_pool, '0', sizeof(enemy_pool));
 	memset(spawn_pool, '0', sizeof(spawn_pool));
 	memset(mother_enemy_pool, '0', sizeof(mother_enemy_pool));
@@ -774,20 +774,4 @@ void reset_enemy_and_weapon(void) {
 	memset(charge_pool, '0', sizeof(charge_pool));
 	memset(explosion_radius_pool, '0', sizeof(explosion_radius_pool));
 	memset(sword_explosion_radius_pool, '0', sizeof(sword_explosion_radius_pool));
-
-
-	//static const struct Enemy enemy_pool[MAX_ENEMY] = { 0 };
-	//static const struct spawn spawn_pool[MAX_ENEMY] = { 0 };
-	//static const struct spawn mother_enemy_pool[MAX_MOTHER_ENEMY] = { 0 };
-
-	/*static const CP_Vector sword_explosion_pool[MAX_SWORD_EXPLOSION] = { 0 };
-	static const CP_Vector bullet_pool[MAX_BULLET] = { 0 };
-	static const CP_Vector explosion_pool[MAX_EXPLOSION] = { 0 };
-	static const CP_Vector shrapnel_pool[MAX_BULLET] = { 0 };
-	static const CP_Vector shrapnel_vector_pool[MAX_SHRAPNEL] = { 0 };
-	static const CP_Vector piercing_bullet_pool[MAX_PIERCING_BULLET] = { 0 };
-
-	static const float charge_pool[MAX_CHARGE_POOL] = { 0 };
-	static const float explosion_radius_pool[MAX_EXPLOSION] = { 0 };
-	static const float sword_explosion_radius_pool[MAX_SWORD_EXPLOSION] = { 0 };*/
 }

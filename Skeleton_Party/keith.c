@@ -438,11 +438,11 @@ void ResetState()
 {
 	ResetItemPool();
 	timer_reset();
-	reset_enemy_and_weapon();
 	knight.position.x = originalPlayerPositionX;
 	knight.position.y = originalPlayerPositionY;
 	//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
-	preload_spawn_map(); //This is for declarations in enemy_array
+	
+	//preload_spawn_map(); //This is for declarations in enemy_array
 	load_audio(); //load audio
 	Player_FullHeal();
 

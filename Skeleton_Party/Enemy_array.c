@@ -28,7 +28,12 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 //1 for straight line, 2 for left diagonal, 3 for right diagonal, 5 for horizontal enemy, 101 for circle
 //Max screen is WDITH/1.5
 
+//Go to sine() and change the multipler for angle to adjust range of the graph
+//For pattern 5, you can add side way movement to it to make it cooler, search for 'store1', go there and add some value to the x axis movement
+
 void level_1(void) {
+	//012 spawns in 4 horizontal enemies, 011 spawn in 5 instead
+
 	CP_Vector level_011 = CP_Vector_Set(WIDTH / 3, -5);
 	CP_Vector level_012 = CP_Vector_Set(WIDTH / 3 * 2, -5);
 
@@ -106,12 +111,34 @@ void level_1(void) {
 	spawn_pool_assigner(level_0121, 20.0f, 5250.0f, 20, 011);
 }
 
-void preload_spawn_map(void) { //Put in game_init
+void level_2(void) {
+
+	CP_Vector level_021 = CP_Vector_Set(WIDTH / 2, -5);
+	spawn_pool_assigner(level_021, 1.0f, 50.0f, 100, 5); //Freaking cool pattern, idk what just happened
+
+	//spawn_pool_assigner(level_021, 5.0f, 50.0f, 50, 4); //This makes enemies move left and right in sine graph pattern
+}
+
+
+void preload_spawn_map(int level) { //Put in game_init
 	//first wave
 	//-------------------------------------------------
 	//Standard lines
-	if (1) level_1();
 
+
+	/*for (int j = 0; j < MAX_ENEMY; j++) if (enemy_pool[j].alive) return;
+
+
+	for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {
+		if (!(mother_enemy_pool[j].alive)) continue;
+		for (int k = 0; k < MAX_CHILDREN; k++) if (mother_enemy_pool[j].children[k].alive) return;
+	}*/
+
+
+	printf("current state: %d", level);
+	if (level == LEVEL_1) level_1();
+	if (level == LEVEL_2) level_2();
+	printf("current state: %d", level);
 
 
 	/*CP_Vector level_0150 = CP_Vector_Set(WIDTH / 10, -5);
@@ -164,17 +191,19 @@ void preload_spawn_map(void) { //Put in game_init
 
 void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type) {
 	float spawn_tick = start_spawn_tick;
-
 	int start_count = 0;
 	for (int i = 0; i < MAX_ENEMY; i++) {
-		if (spawn_pool[i].type) continue;
+		printf("spawn_pool[i].type: %d\n", spawn_pool[i].type);
+		if (!(spawn_pool[i].type == 0 || spawn_pool[i].type == 808464432)) continue;
 		start_count = i;
+		printf("start count: %d\n", start_count);
 		break;
 	}
 
 	for (int i = start_count; i < start_count + spawn_amount; i++) {
 		spawn_tick = spawn_tick + spawn_speed_delay;
 		spawn_pool[i] = spawn_set(position, spawn_tick, type);
+		//printf("spawn tick: %f\n", spawn_poo	l[i].time);
 	}
 }
 
@@ -182,28 +211,17 @@ void spawn_map(void) { //Should run continuously
 	/*for (int i = 0; i < 100; i++) {
 		printf("spawn_pool position: %f | %f, time: %f\n", spawn_pool[i].position.x, spawn_pool[i].position.y, spawn_pool[i].time);
 	}*/
-
+	printf("*tick: %f\n",*tick);
+	/*for (int i = 0; i < MAX_ENEMY; i++) {
+		if (spawn_pool[i].time == 0) continue;
+		printf("spawn tick: %f\n", spawn_pool[i].time);
+	}*/
 	for (int i = 0; i < MAX_ENEMY; i++) {
-
-		if (*tick == 500) {
-			reset_enemy_and_weapon();
-		}
 
 		if (spawn_pool[i].time == *tick) {
 			//printf("time: %f | tick: %f\n", spawn_pool[i].time, *tick);
+			if (1 <= spawn_pool[i].type && spawn_pool[i].type <= 5) initialise_basic_movement(i);
 			switch (spawn_pool[i].type) {
-				case 1:
-					initialise_basic_movement(i);
-					break;
-				case 2:
-					initialise_basic_movement(i);
-					break;
-				case 3:
-					initialise_basic_movement(i);
-					break;
-				case 4:
-					initialise_basic_movement(i);
-					break;
 				case 011:
 					initialise_horizontal_line(spawn_pool[i].position, 5, WIDTH/1.1f, 1);
 					break;
@@ -317,11 +335,17 @@ void movement_pattern_vertical_and_diagonal(void) {
 			case 3:
 				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT); //Updates position
 				break;
-			case 4:
+			case 4: //Enemy move left to right while in a sine graph formation
+				speed = 10;
+				speed = sine(speed, 0);
+				//enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
+				enemy_pool[i].position.x += (float)speed;
+				break;
+			case 5: 
 				speed = 10;
 				speed = sine(speed, i);
-				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
-				enemy_pool[i].position.x += (float)speed;
+				//enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
+				enemy_pool[i].position.x += (float)speed; //store1
 				break;
 		}
 
@@ -356,14 +380,14 @@ void movement_pattern_spinning_circle(void) {
 			case 101:
 				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, mother_enemy_pool[i].position);
 				break;
-			case 102:
+			case 102: // makes circle follow a sine graph path
 				speed = 10;
 				speed = sine(speed, i);
 				//printf("sine: %f, speed: %f\n", angle, speed);
 				mother_enemy_pool[i].position.x += (float)speed;
 				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, mother_enemy_pool[i].position);
 				break;
-			case 103:
+			case 103: //makes spinning circle grow in and out
 				speed = 10;
 				speed = sine(speed, i);
 				mother_enemy_pool[i].position.x += (float)speed;
@@ -396,7 +420,6 @@ void spin_enemy(int mother_i, int enemy_count, float radius, CP_Vector position)
 		//CP_Graphics_DrawCircle(mother_enemy_pool[mother_i].children[i].position.x, mother_enemy_pool[mother_i].children[i].position.y, mother_enemy_pool[mother_i].children[i].size * 2); //Prints enemy
 	}
 }
-
 
 void enemy_out_of_screen(int enemy_not_mother, int enemy_i) {
 	if (enemy_not_mother == 1) {

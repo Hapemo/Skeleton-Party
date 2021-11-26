@@ -10,7 +10,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define WIDTH 960.0f
 #define HEIGHT 1035.0f
 #define PI 3.1415926535
-#define MAX_ENEMY 5000
+#define MAX_ENEMY 1500
 #define MAX_MOTHER_ENEMY 50
 #define MAX_CHILDREN 50
 #define Formationsingle 0
@@ -328,7 +328,7 @@ void spawnerthing(CP_Vector position, int spawn_amount, int type);
 
 //Start of enemy array functions
 //-------------------------------
-void preload_spawn_map(void);
+void preload_spawn_map(int level);
 
 /*!
 @brief		Assigns enemies to empty spawn_pool slots
