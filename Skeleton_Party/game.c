@@ -7,6 +7,7 @@
 
 int CurrentCharacter = 0;
 
+void PlayGame();
 
 
 void game_init(void)
@@ -258,7 +259,7 @@ void PlayGame()
 	timer();
 
 	SpeedBuffEffect();
-	player_touch_enemy();
+	//player_touch_enemy();
 	EnemyCollision();
 	DrawItem();
 	// player hP bar printer to be added when the actual game starts. not to be included in title screen

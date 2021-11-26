@@ -219,7 +219,7 @@ void spawn_map(void) { //Should run continuously
 	/*for (int i = 0; i < 100; i++) {
 		printf("spawn_pool position: %f | %f, time: %f\n", spawn_pool[i].position.x, spawn_pool[i].position.y, spawn_pool[i].time);
 	}*/
-	printf("*tick: %f\n",*tick);
+	//printf("*tick: %f\n",*tick);
 	/*for (int i = 0; i < MAX_ENEMY; i++) {
 		if (spawn_pool[i].time == 0) continue;
 		printf("spawn tick: %f\n", spawn_pool[i].time);
