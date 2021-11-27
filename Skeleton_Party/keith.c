@@ -842,38 +842,36 @@ void ResetItemPool()
 void EnemyCollision()
 {
 
-	//for (int i = 0; i < MAX_ENEMY; i++)
-	//{
-	//	if (enemy_pool[i].alive == 1)
-	//	{
-	//		if (CheckIfBoxesOverlap(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size, enemy_pool[i].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
-	//		{
-	//			Playertakedamage(1);
-	//			printf("Damage Taken: %d\n", 1);
-	//			knight.invulnerability = TRUE;
-	//		}
-	//		if (knight.invulnerability == TRUE)
-	//		{
-	//			InvulnerabilityFrame();
-	//			//printf("knight.invulnerability: %u\n", knight.invulnerability);
-	//		}
-	//	}
-	//}
+	for (int i = 0; i < MAX_ENEMY; i++)
+	{
+		if (enemy_pool[i].alive == 1)
+		{
+			if (CheckIfBoxesOverlap(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size, enemy_pool[i].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
+			{
+				Playertakedamage(1);
+				printf("Damage Taken: %d\n", 1);
+				knight.invulnerability = TRUE;
+			}
+		}
+	}
 	for (int i = 0; i < MAX_MOTHER_ENEMY; i++)
 	{
 		for (int j = 0; j < MAX_CHILDREN; j++)
 		{
-			if (mother_enemy_pool[i].children[j].alive == 1)
+			if (mother_enemy_pool[i].alive == 1)
 			{
-				if (CheckIfBoxesOverlap(mother_enemy_pool[i].children[j].position.x, mother_enemy_pool[i].children[j].position.y, mother_enemy_pool[i].children[j].size, mother_enemy_pool[i].children[j].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
+				if (mother_enemy_pool[i].children[j].alive == 1)
 				{
-					Playertakedamage(1);
-					printf("Damage Taken: %d\n", 1);
-					knight.invulnerability = TRUE;
-					
+					if (CheckIfBoxesOverlap(mother_enemy_pool[i].children[j].position.x, mother_enemy_pool[i].children[j].position.y, mother_enemy_pool[i].children[j].size, mother_enemy_pool[i].children[j].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
+					{
+						Playertakedamage(1);
+						printf("Damage Taken: %d\n", 1);
+						knight.invulnerability = TRUE;
+
+					}
+
+
 				}
-				
-				
 			}
 		}
 	}
