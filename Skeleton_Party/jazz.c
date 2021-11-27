@@ -209,7 +209,8 @@ void weapon_to_enemy_collision(void) {
 	//enemy_pool
 	for (int j = 0; j < MAX_ENEMY; j++) {
 		if (!(enemy_pool[j].alive)) continue; //Enemy not alive
-		if (enemy_pool[j].position.y < -30) continue; //Enemy not yet in screen 
+		if (out_of_screen(enemy_pool[j].position))continue;
+
 		//Sword
 		//Placed in melee_attack
 
@@ -601,7 +602,7 @@ void print_bullet(void) {
 			// Draw a blue rectangle that rotates
 			//CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
 			//CP_Graphics_DrawRect(0, 0, sword_width, sword_length);
-			CP_Image_Draw(fireball_pic, 0, 0, BULLET_SIZE, BULLET_SIZE, 255);
+			CP_Image_Draw(fireball_pic, 0, 0, BULLET_SIZE*1.47f, BULLET_SIZE, 255);
 
 			CP_Settings_ResetMatrix();
 			//CP_Settings_Fill(COLOR_BLUE);
@@ -646,7 +647,7 @@ void explosion_print(void) {
 			CP_Image shrapnel_pic = CP_Image_Load("./Assets/explosion.png");
 			// Create transform matrices
 
-			CP_Image_Draw(shrapnel_pic, explosion_pool[i].x, explosion_pool[i].y, explosion_radius_pool[i], explosion_radius_pool[i], 255);
+			CP_Image_Draw(shrapnel_pic, explosion_pool[i].x, explosion_pool[i].y, explosion_radius_pool[i]*2, explosion_radius_pool[i]*2, 255);
 		}
 	}
 }
@@ -673,7 +674,7 @@ void shrapnel_update(void) {
 			CP_Vector vector = rotate_vector(SHRAPNEL_SPEED, shrapnel_pool[i].angle, E1); 
 			shrapnel_pool[i].position.x += vector.x;
 			shrapnel_pool[i].position.y += vector.y;
-			printf("vector: %f | %f, position: %f | %f\n", vector.x, vector.y, shrapnel_pool[i].position.x, shrapnel_pool[i].position.y);
+			//printf("vector: %f | %f, position: %f | %f\n", vector.x, vector.y, shrapnel_pool[i].position.x, shrapnel_pool[i].position.y);
 			if (out_of_screen(shrapnel_pool[i].position)) shrapnel_pool[i].alive = 0;
 		}
 	}

@@ -353,7 +353,7 @@ void print_charge(CP_Vector position, float charge);
 //These are the function that updates the positions every frame
 	void movement_pattern_vertical_and_diagonal(void);
 	void initialise_circle_shape(CP_Vector mid_position, int enemy_count, float radius);
-	void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float end_of_horizontal, int type);
+	void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float distance_apart, int type);
 
 //-------------------------------
 //End of enemy array functions
