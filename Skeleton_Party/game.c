@@ -71,6 +71,9 @@ void game_update(void)
 		break;
 		case LEVEL_SELECTION:
 
+			DrawLevelSelectionCanvas();
+			ReturnMainMenuClicked();
+			ButtonLevelSelectionClicked();
 			break;
 
 		case LEVEL_1:
@@ -201,6 +204,7 @@ void PlayGame()
 {
 	shrapnel_update();
 	LoadBackgroundImage(currentState);
+	
 	DeathCondition();
 	TerminateFullscreen();
 	if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
@@ -209,6 +213,8 @@ void PlayGame()
 		gameState = PAUSED;
 	}
 	DrawGameCanvas();
+
+	DrawBuffIndicator();
 	if (CP_Input_KeyTriggered(KEY_1))
 	{
 		play_charswitch();

@@ -166,6 +166,9 @@ void exit_PlayerHP(void);
 //void UpdateEnemyMovement(void);
 //void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
+void DrawBuffIndicator();
+void ButtonLevelSelectionClicked();
+void DrawLevelSelectionCanvas();
 void ResetItemPool();
 void WinCondition();
 int currentState;
