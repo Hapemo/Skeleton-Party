@@ -133,11 +133,12 @@ void melee_attack(CP_Vector position) {
 			if (rect_collision(mother_enemy_pool[j].children[k].position, position, vec1, vec2, mother_enemy_pool[j].children[k].size)) killed = 1;
 			if (killed) {
 				*pcollide = 1;
+				shockwavestate = 1;
 				if (shockwavestate) {
 					play_crit();
 					printf("explosion is activated");
-					unsigned int random_int = CP_Random_RangeInt(0, 1000);
-					if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
+					unsigned int random_int = CP_Random_RangeInt(0, 100);
+					if (random_int < SWORD_CRIT_CHANCE) sword_explosion(mother_enemy_pool[j].children[k].position);
 				}
 				DropStuffs(mother_enemy_pool[j].children[k].position);
 				mother_enemy_pool[j].children[k].alive = 0;
@@ -154,9 +155,11 @@ void melee_attack(CP_Vector position) {
 
 		if (killed) {
 			*pcollide = 1;
-			
+			shockwavestate = 1;
 			if (shockwavestate) {
-				unsigned int random_int = CP_Random_RangeInt(0, 1000);
+				play_crit();
+				printf("explosion is activated");
+				unsigned int random_int = CP_Random_RangeInt(0, 100);
 				if (random_int < SWORD_CRIT_CHANCE) sword_explosion(enemy_pool[j].position);
 			}
 			DropStuffs(enemy_pool[j].position);
@@ -310,7 +313,7 @@ void weapon_to_enemy_collision(void) {
 				if (distance_apart <= (BULLET_SIZE + mother_enemy_pool[j].children[k].size * 34.0f / 50.0f)) {
 					explode(bullet_pool[i]); 
 					//printf("bullet_pool position: %f | %f\n", bullet_pool[i].x, bullet_pool[i].y);
-					shrapnel(bullet_pool[i]);
+					//if (shrapnelstate) shrapnel(bullet_pool[i]);
 
 					bullet_pool[i] = CP_Vector_Set(0, 0);
 					DropStuffs(mother_enemy_pool[j].children[k].position);
@@ -475,8 +478,14 @@ void sword_explosion_update(void) {
 void sword_explosion_print(void) {
 	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
 		if (!(sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0)) {
-			CP_Settings_Fill(COLOR_RED);
-			CP_Graphics_DrawCircle(sword_explosion_pool[i].x, sword_explosion_pool[i].y, sword_explosion_radius_pool[i] * 2); //This is in diameter so need to times 2
+			CP_Image explosion_pic = CP_Image_Load("./Assets/explosion.png");
+			CP_Image_Draw(explosion_pic, sword_explosion_pool[i].x, sword_explosion_pool[i].y, sword_explosion_radius_pool[i] * 1.5f, sword_explosion_radius_pool[i] * 1.5f, 255);
+			/*
+			static float critical_hit = 0;
+			if (critical_hit++ > max_sword_explosion_radius) critical_hit = 0;*/
+
+			CP_Image critical_pic = CP_Image_Load("./Assets/critical.png");
+			CP_Image_Draw(critical_pic, sword_explosion_pool[i].x, sword_explosion_pool[i].y, 30 * 2.81f, 30, 255);
 		}
 	}
 }
@@ -634,8 +643,10 @@ void explosion_update(void) {
 void explosion_print(void) {
 	for (int i = 0; i < MAX_EXPLOSION; i++) {
 		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
-			CP_Settings_Fill(COLOR_RED);
-			CP_Graphics_DrawCircle(explosion_pool[i].x, explosion_pool[i].y, explosion_radius_pool[i] * 2); //This is in diameter so need to times 2
+			CP_Image shrapnel_pic = CP_Image_Load("./Assets/explosion.png");
+			// Create transform matrices
+
+			CP_Image_Draw(shrapnel_pic, explosion_pool[i].x, explosion_pool[i].y, explosion_radius_pool[i], explosion_radius_pool[i], 255);
 		}
 	}
 }

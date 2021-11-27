@@ -15,7 +15,7 @@ void game_init(void)
 	gamePause = 0;
 	gameState = LOGO;
 	currentState = LEVEL_1;
-    CP_System_SetFrameRate(30);
+    CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
 	//isaac's init function calls 
