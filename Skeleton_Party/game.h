@@ -296,7 +296,7 @@ void shrapnel_update(void);
 
 void print_shrapnel(void);
 
-//void shrapnel_collision(void);
+void shrapnel_collision(void);
 
 //void piercing_bullet_collision(void);
 void weapon_to_enemy_collision(void);
@@ -322,6 +322,8 @@ void initialise_basic_movement(int spawn_pool_i);
 void movement_pattern_spinning_circle(void);
 
 void spin_enemy(int mother_i, int enemy_count, float spin_speed, float radius, CP_Vector position);
+
+void PlayGame();
 
 void spawn_map(void);
 void spawnerthing(CP_Vector position, int spawn_amount, int type);

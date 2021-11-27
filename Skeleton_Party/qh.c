@@ -51,9 +51,11 @@ void init_char(struct character *spritename, float spawnx, float spawny, char* p
 
 void update_char(int CurrentCharacter, struct character* spritename)
 {
+    
     if (CurrentCharacter == knightint)
     {
-        spritename->sprite = CP_Image_Load("./Assets/knightpa.png");
+        if (knight.invulnerability && ((int)*tick %20 >10)) spritename->sprite = CP_Image_Load("./Assets/knightpaRED.png");
+        else spritename->sprite = CP_Image_Load("./Assets/knightpa.png");
     }
     else if (CurrentCharacter == mageint)
     {

@@ -116,6 +116,11 @@ void level_2(void) {
 	//CP_Vector level_021 = CP_Vector_Set(WIDTH / 2, -5);
 	//spawn_pool_assigner(level_021, 1.0f, 50.0f, 100, 5); //Freaking cool pattern, idk what just happened
 
+	/*CP_Vector level_021 = CP_Vector_Set(WIDTH / 2, -10);
+	spawn_pool_assigner(level_021, 15.0f, 50.0f, 10, 6);*/
+
+	//Circle patterns
+	//--------------------------------------------------------	
 	CP_Vector level_021 = CP_Vector_Set(WIDTH / 8, -1000);
 	spawn_pool_assigner(level_021, 1.0f, 50.0f, 1, 104);
 	spawn_pool_assigner(level_021, 1.0f, 150.0f, 1, 104);
@@ -127,6 +132,12 @@ void level_2(void) {
 	spawn_pool_assigner(level_022, 1.0f, 150.0f, 1, 105);
 	spawn_pool_assigner(level_022, 1.0f, 250.0f, 1, 105);
 	spawn_pool_assigner(level_022, 1.0f, 350.0f, 1, 105);
+
+	//
+	//--------------------------------------------------------
+	
+
+
 
 	//spawn_pool_assigner(level_021, 5.0f, 50.0f, 50, 4); //This makes enemies move left and right in sine graph pattern
 }
@@ -228,7 +239,7 @@ void spawn_map(void) { //Should run continuously
 
 		if (spawn_pool[i].time == *tick) {
 			//printf("time: %f | tick: %f\n", spawn_pool[i].time, *tick);
-			if (1 <= spawn_pool[i].type && spawn_pool[i].type <= 5) initialise_basic_movement(i);
+			if (1 <= spawn_pool[i].type && spawn_pool[i].type <= 6) initialise_basic_movement(i);
 			if (101 <= spawn_pool[i].type && spawn_pool[i].type <= 105) initialise_basic_movement(i);
 			switch (spawn_pool[i].type) {
 				case 011:
@@ -318,7 +329,7 @@ void movement_pattern_vertical_and_diagonal(void) {
 	/*float multiplier;
 	int timer, duration;*/
 	double speed;
-
+	static int pattern_const;
 
 	CP_Settings_Fill(COLOR_BLUE);
 	for (int i = 0; i < MAX_ENEMY; i++) {
@@ -341,11 +352,17 @@ void movement_pattern_vertical_and_diagonal(void) {
 				//enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
 				enemy_pool[i].position.x += (float)speed;
 				break;
-			case 5: 
+			case 5: //pendulum wave pattern
 				speed = 10;
 				speed = sine(speed, i);
 				//enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
 				enemy_pool[i].position.x += (float)speed; //store1
+				break;
+			case 6: //make enemy go bouncing while coming down
+				speed = 10;
+				speed = sine(speed, 0);
+				//enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
+				enemy_pool[i].position.y += (float)speed;
 				break;
 		}
 

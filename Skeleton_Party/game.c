@@ -15,7 +15,7 @@ void game_init(void)
 	gamePause = 0;
 	gameState = LOGO;
 	currentState = LEVEL_1;
-    CP_System_SetFrameRate(60);
+    CP_System_SetFrameRate(30);
     /* Initialization of your other variables here */
 
 	//isaac's init function calls 
@@ -199,6 +199,7 @@ void game_update(void)
 
 void PlayGame()
 {
+	shrapnel_update();
 	LoadBackgroundImage(currentState);
 	DeathCondition();
 	TerminateFullscreen();
@@ -247,7 +248,7 @@ void PlayGame()
 
 	//Attack updates
 	if (shrapnelstate == TRUE) shrapnel_update();
-
+	shrapnel_update();
 	if (shockwavestate == TRUE) sword_explosion_update();
 
 	melee_update(knight.position);

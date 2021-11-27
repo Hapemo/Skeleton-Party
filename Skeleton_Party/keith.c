@@ -470,7 +470,7 @@ void WinCondition()
 	//	timer = 300.0f;
 	//	gameState = WIN;
 	//}
-	if (*tick == 1000)
+	if (*tick == 10000)
 	{
 		if (currentState < LEVEL_5)
 		{
