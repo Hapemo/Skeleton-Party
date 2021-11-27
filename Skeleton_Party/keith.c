@@ -446,6 +446,8 @@ void ResetState()
 	timer_reset();
 	knight.position.x = originalPlayerPositionX;
 	knight.position.y = originalPlayerPositionY;
+	knight.transparency = 255;
+	knight.invulnerability = FALSE;
 	//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
 	
 	//preload_spawn_map(); //This is for declarations in enemy_array
@@ -581,15 +583,35 @@ void DrawItem()
 void InvulnerabilityFrame()
 {
 	static float timer = 500.0f;
-
+	static float lerpTimer = 0.f;
+	//static float lerp = 1.0f;
 	if (timer > 0)
 	{
+
 		timer -= CP_System_GetDt();
+		
+		//lerp = CP_Math_ClampFloat(1 * CP_System_GetDt(), 0.0f, 1.0f);
+		if (lerpTimer > 0.25f)
+		{ 
+			
+			knight.transparency = 255;
+			lerpTimer = 0.0f;
+		}
+		else
+		{
+			lerpTimer += CP_System_GetDt();
+			knight.transparency = 127;
+			
+		}
+		//printf("lt: %f\n", lerpTimer);
 		//timer -= CP_System_GetMillis();
 		//printf("timer: %f\n", timer);
 	}
 	else
-	{	knight.invulnerability = FALSE;
+	{	
+		knight.invulnerability = FALSE;
+		knight.transparency = 255;
+		lerpTimer = 0.f;
 		timer = 500.0f;
 		return;
 	}

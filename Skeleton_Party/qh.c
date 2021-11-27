@@ -46,6 +46,7 @@ void init_char(struct character *spritename, float spawnx, float spawny, char* p
     spritename->width = 50;
     spritename->height = 100;
     spritename->speed = 100;
+    spritename->transparency = 255;
     
 }
 
@@ -54,8 +55,8 @@ void update_char(int CurrentCharacter, struct character* spritename)
     
     if (CurrentCharacter == knightint)
     {
-        if (knight.invulnerability && ((int)*tick %20 >10)) spritename->sprite = CP_Image_Load("./Assets/knightpaRED.png");
-        else spritename->sprite = CP_Image_Load("./Assets/knightpa.png");
+        //if (knight.invulnerability && ((int)*tick %20 >10)) spritename->sprite = CP_Image_Load("./Assets/knightpaRED.png");
+        spritename->sprite = CP_Image_Load("./Assets/knightpa.png");
     }
     else if (CurrentCharacter == mageint)
     {
@@ -145,7 +146,7 @@ void game_control(struct character *spritename )
     }
    
     CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
-    CP_Image_Draw(spritename->sprite, spritename->position.x, spritename->position.y, spritename->width, spritename->height, 255);
+    CP_Image_Draw(spritename->sprite, spritename->position.x, spritename->position.y, spritename->width, spritename->height, spritename->transparency);
 }
 
 void drawenemy(struct character* spritename)

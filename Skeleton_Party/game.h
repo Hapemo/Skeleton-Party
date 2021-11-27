@@ -67,6 +67,7 @@ struct character
 	float width;
 	float height;
 	float speed;
+	int transparency;
 	BOOL speedbuff;
 	BOOL invulnerability;
 };
