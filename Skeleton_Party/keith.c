@@ -37,7 +37,6 @@ BOOL fullScreen = FALSE;
 
 CP_Font myFont;
 
-
 //BOOL clicked = FALSE;
 
 struct Button {
@@ -582,39 +581,50 @@ void DrawItem()
 
 void InvulnerabilityFrame()
 {
-	static float timer = 500.0f;
-	static float lerpTimer = 0.f;
-	//static float lerp = 1.0f;
-	if (timer > 0)
-	{
+	
 
-		timer -= CP_System_GetDt();
-		
-		//lerp = CP_Math_ClampFloat(1 * CP_System_GetDt(), 0.0f, 1.0f);
-		if (lerpTimer > 0.25f)
-		{ 
-			
-			knight.transparency = 255;
-			lerpTimer = 0.0f;
+		//printf("knight.invulnerability: %d", knight.invulnerability);
+
+		static float InvulnerabilityTimer = 3.0f;
+
+		static float lerpTimer = 0.f;
+		//static float lerp = 1.0f;
+		if (InvulnerabilityTimer > 0)
+		{
+
+			InvulnerabilityTimer -= CP_System_GetDt();
+
+			//lerp = CP_Math_ClampFloat(1 * CP_System_GetDt(), 0.0f, 1.0f);
+			if (lerpTimer > 0.25f)
+			{
+
+				knight.transparency = 255;
+				lerpTimer = 0.0f;
+			}
+			else
+			{
+				lerpTimer += CP_System_GetDt();
+				knight.transparency = 127;
+
+			}
+			//printf("lt: %f\n", lerpTimer);
+			//timer -= CP_System_GetMillis();
+			//printf("timer: %f\n", timer);
 		}
 		else
 		{
-			lerpTimer += CP_System_GetDt();
-			knight.transparency = 127;
-			
+
+			knight.invulnerability = FALSE;
+			//printf("knight.invulnerability: %d", knight.invulnerability);
+			//printf("knight.invulnerability: %d", (int)knight.invulnerability);
+			knight.transparency = 255;
+			lerpTimer = 0.f;
+			InvulnerabilityTimer = 3.0f;
+			//return;
 		}
-		//printf("lt: %f\n", lerpTimer);
-		//timer -= CP_System_GetMillis();
-		//printf("timer: %f\n", timer);
-	}
-	else
-	{	
-		knight.invulnerability = FALSE;
-		knight.transparency = 255;
-		lerpTimer = 0.f;
-		timer = 500.0f;
-		return;
-	}
+		printf("InvulnerabilityTimer: %f", InvulnerabilityTimer);
+	
+	
 }
 
 void SpeedBuffEffect()
@@ -708,14 +718,16 @@ void EnemyCollision()
 					Playertakedamage(1);
 					printf("Damage Taken: %d\n", 1);
 					knight.invulnerability = TRUE;
+					
 				}
-				if (knight.invulnerability == TRUE)
-				{
-					InvulnerabilityFrame();
-					//printf("knight.invulnerability: %u\n", knight.invulnerability);
-				}
+				
+				
 			}
 		}
 	}
-
+	if (knight.invulnerability == TRUE)
+	{
+		InvulnerabilityFrame();
+		printf("knight.invulnerability: %u\n", knight.invulnerability);
+	}
 }

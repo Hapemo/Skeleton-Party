@@ -240,6 +240,7 @@ void PlayGame()
 		piercing_shooting_check(knight.position);
 
 	}
+	
 	update_bullet_travel();
 	weapon_to_enemy_collision();
 	lightbulb();
@@ -273,6 +274,9 @@ void PlayGame()
 	ScorePrinter(Gold, 850, 80);
 	Screen_Currency_Print();
 	WinCondition();
+	
+
+	//printf("knight.invulnerability: %d",(int)knight.invulnerability);
 }
 
 
