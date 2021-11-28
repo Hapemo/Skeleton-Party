@@ -38,6 +38,7 @@ CP_Image level3Image = NULL;
 CP_Image level4Image = NULL;
 CP_Image level5Image = NULL;
 CP_Image buffIndicatorImage = NULL;
+CP_Image upgradesButtonImage = NULL;
 
 BOOL fullScreen = FALSE;
 
@@ -59,6 +60,7 @@ struct Button creditButton;
 struct Button quitButton;
 struct Button instructionsButton;
 struct Button returnButton;
+struct Button upgradesButton;
 struct Button level1;
 struct Button level2;
 struct Button level3;
@@ -121,6 +123,7 @@ void InitializeVariables()
 	level4Image = CP_Image_Load("./Assets/level4.png");
 	level5Image = CP_Image_Load("./Assets/level5.png");
 	buffIndicatorImage = CP_Image_Load("./Assets/speedBoostSym.png");
+	upgradesButtonImage = CP_Image_Load("./Assets/upgradeBtn.png");
 }
 
 void Damage(float damage)
@@ -275,10 +278,16 @@ void DrawMenuCanvas()
 		instructionsButton.width = menu.width / 3.0f;
 		instructionsButton.height = menu.height / 8.0f;
 
-		creditButton.posX = menu.width / 2.0f;
-		creditButton.posY = menu.height * (4.5f / 7.0f) + 30.0f;
-		creditButton.width = menu.width / 3.0f;
-	    creditButton.height = menu.height / 8.0f;
+		upgradesButton.posX = menu.width / 2.0f;
+		upgradesButton.posY = menu.height * (4.5f / 7.0f) + 30.0f;
+		upgradesButton.width = menu.width / 3.0f;
+		upgradesButton.height = menu.height / 8.0f;
+
+		creditButton.posX = menu.width / 8.0f;
+		creditButton.posY = menu.height * (6.5f / 7.0f);
+		creditButton.width = menu.width / 6.0f;
+		creditButton.height = menu.height / 15.0f;
+
 
 		quitButton.posX = menu.width / 2.0f;
 		quitButton.posY = menu.height * (5.5f / 7.0f) + 45.0f;
@@ -288,10 +297,11 @@ void DrawMenuCanvas()
 
 
 		CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
+		CP_Image_Draw(upgradesButtonImage, upgradesButton.posX, upgradesButton.posY, upgradesButton.width, upgradesButton.height, 255);
 		CP_Image_Draw(creditButtonImage, creditButton.posX , creditButton.posY, creditButton.width, creditButton.height, 255);
 		CP_Image_Draw(quitButtonImage, quitButton.posX, quitButton.posY, quitButton.width, quitButton.height, 255);
 		CP_Image_Draw(instructionsButtonImage, instructionsButton.posX, instructionsButton.posY, instructionsButton.width, instructionsButton.height, 255);
-		CP_Image_Draw(titleImage, creditButton.posX, menu.height *( 0.75f/ 7.0f) + 50.0f , menu.width * 0.75f, menu.height/ 6.0f ,255);
+		CP_Image_Draw(titleImage, menu.width / 2.0f, menu.height *( 0.75f/ 7.0f) + 50.0f , menu.width * 0.75f, menu.height/ 6.0f ,255);
 		//CP_Settings_TextSize(6 * (playButton.width / menu.width * 100));
 
 		//CP_Settings_Fill(COLOR_WHITE);
@@ -554,6 +564,11 @@ void ButtonClicked()
 		{
 			gameState = CREDIT1;
 		}
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, upgradesButton.width, upgradesButton.height, upgradesButton.posX, upgradesButton.posY))
+		{
+			gameState = UPGRADES;
+		}
+
 		//if (CheckCollisionWithBoxImage(mousePosX, mousePosY, levelSelectionBUTTO.width, instructionsButton.height, instructionsButton.posX, instructionsButton.posY))
 		//{
 			//gameState = LEVEL_SELECTION;
@@ -672,10 +687,10 @@ void DropStuff(float posX, float posY)
 				//printf("Spawned: %d", item_pool[i].enabled);
 			}
 		}
-		else
+		else if(item_pool[i].enabled == 1)
 		{
 			j++;
-			printf("Drop: %d", item_pool[i].enabled);
+			//printf("Drop: %d", item_pool[i].enabled);
 
 
 		}

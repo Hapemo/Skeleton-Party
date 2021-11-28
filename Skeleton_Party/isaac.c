@@ -1152,6 +1152,7 @@ void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
 
 			printf("button pressed mm \n");
 			gameState = MAIN_MENU;
+			currentLevel = MAIN_MENU;
 		}
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 557.0, 822.0, 906.0, 936.0))
@@ -1271,6 +1272,7 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 
 			//gamePause = !gamePause;
 			gameState = MAIN_MENU;
+			currentLevel = MAIN_MENU;
 			//gameState = UPGRADES;
 		}
 
@@ -1324,7 +1326,9 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed quit\n");
+
 			gameState = MAIN_MENU;
+			currentLevel = MAIN_MENU;
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 597.0, 827.0, 913.0, 915.0))
 		{
@@ -1360,7 +1364,14 @@ void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed back \n");
-			gameState = PREPROOM;
+			if (currentLevel == MAIN_MENU)
+			{
+				gameState = MAIN_MENU;
+			}
+			else
+			{
+				gameState = PREPROOM;
+			}
 		}
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 31.0, 349.0, 414.0, 730.0))
