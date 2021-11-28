@@ -14,7 +14,7 @@ void game_init(void)
 {
 	gamePause = 0;
 	gameState = LOGO;
-	currentLevel = LEVEL_1;
+	currentLevel = MAIN_MENU;
     CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
