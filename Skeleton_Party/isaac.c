@@ -458,7 +458,7 @@ void InitializeSkillShopUI(void)         // new function
 	SkullFont = CP_Font_Load("./Assets/Font/Skull-Story.ttf");
 
 	//SWORD_CRIT_CHANCE = 10;
-	revivetoken = 10;
+	revivetoken = 0;
 	Exp = 18;
 	Gold = 19;
 	additionalExp = 2;
@@ -1219,23 +1219,19 @@ void Screen_SKILL_Print(void)											//new functuon
 
 	case 60:
 		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
 		CP_Image_Draw(Image_Skill_Crit6, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 		break;
 	case 70:
 		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
 		CP_Image_Draw(Image_Skill_Crit7, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 		break;
 	case 80:
 		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
 		CP_Image_Draw(Image_Skill_Crit8, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 		break;
 
 	default:
 		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
-
 		CP_Image_Draw(Image_Skill_Crit9, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
 		break;
 
@@ -1582,7 +1578,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed heal\n");
 			//minus gold 
-			if (Gold > 2)
+			if ((Gold > 2) && (DoubleHeal == FALSE))
 			{
 				Gold -= 2;
 				DoubleHeal = TRUE;
@@ -1601,7 +1597,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed drop\n");
 			// minus gold 
-			if (Gold > 2)
+			if ((Gold > 2) && (DoubleDrop == FALSE))
 			{
 				Gold -= 2;
 				DoubleDrop = TRUE;
@@ -1638,7 +1634,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
 			printf("button pressed shrapnel\n");
-			if (Gold > 2)
+			if ((Gold > 2) && (shrapnelstate == FALSE))
 			{
 				Gold -= 2;
 				shrapnelstate = TRUE;
@@ -1656,7 +1652,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed shockwave\n");
 
-			if (Gold > 2)
+			if ((Gold > 2) && (shockwavestate == FALSE))
 			{
 				Gold -= 2;
 				shockwavestate = TRUE;
