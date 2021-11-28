@@ -115,6 +115,7 @@ struct mother_enemy {
 	int type;
 	struct Enemy children[MAX_CHILDREN];
 	float spare;
+	float spare2;
 };
 
 struct Enemy enemy_pool[MAX_ENEMY];

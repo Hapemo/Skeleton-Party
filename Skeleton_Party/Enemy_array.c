@@ -25,7 +25,7 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 	return temp;
 }
 
-CP_Vector one_third, two_third, mid, one_tenth, minus_two_third, zero, one_fourth, three_fourth, one_fifth, two_fifth, three_fifth, four_fifth, width, high_mid;
+CP_Vector one_third, two_third, mid, one_tenth, nine_tenth, minus_two_third, zero, one_fourth, three_fourth, one_fifth, two_fifth, three_fifth, four_fifth, width, high_mid;
 
 //1 for straight line, 2 for left diagonal, 3 for right diagonal, 5 for horizontal enemy, 101 for circle
 //Max screen is WDITH/1.5
@@ -194,20 +194,6 @@ void level_3(void) {
 
 	//spawn_pool_assigner(level_031, 150.0f, 0.0f, 10, 104);
 
-	//Circle patterns
-	//--------------------------------------------------------	
-	/*CP_Vector one_third = CP_Vector_Set(WIDTH / 8, -1000);
-	spawn_pool_assigner(one_third, 1.0f, 50.0f, 1, 104);
-	spawn_pool_assigner(one_third, 1.0f, 150.0f, 1, 104);
-	spawn_pool_assigner(one_third, 1.0f, 250.0f, 1, 104);
-	spawn_pool_assigner(one_third, 1.0f, 350.0f, 1, 104);
-
-	CP_Vector two_third = CP_Vector_Set(WIDTH / 8 * 7, -1000);
-	spawn_pool_assigner(two_third, 1.0f, 50.0f, 1, 105);
-	spawn_pool_assigner(two_third, 1.0f, 150.0f, 1, 105);
-	spawn_pool_assigner(two_third, 1.0f, 250.0f, 1, 105);
-	spawn_pool_assigner(two_third, 1.0f, 350.0f, 1, 105);*/
-
 	//
 	//--------------------------------------------------------
 
@@ -218,6 +204,18 @@ void level_3(void) {
 }
 
 void level_4(void) {
+
+	//Circle patterns
+	//--------------------------------------------------------	
+	spawn_pool_assigner(one_tenth, 1.0f, 50.0f, 1, 104);
+	spawn_pool_assigner(one_tenth, 1.0f, 150.0f, 1, 104);
+	spawn_pool_assigner(one_tenth, 1.0f, 250.0f, 1, 104);
+	spawn_pool_assigner(one_tenth, 1.0f, 350.0f, 1, 104);
+
+	spawn_pool_assigner(nine_tenth, 1.0f, 50.0f, 1, 105);
+	spawn_pool_assigner(nine_tenth, 1.0f, 150.0f, 1, 105);
+	spawn_pool_assigner(nine_tenth, 1.0f, 250.0f, 1, 105);
+	spawn_pool_assigner(nine_tenth, 1.0f, 350.0f, 1, 105);
 
 }
 
@@ -238,6 +236,7 @@ void preload_spawn_map(int level) { //Put in game_init
 	two_third = CP_Vector_Set(WIDTH / 3 * 2, -5);
 	mid = CP_Vector_Set(WIDTH / 2, -5);
 	one_tenth = CP_Vector_Set(WIDTH / 10, -5);
+	nine_tenth = CP_Vector_Set(WIDTH / 10 * 9, -5);
 	minus_two_third = CP_Vector_Set(-WIDTH / 3 * 2, -5);
 	zero = CP_Vector_Set(0, -5);
 
@@ -266,6 +265,8 @@ void preload_spawn_map(int level) { //Put in game_init
 	if (level == LEVEL_1) level_1();
 	if (level == LEVEL_2) level_2();
 	if (level == LEVEL_3) level_3();
+	if (level == LEVEL_4) level_4();
+	if (level == LEVEL_5) level_5();
 
 	/*CP_Vector level_0150 = CP_Vector_Set(WIDTH / 10, -5);
 	spawn_pool_assigner(two_third, 30.0f, 0.0f, 10, 11);*/
@@ -326,7 +327,7 @@ void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float star
 	for (int i = start_count; i < start_count + spawn_amount; i++) {
 		spawn_tick = spawn_tick + spawn_speed_delay;
 		spawn_pool[i] = spawn_set(position, spawn_tick, type);
-		//printf("spawn tick: %f\n", spawn_poo	l[i].time);
+		//printf("spawn tick: %f\n", spawn_pool[i].time);
 	}
 }
 
@@ -415,6 +416,7 @@ void initialise_basic_movement(int spawn_pool_i) {
 			if (mother_enemy_pool[i].alive) continue;
 			mother_enemy_pool[i] = mother_enemy_set(spawn_pool[spawn_pool_i].position, spawn_pool[spawn_pool_i].time ,1, spawn_pool[spawn_pool_i].type);
 			//printf("type: %d\n", mother_enemy_pool[i].type);
+			mother_enemy_pool[i].spare2 = 1;
 
 			for (int j = 0; j < MAX_CHILDREN; j++) {
 				mother_enemy_pool[i].children[j].alive = 1;
@@ -595,9 +597,12 @@ void movement_pattern_spinning_circle(void) {
 				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100 + (float)speed*10, 0.5f, mother_enemy_pool[i].position);
 				break;
 			case 104: //giant spinning circle
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 800;
 				spin_enemy(i, 50, 0.01f, 800, mother_enemy_pool[i].position);
+				printf("mother_enemy %d: position: %f | %f\n", i, mother_enemy_pool[i].position.x, mother_enemy_pool[i].position.y);
 				break;
 			case 105: //giant spinning circle (reversed)
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 800;
 				spin_enemy(i, 50, -0.01f, 800, mother_enemy_pool[i].position);
 				break;
 			case 106: //vertical enemy
@@ -605,6 +610,18 @@ void movement_pattern_spinning_circle(void) {
 				break;
 			case 107: //giant spinning circle (width of screen)
 				spin_enemy(i, 50, 0.01f, 470, mother_enemy_pool[i].position);
+				break;
+			case 108: //one third spinning circle cw
+				spin_enemy(i, 25, 0.01f, 310, mother_enemy_pool[i].position);
+				break;
+			case 109: //two third spinning circle ccw
+				spin_enemy(i, 25, -0.01f, 310, mother_enemy_pool[i].position);
+				break;
+			case 110: //half spinning circle cw
+				spin_enemy(i, 25, 0.01f, 310, mother_enemy_pool[i].position);
+				break;
+			case 111: //half spinning circle ccw
+				spin_enemy(i, 25, -0.01f, 310, mother_enemy_pool[i].position);
 				break;
 		}
 	}
@@ -678,11 +695,6 @@ double sine(double speed, int randomiser) {
 	return speed * sin(randomiser + angle * 10);
 }
 
-void resetPool(void)
-{
-		for (int j = 0; j < MAX_ENEMY; j++) {
-			enemy_pool[j].alive = 0;
-		}
-
-
+void resetPool(void) {
+	for (int j = 0; j < MAX_ENEMY; j++) enemy_pool[j].alive = 0;
 }
