@@ -441,7 +441,7 @@ void InitializeSkillShopUI(void)         // new function
 	SkullFont = CP_Font_Load("./Assets/Font/Skull-Story.ttf");
 
 
-	revivetoken = 1;
+	revivetoken = 0;
 	Exp = 18;
 	Gold = 19;
 	additionalExp = 2;
@@ -450,6 +450,8 @@ void InitializeSkillShopUI(void)         // new function
 	DoubleGold = FALSE;
 	DoubleDrop = FALSE;
 	DoubleHeal = FALSE;
+	MainMenuState = TRUE;
+	
 
 	isaac_width = WIDTH;
 	isaac_height = HEIGHT;
@@ -1230,6 +1232,7 @@ void DeathCondition(void)
 		gameState = LOSE;
 	}
 }
+
 void Screen_WIN_ButtonClicked(void)											//new functuon
 {
 /*
@@ -1387,7 +1390,16 @@ void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
 		printf("button pressed back esc \n");
-		gameState = PREPROOM;
+		if (MainMenuState == TRUE)
+		{
+			gameState = MAIN_MENU;
+
+		}
+		else if (MainMenuState == FALSE)
+		{
+			gameState = PREPROOM;
+		}
+		
 	}
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
@@ -1505,8 +1517,9 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			printf("button pressed rez\n");
 			if (Gold > 2)
 			{
+				revivetoken++;
 				Gold -= 2;
-				Shop_RezButton.enabled = FALSE;
+				//Shop_RezButton.enabled = FALSE;
 			}
 			else
 			{
@@ -1639,8 +1652,67 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 		}
 
 	}
-}
 
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2))
+	{
+		// sell skills and refund exp to player 
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed sell hearts\n");
+			//if (Exp > 0)
+			//{
+			if (additionalhp != 0)
+			{
+				Skill_HeartsButton.enabled = TRUE;
+				Exp += 1;
+				additionalhp--;
+				//printf("hpadded %d" ,additionalhp);
+				p1.set(&p1, 3 + additionalhp);
+				// minus exp
+			}
+			//else
+			//{
+				//printf("max rhp eached ");
+			//
+				//Skill_HeartsButton.enabled = FALSE;
+		//	}
+		//}
+
+		}
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 683.0, 480.0, 811.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed sell agility\n");
+			//if (Exp > 0)
+			//{
+
+
+			if (additionalspeed != 0)
+			{
+				Skill_AgilityButton.enabled = TRUE;
+				Exp += 1;
+				additionalspeed -= 20; // or 20 increment ? 
+				knight.speed -= additionalspeed;
+				//mage.speed += additionalspeed;
+				//archer.speed += additionalspeed;
+			}
+			//else
+			//{
+				//Skill_AgilityButton.enabled = FALSE;
+			//}
+		//}
+
+
+		}
+	}
+}
 
 void Screen_YOUDIED_ButtonClicked(void)											//new functuon
 {
@@ -1715,6 +1787,7 @@ void Screen_REVIVE_ButtonClicked(void)											//new functuon
 		}
 	}
 }
+
 void exit_skilltreepictures(void) 
 {
 

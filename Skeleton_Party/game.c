@@ -119,7 +119,8 @@ void game_update(void)
 			break;
 
 		case MAIN_MENU:
-			
+
+			MainMenuState = TRUE;
 			TerminateFullscreen();
 			EnableMenu();
 			play_menubg();

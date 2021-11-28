@@ -542,7 +542,7 @@ void ButtonClicked()
 			menu.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = LEVEL_1;
-
+			MainMenuState = FALSE;
 			gameState = LEVEL_SELECTION;
 		}
 		//}

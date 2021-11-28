@@ -48,6 +48,7 @@ int gamePause;
 enum { knightint, mageint, archerint };
 BOOL shrapnelstate, shockwavestate;
 BOOL RewardGiven;
+BOOL MainMenuState;
 int revivetoken;
 
 
