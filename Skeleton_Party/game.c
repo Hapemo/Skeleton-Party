@@ -43,7 +43,7 @@ void game_init(void)
 	init_char(&knight, originalPlayerPositionX, originalPlayerPositionY, "./Assets/knightpa.png");
 	
 
-	preload_spawn_map(LEVEL_1); //This is for declarations in enemy_array
+	//preload_spawn_map(LEVEL_1); //This is for declarations in enemy_array
 	load_audio(); //load audio
 }
 
@@ -77,14 +77,17 @@ void game_update(void)
 			break;
 
 		case LEVEL_1:
+			preload_spawn_map(LEVEL_1);
 			PlayGame();
 			break;
 
 		case LEVEL_2:
+			preload_spawn_map(LEVEL_2);
 			PlayGame();
 			break;
 
 		case LEVEL_3:
+			preload_spawn_map(LEVEL_3);
 			PlayGame();
 			break;
 		case LEVEL_4:

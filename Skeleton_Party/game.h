@@ -327,6 +327,8 @@ void movement_pattern_spinning_circle(void);
 
 void spin_enemy(int mother_i, int enemy_count, float spin_speed, float radius, CP_Vector position);
 
+void vertical_enemy(int mother_i, int enemy_count, float distance_apart);
+
 void PlayGame();
 
 void spawn_map(void);
