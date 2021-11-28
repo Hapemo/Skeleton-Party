@@ -33,7 +33,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define darkviolet CP_Color_Create(148, 0, 211, 255)
 
 
-enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_SELECTION, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY};
+enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_SELECTION, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY, CREDIT1, CREDIT2};
 enum GameStates gameState;
 
 
@@ -166,9 +166,13 @@ void exit_PlayerHP(void);
 //void UpdateEnemyMovement(void);
 //void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
+float winning_condition;
+void DrawBuffIndicator();
+void ButtonLevelSelectionClicked();
+void DrawLevelSelectionCanvas();
 void ResetItemPool();
 void WinCondition();
-int currentState;
+int currentLevel;
 void ResetState();
 void DrawLogoScreen();
 void ReturnMainMenuClicked();
@@ -324,6 +328,8 @@ void movement_pattern_spinning_circle(void);
 
 void spin_enemy(int mother_i, int enemy_count, float spin_speed, float radius, CP_Vector position);
 
+void vertical_enemy(int mother_i, int enemy_count, float distance_apart);
+
 void PlayGame();
 
 void spawn_map(void);
@@ -368,7 +374,11 @@ void player_touch_enemy();
 
 void DrawPauseCanvas();
 void PauseButtonClicked();
-
+void load_Credit_Image();
+void drawCreditScreenpg1();
+void drawCreditScreenpg2();
+void creditBtnClicked();
+void free_IMAGE();
 void load_audio();
 
 void play_menubg();

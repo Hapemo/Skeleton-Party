@@ -14,7 +14,7 @@ void game_init(void)
 {
 	gamePause = 0;
 	gameState = LOGO;
-	currentState = LEVEL_1;
+	currentLevel = LEVEL_1;
     CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
@@ -43,8 +43,9 @@ void game_init(void)
 	init_char(&knight, originalPlayerPositionX, originalPlayerPositionY, "./Assets/knightpa.png");
 	
 
-	preload_spawn_map(LEVEL_1); //This is for declarations in enemy_array
+	//preload_spawn_map(LEVEL_1); //This is for declarations in enemy_array
 	load_audio(); //load audio
+	load_Credit_Image();
 }
 
 void game_update(void)
@@ -71,17 +72,23 @@ void game_update(void)
 		break;
 		case LEVEL_SELECTION:
 
+			DrawLevelSelectionCanvas();
+			ReturnMainMenuClicked();
+			ButtonLevelSelectionClicked();
 			break;
 
 		case LEVEL_1:
+			
 			PlayGame();
 			break;
 
 		case LEVEL_2:
+			
 			PlayGame();
 			break;
 
 		case LEVEL_3:
+			
 			PlayGame();
 			break;
 		case LEVEL_4:
@@ -105,7 +112,7 @@ void game_update(void)
 			{
 			
 				gamePause = !gamePause;
-				gameState = currentState;
+				gameState = currentLevel;
 				
 			}
 			
@@ -128,7 +135,7 @@ void game_update(void)
 			ReturnMainMenuClicked();
 			break;
 		case WIN:
-			ResetState();
+
 			if (RewardGiven == FALSE)
 			{
 				RewardGiven = TRUE;
@@ -150,11 +157,19 @@ void game_update(void)
 			break;
 		case LOSE:
 			play_death();
-			ResetState();
+			
 			//TerminateFullscreen();
 			Screen_GAMEOVER_Print();
 			Screen_GAMEOVER_ButtonClicked();
 
+			break;
+		case CREDIT1:
+			drawCreditScreenpg1();
+			creditBtnClicked();
+			break;
+		case CREDIT2:
+			drawCreditScreenpg2();
+			creditBtnClicked();
 			break;
 
 		case EXIT:
@@ -199,8 +214,10 @@ void game_update(void)
 
 void PlayGame()
 {
+
 	shrapnel_update();
-	LoadBackgroundImage(currentState);
+	LoadBackgroundImage(currentLevel);
+	
 	DeathCondition();
 	TerminateFullscreen();
 	if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
@@ -209,6 +226,7 @@ void PlayGame()
 		gameState = PAUSED;
 	}
 	DrawGameCanvas();
+	DrawBuffIndicator();
 	if (CP_Input_KeyTriggered(KEY_1))
 	{
 		play_charswitch();
@@ -286,4 +304,5 @@ void game_exit(void)
 	exit_PlayerHP();
 	exit_skilltreepictures();
 	free_audio();
+	free_IMAGE();
 }

@@ -32,6 +32,12 @@ CP_Image quitButtonImage = NULL;
 CP_Image instructionsButtonImage = NULL;
 CP_Image returnImage = NULL;
 CP_Image digipenLogo = NULL;
+CP_Image level1Image = NULL;
+CP_Image level2Image = NULL;
+CP_Image level3Image = NULL;
+CP_Image level4Image = NULL;
+CP_Image level5Image = NULL;
+CP_Image buffIndicatorImage = NULL;
 
 BOOL fullScreen = FALSE;
 
@@ -40,7 +46,7 @@ CP_Font myFont;
 //BOOL clicked = FALSE;
 
 struct Button {
-
+	BOOL enabled;
 	float posX;
 	float posY;
 	float width;
@@ -53,8 +59,12 @@ struct Button creditButton;
 struct Button quitButton;
 struct Button instructionsButton;
 struct Button returnButton;
-
-
+struct Button level1;
+struct Button level2;
+struct Button level3;
+struct Button level4;
+struct Button level5;
+struct Button buffIndicator;
 
 void ReturnMainMenuClicked();
 
@@ -105,7 +115,12 @@ void InitializeVariables()
 	returnImage = CP_Image_Load("./Assets/return.png");
 	instructionsButtonImage = CP_Image_Load("./Assets/Instructions.png");
 	digipenLogo = CP_Image_Load("./Assets/DigiPen_WHITE.png");
-	
+	level1Image = CP_Image_Load("./Assets/level1.png");
+	level2Image = CP_Image_Load("./Assets/level2.png");
+	level3Image = CP_Image_Load("./Assets/level3.png");
+	level4Image = CP_Image_Load("./Assets/level4.png");
+	level5Image = CP_Image_Load("./Assets/level5.png");
+	buffIndicatorImage = CP_Image_Load("./Assets/speedBoostSym.png");
 }
 
 void Damage(float damage)
@@ -251,22 +266,22 @@ void DrawMenuCanvas()
 			menu.width, menu.height);
 
 		playButton.posX = menu.width / 2.0f;
-		playButton.posY = menu.height * (2.0f / 6.0f);
+		playButton.posY = menu.height * (2.5f / 7.0f);
 		playButton.width = menu.width / 3.0f;
 		playButton.height = menu.height / 8.0f;
 
 		instructionsButton.posX = menu.width/ 2.0f;
-		instructionsButton.posY = menu.height * (3.0f / 6.0f) + 15.0f;
+		instructionsButton.posY = menu.height * (3.5f / 7.0f) + 15.0f;
 		instructionsButton.width = menu.width / 3.0f;
 		instructionsButton.height = menu.height / 8.0f;
 
 		creditButton.posX = menu.width / 2.0f;
-		creditButton.posY = menu.height * (4.0f / 6.0f) + 30.0f;
+		creditButton.posY = menu.height * (4.5f / 7.0f) + 30.0f;
 		creditButton.width = menu.width / 3.0f;
 	    creditButton.height = menu.height / 8.0f;
 
 		quitButton.posX = menu.width / 2.0f;
-		quitButton.posY = menu.height * (5.0f / 6.0f) + 45.0f;
+		quitButton.posY = menu.height * (5.5f / 7.0f) + 45.0f;
 		quitButton.width = menu.width / 3.0f;
 		quitButton.height = menu.height / 8.0f;
 
@@ -276,7 +291,7 @@ void DrawMenuCanvas()
 		CP_Image_Draw(creditButtonImage, creditButton.posX , creditButton.posY, creditButton.width, creditButton.height, 255);
 		CP_Image_Draw(quitButtonImage, quitButton.posX, quitButton.posY, quitButton.width, quitButton.height, 255);
 		CP_Image_Draw(instructionsButtonImage, instructionsButton.posX, instructionsButton.posY, instructionsButton.width, instructionsButton.height, 255);
-		CP_Image_Draw(titleImage, creditButton.posX, menu.height / 8.0f + 50.0f , menu.width * 0.75f, menu.height/ 6.0f ,255);
+		CP_Image_Draw(titleImage, creditButton.posX, menu.height *( 0.75f/ 7.0f) + 50.0f , menu.width * 0.75f, menu.height/ 6.0f ,255);
 		//CP_Settings_TextSize(6 * (playButton.width / menu.width * 100));
 
 		//CP_Settings_Fill(COLOR_WHITE);
@@ -295,9 +310,10 @@ void DrawLogoScreen()
 		float width = (float)CP_System_GetWindowWidth();
 		float height = (float)CP_System_GetWindowHeight();
 		CP_Settings_Fill(COLOR_BLACK);
-		CP_Graphics_DrawRect(0, 0, width, height);
-
-
+		
+		//CP_Color fade = CP_Color_Create(0, 0, 0, (int)(255 * timer));
+		//CP_Color newColour = CP_Color_Lerp(COLOR_BLACK, transparent, timer);
+	    CP_Graphics_DrawRect(0, 0, width, height);
 		CP_Image_Draw(digipenLogo, width / 2, height / 2, width / 1.5f, height / 2, (int)(255 * timer));
 
 
@@ -347,13 +363,102 @@ void DrawInstructionsCanvas()
 	float height = (float)CP_System_GetWindowHeight();
 	CP_Image_Draw(instructionScreen, width / 2, height / 2, width, height, 255);
 
-	returnButton.posX = width / 10.0f;
+	returnButton.posX = width / 7.5f;
 	returnButton.posY = height *(0.925f);
-	returnButton.width = width / 7.0f;
+	returnButton.width = width / 5.0f;
 	returnButton.height = height / 15.0f;
 	CP_Image_Draw(returnImage, returnButton.posX, returnButton.posY, returnButton.width, returnButton.height, 255);
 
 }
+
+void DrawLevelSelectionCanvas()
+{
+
+	//instructionScreen = CP_Image_Load("./Assets/tutScreen.png");
+	float width = (float)CP_System_GetWindowWidth();
+	float height = (float)CP_System_GetWindowHeight();
+	menu.width = width;
+	menu.height = height;
+
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	static float timer = 3.0f;
+
+	CP_Settings_Fill(COLOR_BLACK);
+	
+	CP_Graphics_DrawRect(menu.posX + menu.width / 2, menu.posY + menu.height / 2,
+		menu.width, menu.height);
+	//CP_Image_Draw(instructionScreen, width / 2, height / 2, width, height, 255);
+
+	level1.posX = menu.width *(1.0f/ 4.0f);
+	level1.posY = menu.height * (0.5f / 6.0f) + 20;
+	level1.width = menu.width / 3.0f;
+	level1.height = menu.height / 8.0f;
+
+	level2.posX = menu.width * (3.0f / 4.0f);
+	level2.posY = menu.height * (0.5f / 6.0f) + 20;
+	level2.width = menu.width / 3.0f;
+	level2.height = menu.height / 8.0f;
+
+	level3.posX = menu.width * (1.0f / 4.0f);
+	level3.posY = menu.height * (1.5f / 6.0f) + 20;
+	level3.width = menu.width / 3.0f;
+	level3.height = menu.height / 8.0f;
+
+	level4.posX = menu.width * (3.0f / 4.0f);
+	level4.posY = menu.height * (1.5f / 6.0f) + 20;
+	level4.width = menu.width / 3.0f;
+	level4.height = menu.height / 8.0f;
+
+	level5.posX = menu.width * (1.0f / 4.0f);
+	level5.posY = menu.height * (2.5f / 6.0f) + 20;
+	level5.width = menu.width / 3.0f;
+	level5.height = menu.height / 8.0f;
+
+
+	CP_Image_Draw(level1Image, level1.posX, level1.posY, level1.width, level1.height, 255);
+	CP_Image_Draw(level2Image, level2.posX, level2.posY, level2.width, level2.height, 255);
+	CP_Image_Draw(level3Image, level3.posX, level3.posY, level3.width, level3.height, 255);
+	CP_Image_Draw(level4Image, level4.posX, level4.posY, level4.width, level4.height, 255);
+	CP_Image_Draw(level5Image, level5.posX, level5.posY, level5.width, level5.height, 255);
+	//CP_Image_Draw(titleImage, creditButton.posX, menu.height / 8.0f + 50.0f, menu.width * 0.75f, menu.height / 6.0f, 255);
+	//CP_Settings_TextSize(6 * (playButton.width / menu.width * 100));
+
+	//CP_Settings_Fill(COLOR_WHITE);
+	//CP_Font_DrawTextBox("Play", playButton.posX + playButton.width / 6.5f, playButton.posY + playButton.height / 1.5f, playButton.width);
+	
+
+
+
+
+	returnButton.posX = width / 7.5f;
+	returnButton.posY = height * (0.925f);
+	returnButton.width = width / 5.0f;
+	returnButton.height = height / 15.0f;
+
+
+
+
+	CP_Image_Draw(returnImage, returnButton.posX, returnButton.posY, returnButton.width, returnButton.height, 255);
+	
+	CP_Settings_RectMode(CP_POSITION_CORNER);
+
+}
+
+void DrawBuffIndicator()
+{
+	if (knight.speedbuff == TRUE)
+	{
+		float width = (float)CP_System_GetWindowWidth();
+		float height = (float)CP_System_GetWindowHeight();
+
+		buffIndicator.posX = width * (1.0f / 25.0f);
+		buffIndicator.posY = height * (1.0f / 8);
+		buffIndicator.width = width / 20.0f;
+		buffIndicator.height = height / 20.0f;
+		CP_Image_Draw(buffIndicatorImage, buffIndicator.posX, buffIndicator.posY, buffIndicator.width, buffIndicator.height, 255);
+	}
+}
+
 
 void ReturnMainMenuClicked()
 {
@@ -368,20 +473,67 @@ void ReturnMainMenuClicked()
 	}
 }
 
+void ButtonLevelSelectionClicked()
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level1.width, level1.height, level1.posX, level1.posY))
+		{
+			currentLevel = LEVEL_1;
+			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
+		}
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level2.width, level2.height, level2.posX, level2.posY))
+		{
+			currentLevel = LEVEL_2;
+			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
+		}
+	
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level3.width, level3.height, level3.posX, level3.posY))
+		{
+			currentLevel = LEVEL_3;
+			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
+		}
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level4.width, level4.height, level4.posX, level4.posY))
+		{
+			currentLevel = LEVEL_4;
+			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
+		}
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level5.width, level5.height, level5.posX, level5.posY))
+		{
+			currentLevel = LEVEL_5;
+			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
+		}
+
+
+
+	}
+}
+
+
+
 void ButtonClicked()
 {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
-		printf("%f", mousePosX);
+	
 		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
 		//{
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
 		{
 			menu.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
-			gameState = LEVEL_1;
+			//gameState = LEVEL_1;
+
+			gameState = LEVEL_SELECTION;
 		}
 		//}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, quitButton.width, quitButton.height, quitButton.posX, quitButton.posY))
@@ -398,6 +550,15 @@ void ButtonClicked()
 		{
 			gameState = INSTRUCTIONS;
 		}
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, creditButton.width, creditButton.height, creditButton.posX, creditButton.posY))
+		{
+			gameState = CREDIT1;
+		}
+		//if (CheckCollisionWithBoxImage(mousePosX, mousePosY, levelSelectionBUTTO.width, instructionsButton.height, instructionsButton.posX, instructionsButton.posY))
+		//{
+			//gameState = LEVEL_SELECTION;
+		//}
+
 	}
 }
 
@@ -448,7 +609,6 @@ void ResetState()
 	knight.transparency = 255;
 	knight.invulnerability = FALSE;
 	//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
-	
 	//preload_spawn_map(); //This is for declarations in enemy_array
 	load_audio(); //load audio
 	Player_FullHeal();
@@ -471,11 +631,13 @@ void WinCondition()
 	//	timer = 300.0f;
 	//	gameState = WIN;
 	//}
-	if (*tick == 10000)
+	if (*tick == winning_condition)
 	{
-		if (currentState < LEVEL_5)
+		if (currentLevel < LEVEL_5)
 		{
-			currentState++;
+			currentLevel++;
+			ResetState();
+			//printf("currentState: %d", currentLevel);
 		}
 		gameState = WIN;
 
@@ -507,12 +669,15 @@ void DropStuff(float posX, float posY)
 				int randomChance = CP_Random_RangeInt(0, 2);
 				item_pool[i].id = randomChance;
 				j++;
-				printf("Spawned: %d", item_pool[i].enabled);
+				//printf("Spawned: %d", item_pool[i].enabled);
 			}
 		}
 		else
 		{
 			j++;
+			printf("Drop: %d", item_pool[i].enabled);
+
+
 		}
 	}
 
@@ -680,6 +845,7 @@ void ResetItemPool()
 {
 	for (int i = 0; i < MAX_DROP; i++)
 	{
+		printf("ResetItem");
 		item_pool[i].enabled = 0;
 		item_pool[i].position.x = 0;
 		item_pool[i].position.y = 0;
@@ -690,44 +856,42 @@ void ResetItemPool()
 void EnemyCollision()
 {
 
-	//for (int i = 0; i < MAX_ENEMY; i++)
-	//{
-	//	if (enemy_pool[i].alive == 1)
-	//	{
-	//		if (CheckIfBoxesOverlap(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size, enemy_pool[i].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
-	//		{
-	//			Playertakedamage(1);
-	//			printf("Damage Taken: %d\n", 1);
-	//			knight.invulnerability = TRUE;
-	//		}
-	//		if (knight.invulnerability == TRUE)
-	//		{
-	//			InvulnerabilityFrame();
-	//			//printf("knight.invulnerability: %u\n", knight.invulnerability);
-	//		}
-	//	}
-	//}
+	for (int i = 0; i < MAX_ENEMY; i++)
+	{
+		if (enemy_pool[i].alive == 1)
+		{
+			if (CheckIfBoxesOverlap(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size, enemy_pool[i].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
+			{
+				Playertakedamage(1);
+				//printf("Damage Taken: %d\n", 1);
+				knight.invulnerability = TRUE;
+			}
+		}
+	}
 	for (int i = 0; i < MAX_MOTHER_ENEMY; i++)
 	{
 		for (int j = 0; j < MAX_CHILDREN; j++)
 		{
-			if (mother_enemy_pool[i].children[j].alive == 1)
+			if (mother_enemy_pool[i].alive == 1)
 			{
-				if (CheckIfBoxesOverlap(mother_enemy_pool[i].children[j].position.x, mother_enemy_pool[i].children[j].position.y, mother_enemy_pool[i].children[j].size, mother_enemy_pool[i].children[j].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
+				if (mother_enemy_pool[i].children[j].alive == 1)
 				{
-					Playertakedamage(1);
-					printf("Damage Taken: %d\n", 1);
-					knight.invulnerability = TRUE;
-					
+					if (CheckIfBoxesOverlap(mother_enemy_pool[i].children[j].position.x, mother_enemy_pool[i].children[j].position.y, mother_enemy_pool[i].children[j].size, mother_enemy_pool[i].children[j].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
+					{
+						Playertakedamage(1);
+						//printf("Damage Taken: %d\n", 1);
+						knight.invulnerability = TRUE;
+
+					}
+
+
 				}
-				
-				
 			}
 		}
 	}
 	if (knight.invulnerability == TRUE)
 	{
 		InvulnerabilityFrame();
-		printf("knight.invulnerability: %u\n", knight.invulnerability);
+		//printf("knight.invulnerability: %u\n", knight.invulnerability);
 	}
 }

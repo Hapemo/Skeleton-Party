@@ -49,6 +49,28 @@ struct MenuButton {
 	float height;
 }menuPauseButton;
 
+struct CreditButton {
+
+	float posX;
+	float posY;
+	float width;
+	float height;
+}credMenuBtn, credNextBtn;
+
+CP_Image creditScreen1DP = NULL;
+CP_Image creditScreen2SP = NULL;
+CP_Image creditMenubtn = NULL;
+CP_Image creditNextbtn = NULL;
+
+/*
+ load credit screen assets
+ */
+void load_Credit_Image() {
+	creditScreen1DP = CP_Image_Load("./Assets/creditspg1.png");
+	creditScreen2SP = CP_Image_Load("./Assets/creditspg2.png");
+	creditMenubtn = CP_Image_Load("./Assets/Menubtn.png");
+	creditNextbtn = CP_Image_Load("./Assets/next.png");
+}
 
 CP_Sound menubg = NULL;
 CP_Sound crit = NULL;
@@ -271,7 +293,7 @@ void PauseButtonClicked()
 			play_click();
 			pause.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
-			gameState = currentState;
+			gameState = currentLevel;
 		}
 		if (CheckCollisionWithBox(mousePosX, mousePosY, resetPauseButton.width, resetPauseButton.height, resetPauseButton.posX, resetPauseButton.posY))
 		{
@@ -291,6 +313,60 @@ void PauseButtonClicked()
 	}
 }
 
+void drawCreditScreenpg1() {
+	float width = (float)CP_System_GetWindowWidth();
+	float height = (float)CP_System_GetWindowHeight();
+	CP_Image_Draw(creditScreen1DP, WIDTH / 2.0, HEIGHT / 2.0, WIDTH, HEIGHT, 255);
+
+	credMenuBtn.posX = width / 7.0f;
+	credMenuBtn.posY = height * (0.925f);
+	credMenuBtn.width = width / 5.0f;
+	credMenuBtn.height = height / 15.0f;
+	CP_Image_Draw(creditMenubtn, credMenuBtn.posX, credMenuBtn.posY, credMenuBtn.width, credMenuBtn.height, 255);
+
+	credNextBtn.posX = 850.0f;
+	credNextBtn.posY = height * (0.925f);
+	credNextBtn.width = width / 5.0f;
+	credNextBtn.height = height / 15.0f;
+	CP_Image_Draw(creditNextbtn, credNextBtn.posX, credNextBtn.posY, credNextBtn.width, credNextBtn.height, 255);
+}
+
+void drawCreditScreenpg2() {
+	float width = (float)CP_System_GetWindowWidth();
+	float height = (float)CP_System_GetWindowHeight();
+	CP_Image_Draw(creditScreen2SP, WIDTH / 2.0, HEIGHT / 2.0, WIDTH, HEIGHT, 255);
+
+	credMenuBtn.posX = width / 7.0f;
+	credMenuBtn.posY = height * (0.925f);
+	credMenuBtn.width = width / 5.0f;
+	credMenuBtn.height = height / 15.0f;
+	CP_Image_Draw(creditMenubtn, credMenuBtn.posX, credMenuBtn.posY, credMenuBtn.width, credMenuBtn.height, 255);
+}
+
+void creditBtnClicked()
+{
+	float mousePosX = CP_Input_GetMouseX();
+	float mousePosY = CP_Input_GetMouseY();
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, credMenuBtn.width, credMenuBtn.height, credMenuBtn.posX, credMenuBtn.posY))
+		{
+			EnableMenu();
+			gameState = MAIN_MENU;
+		}
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, credNextBtn.width, credNextBtn.height, credNextBtn.posX, credNextBtn.posY) && (gameState == CREDIT1))
+		{
+			gameState = CREDIT2;
+		}
+	}
+}
+
+void free_IMAGE() {
+	CP_Image_Free(&creditScreen1DP);
+	CP_Image_Free(&creditScreen2SP);
+	CP_Image_Free(&creditMenubtn);
+	CP_Image_Free(&creditNextbtn);
+}
 //enemy collision with player attack
 /*void enemy_damage() {
 
