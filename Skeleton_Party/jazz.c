@@ -322,7 +322,7 @@ void weapon_to_enemy_collision(void) {
 				if (distance_apart <= (BULLET_SIZE + mother_enemy_pool[j].children[k].size * 34.0f / 50.0f)) {
 					explode(bullet_pool[i]); 
 					//printf("bullet_pool position: %f | %f\n", bullet_pool[i].x, bullet_pool[i].y);
-					//if (shrapnelstate) shrapnel(bullet_pool[i]);
+					if (shrapnelstate) shrapnel(bullet_pool[i]);
 
 					bullet_pool[i] = CP_Vector_Set(0, 0);
 					
@@ -731,6 +731,19 @@ void shrapnel_collision(void) {
 
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (shrapnel_pool[i].alive) { //If bullet is active
+
+			for (int j = 0; j < MAX_ENEMY; j++) {
+				if (!(enemy_pool[j].alive)) continue; //Enemy not alive
+				if (out_of_screen(enemy_pool[j].position))continue;
+
+				distance_apart = CP_Vector_Distance(shrapnel_pool[i].position, enemy_pool[j].position);
+				if (distance_apart <= (enemy_pool[j].size + BULLET_SIZE)) {
+					//printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, mother_enemy_pool[j].children[k].size, BULLET_SIZE, mother_enemy_pool[j].children[k].size + explosion_radius_pool[i]);
+					shrapnel_pool[i].alive = 0;
+					enemy_pool[j].alive = 0;
+					DropStuffs(enemy_pool[j].position);
+				}
+			}
 
 			for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {
 				if (mother_enemy_pool[j].alive == 0) continue;

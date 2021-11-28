@@ -205,26 +205,66 @@ void level_3(void) {
 
 void level_4(void) {
 
-	//Circle patterns
-	//--------------------------------------------------------	
+	spawn_pool_assigner(mid, 1.0f, 100.0f, 1, 109);
+
+	spawn_pool_assigner(mid, 1.0f, 700.0f, 1, 109);
+	spawn_pool_assigner(one_fourth, 1.0f, 925.0f, 1, 109);
+	spawn_pool_assigner(three_fourth, 1.0f, 925.0f, 1, 109);
+
+	spawn_pool_assigner(one_fifth, 900.0f, 800.0f, 2, 110);
+	spawn_pool_assigner(two_fifth, 900.0f, 950.0f, 2, 110);
+	spawn_pool_assigner(three_fifth, 900.0f, 1100.0f, 2, 110);
+	spawn_pool_assigner(four_fifth, 900.0f, 1250.0f, 2, 111);
+	spawn_pool_assigner(three_fifth, 900.0f, 1400.0f, 2, 111);
+	spawn_pool_assigner(two_fifth, 900.0f, 1550.0f, 2, 111);
+
+	spawn_pool_assigner(one_third, 300.0f, 3400.0f, 6, 112);
+	spawn_pool_assigner(two_third, 300.0f, 3550.0f, 6, 113);
+
+	spawn_pool_assigner(zero, 300.0f, 5600.0f, 6, 114);
+	spawn_pool_assigner(width, 300.0f, 5750.0f, 6, 115);
+
+	winning_condition = 8500;
+}
+
+void level_5(void) {
 	spawn_pool_assigner(one_tenth, 1.0f, 50.0f, 1, 104);
 	spawn_pool_assigner(one_tenth, 1.0f, 150.0f, 1, 104);
 	spawn_pool_assigner(one_tenth, 1.0f, 250.0f, 1, 104);
 	spawn_pool_assigner(one_tenth, 1.0f, 350.0f, 1, 104);
+	spawn_pool_assigner(one_tenth, 1.0f, 450.0f, 1, 104);
+	spawn_pool_assigner(one_tenth, 1.0f, 550.0f, 1, 104);
 
 	spawn_pool_assigner(nine_tenth, 1.0f, 50.0f, 1, 105);
 	spawn_pool_assigner(nine_tenth, 1.0f, 150.0f, 1, 105);
 	spawn_pool_assigner(nine_tenth, 1.0f, 250.0f, 1, 105);
 	spawn_pool_assigner(nine_tenth, 1.0f, 350.0f, 1, 105);
+	spawn_pool_assigner(nine_tenth, 1.0f, 450.0f, 1, 105);
+	spawn_pool_assigner(nine_tenth, 1.0f, 550.0f, 1, 105);
 
-}
+	spawn_pool_assigner(one_fourth, 250.0f, 1100.0f, 5, 116);
+	spawn_pool_assigner(three_fourth, 250.0f, 1100.0f, 5, 116);
+	spawn_pool_assigner(mid, 250.0f, 1100.0f, 5, 117);
 
-void level_5(void) {
+	spawn_pool_assigner(one_fifth, 300.0f, 2900.0f, 5, 118);
+	spawn_pool_assigner(four_fifth, 300.0f, 2900.0f, 5, 118);
+	spawn_pool_assigner(two_fifth, 300.0f, 2625.0f, 5, 118);
+	spawn_pool_assigner(three_fifth, 300.0f, 2625.0f, 5, 118);
+	spawn_pool_assigner(mid, 300.0f, 2900.0f, 5, 119);
 
-	//spawn_pool_assigner(mid, 1.0f, 50.0f, 300, 5);
+	spawn_pool_assigner(mid, 1.0f, 4900.0f, 300, 5);
 
-	/*spawn_pool_assigner(one_third, 1.0f, 50.0f, 200, 5);
-	spawn_pool_assigner(two_third, 1.0f, 50.0f, 200, 5);*/
+	spawn_pool_assigner(one_third, 1.0f, 5500.0f, 200, 5);
+	spawn_pool_assigner(two_third, 1.0f, 5500.0f, 200, 5);
+
+	spawn_pool_assigner(mid, 1.0f, 5700.0f, 300, 54);
+	spawn_pool_assigner(mid, 1.0f, 6200.0f, 300, 54);
+	spawn_pool_assigner(mid, 1.0f, 6700.0f, 300, 54);
+
+	spawn_pool_assigner(mid, 1.0f, 7200.0f, 1000, 54);
+	spawn_pool_assigner(mid, 300.0f, 7000.0f, 3, 118);
+
+	winning_condition = 8800;
 }
 
 void preload_spawn_map(int level) { //Put in game_init
@@ -250,7 +290,6 @@ void preload_spawn_map(int level) { //Put in game_init
 
 	width = CP_Vector_Set(WIDTH, -5);
 
-	high_mid = CP_Vector_Set(WIDTH / 2, -480);
 
 
 	/*for (int j = 0; j < MAX_ENEMY; j++) if (enemy_pool[j].alive) return;
@@ -474,7 +513,7 @@ void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float
 void movement_pattern_vertical_and_diagonal(void) {
 	/*float multiplier;
 	int timer, duration;*/
-	double speed;
+	double speed, range;
 	static int pattern_const;
 
 	CP_Settings_Fill(COLOR_BLUE);
@@ -493,20 +532,20 @@ void movement_pattern_vertical_and_diagonal(void) {
 				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT); //Updates position
 				break;
 			case 4: //Enemy move left to right while in a sine graph formation
-				speed = 10;
-				speed = sine(speed, 0);
+				range = 10;
+				speed = sine(range, 0, 1);
 				//enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
 				enemy_pool[i].position.x += (float)speed;
 				break;
 			case 5: //pendulum wave pattern
-				speed = 10;
-				speed = sine(speed, i);
+				range = 10;
+				speed = sine(range, i, 1);
 				//enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
 				enemy_pool[i].position.x += (float)speed; //store1
 				break;
 			case 6: //make enemy go bouncing while coming down
-				speed = 10;
-				speed = sine(speed, i);
+				range = 10;
+				speed = sine(range, i, 1);
 				//enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
 				enemy_pool[i].position.y += (float)speed;
 				break;
@@ -525,30 +564,36 @@ void movement_pattern_vertical_and_diagonal(void) {
 				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 3, RIGHT); //Updates position
 				break;
 			case 50: //bouncing vertically while moving left
-				speed = 10;
-				speed = sine(speed, i);
+				range = 10;
+				speed = sine(range, i, 1);
 				enemy_pool[i].position.y += (float)speed;
 				enemy_pool[i].position.x -= 3;
 				break;
 			case 51: //bouncing vertically while moving left
-				speed = 10;
-				speed = sine(speed, i);
+				range = 10;
+				speed = sine(range, i, 1);
 				enemy_pool[i].position.y += (float)speed;
 				enemy_pool[i].position.x += 3;
 				break;
 			case 52: //bouncing vertically and move left, move right at half-way point
 				if (enemy_pool[i].position.y < HEIGHT / 2) enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
 				else enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT);
-				speed = 10;
-				speed = sine(speed, i);
+				range = 10;
+				speed = sine(range, i, 1);
 				enemy_pool[i].position.y += (float)speed;
 				break;
 			case 53: //reverse of case 52
 				if (enemy_pool[i].position.y > HEIGHT / 2) enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
 				else enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT);
-				speed = 10;
-				speed = sine(speed, i);
+				range = 10;
+				speed = sine(range, i, 1);
 				enemy_pool[i].position.y += (float)speed;
+				break;
+			case 54: //pendulum wave pattern intensified
+				range = 10;
+				speed = sine(range, i, 10);
+				//enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
+				enemy_pool[i].position.x += (float)speed; //store1
 				break;
 		}
 
@@ -561,7 +606,7 @@ void movement_pattern_vertical_and_diagonal(void) {
 void movement_pattern_spinning_circle(void) {
 	CP_Settings_Fill(COLOR_BLUE);
 	int children_alive;
-	double speed;
+	double range, speed;
 
 	for (int i = 0; i < MAX_MOTHER_ENEMY; i++) {
 		enemy_out_of_screen(0, i);
@@ -584,22 +629,22 @@ void movement_pattern_spinning_circle(void) {
 				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, 0.5f, mother_enemy_pool[i].position);
 				break;
 			case 102: // makes circle follow a sine graph path
-				speed = 10;
-				speed = sine(speed, i);
+				range = 10;
+				speed = sine(range, i, 1);
 				//printf("sine: %f, speed: %f\n", angle, speed);
 				mother_enemy_pool[i].position.x += (float)speed;
 				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, 0.5f, mother_enemy_pool[i].position);
 				break;
 			case 103: //makes spinning circle grow in and out
-				speed = 10;
-				speed = sine(speed, i);
+				range = 10;
+				speed = sine(range, i, 1);
 				mother_enemy_pool[i].position.x += (float)speed;
 				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100 + (float)speed*10, 0.5f, mother_enemy_pool[i].position);
 				break;
 			case 104: //giant spinning circle
 				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 800;
 				spin_enemy(i, 50, 0.01f, 800, mother_enemy_pool[i].position);
-				printf("mother_enemy %d: position: %f | %f\n", i, mother_enemy_pool[i].position.x, mother_enemy_pool[i].position.y);
+				//printf("mother_enemy %d: position: %f | %f\n", i, mother_enemy_pool[i].position.x, mother_enemy_pool[i].position.y);
 				break;
 			case 105: //giant spinning circle (reversed)
 				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 800;
@@ -609,19 +654,80 @@ void movement_pattern_spinning_circle(void) {
 				vertical_enemy(i, 10, 15.0f);
 				break;
 			case 107: //giant spinning circle (width of screen)
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 470;
 				spin_enemy(i, 50, 0.01f, 470, mother_enemy_pool[i].position);
 				break;
 			case 108: //one third spinning circle cw
-				spin_enemy(i, 25, 0.01f, 310, mother_enemy_pool[i].position);
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 160;
+				spin_enemy(i, 12, 0.02f, 160, mother_enemy_pool[i].position);
 				break;
 			case 109: //two third spinning circle ccw
-				spin_enemy(i, 25, -0.01f, 310, mother_enemy_pool[i].position);
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 310;
+				spin_enemy(i, 25, -0.02f, 310, mother_enemy_pool[i].position);
 				break;
 			case 110: //half spinning circle cw
-				spin_enemy(i, 25, 0.01f, 310, mother_enemy_pool[i].position);
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				spin_enemy(i, 20, 0.02f, 230, mother_enemy_pool[i].position);
 				break;
 			case 111: //half spinning circle ccw
-				spin_enemy(i, 25, -0.01f, 310, mother_enemy_pool[i].position);
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				spin_enemy(i, 20, -0.02f, 230, mother_enemy_pool[i].position);
+				break;
+			case 112: //half spinning circle ccw
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				range = 5;
+				speed = sine(range, i, 5);
+				mother_enemy_pool[i].position.x += (float)speed;
+				spin_enemy(i, 20, -0.02f, 230, mother_enemy_pool[i].position);
+				break;
+			case 113: //Same as case 112, but opposite
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				range = -5;
+				speed = sine(range, i, 5);
+				mother_enemy_pool[i].position.x += (float)speed;
+				spin_enemy(i, 20, 0.02f, 230, mother_enemy_pool[i].position);
+				break;
+			case 114: //half spinning circle ccw
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				range = 2;
+				speed = sine(range, i, 10);
+				mother_enemy_pool[i].position.y += (float)speed;
+				mother_enemy_pool[i].position.x += 1;
+				spin_enemy(i, 20, -0.02f, 230, mother_enemy_pool[i].position);
+				break;
+			case 115: //Same as case 112, but opposite
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				range = -2;
+				speed = sine(range, i, 10);
+				mother_enemy_pool[i].position.y += (float)speed;
+				mother_enemy_pool[i].position.x -= 1;
+				spin_enemy(i, 20, 0.02f, 230, mother_enemy_pool[i].position);
+				break;
+			case 116: //makes spinning circle grow in and out
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				range = 10;
+				speed = sine(range, 0, 5);
+				spin_enemy(i, 20, 0.02f, 150 + (float)speed * 10, mother_enemy_pool[i].position);
+				break;
+			case 117: //makes spinning circle grow in and out
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				range = 20;
+				speed = sine(range, 0, 5);
+				spin_enemy(i, 20, 0.02f, 200 + (float)speed * 10, mother_enemy_pool[i].position);
+				break;
+			case 118: //makes spinning circle grow in and out
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				range = 7;
+				speed = sine(range, 0, 1);
+				mother_enemy_pool[i].position.y += (float)speed;
+				spin_enemy(i, 20, 0.02f, 200 + (float)speed * 10, mother_enemy_pool[i].position);
+				break;
+			case 119: //makes spinning circle grow in and out
+				if (mother_enemy_pool[i].spare2) mother_enemy_pool[i].spare2 = 0, mother_enemy_pool[i].position.y -= 230;
+				range = 1;
+				speed = sine(range, 0, 0.1);
+				mother_enemy_pool[i].position.y += (float)speed;
+				spin_enemy(i, 20, 0.02f, 200 + (float)speed * 10, mother_enemy_pool[i].position);
 				break;
 		}
 	}
@@ -690,11 +796,15 @@ void print_enemy(CP_Vector position, float size) {
 
 
 
-double sine(double speed, int randomiser) {
-	double angle = *tick * PI / 360.0;
-	return speed * sin(randomiser + angle * 10);
+double sine(double range, int randomiser, double speed) {
+	double angle = *tick * PI / 360.0 / speed;
+	return range * sin(randomiser + angle * 10);
 }
 
 void resetPool(void) {
 	for (int j = 0; j < MAX_ENEMY; j++) enemy_pool[j].alive = 0;
+}
+
+void print(void) {//purely for debugging purpose
+	printf("it runs here!!\n");
 }

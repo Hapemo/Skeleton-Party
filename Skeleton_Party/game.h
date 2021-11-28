@@ -10,7 +10,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define WIDTH 960.0f
 #define HEIGHT 1035.0f
 #define PI 3.1415926535
-#define MAX_ENEMY 1500
+#define MAX_ENEMY 3500
 #define MAX_MOTHER_ENEMY 50
 #define MAX_CHILDREN 50
 #define Formationsingle 0
@@ -319,7 +319,9 @@ void shoot_piercing_bullet(CP_Vector position, float charge);
 
 void piercing_shooting_check(CP_Vector position);
 
-double sine(double speed, int randomiser);
+double sine(double range, int randomiser, double speed);
+
+void print(void); //for debugging only
 
 void run_once_only(void);
 
