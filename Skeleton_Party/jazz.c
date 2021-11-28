@@ -742,6 +742,7 @@ void shrapnel_collision(void) {
 						//printf("distance apart: %f, enemy_size: %f, bullet_size: %f, total size: %f\n", distance_apart, mother_enemy_pool[j].children[k].size, BULLET_SIZE, mother_enemy_pool[j].children[k].size + explosion_radius_pool[i]);
 						shrapnel_pool[i].alive = 0;
 						mother_enemy_pool[j].children[k].alive = 0;
+						DropStuffs(mother_enemy_pool[j].children[k].position);
 					}
 				}
 			}
@@ -855,4 +856,6 @@ void reset_enemy_and_weapon(void) {
 	memset(charge_pool, '0', sizeof(charge_pool));
 	memset(explosion_radius_pool, '0', sizeof(explosion_radius_pool));
 	memset(sword_explosion_radius_pool, '0', sizeof(sword_explosion_radius_pool));
+
+	memset(item_pool, '0', sizeof(item_pool));
 }

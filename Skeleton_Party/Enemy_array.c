@@ -25,6 +25,8 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 	return temp;
 }
 
+CP_Vector one_third, two_third, mid, one_tenth, minus_two_third, zero, one_fourth, three_fourth, one_fifth, two_fifth, three_fifth, four_fifth, width, high_mid;
+
 //1 for straight line, 2 for left diagonal, 3 for right diagonal, 5 for horizontal enemy, 101 for circle
 //Max screen is WDITH/1.5
 
@@ -35,65 +37,53 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 void level_1(void) {
 	//12 spawns in 4 horizontal enemies, 11 spawn in 5 instead
 
-	CP_Vector level_011 = CP_Vector_Set(WIDTH / 3, -5);
-	CP_Vector level_012 = CP_Vector_Set(WIDTH / 3 * 2, -5);
+	spawn_pool_assigner(one_third, 15.0f, 50.0f, 10, 1);
+	spawn_pool_assigner(two_third, 15.0f, 50.0f, 10, 1);
 
-	spawn_pool_assigner(level_011, 15.0f, 50.0f, 10, 1);
-	spawn_pool_assigner(level_012, 15.0f, 50.0f, 10, 1);
+	spawn_pool_assigner(one_third, 15.0f, 250.0f, 10, 1);
+	spawn_pool_assigner(two_third, 15.0f, 250.0f, 10, 1);
 
-	spawn_pool_assigner(level_011, 15.0f, 250.0f, 10, 1);
-	spawn_pool_assigner(level_012, 15.0f, 250.0f, 10, 1);
+	spawn_pool_assigner(one_third, 15.0f, 450.0f, 10, 1);
+	spawn_pool_assigner(two_third, 15.0f, 450.0f, 10, 1);
 
-	spawn_pool_assigner(level_011, 15.0f, 450.0f, 10, 1);
-	spawn_pool_assigner(level_012, 15.0f, 450.0f, 10, 1);
+	spawn_pool_assigner(one_third, 15.0f, 700.0f, 10, 1);
+	spawn_pool_assigner(two_third, 15.0f, 700.0f, 10, 1);
 
-	spawn_pool_assigner(level_011, 15.0f, 700.0f, 10, 1);
-	spawn_pool_assigner(level_012, 15.0f, 700.0f, 10, 1);
+	spawn_pool_assigner(mid, 15.0f, 900.0f, 10, 1);
+	spawn_pool_assigner(one_fourth, 15.0f, 900.0f, 10, 1);
+	spawn_pool_assigner(three_fourth, 15.0f, 900.0f, 10, 1);
 
-	CP_Vector level_013 = CP_Vector_Set(WIDTH / 2, -5);
-	CP_Vector level_014 = CP_Vector_Set(WIDTH / 4, -5);
-	CP_Vector level_015 = CP_Vector_Set(WIDTH / 4 * 3, -5);
+	spawn_pool_assigner(mid, 15.0f, 1100.0f, 10, 1);
+	spawn_pool_assigner(one_fourth, 15.0f, 1100.0f, 10, 1);
+	spawn_pool_assigner(three_fourth, 15.0f, 1100.0f, 10, 1);
 
-	spawn_pool_assigner(level_013, 15.0f, 900.0f, 10, 1);
-	spawn_pool_assigner(level_014, 15.0f, 900.0f, 10, 1);
-	spawn_pool_assigner(level_015, 15.0f, 900.0f, 10, 1);
+	spawn_pool_assigner(mid, 15.0f, 1300.0f, 10, 1);
+	spawn_pool_assigner(one_fourth, 15.0f, 1300.0f, 10, 1);
+	spawn_pool_assigner(three_fourth, 15.0f, 1300.0f, 10, 1);
 
-	spawn_pool_assigner(level_013, 15.0f, 1100.0f, 10, 1);
-	spawn_pool_assigner(level_014, 15.0f, 1100.0f, 10, 1);
-	spawn_pool_assigner(level_015, 15.0f, 1100.0f, 10, 1);
+	spawn_pool_assigner(mid, 15.0f, 1500.0f, 10, 1);
+	spawn_pool_assigner(one_fourth, 15.0f, 1500.0f, 10, 1);
+	spawn_pool_assigner(three_fourth, 15.0f, 1500.0f, 10, 1);
 
-	spawn_pool_assigner(level_013, 15.0f, 1300.0f, 10, 1);
-	spawn_pool_assigner(level_014, 15.0f, 1300.0f, 10, 1);
-	spawn_pool_assigner(level_015, 15.0f, 1300.0f, 10, 1);
+	spawn_pool_assigner(one_fifth, 15.0f, 1700.0f, 10, 1);
+	spawn_pool_assigner(two_fifth, 15.0f, 1700.0f, 10, 1);
+	spawn_pool_assigner(three_fifth, 15.0f, 1700.0f, 10, 1);
+	spawn_pool_assigner(four_fifth, 15.0f, 1700.0f, 10, 1);
 
-	spawn_pool_assigner(level_013, 15.0f, 1500.0f, 10, 1);
-	spawn_pool_assigner(level_014, 15.0f, 1500.0f, 10, 1);
-	spawn_pool_assigner(level_015, 15.0f, 1500.0f, 10, 1);
+	spawn_pool_assigner(one_fifth, 15.0f, 1900.0f, 10, 1);
+	spawn_pool_assigner(two_fifth, 15.0f, 1900.0f, 10, 1);
+	spawn_pool_assigner(three_fifth, 15.0f, 1900.0f, 10, 1);
+	spawn_pool_assigner(four_fifth, 15.0f, 1900.0f, 10, 1);
 
-	CP_Vector level_016 = CP_Vector_Set(WIDTH / 5, -5);
-	CP_Vector level_017 = CP_Vector_Set(WIDTH / 5 * 2, -5);
-	CP_Vector level_018 = CP_Vector_Set(WIDTH / 5 * 3, -5);
-	CP_Vector level_019 = CP_Vector_Set(WIDTH / 5 * 4, -5);
+	spawn_pool_assigner(one_fifth, 15.0f, 2100.0f, 10, 1);
+	spawn_pool_assigner(two_fifth, 15.0f, 2100.0f, 10, 1);
+	spawn_pool_assigner(three_fifth, 15.0f, 2100.0f, 10, 1);
+	spawn_pool_assigner(four_fifth, 15.0f, 2100.0f, 10, 1);
 
-	spawn_pool_assigner(level_016, 15.0f, 1700.0f, 10, 1);
-	spawn_pool_assigner(level_017, 15.0f, 1700.0f, 10, 1);
-	spawn_pool_assigner(level_018, 15.0f, 1700.0f, 10, 1);
-	spawn_pool_assigner(level_019, 15.0f, 1700.0f, 10, 1);
-
-	spawn_pool_assigner(level_016, 15.0f, 1900.0f, 10, 1);
-	spawn_pool_assigner(level_017, 15.0f, 1900.0f, 10, 1);
-	spawn_pool_assigner(level_018, 15.0f, 1900.0f, 10, 1);
-	spawn_pool_assigner(level_019, 15.0f, 1900.0f, 10, 1);
-
-	spawn_pool_assigner(level_016, 15.0f, 2100.0f, 10, 1);
-	spawn_pool_assigner(level_017, 15.0f, 2100.0f, 10, 1);
-	spawn_pool_assigner(level_018, 15.0f, 2100.0f, 10, 1);
-	spawn_pool_assigner(level_019, 15.0f, 2100.0f, 10, 1);
-
-	spawn_pool_assigner(level_016, 15.0f, 2300.0f, 10, 1);
-	spawn_pool_assigner(level_017, 15.0f, 2300.0f, 10, 1);
-	spawn_pool_assigner(level_018, 15.0f, 2300.0f, 10, 1);
-	spawn_pool_assigner(level_019, 15.0f, 2300.0f, 10, 1);
+	spawn_pool_assigner(one_fifth, 15.0f, 2300.0f, 10, 1);
+	spawn_pool_assigner(two_fifth, 15.0f, 2300.0f, 10, 1);
+	spawn_pool_assigner(three_fifth, 15.0f, 2300.0f, 10, 1);
+	spawn_pool_assigner(four_fifth, 15.0f, 2300.0f, 10, 1);
 
 	CP_Vector level_0120 = CP_Vector_Set(WIDTH / 10 * 1.8f, -5);
 	spawn_pool_assigner(level_0120, 20.0f, 2500.0f, 10, 12);
@@ -101,95 +91,122 @@ void level_1(void) {
 	spawn_pool_assigner(level_0120, 20.0f, 3100.0f, 10, 12);
 	spawn_pool_assigner(level_0120, 20.0f, 3400.0f, 10, 12);
 
-	CP_Vector level_0121 = CP_Vector_Set(WIDTH / 10, -5);
 	spawn_pool_assigner(level_0120, 20.0f, 3700.0f, 20, 12);
-	spawn_pool_assigner(level_0121, 20.0f, 3750.0f, 20, 11);
+	spawn_pool_assigner(one_tenth, 20.0f, 3750.0f, 20, 11);
 	spawn_pool_assigner(level_0120, 20.0f, 4200.0f, 20, 12);
-	spawn_pool_assigner(level_0121, 20.0f, 4250.0f, 20, 11);
+	spawn_pool_assigner(one_tenth, 20.0f, 4250.0f, 20, 11);
 	spawn_pool_assigner(level_0120, 20.0f, 4700.0f, 20, 12);
-	spawn_pool_assigner(level_0121, 20.0f, 4750.0f, 20, 11);
+	spawn_pool_assigner(one_tenth, 20.0f, 4750.0f, 20, 11);
 	spawn_pool_assigner(level_0120, 20.0f, 5200.0f, 20, 12);
-	spawn_pool_assigner(level_0121, 20.0f, 5250.0f, 20, 11);
+	spawn_pool_assigner(one_tenth, 20.0f, 5250.0f, 20, 11);
 
 	winning_condition = 5900;
 }
 
 void level_2(void) {
+	spawn_pool_assigner(one_third, 25.0f, 50.0f, 30, 1);
+	spawn_pool_assigner(two_third, 25.0f, 50.0f, 30, 1);
+	spawn_pool_assigner(mid, 50.0f, 50.0f, 15, 14);
 
-	CP_Vector level_021 = CP_Vector_Set(WIDTH / 3, -5);
-	CP_Vector level_022 = CP_Vector_Set(WIDTH / 3 * 2, -5);
-	CP_Vector level_023 = CP_Vector_Set(WIDTH/2, -5);
-	CP_Vector level_024 = CP_Vector_Set(WIDTH / 10, -5);
-	CP_Vector level_025 = CP_Vector_Set(-WIDTH / 3 * 2, -5);
-	CP_Vector level_026 = CP_Vector_Set(0, -5);
+	spawn_pool_assigner(one_third, 25.0f, 850.0f, 30, 1);
+	spawn_pool_assigner(two_third, 25.0f, 850.0f, 30, 1);
+	spawn_pool_assigner(minus_two_third, 50.0f, 850.0f, 15, 15);
 
-	spawn_pool_assigner(level_021, 25.0f, 50.0f, 30, 1);
-	spawn_pool_assigner(level_022, 25.0f, 50.0f, 30, 1);
-	spawn_pool_assigner(level_023, 50.0f, 50.0f, 15, 14);
+	spawn_pool_assigner(one_tenth, 15.0f, 1700.0f, 50, 11);
+	spawn_pool_assigner(zero, 50.0f, 1700.0f, 15, 16);
 
-	spawn_pool_assigner(level_021, 25.0f, 850.0f, 30, 1);
-	spawn_pool_assigner(level_022, 25.0f, 850.0f, 30, 1);
-	spawn_pool_assigner(level_025, 50.0f, 850.0f, 15, 15);
+	spawn_pool_assigner(one_tenth, 15.0f, 2550.0f, 50, 11);
+	spawn_pool_assigner(minus_two_third, 50.0f, 2550.0f, 15, 17);
 
-	spawn_pool_assigner(level_024, 15.0f, 1700.0f, 50, 11);
-	spawn_pool_assigner(level_026, 50.0f, 1700.0f, 15, 16);
+	spawn_pool_assigner(one_tenth, 15.0f, 3400.0f, 50, 11);
+	spawn_pool_assigner(zero, 50.0f, 3400.0f, 15, 18);
 
-	spawn_pool_assigner(level_024, 15.0f, 2550.0f, 50, 11);
-	spawn_pool_assigner(level_025, 50.0f, 2550.0f, 15, 17);
+	spawn_pool_assigner(one_tenth, 15.0f, 4250.0f, 50, 11);
+	spawn_pool_assigner(minus_two_third, 50.0f, 4250.0f, 15, 19);
 
-	spawn_pool_assigner(level_024, 15.0f, 3400.0f, 50, 11);
-	spawn_pool_assigner(level_026, 50.0f, 3400.0f, 15, 18);
+	spawn_pool_assigner(one_third, 25.0f, 5100.0f, 30, 1);
+	spawn_pool_assigner(two_third, 25.0f, 5100.0f, 30, 1);
+	spawn_pool_assigner(mid, 50.0f, 5100.0f, 15, 14);
+	spawn_pool_assigner(minus_two_third, 50.0f, 5100.0f, 15, 15);
 
-	spawn_pool_assigner(level_024, 15.0f, 4250.0f, 50, 11);
-	spawn_pool_assigner(level_025, 50.0f, 4250.0f, 15, 19);
+	spawn_pool_assigner(one_tenth, 15.0f, 5950.0f, 50, 11);
+	spawn_pool_assigner(zero, 50.0f, 5950.0f, 15, 16);
+	spawn_pool_assigner(minus_two_third, 50.0f, 5925.0f, 15, 17);
 
-	spawn_pool_assigner(level_021, 25.0f, 5100.0f, 30, 1);
-	spawn_pool_assigner(level_022, 25.0f, 5100.0f, 30, 1);
-	spawn_pool_assigner(level_023, 50.0f, 5100.0f, 15, 14);
-	spawn_pool_assigner(level_025, 50.0f, 5100.0f, 15, 15);
+	spawn_pool_assigner(one_tenth, 15.0f, 6800.0f, 50, 11);
+	spawn_pool_assigner(zero, 50.0f, 6800.0f, 15, 16);
+	spawn_pool_assigner(minus_two_third, 50.0f, 6825.0f, 15, 17);
 
-	spawn_pool_assigner(level_024, 15.0f, 5950.0f, 50, 11);
-	spawn_pool_assigner(level_026, 50.0f, 5950.0f, 15, 16);
-	spawn_pool_assigner(level_025, 50.0f, 5925.0f, 15, 17);
-
-	spawn_pool_assigner(level_024, 15.0f, 6800.0f, 50, 11);
-	spawn_pool_assigner(level_026, 50.0f, 6800.0f, 15, 16);
-	spawn_pool_assigner(level_025, 50.0f, 6825.0f, 15, 17);
-
-	spawn_pool_assigner(level_024, 15.0f, 7650.0f, 50, 11);
-	spawn_pool_assigner(level_026, 50.0f, 7650.0f, 15, 18);
-	spawn_pool_assigner(level_025, 50.0f, 7675.0f, 15, 19);
+	spawn_pool_assigner(one_tenth, 15.0f, 7650.0f, 50, 11);
+	spawn_pool_assigner(zero, 50.0f, 7650.0f, 15, 18);
+	spawn_pool_assigner(minus_two_third, 50.0f, 7675.0f, 15, 19);
 
 	winning_condition = 8600;
 }
 
 void level_3(void) {
+	spawn_pool_assigner(one_third, 50.0f, 50.0f, 15, 6);
+	spawn_pool_assigner(two_third, 50.0f, 50.0f, 15, 6);
+	spawn_pool_assigner(one_tenth, 50.0f, 50.0f, 15, 13);
 
-	//CP_Vector level_031 = CP_Vector_Set(WIDTH / 2, -5);
-	//spawn_pool_assigner(level_031, 1.0f, 50.0f, 100, 5); //Freaking cool pattern, idk what just happened
+	spawn_pool_assigner(one_third, 50.0f, 900.0f, 15, 5);
+	spawn_pool_assigner(two_third, 50.0f, 900.0f, 15, 5);
+	spawn_pool_assigner(one_tenth, 50.0f, 900.0f, 15, 12);
 
-	CP_Vector level_031 = CP_Vector_Set(WIDTH / 10, -10);
+	spawn_pool_assigner(zero, 50.0f, 1750.0f, 15, 51);
+	spawn_pool_assigner(width, 50.0f, 1750.0f, 15, 50);
+	spawn_pool_assigner(one_tenth, 50.0f, 1750.0f, 15, 12);
+
+	spawn_pool_assigner(zero, 50.0f, 2600.0f, 15, 51);
+	spawn_pool_assigner(width, 50.0f, 2600.0f, 15, 50);
+	spawn_pool_assigner(one_third, 50.0f, 2600.0f, 15, 51);
+	spawn_pool_assigner(two_third, 50.0f, 2600.0f, 15, 50);
+	spawn_pool_assigner(one_tenth, 50.0f, 2600.0f, 15, 12);
+
+
+	spawn_pool_assigner(zero, 50.0f, 3450.0f, 15, 51);
+	spawn_pool_assigner(width, 50.0f, 3450.0f, 15, 50);
+	spawn_pool_assigner(one_third, 50.0f, 3450.0f, 15, 51);
+	spawn_pool_assigner(two_third, 50.0f, 3450.0f, 15, 50);
+	spawn_pool_assigner(one_third, 50.0f, 3450.0f, 15, 5);
+	spawn_pool_assigner(two_third, 50.0f, 3450.0f, 15, 5);
+
+
+	spawn_pool_assigner(one_fifth, 50.0f, 4300.0f, 15, 11);
+	spawn_pool_assigner(zero, 50.0f, 4300.0f, 15, 53);
+	spawn_pool_assigner(width, 50.0f, 4300.0f, 15, 52);
+
+	spawn_pool_assigner(zero, 50.0f, 5150.0f, 15, 53);
+	spawn_pool_assigner(width, 50.0f, 5150.0f, 15, 52);
+	spawn_pool_assigner(one_fifth, 50.0f, 5150.0f, 15, 11);
+	spawn_pool_assigner(one_fourth, 50.0f, 5150.0f, 15, 53);
+	spawn_pool_assigner(three_fourth, 50.0f, 5150.0f, 15, 52);
+
+	spawn_pool_assigner(high_mid, 0.0f, 6000.0f, 1, 107);
+	spawn_pool_assigner(zero, 100.0f, 6100.0f, 5, 22);
+
+	winning_condition = 7000;
+
 
 	//spawn_pool_assigner(level_031, 60.0f, 50.0f, 10, 20);
-	//spawn_pool_assigner(level_031, 25.0f, 50.0f, 30, 1);
 
 	//spawn_pool_assigner(level_031, 60.0f, 50.0f, 10, 21);
 
-	spawn_pool_assigner(level_031, 150.0f, 0.0f, 10, 104);
+	//spawn_pool_assigner(level_031, 150.0f, 0.0f, 10, 104);
 
 	//Circle patterns
 	//--------------------------------------------------------	
-	/*CP_Vector level_021 = CP_Vector_Set(WIDTH / 8, -1000);
-	spawn_pool_assigner(level_021, 1.0f, 50.0f, 1, 104);
-	spawn_pool_assigner(level_021, 1.0f, 150.0f, 1, 104);
-	spawn_pool_assigner(level_021, 1.0f, 250.0f, 1, 104);
-	spawn_pool_assigner(level_021, 1.0f, 350.0f, 1, 104);
+	/*CP_Vector one_third = CP_Vector_Set(WIDTH / 8, -1000);
+	spawn_pool_assigner(one_third, 1.0f, 50.0f, 1, 104);
+	spawn_pool_assigner(one_third, 1.0f, 150.0f, 1, 104);
+	spawn_pool_assigner(one_third, 1.0f, 250.0f, 1, 104);
+	spawn_pool_assigner(one_third, 1.0f, 350.0f, 1, 104);
 
-	CP_Vector level_022 = CP_Vector_Set(WIDTH / 8 * 7, -1000);
-	spawn_pool_assigner(level_022, 1.0f, 50.0f, 1, 105);
-	spawn_pool_assigner(level_022, 1.0f, 150.0f, 1, 105);
-	spawn_pool_assigner(level_022, 1.0f, 250.0f, 1, 105);
-	spawn_pool_assigner(level_022, 1.0f, 350.0f, 1, 105);*/
+	CP_Vector two_third = CP_Vector_Set(WIDTH / 8 * 7, -1000);
+	spawn_pool_assigner(two_third, 1.0f, 50.0f, 1, 105);
+	spawn_pool_assigner(two_third, 1.0f, 150.0f, 1, 105);
+	spawn_pool_assigner(two_third, 1.0f, 250.0f, 1, 105);
+	spawn_pool_assigner(two_third, 1.0f, 350.0f, 1, 105);*/
 
 	//
 	//--------------------------------------------------------
@@ -197,14 +214,45 @@ void level_3(void) {
 
 
 
-	//spawn_pool_assigner(level_021, 5.0f, 50.0f, 50, 4); //This makes enemies move left and right in sine graph pattern
+	//spawn_pool_assigner(one_third, 5.0f, 50.0f, 50, 4); //This makes enemies move left and right in sine graph pattern
+}
+
+void level_4(void) {
+
+}
+
+void level_5(void) {
+
+	//spawn_pool_assigner(mid, 1.0f, 50.0f, 300, 5);
+
+	/*spawn_pool_assigner(one_third, 1.0f, 50.0f, 200, 5);
+	spawn_pool_assigner(two_third, 1.0f, 50.0f, 200, 5);*/
 }
 
 void preload_spawn_map(int level) { //Put in game_init
 	//first wave
 	//-------------------------------------------------
 	//Standard lines
-	
+
+	one_third = CP_Vector_Set(WIDTH / 3, -5);
+	two_third = CP_Vector_Set(WIDTH / 3 * 2, -5);
+	mid = CP_Vector_Set(WIDTH / 2, -5);
+	one_tenth = CP_Vector_Set(WIDTH / 10, -5);
+	minus_two_third = CP_Vector_Set(-WIDTH / 3 * 2, -5);
+	zero = CP_Vector_Set(0, -5);
+
+	one_fourth = CP_Vector_Set(WIDTH / 4, -5);
+	three_fourth = CP_Vector_Set(WIDTH / 4 * 3, -5);
+
+	one_fifth = CP_Vector_Set(WIDTH / 5, -5);
+	two_fifth = CP_Vector_Set(WIDTH / 5 * 2, -5);
+	three_fifth = CP_Vector_Set(WIDTH / 5 * 3, -5);
+	four_fifth = CP_Vector_Set(WIDTH / 5 * 4, -5);
+
+	width = CP_Vector_Set(WIDTH, -5);
+
+	high_mid = CP_Vector_Set(WIDTH / 2, -480);
+
 
 	/*for (int j = 0; j < MAX_ENEMY; j++) if (enemy_pool[j].alive) return;
 
@@ -220,15 +268,15 @@ void preload_spawn_map(int level) { //Put in game_init
 	if (level == LEVEL_3) level_3();
 
 	/*CP_Vector level_0150 = CP_Vector_Set(WIDTH / 10, -5);
-	spawn_pool_assigner(level_012, 30.0f, 0.0f, 10, 11);*/
+	spawn_pool_assigner(two_third, 30.0f, 0.0f, 10, 11);*/
 
 	//-------------------------------------------------
 	//Web pattern
-	/*CP_Vector level_012 = CP_Vector_Set(WIDTH/10, -5);
-	spawn_pool_assigner(level_012, 30.0f, 0.0f, 10, 11);
+	/*CP_Vector two_third = CP_Vector_Set(WIDTH/10, -5);
+	spawn_pool_assigner(two_third, 30.0f, 0.0f, 10, 11);
 
-	CP_Vector level_013 = CP_Vector_Set(WIDTH/10*1.8f, -5);
-	spawn_pool_assigner(level_013, 30.0f, 15.0f, 10, 12);*/
+	CP_Vector mid = CP_Vector_Set(WIDTH/10*1.8f, -5);
+	spawn_pool_assigner(mid, 30.0f, 15.0f, 10, 12);*/
 	//-------------------------------------------------
 	
 	
@@ -292,21 +340,23 @@ void spawn_map(void) { //Should run continuously
 			int ran = 0;
 			//printf("time: %f | tick: %f\n", spawn_pool[i].time, *tick);
 			switch (spawn_pool[i].type) {
-				case 11:
+				case 11: //5 horizontal
 					initialise_horizontal_line(spawn_pool[i].position, 5, 200, 1);
 					ran = 1;
 					break;
-				case 12:
+				case 12: //4 horizontal
 					initialise_horizontal_line(spawn_pool[i].position, 4, 200, 1);
 					ran = 1;
 					break;
-				case 13: 
+				case 13: //10 horizontal
+					initialise_horizontal_line(spawn_pool[i].position, 10, 150, 1);
+					ran = 1;
 					break;
-				case 14: 
+				case 14: //10 horizontal moving left
 					initialise_horizontal_line(spawn_pool[i].position, 10, 200, 9);
 					ran = 1;
 					break;
-				case 15: 
+				case 15: //10 horizontal moving right
 					initialise_horizontal_line(spawn_pool[i].position, 10, 200, 10);
 					ran = 1;
 					break;
@@ -332,6 +382,10 @@ void spawn_map(void) { //Should run continuously
 					break;
 				case 21:
 					initialise_horizontal_line(spawn_pool[i].position, 10, 100, 6);
+					ran = 1;
+					break;
+				case 22: //horizontal in horizontal sine pattern
+					initialise_horizontal_line(spawn_pool[i].position, 10, 100, 4);
 					ran = 1;
 					break;
 			}
@@ -468,6 +522,32 @@ void movement_pattern_vertical_and_diagonal(void) {
 			case 10: //Move right
 				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 3, RIGHT); //Updates position
 				break;
+			case 50: //bouncing vertically while moving left
+				speed = 10;
+				speed = sine(speed, i);
+				enemy_pool[i].position.y += (float)speed;
+				enemy_pool[i].position.x -= 3;
+				break;
+			case 51: //bouncing vertically while moving left
+				speed = 10;
+				speed = sine(speed, i);
+				enemy_pool[i].position.y += (float)speed;
+				enemy_pool[i].position.x += 3;
+				break;
+			case 52: //bouncing vertically and move left, move right at half-way point
+				if (enemy_pool[i].position.y < HEIGHT / 2) enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
+				else enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT);
+				speed = 10;
+				speed = sine(speed, i);
+				enemy_pool[i].position.y += (float)speed;
+				break;
+			case 53: //reverse of case 52
+				if (enemy_pool[i].position.y > HEIGHT / 2) enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT);
+				else enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT);
+				speed = 10;
+				speed = sine(speed, i);
+				enemy_pool[i].position.y += (float)speed;
+				break;
 		}
 
 		//CP_Graphics_DrawCircle(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size * 2); //Prints enemy
@@ -522,6 +602,9 @@ void movement_pattern_spinning_circle(void) {
 				break;
 			case 106: //vertical enemy
 				vertical_enemy(i, 10, 15.0f);
+				break;
+			case 107: //giant spinning circle (width of screen)
+				spin_enemy(i, 50, 0.01f, 470, mother_enemy_pool[i].position);
 				break;
 		}
 	}
