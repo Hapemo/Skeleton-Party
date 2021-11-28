@@ -81,7 +81,21 @@ CP_Image Image_Skill_AgilitOn3 = NULL;
 CP_Image Image_Skill_AgilitOn4 = NULL;
 CP_Image Image_Skill_AgilitOn5 = NULL;
 
-CP_Image Image_Skill_AtkspeedOn = NULL;
+CP_Image Image_Skill_CritOn = NULL;
+CP_Image Image_Skill_CritOn = NULL;
+
+CP_Image Image_Skill_CritOn = NULL;
+CP_Image Image_Skill_Crit1 = NULL;
+CP_Image Image_Skill_Crit2 = NULL;
+CP_Image Image_Skill_Crit3 = NULL;
+CP_Image Image_Skill_Crit4 = NULL;
+CP_Image Image_Skill_Crit5 = NULL;
+CP_Image Image_Skill_Crit6 = NULL;
+CP_Image Image_Skill_Crit7 = NULL;
+CP_Image Image_Skill_Crit8 = NULL;
+CP_Image Image_Skill_Crit9 = NULL;
+CP_Image Image_Skill_Crit10 = NULL;
+
 
 //CP_Image Image_Skill_HeartsOff = NULL;
 //CP_Image Image_Skill_AgilitOff = NULL;
@@ -125,6 +139,7 @@ static const float Heart_FRAME_DIMENSIONy = 45.0f;
 int player_maxhp;
 int additionalhp, maxadditionalhp;
 int additionalspeed, maxadditionalspeed;
+int maxadditionalcrit;
 static  float Heart_size_windowsx;
 static  float Heart_size_windowsy;
 
@@ -448,6 +463,10 @@ void InitializeSkillShopUI(void)         // new function
 	Gold = 19;
 	additionalExp = 2;
 	additionalGold = 1;
+
+	additionalcrit = 10;
+	maxadditionalcrit = 90;
+
 	DoubleExp = FALSE;
 	DoubleGold = FALSE;
 	DoubleDrop = FALSE;
@@ -559,7 +578,20 @@ void InitializeSkillShopUI(void)         // new function
 	Image_Skill_AgilitOn4 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn4.png");
 	Image_Skill_AgilitOn5 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn5.png");
 
-	Image_Skill_AtkspeedOn = CP_Image_Load("./Assets/skilltree/Skill_attackspeedOn.png");
+	Image_Skill_CritOn = CP_Image_Load("./Assets/skilltree/Crit/Skil_critOn.png");
+	Image_Skill_Crit1 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit1.png");
+	Image_Skill_Crit2 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit2.png");
+	Image_Skill_Crit3 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit3.png");
+	Image_Skill_Crit4 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit4.png");
+	Image_Skill_Crit5 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit5.png");
+	Image_Skill_Crit6 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit6.png");
+	Image_Skill_Crit7 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit7.png");
+	Image_Skill_Crit8 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit8.png");
+	Image_Skill_Crit9 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit9.png");
+	Image_Skill_Crit10 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit10.png");
+
+	
+	
 
 
 	//Image_Skill_HeartsOff = CP_Image_Load("./Assets/Skill_heartsOff.png");
@@ -1151,6 +1183,30 @@ void Screen_SKILL_Print(void)											//new functuon
 		//CP_Image_Draw(Image_Skill_AgilitOn5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
 			break;
 	}
+
+	switch (additionacrit) {
+	case 0:
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
+	case 10:
+		CP_Image_Draw(Image_Skill_Crit1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
+	case 20:
+		CP_Image_Draw(Image_Skill_HeartsOn2, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+		break;
+	case 30:
+		CP_Image_Draw(Image_Skill_HeartsOn3, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+		break;
+	case 40:
+		CP_Image_Draw(Image_Skill_HeartsOn4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
+	default:
+		CP_Image_Draw(Image_Skill_HeartsOn5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
+		break;
+	}
+
 	CP_Settings_TextSize(100);
 	CP_Settings_Fill(COLOR_WHITE);
 	ScorePrinter(Exp, 325, 429);
@@ -1829,7 +1885,17 @@ void exit_skilltreepictures(void)
 	CP_Image_Free(&Image_Skill_AgilitOn4);
 	CP_Image_Free(&Image_Skill_AgilitOn5);
 
-	CP_Image_Free(&Image_Skill_AtkspeedOn);
+	CP_Image_Free(&Image_Skill_CritOn);
+	CP_Image_Free(&Image_Skill_Crit1);
+	CP_Image_Free(&Image_Skill_Crit2);
+	CP_Image_Free(&Image_Skill_Crit3);
+	CP_Image_Free(&Image_Skill_Crit4);
+	CP_Image_Free(&Image_Skill_Crit5);
+	CP_Image_Free(&Image_Skill_Crit6);
+	CP_Image_Free(&Image_Skill_Crit7);
+	CP_Image_Free(&Image_Skill_Crit8);
+	CP_Image_Free(&Image_Skill_Crit9);
+	CP_Image_Free(&Image_Skill_Crit10);
 
 	//CP_Image_Free(&Image_Skill_HeartsOff);
 	//CP_Image_Free(&Image_Skill_AgilitOff);

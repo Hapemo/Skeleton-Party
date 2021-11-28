@@ -41,6 +41,7 @@ float originalPlayerPositionX;
 float originalPlayerPositionY;
 int Exp, Gold ;
 int additionalExp, additionalGold;
+int additionalcrit;
 
 BOOL DoubleExp, DoubleGold, DoubleHeal, DoubleDrop ;
 
