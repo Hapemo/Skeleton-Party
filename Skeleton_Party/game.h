@@ -51,6 +51,7 @@ BOOL shrapnelstate, shockwavestate;
 BOOL RewardGiven;
 BOOL MainMenuState;
 int revivetoken;
+//int SWORD_CRIT_CHANCE;
 
 
 typedef struct EnemySprite

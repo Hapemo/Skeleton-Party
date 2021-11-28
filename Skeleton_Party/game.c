@@ -228,7 +228,7 @@ void game_update(void)
 
 void PlayGame()
 {
-
+	//SWORD_CRIT_CHANCE += additionalcrit;
 	shrapnel_update();
 	LoadBackgroundImage(currentLevel);
 	

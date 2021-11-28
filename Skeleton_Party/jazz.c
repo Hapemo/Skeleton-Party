@@ -138,7 +138,7 @@ void melee_attack(CP_Vector position) {
 					play_crit();
 					printf("explosion is activated");
 					unsigned int random_int = CP_Random_RangeInt(0, 100);
-					if (random_int < (SWORD_CRIT_CHANCE + additionalcrit)) sword_explosion(mother_enemy_pool[j].children[k].position);
+					if (random_int < SWORD_CRIT_CHANCE ) sword_explosion(mother_enemy_pool[j].children[k].position);
 				}
 				mother_enemy_pool[j].children[k].alive = 0;
 				DropStuffs(mother_enemy_pool[j].children[k].position);
@@ -160,7 +160,7 @@ void melee_attack(CP_Vector position) {
 				play_crit();
 				printf("explosion is activated");
 				unsigned int random_int = CP_Random_RangeInt(0, 100);
-				if (random_int < (SWORD_CRIT_CHANCE + additionalcrit)) sword_explosion(enemy_pool[j].position);
+				if (random_int < SWORD_CRIT_CHANCE ) sword_explosion(enemy_pool[j].position);
 			}
 			DropStuffs(enemy_pool[j].position);
 			enemy_pool[j].alive = 0;

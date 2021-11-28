@@ -81,8 +81,8 @@ CP_Image Image_Skill_AgilitOn3 = NULL;
 CP_Image Image_Skill_AgilitOn4 = NULL;
 CP_Image Image_Skill_AgilitOn5 = NULL;
 
-CP_Image Image_Skill_CritOn = NULL;
-CP_Image Image_Skill_CritOn = NULL;
+//CP_Image Image_Skill_CritOn = NULL;
+//CP_Image Image_Skill_CritOn = NULL;
 
 CP_Image Image_Skill_CritOn = NULL;
 CP_Image Image_Skill_Crit1 = NULL;
@@ -338,13 +338,13 @@ struct Skill_AgilityButton {
 	float height;
 }Skill_AgilityButton;
 
-struct Skill_AtkspeedButton {
+struct Skill_CritButton {
 	BOOL enabled;
 	float posX;
 	float posY;
 	float width;
 	float height;
-}Skill_AtkspeedButton;
+}Skill_CritButton;
 
 struct Skill_BackButton {
 
@@ -457,14 +457,14 @@ void InitializeSkillShopUI(void)         // new function
 
 	SkullFont = CP_Font_Load("./Assets/Font/Skull-Story.ttf");
 
-
+	//SWORD_CRIT_CHANCE = 10;
 	revivetoken = 10;
 	Exp = 18;
 	Gold = 19;
 	additionalExp = 2;
 	additionalGold = 1;
 
-	additionalcrit = 10;
+	additionalcrit = 0;
 	maxadditionalcrit = 90;
 
 	DoubleExp = FALSE;
@@ -548,7 +548,7 @@ void InitializeSkillShopUI(void)         // new function
 
 	Skill_HeartsButton.enabled = TRUE;
 	Skill_AgilityButton.enabled = TRUE;
-	Skill_AtkspeedButton.enabled = TRUE;
+	Skill_CritButton.enabled = TRUE;
 
 	Shop_HealButton.enabled = TRUE;
 	Shop_DropsButton.enabled = TRUE;
@@ -578,16 +578,16 @@ void InitializeSkillShopUI(void)         // new function
 	Image_Skill_AgilitOn4 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn4.png");
 	Image_Skill_AgilitOn5 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn5.png");
 
-	Image_Skill_CritOn = CP_Image_Load("./Assets/skilltree/Crit/Skil_critOn.png");
-	Image_Skill_Crit1 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit1.png");
-	Image_Skill_Crit2 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit2.png");
-	Image_Skill_Crit3 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit3.png");
-	Image_Skill_Crit4 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit4.png");
-	Image_Skill_Crit5 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit5.png");
-	Image_Skill_Crit6 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit6.png");
-	Image_Skill_Crit7 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit7.png");
-	Image_Skill_Crit8 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit8.png");
-	Image_Skill_Crit9 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit9.png");
+	Image_Skill_CritOn = CP_Image_Load("./Assets/skilltree/Crit/Skill_critOn.png");
+	Image_Skill_Crit1 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit1.png");
+	Image_Skill_Crit2 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit2.png");
+	Image_Skill_Crit3 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit3.png");
+	Image_Skill_Crit4 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit4.png");
+	Image_Skill_Crit5 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit5.png");
+	Image_Skill_Crit6 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit6.png");
+	Image_Skill_Crit7 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit7.png");
+	Image_Skill_Crit8 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit8.png");
+	Image_Skill_Crit9 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit9.png");
 	Image_Skill_Crit10 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit10.png");
 
 	
@@ -723,7 +723,7 @@ void InitializeRetry(void)
 
 		Skill_HeartsButton.enabled = TRUE;
 		Skill_AgilityButton.enabled = TRUE;
-		Skill_AtkspeedButton.enabled = TRUE;
+		Skill_CritButton.enabled = TRUE;
 
 		Shop_HealButton.enabled = TRUE;
 		Shop_DropsButton.enabled = TRUE;
@@ -1184,27 +1184,66 @@ void Screen_SKILL_Print(void)											//new functuon
 			break;
 	}
 
-	switch (additionacrit) {
+	switch (additionalcrit) {
 	case 0:
 		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 		break;
 	case 10:
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
 		CP_Image_Draw(Image_Skill_Crit1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 		break;
 	case 20:
-		CP_Image_Draw(Image_Skill_HeartsOn2, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+		CP_Image_Draw(Image_Skill_Crit2, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 
 		break;
 	case 30:
-		CP_Image_Draw(Image_Skill_HeartsOn3, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+		CP_Image_Draw(Image_Skill_Crit3, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 
 		break;
 	case 40:
-		CP_Image_Draw(Image_Skill_HeartsOn4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+		CP_Image_Draw(Image_Skill_Crit4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 		break;
+
+	case 50:
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+		CP_Image_Draw(Image_Skill_Crit5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
+
+	case 60:
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+		CP_Image_Draw(Image_Skill_Crit6, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
+	case 70:
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+		CP_Image_Draw(Image_Skill_Crit7, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
+	case 80:
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+
+		CP_Image_Draw(Image_Skill_Crit8, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+		break;
+
 	default:
-		CP_Image_Draw(Image_Skill_HeartsOn5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
+		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
+
+		CP_Image_Draw(Image_Skill_Crit9, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
 		break;
+
+	//default:
+		//CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
+
+		//CP_Image_Draw(Image_Skill_Crit10, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
+		//break;
 	}
 
 	CP_Settings_TextSize(100);
@@ -1714,7 +1753,21 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed atkspeed\n");
-			Skill_AtkspeedButton.enabled = FALSE;
+			if (Exp > 0)
+			{
+				if (additionalcrit < maxadditionalcrit)
+				{
+					Exp -= 1;
+					additionalcrit += 10; // or 20 increment ? 
+					//knight.speed += additionalspeed;
+					//mage.speed += additionalspeed;
+					//archer.speed += additionalspeed;
+				}
+				else
+				{
+					Skill_CritButton.enabled = FALSE;
+				}
+			}
 		}
 
 	}
@@ -1774,8 +1827,28 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 				//Skill_AgilityButton.enabled = FALSE;
 			//}
 		//}
+		}
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 832.0, 480.0, 958.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed crit\n");
+			//if (Exp > 0)
+			//{
+				if (additionalcrit != 0)
+				{
+					Skill_CritButton.enabled = TRUE;
 
-
+					Exp += 1;
+					additionalcrit -= 10; 
+					
+				}
+				else
+				{
+					Skill_CritButton.enabled = FALSE;
+				}
+			//}
 		}
 	}
 }
