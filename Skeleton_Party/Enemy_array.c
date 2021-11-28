@@ -6,7 +6,7 @@
 #include <math.h>
 #define ENEMY_SIZE 20.0f
 #define ENEMY_CIRCLE_COUNT 10
-#define ENEMY_SPEED 5
+#define ENEMY_SPEED 2
 
 struct Enemy enemy_pool[MAX_ENEMY] = { 0 };
 struct spawn spawn_pool[MAX_ENEMY] = { 0 };
@@ -31,7 +31,6 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 //Go to sine() and change the multipler for angle to adjust range of the graph
 //For pattern 5, you can add side way movement to it to make it cooler, search for 'store1', go there and add some value to the x axis movement
 
-float winning_condition;
 
 void level_1(void) {
 	//12 spawns in 4 horizontal enemies, 11 spawn in 5 instead
@@ -287,7 +286,7 @@ void spawn_map(void) { //Should run continuously
 	//double speed;
 	for (int i = 0; i < MAX_ENEMY; i++) {
 
-		if (*tick == winning_condition) gameState = WIN;
+		//if (*tick == winning_condition) gameState = WIN;
 
 		if (spawn_pool[i].time == *tick) {
 			int ran = 0;

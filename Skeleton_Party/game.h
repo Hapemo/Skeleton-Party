@@ -166,12 +166,13 @@ void exit_PlayerHP(void);
 //void UpdateEnemyMovement(void);
 //void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
+float winning_condition;
 void DrawBuffIndicator();
 void ButtonLevelSelectionClicked();
 void DrawLevelSelectionCanvas();
 void ResetItemPool();
 void WinCondition();
-int currentState;
+int currentLevel;
 void ResetState();
 void DrawLogoScreen();
 void ReturnMainMenuClicked();

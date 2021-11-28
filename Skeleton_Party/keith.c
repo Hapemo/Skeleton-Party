@@ -481,29 +481,29 @@ void ButtonLevelSelectionClicked()
 		float mousePosY = CP_Input_GetMouseY();
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level1.width, level1.height, level1.posX, level1.posY))
 		{
-			gameState = LEVEL_1;
-			currentState = gameState;
+			currentLevel = LEVEL_1;
+			gameState = currentLevel;
 		}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level2.width, level2.height, level2.posX, level2.posY))
 		{
-			gameState = LEVEL_2;
-			currentState = gameState;
+			currentLevel = LEVEL_2;
+			gameState = currentLevel;
 		}
 	
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level3.width, level3.height, level3.posX, level3.posY))
 		{
-			gameState = LEVEL_3;
-			currentState = gameState;
+			currentLevel = LEVEL_3;
+			gameState = currentLevel;
 		}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level4.width, level4.height, level4.posX, level4.posY))
 		{
-			gameState = LEVEL_4;
-			currentState = gameState;
+			currentLevel = LEVEL_4;
+			gameState = currentLevel;
 		}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level5.width, level5.height, level5.posX, level5.posY))
 		{
-			gameState = LEVEL_5;
-			currentState = gameState;
+			currentLevel = LEVEL_5;
+			gameState = currentLevel;
 		}
 
 
@@ -600,7 +600,8 @@ void ResetState()
 	knight.transparency = 255;
 	knight.invulnerability = FALSE;
 	//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
-	
+	reset_enemy_and_weapon();
+
 	//preload_spawn_map(); //This is for declarations in enemy_array
 	load_audio(); //load audio
 	Player_FullHeal();
@@ -623,11 +624,12 @@ void WinCondition()
 	//	timer = 300.0f;
 	//	gameState = WIN;
 	//}
-	if (*tick == 10000)
+	if (*tick == winning_condition)
 	{
-		if (currentState < LEVEL_5)
+		if (currentLevel < LEVEL_5)
 		{
-			currentState++;
+			currentLevel++;
+			printf("currentState: %d", currentLevel);
 		}
 		gameState = WIN;
 

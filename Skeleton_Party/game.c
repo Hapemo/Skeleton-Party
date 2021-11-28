@@ -14,7 +14,7 @@ void game_init(void)
 {
 	gamePause = 0;
 	gameState = LOGO;
-	currentState = LEVEL_1;
+	currentLevel = LEVEL_1;
     CP_System_SetFrameRate(60);
     /* Initialization of your other variables here */
 
@@ -77,17 +77,17 @@ void game_update(void)
 			break;
 
 		case LEVEL_1:
-			preload_spawn_map(LEVEL_1);
+			
 			PlayGame();
 			break;
 
 		case LEVEL_2:
-			preload_spawn_map(LEVEL_2);
+			
 			PlayGame();
 			break;
 
 		case LEVEL_3:
-			preload_spawn_map(LEVEL_3);
+			
 			PlayGame();
 			break;
 		case LEVEL_4:
@@ -111,7 +111,7 @@ void game_update(void)
 			{
 			
 				gamePause = !gamePause;
-				gameState = currentState;
+				gameState = currentLevel;
 				
 			}
 			
@@ -205,8 +205,9 @@ void game_update(void)
 
 void PlayGame()
 {
+
 	shrapnel_update();
-	LoadBackgroundImage(currentState);
+	LoadBackgroundImage(currentLevel);
 	
 	DeathCondition();
 	TerminateFullscreen();
@@ -216,7 +217,7 @@ void PlayGame()
 		gameState = PAUSED;
 	}
 	DrawGameCanvas();
-
+	preload_spawn_map(currentLevel);
 	DrawBuffIndicator();
 	if (CP_Input_KeyTriggered(KEY_1))
 	{

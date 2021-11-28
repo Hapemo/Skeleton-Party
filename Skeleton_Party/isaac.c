@@ -1166,8 +1166,8 @@ void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
 			//gameState = RETRY;
 			*tick = 0;
 			
-			gameState = currentState;
-			preload_spawn_map(gameState);
+			gameState = currentLevel;
+			//preload_spawn_map(gameState);
 			//gameState = MAIN_MENU;
 		}
 
@@ -1222,7 +1222,7 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 		printf("button pressed back esc \n");
 		printf("button pressed continue \n");
 		gamePause = !gamePause;
-		gameState = currentState;
+		gameState = currentLevel;
 	}
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
@@ -1239,7 +1239,7 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed continue \n");
 			gamePause = !gamePause;
-			gameState = currentState;
+			gameState = currentLevel;
 		}
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 297.0, 510.0, 580.0, 622.0))
@@ -1249,7 +1249,9 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			
 			printf("button pressed retry\n");
-			gameState = currentState;
+			ResetState();
+			gameState = currentLevel;
+			
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 299.0, 661.0, 595.0, 781.0))
 		{
@@ -1299,7 +1301,7 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed continye \n");
 			gamePause = !gamePause;
-			gameState = currentState;
+			gameState = currentLevel;
 		}
 	
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
@@ -1308,6 +1310,7 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 			//CP_Graphics_ClearBackground(COLOR_GRAY);
 			//gameState = PLAYING;
 			printf("button pressed quit\n");
+			gameState = MAIN_MENU;
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 597.0, 827.0, 913.0, 915.0))
 		{

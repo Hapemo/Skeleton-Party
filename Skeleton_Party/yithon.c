@@ -271,7 +271,7 @@ void PauseButtonClicked()
 			play_click();
 			pause.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
-			gameState = currentState;
+			gameState = currentLevel;
 		}
 		if (CheckCollisionWithBox(mousePosX, mousePosY, resetPauseButton.width, resetPauseButton.height, resetPauseButton.posX, resetPauseButton.posY))
 		{
