@@ -545,6 +545,10 @@ void ButtonClicked()
 		{
 			gameState = INSTRUCTIONS;
 		}
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, creditButton.width, creditButton.height, creditButton.posX, creditButton.posY))
+		{
+			gameState = CREDIT1;
+		}
 		//if (CheckCollisionWithBoxImage(mousePosX, mousePosY, levelSelectionBUTTO.width, instructionsButton.height, instructionsButton.posX, instructionsButton.posY))
 		//{
 			//gameState = LEVEL_SELECTION;

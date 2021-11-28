@@ -45,6 +45,7 @@ void game_init(void)
 
 	//preload_spawn_map(LEVEL_1); //This is for declarations in enemy_array
 	load_audio(); //load audio
+	load_Credit_Image();
 }
 
 void game_update(void)
@@ -161,6 +162,14 @@ void game_update(void)
 			Screen_GAMEOVER_Print();
 			Screen_GAMEOVER_ButtonClicked();
 
+			break;
+		case CREDIT1:
+			drawCreditScreenpg1();
+			creditBtnClicked();
+			break;
+		case CREDIT2:
+			drawCreditScreenpg2();
+			creditBtnClicked();
 			break;
 
 		case EXIT:
@@ -296,4 +305,5 @@ void game_exit(void)
 	exit_PlayerHP();
 	exit_skilltreepictures();
 	free_audio();
+	free_IMAGE();
 }
