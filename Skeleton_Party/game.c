@@ -135,7 +135,7 @@ void game_update(void)
 			ReturnMainMenuClicked();
 			break;
 		case WIN:
-			ResetState();
+
 			if (RewardGiven == FALSE)
 			{
 				RewardGiven = TRUE;
@@ -157,7 +157,7 @@ void game_update(void)
 			break;
 		case LOSE:
 			play_death();
-			ResetState();
+			
 			//TerminateFullscreen();
 			Screen_GAMEOVER_Print();
 			Screen_GAMEOVER_ButtonClicked();
@@ -226,7 +226,6 @@ void PlayGame()
 		gameState = PAUSED;
 	}
 	DrawGameCanvas();
-	preload_spawn_map(currentLevel);
 	DrawBuffIndicator();
 	if (CP_Input_KeyTriggered(KEY_1))
 	{

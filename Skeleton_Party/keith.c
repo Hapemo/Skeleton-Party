@@ -483,27 +483,32 @@ void ButtonLevelSelectionClicked()
 		{
 			currentLevel = LEVEL_1;
 			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
 		}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level2.width, level2.height, level2.posX, level2.posY))
 		{
 			currentLevel = LEVEL_2;
 			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
 		}
 	
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level3.width, level3.height, level3.posX, level3.posY))
 		{
 			currentLevel = LEVEL_3;
 			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
 		}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level4.width, level4.height, level4.posX, level4.posY))
 		{
 			currentLevel = LEVEL_4;
 			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
 		}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level5.width, level5.height, level5.posX, level5.posY))
 		{
 			currentLevel = LEVEL_5;
 			gameState = currentLevel;
+			preload_spawn_map(currentLevel);
 		}
 
 
@@ -519,7 +524,7 @@ void ButtonClicked()
 	{
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
-		printf("%f", mousePosX);
+	
 		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
 		//{
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
@@ -604,8 +609,6 @@ void ResetState()
 	knight.transparency = 255;
 	knight.invulnerability = FALSE;
 	//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
-	reset_enemy_and_weapon();
-
 	//preload_spawn_map(); //This is for declarations in enemy_array
 	load_audio(); //load audio
 	Player_FullHeal();
@@ -633,7 +636,8 @@ void WinCondition()
 		if (currentLevel < LEVEL_5)
 		{
 			currentLevel++;
-			printf("currentState: %d", currentLevel);
+			ResetState();
+			//printf("currentState: %d", currentLevel);
 		}
 		gameState = WIN;
 
@@ -665,12 +669,15 @@ void DropStuff(float posX, float posY)
 				int randomChance = CP_Random_RangeInt(0, 2);
 				item_pool[i].id = randomChance;
 				j++;
-				printf("Spawned: %d", item_pool[i].enabled);
+				//printf("Spawned: %d", item_pool[i].enabled);
 			}
 		}
 		else
 		{
 			j++;
+			printf("Drop: %d", item_pool[i].enabled);
+
+
 		}
 	}
 
@@ -838,6 +845,7 @@ void ResetItemPool()
 {
 	for (int i = 0; i < MAX_DROP; i++)
 	{
+		printf("ResetItem");
 		item_pool[i].enabled = 0;
 		item_pool[i].position.x = 0;
 		item_pool[i].position.y = 0;
@@ -855,7 +863,7 @@ void EnemyCollision()
 			if (CheckIfBoxesOverlap(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size, enemy_pool[i].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
 			{
 				Playertakedamage(1);
-				printf("Damage Taken: %d\n", 1);
+				//printf("Damage Taken: %d\n", 1);
 				knight.invulnerability = TRUE;
 			}
 		}
@@ -871,7 +879,7 @@ void EnemyCollision()
 					if (CheckIfBoxesOverlap(mother_enemy_pool[i].children[j].position.x, mother_enemy_pool[i].children[j].position.y, mother_enemy_pool[i].children[j].size, mother_enemy_pool[i].children[j].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
 					{
 						Playertakedamage(1);
-						printf("Damage Taken: %d\n", 1);
+						//printf("Damage Taken: %d\n", 1);
 						knight.invulnerability = TRUE;
 
 					}
@@ -884,6 +892,6 @@ void EnemyCollision()
 	if (knight.invulnerability == TRUE)
 	{
 		InvulnerabilityFrame();
-		printf("knight.invulnerability: %u\n", knight.invulnerability);
+		//printf("knight.invulnerability: %u\n", knight.invulnerability);
 	}
 }

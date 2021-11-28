@@ -1165,9 +1165,14 @@ void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
 			gamePause = 1;
 			//gameState = RETRY;
 			*tick = 0;
+			reset_enemy_and_weapon();
 			
+			preload_spawn_map(currentLevel);
+			ResetState();
 			gameState = currentLevel;
-			//preload_spawn_map(gameState);
+			
+			
+
 			//gameState = MAIN_MENU;
 		}
 
@@ -1181,6 +1186,7 @@ void DeathCondition(void)
 		gamePause = !gamePause;
 		//Player_FullHeal();
 		reset_enemy_and_weapon();
+		ResetState();
 		gameState = LOSE;
 	}
 }
@@ -1249,6 +1255,9 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			
 			printf("button pressed retry\n");
+			reset_enemy_and_weapon();
+
+			preload_spawn_map(currentLevel);
 			ResetState();
 			gameState = currentLevel;
 			
@@ -1301,7 +1310,12 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed continye \n");
 			gamePause = !gamePause;
+			
+			reset_enemy_and_weapon();
+			preload_spawn_map(currentLevel);
+			ResetState();
 			gameState = currentLevel;
+
 		}
 	
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))

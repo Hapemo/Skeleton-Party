@@ -140,8 +140,8 @@ void melee_attack(CP_Vector position) {
 					unsigned int random_int = CP_Random_RangeInt(0, 100);
 					if (random_int < SWORD_CRIT_CHANCE) sword_explosion(mother_enemy_pool[j].children[k].position);
 				}
-				DropStuffs(mother_enemy_pool[j].children[k].position);
 				mother_enemy_pool[j].children[k].alive = 0;
+				DropStuffs(mother_enemy_pool[j].children[k].position);
 			}
 		}
 	}
@@ -221,8 +221,9 @@ void weapon_to_enemy_collision(void) {
 
 			distance_apart = CP_Vector_Distance(sword_explosion_pool[i], enemy_pool[j].position);
 			if (distance_apart <= (enemy_pool[j].size + sword_explosion_radius_pool[i])) {
-				DropStuffs(enemy_pool[j].position);
+				
 				enemy_pool[j].alive = 0;
+				DropStuffs(enemy_pool[j].position);
 			}
 		}
 
@@ -249,8 +250,10 @@ void weapon_to_enemy_collision(void) {
 			distance_apart = CP_Vector_Distance(explosion_pool[i], enemy_pool[j].position);
 
 			if (distance_apart <= (enemy_pool[j].size + explosion_radius_pool[i])) {
-				DropStuffs(enemy_pool[j].position);
+				//DropStuffs(enemy_pool[j].position);
 				enemy_pool[j].alive = 0;
+				DropStuffs(enemy_pool[j].position);
+
 			}
 		}
 
@@ -278,7 +281,9 @@ void weapon_to_enemy_collision(void) {
 
 			if (rect_collision(enemy_pool[j].position, piercing_bullet_pool[i], vec1, vec2, enemy_pool[j].size)) {
 				enemy_pool[j].alive = 0;
+
 				DropStuffs(enemy_pool[j].position);
+
 			}
 		}
 	}
@@ -301,8 +306,11 @@ void weapon_to_enemy_collision(void) {
 
 				distance_apart = CP_Vector_Distance(sword_explosion_pool[i], mother_enemy_pool[j].children[k].position);
 				if (distance_apart <= (mother_enemy_pool[j].children[k].size + sword_explosion_radius_pool[i])) {
-					DropStuffs(mother_enemy_pool[j].children[k].position);
+					
 					mother_enemy_pool[j].children[k].alive = 0;
+
+					DropStuffs(mother_enemy_pool[j].children[k].position);
+					
 				}
 			}
 			//Bullet
@@ -317,8 +325,11 @@ void weapon_to_enemy_collision(void) {
 					//if (shrapnelstate) shrapnel(bullet_pool[i]);
 
 					bullet_pool[i] = CP_Vector_Set(0, 0);
-					DropStuffs(mother_enemy_pool[j].children[k].position);
+					
 					mother_enemy_pool[j].children[k].alive = 0;
+
+					DropStuffs(mother_enemy_pool[j].children[k].position);
+
 				}
 			}
 
@@ -329,8 +340,9 @@ void weapon_to_enemy_collision(void) {
 				distance_apart = CP_Vector_Distance(explosion_pool[i], mother_enemy_pool[j].children[k].position);
 
 				if (distance_apart <= (mother_enemy_pool[j].children[k].size + explosion_radius_pool[i])) {
-					DropStuffs(mother_enemy_pool[j].children[k].position);
+					
 					mother_enemy_pool[j].children[k].alive = 0;
+					DropStuffs(mother_enemy_pool[j].children[k].position);
 				}
 			}
 
@@ -360,6 +372,7 @@ void weapon_to_enemy_collision(void) {
 				if (rect_collision(mother_enemy_pool[j].children[k].position, piercing_bullet_pool[i], vec1, vec2, mother_enemy_pool[j].children[k].size)) {
 					mother_enemy_pool[j].children[k].alive = 0;
 					DropStuffs(mother_enemy_pool[j].children[k].position);
+					
 				}
 			}
 		}

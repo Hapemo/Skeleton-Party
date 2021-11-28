@@ -204,7 +204,7 @@ void preload_spawn_map(int level) { //Put in game_init
 	//first wave
 	//-------------------------------------------------
 	//Standard lines
-
+	
 
 	/*for (int j = 0; j < MAX_ENEMY; j++) if (enemy_pool[j].alive) return;
 
