@@ -443,7 +443,7 @@ void InitializeSkillShopUI(void)         // new function
 	SkullFont = CP_Font_Load("./Assets/Font/Skull-Story.ttf");
 
 
-	revivetoken = 0;
+	revivetoken = 10;
 	Exp = 18;
 	Gold = 19;
 	additionalExp = 2;
@@ -937,7 +937,10 @@ void Screen_YOUDIED_Print(void)											//new functuon
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
 	CP_Image_Draw(Image_YouDied_Background, Revive_Background.posX, Revive_Background.posY, isaac_width, isaac_height, 255);
+
+	
 }
+
 
 
 void Screen_REVIVE_Print(void)											//new functuon
@@ -947,6 +950,9 @@ void Screen_REVIVE_Print(void)											//new functuon
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
 	CP_Image_Draw(Image_Revive_Background, Revive_Background.posX, Revive_Background.posY, isaac_width, isaac_height, 255);
+	
+	CP_Settings_Fill(darkviolet);
+	ScorePrinter(revivetoken, 432, 347);
 }
 
 

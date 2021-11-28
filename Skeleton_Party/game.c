@@ -312,10 +312,16 @@ void PlayGame()
 	Player_Redheartprinter();
 	Player_Emptyheartprinter();
 	CP_Settings_TextSize(100);
+
 	CP_Settings_Fill(darkviolet);
 	ScorePrinter(Exp, 690, 80);
+
 	CP_Settings_Fill(darkviolet);
 	ScorePrinter(Gold, 850, 80);
+	
+	CP_Settings_Fill(darkviolet);
+	ScorePrinter(revivetoken, 75, 157);
+
 	Screen_Currency_Print();
 	WinCondition();
 	
