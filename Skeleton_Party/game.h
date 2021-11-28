@@ -33,7 +33,7 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define darkviolet CP_Color_Create(148, 0, 211, 255)
 
 
-enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_SELECTION, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY, CREDIT1, CREDIT2};
+enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_SELECTION, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY, CREDIT1, CREDIT2, YOUDIED, REVIVE};
 enum GameStates gameState;
 
 
@@ -48,6 +48,7 @@ int gamePause;
 enum { knightint, mageint, archerint };
 BOOL shrapnelstate, shockwavestate;
 BOOL RewardGiven;
+int revivetoken;
 
 
 typedef struct EnemySprite
@@ -400,6 +401,9 @@ void InitializeSkillShopUI(void);
 BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy);
 
 void InitializeRetry(void);
+
+void Screen_YOUDIED_Print(void);
+void Screen_REVIVE_Print(void);
 void Screen_Currency_Print(void);
 void ScorePrinter(int score, float x, float y);
 void Screen_GAMEOVER_Print(void);
@@ -409,6 +413,10 @@ void Screen_PREPROOM_Print(void);
 void Screen_UPGRADES_Print(void);
 void Screen_SHOP_Print(void);
 void Screen_SKILL_Print(void);
+
+
+void Screen_YOUDIED_ButtonClicked(void);
+void Screen_REVIVE_ButtonClicked(void);
 
 void Screen_GAMEOVER_ButtonClicked(void);
 void Screen_WIN_ButtonClicked(void);

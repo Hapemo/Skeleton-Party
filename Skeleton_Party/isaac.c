@@ -101,6 +101,9 @@ CP_Image Image_Pause_Mistake = NULL;
 CP_Image Image_Win_Background = NULL;
 CP_Image Image_Gameover_Background = NULL;
 
+CP_Image Image_YouDied_Background = NULL;
+CP_Image Image_Revive_Background = NULL;
+
 CP_Image Number_Skill_Zero = NULL;
 CP_Image Number_Skill_One = NULL;
 CP_Image Number_Skill_Two = NULL;
@@ -175,6 +178,16 @@ void healer(HealthSystem* inst, int healamount)
 	//inst->health += healamount;
 }
 // HealthSystem Object decleration above 
+
+
+struct Revive_Background {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Revive_Background;
 
 
 struct Currency_Sprite {
@@ -428,7 +441,7 @@ void InitializeSkillShopUI(void)         // new function
 	SkullFont = CP_Font_Load("./Assets/Font/Skull-Story.ttf");
 
 
-
+	revivetoken = 1;
 	Exp = 18;
 	Gold = 19;
 	additionalExp = 2;
@@ -446,7 +459,11 @@ void InitializeSkillShopUI(void)         // new function
 	RewardGiven = FALSE;
 
 
-
+	Revive_Background.enabled = TRUE;
+	Revive_Background.width = isaac_width;
+	Revive_Background.height = isaac_height;
+	Revive_Background.posX = (float)(isaac_width / 2.0);
+	Revive_Background.posY = (float)(isaac_height / 2.0);
 	
 	Currency_Sprite.enabled = TRUE;
 	Currency_Sprite.width = isaac_width;
@@ -563,6 +580,9 @@ void InitializeSkillShopUI(void)         // new function
 
 	Image_Gameover_Background = CP_Image_Load("./Assets/GameOver.png");
 
+	Image_YouDied_Background = CP_Image_Load("./Assets/youdiedRevive.png");
+	Image_Revive_Background = CP_Image_Load("./Assets/Revive.png");
+
 	maxadditionalhp = 5;
 	additionalhp = 0;
 
@@ -585,7 +605,6 @@ void InitializeRetry(void)
 		//SkullFont = CP_Font_GetDefault();
 
 		SkullFont = CP_Font_Load("./Assets/Font/Skull-Story.ttf");
-
 
 
 		Exp = 18;
@@ -904,6 +923,26 @@ void ScorePrinter(int score, float x, float y)
 
 	}
 }
+
+void Screen_YOUDIED_Print(void)											//new functuon
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	}
+	CP_Image_Draw(Image_YouDied_Background, Revive_Background.posX, Revive_Background.posY, isaac_width, isaac_height, 255);
+}
+
+
+void Screen_REVIVE_Print(void)											//new functuon
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	}
+	CP_Image_Draw(Image_Revive_Background, Revive_Background.posX, Revive_Background.posY, isaac_width, isaac_height, 255);
+}
+
 
 void Screen_WIN_Print(void)											//new functuon
 {
@@ -1602,6 +1641,80 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 	}
 }
 
+
+void Screen_YOUDIED_ButtonClicked(void)											//new functuon
+{
+	/*
+	if (CP_Input_KeyTriggered(KEY_ESCAPE))
+	{
+		printf("button pressed back esc \n");
+		gameState = UPGRADES;
+	}
+	*/
+
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		//printf("%f", mousePosX);
+		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		//{
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 4.0, 5.0, 952.0, 1009.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed back \n");
+			gameState = REVIVE;
+		}
+	}
+}
+
+void Screen_REVIVE_ButtonClicked(void)											//new functuon
+{
+	/*
+	if (CP_Input_KeyTriggered(KEY_ESCAPE))
+	{
+		printf("button pressed back esc \n");
+		gameState = UPGRADES;
+	}
+	*/
+
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+		//printf("%f", mousePosX);
+		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		//{
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 99.0, 524.0, 394.0, 711.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed yes \n");
+
+			revivetoken -= 1;
+			*tick = 0;
+			ResetState();
+			gameState = currentLevel;
+
+
+			//gameState = REVIVE;
+		}
+
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 511.0, 539.0, 728.0, 736.0))
+		{
+			//menu.enabled = FALSE;
+			//CP_Graphics_ClearBackground(COLOR_GRAY);
+			//gameState = PLAYING;
+			printf("button pressed no \n");
+			gameState = LOSE;
+
+
+		}
+	}
+}
 void exit_skilltreepictures(void) 
 {
 
@@ -1652,5 +1765,9 @@ void exit_skilltreepictures(void)
 	CP_Image_Free(&Image_Pause_Mistake);
 	CP_Image_Free(&Image_Win_Background);
 	CP_Image_Free(&Image_Gameover_Background);
+
+	CP_Image_Free(&Image_YouDied_Background);
+	CP_Image_Free(&Image_Revive_Background);
+
 
 }

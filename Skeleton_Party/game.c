@@ -203,6 +203,19 @@ void game_update(void)
 
 			break;
 
+		case YOUDIED:
+			gamePause = 1;
+			Screen_YOUDIED_Print();
+			Screen_YOUDIED_ButtonClicked();
+
+			break;
+
+		case REVIVE:
+			Screen_REVIVE_Print();
+			Screen_REVIVE_ButtonClicked();
+
+			break;
+
 		}
 
 		
@@ -218,7 +231,19 @@ void PlayGame()
 	shrapnel_update();
 	LoadBackgroundImage(currentLevel);
 	
-	DeathCondition();
+	//DeathCondition();
+	
+	if (PlayerGethealth() == 0 )
+		if (revivetoken == 0)
+		{
+			DeathCondition();
+		}
+		else
+		{
+		gameState = YOUDIED;
+		}
+	
+
 	TerminateFullscreen();
 	if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
 	{
