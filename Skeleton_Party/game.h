@@ -398,6 +398,7 @@ void play_speedDrop();
 void play_swordSwing();
 void play_click();
 void play_charswitch();
+void play_denied();
 void free_audio();
 
 
