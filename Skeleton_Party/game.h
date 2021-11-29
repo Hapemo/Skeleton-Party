@@ -40,6 +40,7 @@ enum GameStates gameState;
 float originalPlayerPositionX;
 float originalPlayerPositionY;
 int Exp, Gold ;
+int* ptr_Gold; 
 int additionalExp, additionalGold;
 int additionalcrit;
 int* ptr_additionalcrit;

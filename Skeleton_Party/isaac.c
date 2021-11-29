@@ -467,6 +467,7 @@ void InitializeSkillShopUI(void)         // new function
 	additionalcrit = 0;
 	maxadditionalcrit = 90;
 	ptr_additionalcrit = &additionalcrit;
+	ptr_Gold = &Gold;
 
 	DoubleExp = FALSE;
 	DoubleGold = FALSE;
