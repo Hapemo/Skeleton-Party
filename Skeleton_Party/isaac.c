@@ -235,6 +235,16 @@ static float hplocationY = 100.0f;
 
 float isaac_width;
 float isaac_height;
+float isaac_textboxwidth;
+
+const char Shop_Heal_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
+const char Shop_Drop_Desc[] = { "" };
+const char Shop_Rez_Desc[] = { "" };
+const char Shop_Shrapnel_Desc[] = { "" };
+const char Shop_Shockwave_Desc[] = { "" };
+
+
+
 
 
 // do not temper any thing from here to next comment
@@ -414,6 +424,8 @@ struct Skill_HeartsButton {
 	float posY;
 	float width;
 	float height;
+	BOOL hover;
+
 }Skill_HeartsButton;
 
 struct Skill_AgilityButton {
@@ -422,6 +434,8 @@ struct Skill_AgilityButton {
 	float posY;
 	float width;
 	float height;
+	BOOL hover;
+
 }Skill_AgilityButton;
 
 struct Skill_CritButton {
@@ -430,6 +444,8 @@ struct Skill_CritButton {
 	float posY;
 	float width;
 	float height;
+	BOOL hover;
+
 }Skill_CritButton;
 
 struct Skill_BackButton {
@@ -466,6 +482,8 @@ struct Shop_HealButton {
 	float posY;
 	float width;
 	float height;
+	BOOL hover;
+
 }Shop_HealButton;
 
 struct Shop_DropsButton {
@@ -475,6 +493,8 @@ struct Shop_DropsButton {
 	float posY;
 	float width;
 	float height;
+	BOOL hover;
+
 }Shop_DropsButton;
 
 struct Shop_RezButton {
@@ -484,6 +504,8 @@ struct Shop_RezButton {
 	float posY;
 	float width;
 	float height;
+	BOOL hover;
+
 }Shop_RezButton;
 
 struct Shop_ShrapnelButton {
@@ -493,6 +515,8 @@ struct Shop_ShrapnelButton {
 	float posY;
 	float width;
 	float height;
+	BOOL hover;
+
 }Shop_ShrapnelButton;
 
 struct Shop_Shockwave {
@@ -502,6 +526,8 @@ struct Shop_Shockwave {
 	float posY;
 	float width;
 	float height;
+	BOOL hover;
+
 }Shop_Shockwave;
 
 
@@ -564,6 +590,7 @@ void InitializeSkillShopUI(void)         // new function
 
 	isaac_width = WIDTH;
 	isaac_height = HEIGHT;
+	isaac_textboxwidth = 100.0f;
 
 	shrapnelstate = FALSE;
 	shockwavestate = FALSE;
@@ -633,6 +660,8 @@ void InitializeSkillShopUI(void)         // new function
 	Shop_Background.height = isaac_height;
 	Shop_Background.posX = (float)(isaac_width /2.0);
 	Shop_Background.posY = (float)(isaac_height /2.0);
+	
+
 
 	Skill_HeartsButton.enabled = TRUE;
 	Skill_AgilityButton.enabled = TRUE;
@@ -642,6 +671,21 @@ void InitializeSkillShopUI(void)         // new function
 	Shop_DropsButton.enabled = TRUE;
 	Shop_RezButton.enabled = TRUE;
 	Shop_ShrapnelButton.enabled = TRUE;
+	Shop_Shockwave.enabled = TRUE;
+
+
+
+	Skill_HeartsButton.hover = TRUE;
+	Skill_AgilityButton.hover = TRUE;
+	Skill_CritButton.hover = TRUE;
+
+	Shop_HealButton.hover = TRUE;
+	Shop_DropsButton.hover = TRUE;
+	Shop_RezButton.hover = TRUE;
+	Shop_ShrapnelButton.hover = TRUE;
+	Shop_Shockwave.hover = TRUE;
+
+
 
 	Image_GoldSprite = CP_Image_Load("./Assets/goldsprite.png");
 	Image_ExpSprite = CP_Image_Load("./Assets/Exporb.png");
@@ -713,8 +757,6 @@ void InitializeSkillShopUI(void)         // new function
 	// size of the heart 
 	Heart_size_windowsx = (CP_System_GetWindowWidth()) / 5.0f;
 	Heart_size_windowsy = (CP_System_GetWindowHeight()) / 5.0f;
-
-
 }
 
 void InitializeRetry(void)
@@ -864,8 +906,6 @@ void InitializeRetry(void)
 	}
 
 
-
-
 //call function to set players base health 
 void PlayerSetHealth (int Basehealth)
 {
@@ -888,8 +928,6 @@ int PlayerGethealth(void)
 	return p1.get(&p1);
 }
 
-
-
 void Player_FullHeal(void)
 {
 	int playerhp = p1.get(&p1);
@@ -901,6 +939,7 @@ void Player_FullHeal(void)
 		Eplayerhp -= 1;
 	}
 }
+
 void Player_Emptyheartprinter(void)
 {
 	int playerhp = p1.get(&p1);
@@ -950,10 +989,6 @@ void Player_Redheartprinter(void)
 	}
 	//CP_Image_Free(&spriteSheetImage);
 }
-
-
-
-
 
 void Screen_Currency_Print(void)
 {
@@ -1383,9 +1418,12 @@ void Screen_UPGRADES_Print(void)											//new functuon
 
 }
 
-void Screen_SHOP_Print(void)
-											//new functuon
+void Screen_SHOP_Print(void)								//new functuon
 {
+	
+
+
+
 	/*
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
@@ -1446,7 +1484,39 @@ void Screen_SHOP_Print(void)
 		CP_Image_Draw(Image_Shop_Shockwave, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 100);
 	}
 
+	float mousehoverPosX = CP_Input_GetMouseX();
+	float mousehoverPosY = CP_Input_GetMouseY();
 
+	CP_Settings_TextSize(20);
+	CP_Settings_Fill(COLOR_WHITE);
+	CP_Font_Set(CP_Font_GetDefault());
+
+	/*const char Shop_Heal_Desc[] = { "" };
+	const char Shop_Drop_Desc[] = { "" };
+	const char Shop_Rez_Desc[] = { "" };
+	const char Shop_Shrapnel_Desc[] = { "" };
+	const char Shop_Shockwave_Desc[] = { "" };*/
+
+	if (Shop_HealButton.hover == FALSE)
+	{
+		CP_Font_DrawTextBox(Shop_Heal_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+	}
+	if (Shop_DropsButton.hover == FALSE)
+	{
+		//(CP_Image_Draw(Image_Shop_DropsOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255));
+	}
+	if (Shop_RezButton.hover == FALSE)
+	{
+		//CP_Image_Draw(Image_Shop_RezOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
+	if (Shop_ShrapnelButton.hover == FALSE)
+	{
+		//CP_Image_Draw(Image_Shop_ShrapnelOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
+	if (Shop_Shockwave.hover == FALSE)
+	{
+		//CP_Image_Draw(Image_Shop_Shockwave, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+	}
 
 	CP_Settings_TextSize(100);
 	CP_Settings_Fill(COLOR_WHITE);
@@ -1903,6 +1973,7 @@ void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 	}
 }
 
+
 void Screen_SHOP_ButtonClicked(void)											//new functuon
 {
 	float mousehoverPosX = CP_Input_GetMouseX();
@@ -1911,45 +1982,54 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 26.0, 546.0, 459.0, 671.0))
 	{
 		printf("button hovering heal \n");
-		//state hovering
+		Shop_HealButton.hover = FALSE;
 	}
 	else
 	{
-		//statenot hovereing 
+		Shop_HealButton.hover = TRUE;
 	}
+
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 25.0, 690.0, 460.0, 843.0))
 	{
 		printf("button pressed drop\n");
+		Shop_DropsButton.hover = FALSE;
 	}
 	else
 	{
-
+		Shop_DropsButton.hover = TRUE;
 	}
 
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 25.0, 833.0, 460.0, 955.0))
 	{
 		printf("button pressed rez\n");
+		Shop_RezButton.hover = FALSE;
+
 	}
 	else
 	{
+		Shop_RezButton.hover = TRUE;
 
 	}
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 511.0, 543.0, 943.0, 661.0))
 	{
 		printf("button pressed shrapnel\n");
+		Shop_ShrapnelButton.hover = FALSE;
+
 	}
 	else
 	{
+		Shop_ShrapnelButton.hover = TRUE;
 
 	}
 	
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 511.0, 686.0, 943.0, 811.0))
 	{
-	
 		printf("button pressed shockwave\n");
+		Shop_Shockwave.hover = FALSE;
 	}
 	else
 	{
+		Shop_Shockwave.hover = TRUE;
 
 	}
 
