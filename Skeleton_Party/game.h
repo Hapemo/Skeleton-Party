@@ -400,6 +400,7 @@ void play_swordSwing();
 void play_click();
 void play_charswitch();
 void play_denied();
+void play_coins();
 void free_audio();
 
 

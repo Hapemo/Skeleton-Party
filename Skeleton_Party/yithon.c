@@ -82,6 +82,7 @@ CP_Sound swordSwing = NULL;
 CP_Sound click = NULL;
 CP_Sound switchChar = NULL;
 CP_Sound deniedNoMoney = NULL;
+CP_Sound coinsSound = NULL;
 /*
 load audio 
 */
@@ -96,6 +97,7 @@ void load_audio() {
 	click = CP_Sound_Load("./Assets/clickSound.wav");
 	switchChar = CP_Sound_Load("./Assets/switchChar.wav");
 	deniedNoMoney = CP_Sound_Load("./Assets/denied.wav");
+	coinsSound= CP_Sound_Load("./Assets/coins.wav");
 }
 
 //play menusound 
@@ -151,6 +153,9 @@ void play_charswitch() {
 void play_denied() {
 	CP_Sound_PlayAdvanced(deniedNoMoney, 0.5f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
+void play_coins() {
+	CP_Sound_PlayAdvanced(coinsSound, 0.5f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+}
 void free_audio() {
 	CP_Sound_Free(&menubg);
 	CP_Sound_Free(&crit);
@@ -161,6 +166,7 @@ void free_audio() {
 	CP_Sound_Free(&click);
 	CP_Sound_Free(&switchChar);
 	CP_Sound_Free(&deniedNoMoney);
+	CP_Sound_Free(&coinsSound);
 }
 
 
