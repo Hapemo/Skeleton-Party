@@ -42,6 +42,7 @@ float originalPlayerPositionY;
 int Exp, Gold ;
 int additionalExp, additionalGold;
 int additionalcrit;
+int* ptr_additionalcrit;
 
 BOOL DoubleExp, DoubleGold, DoubleHeal, DoubleDrop ;
 
@@ -419,6 +420,7 @@ void Screen_UPGRADES_Print(void);
 void Screen_SHOP_Print(void);
 void Screen_SKILL_Print(void);
 
+BOOL IsaacHover(float posX, float posY, float startX, float starty, float endx, float endy);
 
 void Screen_YOUDIED_ButtonClicked(void);
 void Screen_REVIVE_ButtonClicked(void);

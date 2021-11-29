@@ -466,6 +466,7 @@ void InitializeSkillShopUI(void)         // new function
 
 	additionalcrit = 0;
 	maxadditionalcrit = 90;
+	ptr_additionalcrit = &additionalcrit;
 
 	DoubleExp = FALSE;
 	DoubleGold = FALSE;
@@ -774,6 +775,8 @@ void InitializeRetry(void)
 
 
 	}
+
+
 
 
 //call function to set players base health 
@@ -1258,7 +1261,21 @@ BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, fl
 
 }
 
-
+BOOL IsaacHover(float posX, float posY, float startX, float starty, float endx, float endy)
+{
+	{
+		if ((posX < endx && posX > startX)
+			&& (posY < endy && posY > starty))
+		{
+			play_click();
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+}
 
 void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
 {
@@ -1481,6 +1498,17 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 
 void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 {
+	/*float mousehoverPosX = CP_Input_GetMouseX();
+	float mousehoverPosY = CP_Input_GetMouseY();
+
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 31.0, 349.0, 414.0, 730.0))
+	{
+		
+		printf("button hovering \n");
+	}*/
+
+
+
 
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
@@ -1543,6 +1571,25 @@ void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 
 void Screen_SHOP_ButtonClicked(void)											//new functuon
 {
+	float mousehoverPosX = CP_Input_GetMouseX();
+	float mousehoverPosY = CP_Input_GetMouseY();
+
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 26.0, 546.0, 459.0, 671.0))
+	{
+		printf("button hovering heal \n");
+		//state hovering
+	}
+	else
+	{
+		//statenot hovereing 
+	}
+
+
+
+
+
+
+
 
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
