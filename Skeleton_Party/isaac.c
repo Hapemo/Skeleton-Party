@@ -1527,7 +1527,7 @@ void Screen_SHOP_Print(void)								//new functuon
 	else
 	{
 		//printf("False");
-		CP_Image_Draw(Image_Shop_DropsOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 100);
+		CP_Image_Draw(Image_Shop_DropsOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 100);
 	}
 
 	if (Shop_RezButton.enabled == TRUE)
