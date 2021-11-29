@@ -672,7 +672,6 @@ void DropStuff(float posX, float posY)
 		if (item_pool[i].enabled == 0)
 		{
 			int randomChanceSpawnRate = CP_Random_RangeInt(0, 99);
-
 			if (randomChanceSpawnRate >= 0 && randomChanceSpawnRate < 19)
 			{
 				item_pool[i].position.x = posX;
@@ -680,22 +679,27 @@ void DropStuff(float posX, float posY)
 				item_pool[i].width = 45;
 				item_pool[i].height = 50;
 				item_pool[i].enabled = 1;
-				
-				int randomChance = CP_Random_RangeInt(0, 2);
+				int randomChance = CP_Random_RangeInt(0, 1);
 				item_pool[i].id = randomChance;
 				j++;
 				//printf("Spawned: %d", item_pool[i].enabled);
+				
 			}
 		}
-		else if(item_pool[i].enabled == 1)
+		else if (item_pool[i].enabled == 1)
 		{
 			j++;
 			//printf("Drop: %d", item_pool[i].enabled);
-
-
+			
 		}
-	}
 
+		
+	}
+	int goldDropRate = CP_Random_RangeInt(0, 99);
+	if (goldDropRate == 0)
+	{
+		Gold++;
+	}
 }
 
 void DrawItem()
@@ -862,8 +866,8 @@ void ResetItemPool()
 	{
 		printf("ResetItem");
 		item_pool[i].enabled = 0;
-		item_pool[i].position.x = 0;
-		item_pool[i].position.y = 0;
+		//item_pool[i].position.x = 0;
+		//item_pool[i].position.y = 0;
 
 	}
 }
