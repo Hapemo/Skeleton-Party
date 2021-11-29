@@ -236,6 +236,7 @@ static float hplocationY = 100.0f;
 float isaac_width;
 float isaac_height;
 float isaac_textboxwidth;
+float isaac_addmousepos;
 
 const char Skill_Hearts_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
 const char Skill_Agility_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
@@ -596,7 +597,8 @@ void InitializeSkillShopUI(void)         // new function
 
 	isaac_width = WIDTH;
 	isaac_height = HEIGHT;
-	isaac_textboxwidth = 150.0f;
+	isaac_textboxwidth = 190.0f;
+	isaac_addmousepos = 30.0f;
 
 	shrapnelstate = FALSE;
 	shockwavestate = FALSE;
@@ -1499,24 +1501,24 @@ void Screen_SHOP_Print(void)								//new functuon
 
 	if (Shop_HealButton.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Shop_Heal_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Shop_Heal_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
 	}
 	if (Shop_DropsButton.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Shop_Drop_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Shop_Drop_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
 
 	}
 	if (Shop_RezButton.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Shop_Rez_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Shop_Rez_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
 	}
 	if (Shop_ShrapnelButton.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Shop_Shrapnel_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Shop_Shrapnel_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
 	}
 	if (Shop_Shockwave.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Shop_Shockwave_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Shop_Shockwave_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
 	}
 
 	CP_Settings_TextSize(100);
@@ -1653,16 +1655,16 @@ void Screen_SKILL_Print(void)											//new functuon
 
 	if (Skill_HeartsButton.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Skill_Hearts_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Skill_Hearts_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
 	}
 	if (Skill_AgilityButton.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Skill_Agility_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Skill_Agility_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
 
 	}
 	if (Skill_CritButton.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Skill_Crit_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Skill_Crit_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
 	}
 	
 
