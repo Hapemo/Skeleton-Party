@@ -237,11 +237,17 @@ float isaac_width;
 float isaac_height;
 float isaac_textboxwidth;
 
+const char Skill_Hearts_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
+const char Skill_Agility_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
+const char Skill_Crit_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
+
+
+
 const char Shop_Heal_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
-const char Shop_Drop_Desc[] = { "" };
-const char Shop_Rez_Desc[] = { "" };
-const char Shop_Shrapnel_Desc[] = { "" };
-const char Shop_Shockwave_Desc[] = { "" };
+const char Shop_Drop_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
+const char Shop_Rez_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
+const char Shop_Shrapnel_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
+const char Shop_Shockwave_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
 
 
 
@@ -590,7 +596,7 @@ void InitializeSkillShopUI(void)         // new function
 
 	isaac_width = WIDTH;
 	isaac_height = HEIGHT;
-	isaac_textboxwidth = 100.0f;
+	isaac_textboxwidth = 150.0f;
 
 	shrapnelstate = FALSE;
 	shockwavestate = FALSE;
@@ -1491,31 +1497,26 @@ void Screen_SHOP_Print(void)								//new functuon
 	CP_Settings_Fill(COLOR_WHITE);
 	CP_Font_Set(CP_Font_GetDefault());
 
-	/*const char Shop_Heal_Desc[] = { "" };
-	const char Shop_Drop_Desc[] = { "" };
-	const char Shop_Rez_Desc[] = { "" };
-	const char Shop_Shrapnel_Desc[] = { "" };
-	const char Shop_Shockwave_Desc[] = { "" };*/
-
 	if (Shop_HealButton.hover == FALSE)
 	{
 		CP_Font_DrawTextBox(Shop_Heal_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
 	}
 	if (Shop_DropsButton.hover == FALSE)
 	{
-		//(CP_Image_Draw(Image_Shop_DropsOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255));
+		CP_Font_DrawTextBox(Shop_Drop_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+
 	}
 	if (Shop_RezButton.hover == FALSE)
 	{
-		//CP_Image_Draw(Image_Shop_RezOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+		CP_Font_DrawTextBox(Shop_Rez_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
 	}
 	if (Shop_ShrapnelButton.hover == FALSE)
 	{
-		//CP_Image_Draw(Image_Shop_ShrapnelOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+		CP_Font_DrawTextBox(Shop_Shrapnel_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
 	}
 	if (Shop_Shockwave.hover == FALSE)
 	{
-		//CP_Image_Draw(Image_Shop_Shockwave, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+		CP_Font_DrawTextBox(Shop_Shockwave_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
 	}
 
 	CP_Settings_TextSize(100);
@@ -1642,6 +1643,30 @@ void Screen_SKILL_Print(void)											//new functuon
 		//CP_Image_Draw(Image_Skill_Crit10, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
 		//break;
 	}
+
+	float mousehoverPosX = CP_Input_GetMouseX();
+	float mousehoverPosY = CP_Input_GetMouseY();
+
+	CP_Settings_TextSize(20);
+	CP_Settings_Fill(COLOR_WHITE);
+	CP_Font_Set(CP_Font_GetDefault());
+
+	if (Skill_HeartsButton.hover == FALSE)
+	{
+		CP_Font_DrawTextBox(Skill_Hearts_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+	}
+	if (Skill_AgilityButton.hover == FALSE)
+	{
+		CP_Font_DrawTextBox(Skill_Agility_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+
+	}
+	if (Skill_CritButton.hover == FALSE)
+	{
+		CP_Font_DrawTextBox(Skill_Crit_Desc, mousehoverPosX, mousehoverPosY, isaac_textboxwidth);
+	}
+	
+
+
 
 	CP_Settings_TextSize(100);
 	CP_Settings_Fill(COLOR_WHITE);
@@ -2172,6 +2197,41 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 
 void Screen_SKILL_ButtonClicked(void)											//new functuon
 {
+	float mousehoverPosX = CP_Input_GetMouseX();
+	float mousehoverPosY = CP_Input_GetMouseY();
+
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 44.0, 540.0, 483.0, 668.0))
+	{
+		printf("button hovering hearts \n");
+		Skill_HeartsButton.hover = FALSE;
+	}
+	else
+	{
+		Skill_HeartsButton.hover = TRUE;
+	}
+
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 44.0, 683.0, 480.0, 811.0))
+	{
+		printf("button hovering  agility\n");
+		Skill_AgilityButton.hover = FALSE;
+	}
+	else
+	{
+		Skill_AgilityButton.hover = TRUE;
+	}
+
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 44.0, 832.0, 480.0, 958.0))
+	{
+		printf("button hovering  critrate\n");
+		Skill_CritButton.hover = FALSE;
+
+	}
+	else
+	{
+		Skill_CritButton.hover = TRUE;
+
+	}
+
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
 		printf("button pressed back esc \n");
