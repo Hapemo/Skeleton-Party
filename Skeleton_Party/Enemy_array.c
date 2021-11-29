@@ -290,69 +290,11 @@ void preload_spawn_map(int level) { //Put in game_init
 
 	width = CP_Vector_Set(WIDTH, -5);
 
-
-
-	/*for (int j = 0; j < MAX_ENEMY; j++) if (enemy_pool[j].alive) return;
-
-
-	for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {
-		if (!(mother_enemy_pool[j].alive)) continue;
-		for (int k = 0; k < MAX_CHILDREN; k++) if (mother_enemy_pool[j].children[k].alive) return;
-	}*/
-
-
 	if (level == LEVEL_1) level_1();
 	if (level == LEVEL_2) level_2();
 	if (level == LEVEL_3) level_3();
 	if (level == LEVEL_4) level_4();
 	if (level == LEVEL_5) level_5();
-
-	/*CP_Vector level_0150 = CP_Vector_Set(WIDTH / 10, -5);
-	spawn_pool_assigner(two_third, 30.0f, 0.0f, 10, 11);*/
-
-	//-------------------------------------------------
-	//Web pattern
-	/*CP_Vector two_third = CP_Vector_Set(WIDTH/10, -5);
-	spawn_pool_assigner(two_third, 30.0f, 0.0f, 10, 11);
-
-	CP_Vector mid = CP_Vector_Set(WIDTH/10*1.8f, -5);
-	spawn_pool_assigner(mid, 30.0f, 15.0f, 10, 12);*/
-	//-------------------------------------------------
-	
-	
-
-	//CP_Vector line_11 = CP_Vector_Set(WIDTH / 2, -5);
-	//spawn_pool_assigner(line_11, 80.0f, 50.0f, 30, 103);
-
-	//CP_Vector line_2 = CP_Vector_Set(((WIDTH/3)+50), -5);
-	//spawn_pool_assigner(line_2, 50.0f, 10.0f, 30, 1);
-
-	//CP_Vector line_3 = CP_Vector_Set(((WIDTH / 3) -50), -5);
-	//spawn_pool_assigner(line_3, 50.0f, 50.0f, 30, 1);
-
-	//CP_Vector line_4 = CP_Vector_Set(((WIDTH / 3) + 100), -5);
-	//spawn_pool_assigner(line_4, 50.0f, 10.0f, 30, 1);
-	//
-
-	////second wave
-	//CP_Vector line_5 = CP_Vector_Set(-180, -400);
-	//spawn_pool_assigner(line_5, 20.0f, 100.0f, 50, 5);
-
-	//CP_Vector line_6 = CP_Vector_Set(((WIDTH / 4) + 50), -400);
-	//spawn_pool_assigner(line_6, 50.0f, 1600.0f, 50, 5);
-
-	//CP_Vector line_7 = CP_Vector_Set((WIDTH/4), -400);
-	//spawn_pool_assigner(line_7, 20.0f, 1600.0f, 50, 5);
-
-	//CP_Vector line_8 = CP_Vector_Set(((WIDTH/4) + 100), -400);
-	//spawn_pool_assigner(line_8, 50.0f, 1600.0f, 50, 5);
-
-	////third wave
-	//CP_Vector line_9 = CP_Vector_Set((WIDTH / 2)+150, -400);
-	//spawn_pool_assigner(line_9, 20.0f, 4300.0f, 50, 101);
-
-	//CP_Vector line_10 = CP_Vector_Set(WIDTH / 2, -400);
-	//spawn_pool_assigner(line_10, 20.0f, 4300.0f, 3, 101);
 }
 
 void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type) {
@@ -498,16 +440,6 @@ void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float
 		}
 	}
 }
-
-//void initialise_advance_movement(CP_Vector position, int type) {
-//	float ENEMY_SIZE = WIDTH / 25;
-//	for (int i = 0; i < MAX_ENEMY; i++) {
-//		if (enemy_pool[i].alive) continue;
-//		enemy_pool[i] = enemy_set(position, 1, ENEMY_SIZE, type);
-//		//printf("enemy %d position: %f|%f\n", i, enemy_pool[i].position.x, enemy_pool[i].position.y);
-//		break;
-//	}
-//}
 
 //------------------ Enemy Patterns ------------------- (Should run continously in game_update)
 void movement_pattern_vertical_and_diagonal(void) {

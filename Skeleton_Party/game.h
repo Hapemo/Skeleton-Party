@@ -21,6 +21,8 @@ extern float tick_p, * tick ; //This is for the tick timer. *tick will give back
 #define ENEMY_SIZE_2 10
 #define E1 (CP_Vector_Set(-1, 0))
 #define E2 (CP_Vector_Set(0, 1))
+#define NUM_POSITION_RATIO 0.22f
+enum { SKILLS_BUTTON_WIDTH = 426, SKILLS_BUTTON_HEIGHT = 76 };
 
 #define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
 #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
@@ -123,6 +125,24 @@ struct mother_enemy {
 	float spare;
 	float spare2;
 };
+
+typedef struct button {
+	CP_Vector position;
+	CP_Vector num_position;
+	CP_Image image;
+	int state;
+} button;
+
+extern CP_Image Image_num_1;
+extern CP_Image Image_num_2;
+extern CP_Image Image_num_3;
+extern CP_Image Image_num_4;
+extern CP_Image Image_num_5;
+extern CP_Image Image_num_6;
+extern CP_Image Image_num_7;
+extern CP_Image Image_num_8;
+extern CP_Image Image_num_9;
+extern CP_Image Image_num_10;
 
 struct Enemy enemy_pool[MAX_ENEMY];
 struct spawn spawn_pool[MAX_ENEMY];
@@ -374,6 +394,8 @@ void print_charge(CP_Vector position, float charge);
 //End of enemy array functions
 //void init_enemy();
 void reset_enemy_and_weapon(void);
+
+void skills_num_printer(button current_button);
 
 void player_touch_enemy();
 

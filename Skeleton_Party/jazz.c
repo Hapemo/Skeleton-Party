@@ -409,7 +409,32 @@ int rect_collision(CP_Vector enemy1, CP_Vector position, CP_Vector vec1, CP_Vect
 	}
 	else return 0;
 }
-
+//
+//int rect_collision(CP_Vector mouse, CP_Vector button, float x, float y, float enemy_radius) {
+//	//Following the formula drawn on the iPad
+//	CP_Vector half_vec1 = CP_Vector_Scale(vec1, 0.5f);
+//	CP_Vector half_vec2 = CP_Vector_Scale(vec2, 0.5f);
+//
+//	CP_Vector weapon_center = CP_Vector_Add(CP_Vector_Subtract(position, half_vec1), half_vec2);
+//	CP_Vector weapon_to_enemy = CP_Vector_Subtract(enemy1, weapon_center);
+//
+//	CP_Vector normalised_vec1 = CP_Vector_Normalize(half_vec1);
+//	float vec1_dot_product = CP_Vector_DotProduct(weapon_to_enemy, normalised_vec1);
+//	if (vec1_dot_product < 0) vec1_dot_product *= -1;
+//
+//	if (!(vec1_dot_product <= CP_Vector_Length(half_vec1) + enemy_radius)) return 0;
+//
+//	CP_Vector normalised_vec2 = CP_Vector_Normalize(half_vec2);
+//	float vec2_dot_product = CP_Vector_DotProduct(weapon_to_enemy, normalised_vec2);
+//	if (vec2_dot_product < 0) vec2_dot_product *= -1;
+//
+//	if (vec2_dot_product <= CP_Vector_Length(half_vec2) + enemy_radius) {
+//		//This is when collision happens!
+//		play_swordHit();
+//		return 1;
+//	}
+//	else return 0;
+//}
 
 CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector) {
 	CP_Vector vector = CP_Vector_Scale(unit_vector, scalar);
@@ -856,19 +881,59 @@ void print_piercing_bullet(void) {
 void reset_enemy_and_weapon(void) {
 	//enemy_pool
 	printf("resets enemy and weapon!!!\n");
-	memset(enemy_pool, '0', sizeof(enemy_pool));
-	memset(spawn_pool, '0', sizeof(spawn_pool));
-	memset(mother_enemy_pool, '0', sizeof(mother_enemy_pool));
+	memset(enemy_pool, 0, sizeof(enemy_pool));
+	memset(spawn_pool, 0, sizeof(spawn_pool));
+	memset(mother_enemy_pool, 0, sizeof(mother_enemy_pool));
 
-	memset(bullet_pool, '0', sizeof(bullet_pool));
-	memset(explosion_pool, '0', sizeof(explosion_pool));
-	memset(shrapnel_pool, '0', sizeof(shrapnel_pool));
-	memset(sword_explosion_pool, '0', sizeof(sword_explosion_pool));
-	memset(piercing_bullet_pool, '0', sizeof(piercing_bullet_pool));
+	memset(bullet_pool, 0, sizeof(bullet_pool));
+	memset(explosion_pool, 0, sizeof(explosion_pool));
+	memset(shrapnel_pool, 0, sizeof(shrapnel_pool));
+	memset(sword_explosion_pool, 0, sizeof(sword_explosion_pool));
+	memset(piercing_bullet_pool, 0, sizeof(piercing_bullet_pool));
 
-	memset(charge_pool, '0', sizeof(charge_pool));
-	memset(explosion_radius_pool, '0', sizeof(explosion_radius_pool));
-	memset(sword_explosion_radius_pool, '0', sizeof(sword_explosion_radius_pool));
+	memset(charge_pool, 0, sizeof(charge_pool));
+	memset(explosion_radius_pool, 0, sizeof(explosion_radius_pool));
+	memset(sword_explosion_radius_pool, 0, sizeof(sword_explosion_radius_pool));
 
-	memset(item_pool, '0', sizeof(item_pool));
+	memset(item_pool, 0, sizeof(item_pool));
+}
+
+
+float num_position_x = SKILLS_BUTTON_WIDTH * ((0.5f - NUM_POSITION_RATIO) / 2 + NUM_POSITION_RATIO);
+
+void skills_num_printer(button current_button) {
+	switch (current_button.state) {
+		case 0:
+			break;
+		case 1:
+			CP_Image_Draw(Image_num_1, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+		case 2:
+			CP_Image_Draw(Image_num_2, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+		case 3:
+			CP_Image_Draw(Image_num_3, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+		case 4:
+			CP_Image_Draw(Image_num_4, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+		case 5:
+			CP_Image_Draw(Image_num_5, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+		case 6:
+			CP_Image_Draw(Image_num_6, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+		case 7:
+			CP_Image_Draw(Image_num_7, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+		case 8:
+			CP_Image_Draw(Image_num_8, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+		case 9:
+			CP_Image_Draw(Image_num_9, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+		default:
+			CP_Image_Draw(Image_num_10, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
+	}
 }

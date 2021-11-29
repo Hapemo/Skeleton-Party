@@ -150,7 +150,7 @@ CP_Image Image_ReztokenSprite = NULL;
 
 CP_Image Image_PrepRoom_Empty = NULL;
 CP_Image Image_Upgrade_Empty = NULL;
-CP_Image Image_Skill_Empty = NULL;
+CP_Image Image_Skill_Tree = NULL;
 CP_Image Image_Shop_Empty = NULL;
 
 CP_Image Image_Skill_HeartsOn = NULL;
@@ -182,11 +182,31 @@ CP_Image Image_Skill_Crit8 = NULL;
 CP_Image Image_Skill_Crit9 = NULL;
 CP_Image Image_Skill_Crit10 = NULL;
 
+CP_Image Image_num_1;
+CP_Image Image_num_2;
+CP_Image Image_num_3;
+CP_Image Image_num_4;
+CP_Image Image_num_5;
+CP_Image Image_num_6;
+CP_Image Image_num_7;
+CP_Image Image_num_8;
+CP_Image Image_num_9;
+CP_Image Image_num_10;
 
 //CP_Image Image_Skill_HeartsOff = NULL;
 //CP_Image Image_Skill_AgilitOff = NULL;
 //CP_Image Image_Skill_AtkspeedOff = NULL;
 
+button skill_arrow_charge = {0};
+button skill_arrow_size = { 0 };
+button skill_attack_speed = { 0 };
+button skill_blast_range = { 0 };
+button skill_health = { 0 };
+button skill_movement = { 0 };
+button skill_shrapnels = { 0 };
+button skill_sword_range = { 0 };
+button skill_sword_swing = { 0 };
+button skill_sword_crit = { 0 };
 
 CP_Image Image_Shop_HealOn = NULL;
 CP_Image Image_Shop_DropsOn = NULL;
@@ -215,6 +235,7 @@ CP_Image Number_Skill_Five = NULL;
 CP_Image Number_Skill_Six = NULL;
 CP_Image Number_Skill_Seven = NULL;
 
+float button_spacing = 30.0f + SKILLS_BUTTON_HEIGHT;
 
 
 //Heart sprite settings below
@@ -537,10 +558,6 @@ struct Shop_Shockwave {
 
 }Shop_Shockwave;
 
-
-
-
-
 //Heart sprite settings below
 
 //Heart sprite settings above
@@ -584,7 +601,7 @@ void InitializeSkillShopUI(void)         // new function
 	additionalGold = 1;
 
 	additionalcrit = 0;
-	maxadditionalcrit = 90;
+	maxadditionalcrit = 10;
 	ptr_additionalcrit = &additionalcrit;
 	ptr_Gold = &Gold;
 
@@ -617,6 +634,46 @@ void InitializeSkillShopUI(void)         // new function
 	Currency_Sprite.posX = (float)(isaac_width / 2.0);
 	Currency_Sprite.posY = (float)(isaac_height / 2.0);
 
+	skill_health.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f);
+	skill_health.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_health.image = CP_Image_Load("./Assets/skilltree/health.png");
+
+	skill_sword_range.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing);
+	skill_sword_range.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_sword_range.image = CP_Image_Load("./Assets/skilltree/sword_range.png");
+
+	skill_shrapnels.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing*2);
+	skill_shrapnels.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_shrapnels.image = CP_Image_Load("./Assets/skilltree/shrapnels.png");
+
+	skill_arrow_size.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing * 3);
+	skill_arrow_size.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_arrow_size.image = CP_Image_Load("./Assets/skilltree/arrow_size.png");
+
+	skill_attack_speed.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing* 4);
+	skill_attack_speed.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_attack_speed.image = CP_Image_Load("./Assets/skilltree/attack_speed.png");
+
+
+	skill_movement.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f);
+	skill_movement.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_movement.image = CP_Image_Load("./Assets/skilltree/movement.png");
+
+	skill_sword_swing.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing);
+	skill_sword_swing.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_sword_swing.image = CP_Image_Load("./Assets/skilltree/sword_swing.png");
+
+	skill_blast_range.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing * 2);
+	skill_blast_range.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_blast_range.image = CP_Image_Load("./Assets/skilltree/blast_range.png");
+
+	skill_arrow_charge.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing * 3);
+	skill_arrow_charge.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_arrow_charge.image = CP_Image_Load("./Assets/skilltree/arrow_charge.png");
+
+	skill_sword_crit.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing * 4);
+	skill_sword_crit.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
+	skill_sword_crit.image = CP_Image_Load("./Assets/skilltree/sword_crit.png");
 
 
 	GameOver_Background.enabled = TRUE;
@@ -701,7 +758,7 @@ void InitializeSkillShopUI(void)         // new function
 
 	Image_PrepRoom_Empty = CP_Image_Load("./Assets/preproom.png");
 	Image_Upgrade_Empty = CP_Image_Load("./Assets/upgrades.png");
-	Image_Skill_Empty = CP_Image_Load("./Assets/Skill_empty.png");
+	Image_Skill_Tree = CP_Image_Load("./Assets/New_skills_background.png");
 	Image_Shop_Empty = CP_Image_Load("./Assets/Shop_empty.png");
 
 	Image_Skill_HeartsOn = CP_Image_Load("./Assets/skilltree/Skill_heartsOn.png");
@@ -730,7 +787,17 @@ void InitializeSkillShopUI(void)         // new function
 	Image_Skill_Crit9 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit9.png");
 	Image_Skill_Crit10 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit10.png");
 
-
+	Image_Skill_CritOn = CP_Image_Load("./Assets/skilltree/Crit/Skill_critOn.png");
+	Image_num_1 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit1.png");
+	Image_num_2 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit2.png");
+	Image_num_3 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit3.png");
+	Image_num_4 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit4.png");
+	Image_num_5 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit5.png");
+	Image_num_6 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit6.png");
+	Image_num_7 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit7.png");
+	Image_num_8 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit8.png");
+	Image_num_9 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit9.png");
+	Image_num_10 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit10.png");
 
 	Image_Shop_HealOn = CP_Image_Load("./Assets/Shop_2xhealOn.png");
 	Image_Shop_DropsOn = CP_Image_Load("./Assets/Shop_2xdropsOn.png");
@@ -1528,18 +1595,30 @@ void Screen_SHOP_Print(void)								//new functuon
 
 void Screen_SKILL_Print(void)											//new functuon
 {
-
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
-	CP_Image_Draw(Image_Skill_Empty, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	CP_Image_Draw(Image_Skill_Tree, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255); //prints the base background
+
+	CP_Image_Draw(skill_arrow_size.image, skill_arrow_size.position.x, skill_arrow_size.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+	CP_Image_Draw(skill_attack_speed.image, skill_attack_speed.position.x, skill_attack_speed.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+	CP_Image_Draw(skill_blast_range.image, skill_blast_range.position.x, skill_blast_range.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+	CP_Image_Draw(skill_health.image, skill_health.position.x, skill_health.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+	CP_Image_Draw(skill_movement.image, skill_movement.position.x, skill_movement.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+	CP_Image_Draw(skill_shrapnels.image, skill_shrapnels.position.x, skill_shrapnels.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+	CP_Image_Draw(skill_sword_range.image, skill_sword_range.position.x, skill_sword_range.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+	CP_Image_Draw(skill_sword_swing.image, skill_sword_swing.position.x, skill_sword_swing.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+	CP_Image_Draw(skill_arrow_charge.image, skill_arrow_charge.position.x, skill_arrow_charge.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+	CP_Image_Draw(skill_sword_crit.image, skill_sword_crit.position.x, skill_sword_crit.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
+
+
 
 	CP_Graphics_ClearBackground(COLOR_BLACK);
 
 	switch (additionalhp) {
 		case 0:
-			CP_Image_Draw(Image_Skill_HeartsOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+			//CP_Image_Draw(Image_Skill_HeartsOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 			break;
 		case 1:
 			CP_Image_Draw(Image_Skill_HeartsOn1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
@@ -1587,64 +1666,45 @@ void Screen_SKILL_Print(void)											//new functuon
 		//CP_Image_Draw(Image_Skill_AgilitOn5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
 			break;
 	}
-
-	switch (additionalcrit) {
+	//skills_num_printer(button current_button);
+	/*switch (additionalcrit) {
 	case 0:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
 		break;
-	case 10:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
-		CP_Image_Draw(Image_Skill_Crit1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	case 1:
+		CP_Image_Draw(Image_num_1, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 		break;
-	case 20:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
-		CP_Image_Draw(Image_Skill_Crit2, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
+	case 2:
+		CP_Image_Draw(Image_num_2, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 		break;
-	case 30:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
-		CP_Image_Draw(Image_Skill_Crit3, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
+	case 3:
+		CP_Image_Draw(Image_num_3, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 		break;
-	case 40:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
-		CP_Image_Draw(Image_Skill_Crit4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	case 4:
+		CP_Image_Draw(Image_num_4, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 		break;
 
-	case 50:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
-		CP_Image_Draw(Image_Skill_Crit5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	case 5:
+		CP_Image_Draw(Image_num_5, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 		break;
 
-	case 60:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-		CP_Image_Draw(Image_Skill_Crit6, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	case 6:
+		CP_Image_Draw(Image_num_6, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 		break;
-	case 70:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-		CP_Image_Draw(Image_Skill_Crit7, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	case 7:
+		CP_Image_Draw(Image_num_7, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 		break;
-	case 80:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-		CP_Image_Draw(Image_Skill_Crit8, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
+	case 8:
+		CP_Image_Draw(Image_num_8, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 		break;
-
+	case 9: 
+		CP_Image_Draw(Image_num_9, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+		break;
 	default:
-		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
-		CP_Image_Draw(Image_Skill_Crit9, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
+		CP_Image_Draw(Image_num_10, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 		break;
+	}*/
 
-	//default:
-		//CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
-
-		//CP_Image_Draw(Image_Skill_Crit10, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
-		//break;
-	}
+	skills_num_printer(skill_sword_crit);
 
 	float mousehoverPosX = CP_Input_GetMouseX();
 	float mousehoverPosY = CP_Input_GetMouseY();
@@ -2244,23 +2304,17 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 	{
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
-		//printf("%f", mousePosX);
-		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
-		//{
+		CP_Vector mouse = CP_Vector_Set(mousePosX, mousePosY);
+		CP_Vector vec1 = CP_Vector_Set(SKILLS_BUTTON_WIDTH, 0);
+		CP_Vector vec2 = CP_Vector_Set(0, SKILLS_BUTTON_HEIGHT);
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 767.0, 28.0, 924.0, 153.0))
 		{
-			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
-			//gameState = PLAYING;
 			printf("button pressed back \n");
 			gameState = UPGRADES;
 		}
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))
 		{
-			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
-			//gameState = PLAYING;
 			printf("button pressed hearts\n");
 			if (Exp > 0)
 			{
@@ -2268,14 +2322,10 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 				{
 					Exp -= 1;
 					additionalhp++;
-					//printf("hpadded %d" ,additionalhp);
 					p1.set(&p1, 3 + additionalhp);
-					// minus exp
 				}
 				else
 				{
-					//printf("max rhp eached ");
-
 					Skill_HeartsButton.enabled = FALSE;
 				}
 			}
@@ -2283,10 +2333,6 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 683.0, 480.0, 811.0))
 		{
-			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
-			//gameState = PLAYING;
-			printf("button pressed agility\n");
 			if (Exp > 0)
 			{
 				if (additionalspeed < maxadditionalspeed)
@@ -2302,112 +2348,64 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 					Skill_AgilityButton.enabled = FALSE;
 				}
 			}
-			
-
-
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 832.0, 480.0, 958.0))
 		{
-			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
-			//gameState = PLAYING;
-			printf("button pressed atkspeed\n");
 			if (Exp > 0)
 			{
-				if (additionalcrit < maxadditionalcrit)
+				if (skill_sword_crit.state < maxadditionalcrit)
 				{
 					Exp -= 1;
-					additionalcrit += 10; // or 20 increment ? 
+					skill_sword_crit.state++;
 					//knight.speed += additionalspeed;
 					//mage.speed += additionalspeed;
 					//archer.speed += additionalspeed;
 				}
-				else
-				{
-					Skill_CritButton.enabled = FALSE;
+			}
+		}
+		if (rect_collision(mouse, skill_sword_crit.position, vec1, vec2, 1)) {
+			if (Exp > 0) {
+				if (skill_sword_crit.state < maxadditionalcrit) {
+					Exp--;
+					skill_sword_crit.state++;
 				}
 			}
 		}
-
 	}
 
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2))
-	{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 		// sell skills and refund exp to player 
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))
 		{
-			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
-			//gameState = PLAYING;
-			printf("button pressed sell hearts\n");
-			//if (Exp > 0)
-			//{
 			if (additionalhp != 0)
 			{
 				Skill_HeartsButton.enabled = TRUE;
 				Exp += 1;
 				additionalhp--;
-				//printf("hpadded %d" ,additionalhp);
 				p1.set(&p1, 3 + additionalhp);
-				// minus exp
 			}
-			//else
-			//{
-				//printf("max rhp eached ");
-			//
-				//Skill_HeartsButton.enabled = FALSE;
-		//	}
-		//}
-
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 683.0, 480.0, 811.0))
 		{
-			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
-			//gameState = PLAYING;
-			printf("button pressed sell agility\n");
-			//if (Exp > 0)
-			//{
-
-
 			if (additionalspeed != 0)
 			{
 				Skill_AgilityButton.enabled = TRUE;
 				Exp += 1;
-				additionalspeed -= 20; // or 20 increment ? 
+				additionalspeed -= 20;
 				knight.speed -= additionalspeed;
-				//mage.speed += additionalspeed;
-				//archer.speed += additionalspeed;
 			}
-			//else
-			//{
-				//Skill_AgilityButton.enabled = FALSE;
-			//}
-		//}
 		}
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 832.0, 480.0, 958.0))
 		{
-			//menu.enabled = FALSE;
-			//CP_Graphics_ClearBackground(COLOR_GRAY);
-			//gameState = PLAYING;
-			printf("button pressed crit\n");
-			//if (Exp > 0)
-			//{
-				if (additionalcrit != 0)
-				{
-					Skill_CritButton.enabled = TRUE;
+			if (skill_sword_crit.state != 0)
+			{
+				Skill_CritButton.enabled = TRUE;
 
-					Exp += 1;
-					additionalcrit -= 10; 
-					
-				}
-				else
-				{
-					Skill_CritButton.enabled = FALSE;
-				}
-			//}
+				Exp += 1;
+				skill_sword_crit.state--;	
+			}
 		}
 	}
 }
@@ -2500,7 +2498,7 @@ void exit_skilltreepictures(void)
 
 	CP_Image_Free(&Image_PrepRoom_Empty);
 	CP_Image_Free(&Image_Upgrade_Empty);
-	CP_Image_Free(&Image_Skill_Empty);
+	CP_Image_Free(&Image_Skill_Tree);
 	CP_Image_Free(&Image_Shop_Empty);
 
 	CP_Image_Free(&Image_Skill_HeartsOn);
