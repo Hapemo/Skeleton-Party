@@ -1601,7 +1601,7 @@ BOOL IsaacHover(float posX, float posY, float startX, float starty, float endx, 
 		if ((posX < endx && posX > startX)
 			&& (posY < endy && posY > starty))
 		{
-			play_click();
+			//play_click();
 			return TRUE;
 		}
 		else
@@ -1907,7 +1907,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 {
 	float mousehoverPosX = CP_Input_GetMouseX();
 	float mousehoverPosY = CP_Input_GetMouseY();
-
+	
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 26.0, 546.0, 459.0, 671.0))
 	{
 		printf("button hovering heal \n");
@@ -1917,11 +1917,50 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 	{
 		//statenot hovereing 
 	}
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 25.0, 690.0, 460.0, 843.0))
+	{
+		printf("button pressed drop\n");
+
+	}
+	else
+	{
+
+	}
+
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 25.0, 833.0, 460.0, 955.0))
+	{
+		
+		printf("button pressed rez\n");
+
+	}
+	else
+	{
+
+	}
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 511.0, 543.0, 943.0, 661.0))
+	{
+		
+
+		printf("button pressed shrapnel\n");
+		
+		
+	}
+	else
+	{
+
+	}
+	
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 511.0, 686.0, 943.0, 811.0))
+	{
+	
+		printf("button pressed shockwave\n");
 
 
+	}
+	else
+	{
 
-
-
+	}
 
 
 
@@ -1955,12 +1994,15 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//minus gold 
 			if ((Gold > 2) && (DoubleHeal == FALSE))
 			{
+				play_coins();
+
 				Gold -= 2;
 				DoubleHeal = TRUE;
 				Shop_HealButton.enabled = FALSE;
 			}
 			else
 			{
+				play_denied();
 				printf("not enough gold ");
 			}
 			
@@ -1972,14 +2014,18 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed drop\n");
 			// minus gold 
+
 			if ((Gold > 2) && (DoubleDrop == FALSE))
 			{
+				play_coins();
+
 				Gold -= 2;
 				DoubleDrop = TRUE;
 				Shop_DropsButton.enabled = FALSE;
 			}
 			else
 			{
+				play_denied();
 				printf("not enough gold ");
 			}
 			
@@ -1989,16 +2035,20 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//menu.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
-			
+			play_coins();
+
 			printf("button pressed rez\n");
 			if (Gold > 2)
 			{
+				play_coins();
+
 				revivetoken++;
 				Gold -= 2;
 				//Shop_RezButton.enabled = FALSE;
 			}
 			else
 			{
+				play_denied();
 				printf("not enough gold ");
 			}
 			
@@ -2008,15 +2058,18 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//menu.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_BLACK);
 			//gameState = PLAYING;
+
 			printf("button pressed shrapnel\n");
 			if ((Gold > 2) && (shrapnelstate == FALSE))
 			{
+				play_coins();
 				Gold -= 2;
 				shrapnelstate = TRUE;
 				//Shop_ShrapnelButton.enabled = FALSE;
 			}
 			else
 			{
+				play_denied();
 				printf("not enough gold ");
 			}
 		}
@@ -2029,12 +2082,14 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 
 			if ((Gold > 2) && (shockwavestate == FALSE))
 			{
+				play_coins();
 				Gold -= 2;
 				shockwavestate = TRUE;
 
 			}
 			else
 			{
+				play_denied();
 				printf("not enough gold ");
 			}
 
