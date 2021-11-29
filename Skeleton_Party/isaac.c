@@ -47,8 +47,94 @@ PlayerGethealth(void)   returns int current health amount
 #define Seventeen "17"
 #define Eighteen "18"
 #define Nineteen "19"
-#define Twenty "20"
 
+#define Twenty "20"
+#define Twenty1 "21"
+#define Twenty2 "22"
+#define Twenty3 "23"
+#define Twenty4 "24"
+#define Twenty5 "25"
+#define Twenty6 "26"
+#define Twenty7 "27"
+#define Twenty8 "28"
+#define Twenty9 "29"
+
+#define Thirty "30"
+#define Thirty1 "31"
+#define Thirty2 "32"
+#define Thirty3 "33"
+#define Thirty4 "34"
+#define Thirty5 "35"
+#define Thirty6 "36"
+#define Thirty7 "37"
+#define Thirty8 "38"
+#define Thirty9 "39"
+
+#define Fourty "40"
+#define Fourty1 "41"
+#define Fourty2 "42"
+#define Fourty3 "43"
+#define Fourty4 "44"
+#define Fourty5 "45"
+#define Fourty6 "46"
+#define Fourty7 "47"
+#define Fourty8 "48"
+#define Fourty9 "49"
+
+#define Fifty "50"
+#define Fifty1 "51"
+#define Fifty2 "52"
+#define Fifty3 "53"
+#define Fifty4 "54"
+#define Fifty5 "55"
+#define Fifty6 "56"
+#define Fifty7 "57"
+#define Fifty8 "58"
+#define Fifty9 "59"
+
+#define Sixty "60"
+#define Sixty1 "61"
+#define Sixty2 "62"
+#define Sixty3 "63"
+#define Sixty4 "64"
+#define Sixty5 "65"
+#define Sixty6 "66"
+#define Sixty7 "67"
+#define Sixty8 "68"
+#define Sixty9 "69"
+
+#define Seventy "70"
+#define Seventy1 "71"
+#define Seventy2 "72"
+#define Seventy3 "73"
+#define Seventy4 "74"
+#define Seventy5 "75"
+#define Seventy6 "76"
+#define Seventy7 "77"
+#define Seventy8 "78"
+#define Seventy9 "79"
+
+#define Eighty "80"
+#define Eighty1 "81"
+#define Eighty2 "82"
+#define Eighty3 "83"
+#define Eighty4 "84"
+#define Eighty5 "85"
+#define Eighty6 "86"
+#define Eighty7 "87"
+#define Eighty8 "88"
+#define Eighty9 "89"
+
+#define Ninety "90"
+#define Ninety1 "91"
+#define Ninety2 "92"
+#define Ninety3 "93"
+#define Ninety4 "94"
+#define Ninety5 "95"
+#define Ninety6 "96"
+#define Ninety7 "97"
+#define Ninety8 "98"
+#define Ninety9 "99"
 
 
 CP_Font SkullFont;
@@ -460,7 +546,7 @@ void InitializeSkillShopUI(void)         // new function
 	//SWORD_CRIT_CHANCE = 10;
 	revivetoken = 0;
 	Exp = 18;
-	Gold = 19;
+	Gold = 90;
 	additionalExp = 2;
 	additionalGold = 1;
 
@@ -955,6 +1041,253 @@ void ScorePrinter(int score, float x, float y)
 		break;
 	case 20:
 		CP_Font_DrawText(Twenty, x, y);
+		break;
+
+
+	case 21:
+		CP_Font_DrawText(Twenty1, x, y);
+		break;
+	case 22:
+		CP_Font_DrawText(Twenty2, x, y);
+		break;
+
+	case 23:
+		CP_Font_DrawText(Twenty3, x, y);
+		break;
+
+	case 24:
+		CP_Font_DrawText(Twenty4, x, y);
+		break;
+
+	case 25:
+		CP_Font_DrawText(Twenty5, x, y);
+		break;
+
+	case 26:
+		CP_Font_DrawText(Twenty6, x, y);
+		break;
+
+	case 27:
+		CP_Font_DrawText(Twenty7, x, y);
+		break;
+
+	case 28:
+		CP_Font_DrawText(Twenty8, x, y);
+		break;
+
+	case 29:
+		CP_Font_DrawText(Twenty9, x, y);
+		break;
+
+	case 30:
+		CP_Font_DrawText(Thirty, x, y);
+		break;
+	case 31:
+		CP_Font_DrawText(Thirty1, x, y);
+		break;
+	case 32:
+		CP_Font_DrawText(Thirty2, x, y);
+		break;
+	case 33:
+		CP_Font_DrawText(Thirty3, x, y);
+		break;
+	case 34:
+		CP_Font_DrawText(Thirty4, x, y);
+		break;
+	case 35:
+		CP_Font_DrawText(Thirty5, x, y);
+		break;
+	case 36:
+		CP_Font_DrawText(Thirty6, x, y);
+		break;
+
+	case 37:
+		CP_Font_DrawText(Twenty7, x, y);
+		break;
+	case 38:
+		CP_Font_DrawText(Twenty8, x, y);
+		break;
+	case 39:
+		CP_Font_DrawText(Twenty9, x, y);
+		break;
+	case 40:
+		CP_Font_DrawText(Fourty, x, y);
+		break;
+	case 41:
+		CP_Font_DrawText(Fourty1, x, y);
+		break;
+	case 42:
+		CP_Font_DrawText(Fourty2, x, y);
+		break;
+	case 43:
+		CP_Font_DrawText(Fourty3, x, y);
+		break;
+	case 44:
+		CP_Font_DrawText(Fourty4, x, y);
+		break;
+	case 45:
+		CP_Font_DrawText(Fourty4, x, y);
+		break;
+	case 46:
+		CP_Font_DrawText(Fourty4, x, y);
+		break;
+	case 47:
+		CP_Font_DrawText(Fourty4, x, y);
+		break;
+	case 48:
+		CP_Font_DrawText(Fourty4, x, y);
+		break;
+	case 49:
+		CP_Font_DrawText(Fourty4, x, y);
+		break;
+	case 50:
+		CP_Font_DrawText(Fifty, x, y);
+		break;
+	case 51:
+		CP_Font_DrawText(Fifty1, x, y);
+		break;
+	case 52:
+		CP_Font_DrawText(Fifty2, x, y);
+		break;
+	case 53:
+		CP_Font_DrawText(Fifty3, x, y);
+		break;
+	case 54:
+		CP_Font_DrawText(Fifty4, x, y);
+		break;
+	case 55:
+		CP_Font_DrawText(Fifty5, x, y);
+		break;
+	case 56:
+		CP_Font_DrawText(Fifty6, x, y);
+		break;
+	case 57:
+		CP_Font_DrawText(Fifty7, x, y);
+		break;
+	case 58:
+		CP_Font_DrawText(Fifty8, x, y);
+		break;
+	case 59:
+		CP_Font_DrawText(Fifty9, x, y);
+		break;
+	case 60:
+		CP_Font_DrawText(Sixty, x, y);
+		break;
+	case 61:
+		CP_Font_DrawText(Sixty1, x, y);
+		break;
+	case 62:
+		CP_Font_DrawText(Sixty2, x, y);
+		break;
+	case 63:
+		CP_Font_DrawText(Sixty3, x, y);
+		break;
+	case 64:
+		CP_Font_DrawText(Sixty4, x, y);
+		break;
+	case 65:
+		CP_Font_DrawText(Sixty5, x, y);
+		break;
+	case 66:
+		CP_Font_DrawText(Sixty6, x, y);
+		break;
+	case 67:
+		CP_Font_DrawText(Sixty7, x, y);
+		break;
+	case 68:
+		CP_Font_DrawText(Sixty8, x, y);
+		break;
+	case 69:
+		CP_Font_DrawText(Sixty9, x, y);
+		break;
+	case 70:
+		CP_Font_DrawText(Seventy, x, y);
+		break;
+	case 71:
+		CP_Font_DrawText(Seventy1, x, y);
+		break;
+	case 72:
+		CP_Font_DrawText(Seventy2, x, y);
+		break;
+	case 73:
+		CP_Font_DrawText(Seventy3, x, y);
+		break;
+	case 74:
+		CP_Font_DrawText(Seventy4, x, y);
+		break;
+	case 75:
+		CP_Font_DrawText(Seventy5, x, y);
+		break;
+	case 76:
+		CP_Font_DrawText(Seventy6, x, y);
+		break;
+	case 77:
+		CP_Font_DrawText(Seventy7, x, y);
+		break;
+	case 78:
+		CP_Font_DrawText(Seventy8, x, y);
+		break;
+	case 79:
+		CP_Font_DrawText(Seventy9, x, y);
+	case 80:
+		CP_Font_DrawText(Eighty, x, y);
+		break;
+	case 81:
+		CP_Font_DrawText(Eighty1, x, y);
+		break;
+	case 82:
+		CP_Font_DrawText(Eighty2, x, y);
+		break;
+	case 83:
+		CP_Font_DrawText(Eighty3, x, y);
+		break;
+	case 84:
+		CP_Font_DrawText(Eighty4, x, y);
+		break;
+	case 85:
+		CP_Font_DrawText(Eighty5, x, y);
+		break;
+	case 86:
+		CP_Font_DrawText(Eighty6, x, y);
+		break;
+	case 87:
+		CP_Font_DrawText(Eighty7, x, y);
+		break;
+	case 88:
+		CP_Font_DrawText(Eighty8, x, y);
+		break;
+	case 89:
+		CP_Font_DrawText(Eighty9, x, y);
+		break;
+	case 90:
+		CP_Font_DrawText(Ninety, x, y);
+		break;
+	case 91:
+		CP_Font_DrawText(Ninety1, x, y);
+		break;
+	case 92:
+		CP_Font_DrawText(Ninety2, x, y);
+		break;
+	case 93:
+		CP_Font_DrawText(Ninety3, x, y);
+		break;
+	case 94:
+		CP_Font_DrawText(Ninety4, x, y);
+		break;
+	case 95:
+		CP_Font_DrawText(Ninety5, x, y);
+		break;
+	case 96:
+		CP_Font_DrawText(Ninety6, x, y);
+		break;
+	case 97:
+		CP_Font_DrawText(Ninety7, x, y);
+		break;
+	case 98:
+		CP_Font_DrawText(Ninety8, x, y);
+		break;
+	case 99:
+		CP_Font_DrawText(Ninety9, x, y);
 		break;
 
 	}
