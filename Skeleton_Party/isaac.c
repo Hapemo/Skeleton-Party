@@ -259,17 +259,17 @@ float isaac_height;
 float isaac_textboxwidth;
 float isaac_addmousepos;
 
-const char Skill_Hearts_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
-const char Skill_Agility_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
-const char Skill_Crit_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
+const char Skill_Hearts_Desc[] = { "Cost : 1 EXP per level\n Max 5 levels\n + 1 Heart per level" };
+const char Skill_Agility_Desc[] = { "Cost : 1 EXP per level\n Max 4 levels\n + 20 agility / level" };
+const char Skill_Crit_Desc[] = { "Cost : 1 EXP per level\n Max 9 Levels\n + 10% crit / level" };
 
 
 
-const char Shop_Heal_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
-const char Shop_Drop_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
-const char Shop_Rez_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
-const char Shop_Shrapnel_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
-const char Shop_Shockwave_Desc[] = { "adioifjefjkfwejlfkejflekwfjwlekfwejlkf" };
+const char Shop_Heal_Desc[] = { "Cost : 10 Gold Coins \n Doubles  the amount of healing from potions \n 1 heart -> 2 heart" };
+const char Shop_Drop_Desc[] = { "Cost : 10 Gold Coins \n Increases amount of EXP gained from winning \n 3 EXP-> 6 EXP" };
+const char Shop_Rez_Desc[] = { "Cost : 5 Gold Coins \n Allows you to coninue from where you died " };
+const char Shop_Shrapnel_Desc[] = { "Cost : 10 Gold Coins \n Enables Mage AOE to Fire additional bullets upon impact" };
+const char Shop_Shockwave_Desc[] = { "Cost : 10 Gold Coins \n Adds An AOE to the knights Melee attack" };
 
 
 
@@ -597,7 +597,7 @@ void InitializeSkillShopUI(void)         // new function
 	revivetoken = 0;
 	Exp = 18;
 	Gold = 90;
-	additionalExp = 2;
+	additionalExp = 3;
 	additionalGold = 1;
 
 	additionalcrit = 0;
@@ -1581,11 +1581,11 @@ void Screen_SHOP_Print(void)								//new functuon
 	}
 	if (Shop_ShrapnelButton.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Shop_Shrapnel_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Shop_Shrapnel_Desc, mousehoverPosX - (6*isaac_addmousepos), mousehoverPosY, isaac_textboxwidth);
 	}
 	if (Shop_Shockwave.hover == FALSE)
 	{
-		CP_Font_DrawTextBox(Shop_Shockwave_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
+		CP_Font_DrawTextBox(Shop_Shockwave_Desc, mousehoverPosX - (6*isaac_addmousepos), mousehoverPosY, isaac_textboxwidth);
 	}
 
 	CP_Settings_TextSize(100);
@@ -2069,11 +2069,11 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed heal\n");
 			//minus gold 
-			if ((Gold > 2) && (DoubleHeal == FALSE))
+			if ((Gold > 10) && (DoubleHeal == FALSE))
 			{
 				play_coins();
 
-				Gold -= 2;
+				Gold -= 10;
 				DoubleHeal = TRUE;
 				Shop_HealButton.enabled = FALSE;
 			}
@@ -2092,11 +2092,11 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			printf("button pressed drop\n");
 			// minus gold 
 
-			if ((Gold > 2) && (DoubleDrop == FALSE))
+			if ((Gold > 10) && (DoubleDrop == FALSE))
 			{
 				play_coins();
 
-				Gold -= 2;
+				Gold -= 10;
 				DoubleDrop = TRUE;
 				Shop_DropsButton.enabled = FALSE;
 			}
@@ -2115,12 +2115,12 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			play_coins();
 
 			printf("button pressed rez\n");
-			if (Gold > 2)
+			if (Gold > 5)
 			{
 				play_coins();
 
 				revivetoken++;
-				Gold -= 2;
+				Gold -= 5;
 				//Shop_RezButton.enabled = FALSE;
 			}
 			else
@@ -2137,10 +2137,10 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 
 			printf("button pressed shrapnel\n");
-			if ((Gold > 2) && (shrapnelstate == FALSE))
+			if ((Gold > 10) && (shrapnelstate == FALSE))
 			{
 				play_coins();
-				Gold -= 2;
+				Gold -= 10;
 				shrapnelstate = TRUE;
 				//Shop_ShrapnelButton.enabled = FALSE;
 			}
@@ -2157,10 +2157,10 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			//gameState = PLAYING;
 			printf("button pressed shockwave\n");
 
-			if ((Gold > 2) && (shockwavestate == FALSE))
+			if ((Gold > 10) && (shockwavestate == FALSE))
 			{
 				play_coins();
-				Gold -= 2;
+				Gold -= 10;
 				shockwavestate = TRUE;
 
 			}

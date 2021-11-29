@@ -143,7 +143,7 @@ void game_update(void)
 				if (DoubleDrop == TRUE)
 				{
 					Exp += (additionalExp * 2);
-					Gold += (additionalGold * 2);
+					//Gold += (additionalGold * 2);
 				}
 				else
 				{
