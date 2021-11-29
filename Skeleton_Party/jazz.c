@@ -257,20 +257,6 @@ void weapon_to_enemy_collision(void) {
 			}
 		}
 
-		////Shrapnel
-		//for (int i = 0; i < MAX_SHRAPNEL; i++) {
-		//	if (!(enemy_pool[j].alive)) break;
-		//	if (shrapnel_pool[i].y == 0 && shrapnel_pool[i].x == 0) continue;
-		//	distance_apart = CP_Vector_Distance(shrapnel_pool[i], enemy_pool[j].position);
-		//	if (distance_apart <= (enemy_pool[j].size + BULLET_SIZE)) {
-		//		printf("distance apart: %f, enemy_pool[j].size: %f, BULLET_SIZE: %f\n", distance_apart, enemy_pool[j].size, BULLET_SIZE);
-		//		DropStuffs(enemy_pool[j].position);
-		//		shrapnel_pool[i] = CP_Vector_Set(0, 0);
-		//		shrapnel_vector_pool[i] = CP_Vector_Set(0, 0);
-		//		enemy_pool[j].alive = 0;
-		//	}
-		//}
-
 		//Arrow
 		for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
 			if (!(enemy_pool[j].alive)) break;
@@ -345,22 +331,6 @@ void weapon_to_enemy_collision(void) {
 					DropStuffs(mother_enemy_pool[j].children[k].position);
 				}
 			}
-
-			//Shrapnel
-			//for (int i = 0; i < MAX_BULLET; i++) {
-			//	if (!(mother_enemy_pool[j].children[k].alive)) break;
-			//	if (shrapnel_pool[i].y == 0 && shrapnel_pool[i].x == 0) continue;
-			//	distance_apart = CP_Vector_Distance(shrapnel_pool[i], mother_enemy_pool[j].children[k].position);
-			//	//printf("shrapnel_pool[i]: %f | %f, mother_enemy_pool[j].children[k].position: %f | %f\n", shrapnel_pool[i].x, shrapnel_pool[i].y, mother_enemy_pool[j].children[k].position.x, mother_enemy_pool[j].children[k].position.y);
-			//	if (distance_apart <= (mother_enemy_pool[j].children[k].size + BULLET_SIZE)) {
-			//		printf("it collided here!!");
-			//		DropStuffs(mother_enemy_pool[j].children[k].position);
-			//		shrapnel_pool[i] = CP_Vector_Set(0, 0);
-			//		shrapnel_vector_pool[i] = CP_Vector_Set(0, 0);
-			//		mother_enemy_pool[j].children[k].alive = 0;
-			//	}
-			//}
-
 			//Arrow
 			for (int i = 0; i < MAX_PIERCING_BULLET; i++) {
 				if (!(mother_enemy_pool[j].children[k].alive)) break;
@@ -409,32 +379,19 @@ int rect_collision(CP_Vector enemy1, CP_Vector position, CP_Vector vec1, CP_Vect
 	}
 	else return 0;
 }
-//
-//int rect_collision(CP_Vector mouse, CP_Vector button, float x, float y, float enemy_radius) {
-//	//Following the formula drawn on the iPad
-//	CP_Vector half_vec1 = CP_Vector_Scale(vec1, 0.5f);
-//	CP_Vector half_vec2 = CP_Vector_Scale(vec2, 0.5f);
-//
-//	CP_Vector weapon_center = CP_Vector_Add(CP_Vector_Subtract(position, half_vec1), half_vec2);
-//	CP_Vector weapon_to_enemy = CP_Vector_Subtract(enemy1, weapon_center);
-//
-//	CP_Vector normalised_vec1 = CP_Vector_Normalize(half_vec1);
-//	float vec1_dot_product = CP_Vector_DotProduct(weapon_to_enemy, normalised_vec1);
-//	if (vec1_dot_product < 0) vec1_dot_product *= -1;
-//
-//	if (!(vec1_dot_product <= CP_Vector_Length(half_vec1) + enemy_radius)) return 0;
-//
-//	CP_Vector normalised_vec2 = CP_Vector_Normalize(half_vec2);
-//	float vec2_dot_product = CP_Vector_DotProduct(weapon_to_enemy, normalised_vec2);
-//	if (vec2_dot_product < 0) vec2_dot_product *= -1;
-//
-//	if (vec2_dot_product <= CP_Vector_Length(half_vec2) + enemy_radius) {
-//		//This is when collision happens!
-//		play_swordHit();
-//		return 1;
-//	}
-//	else return 0;
-//}
+
+int button_collision(CP_Vector mouse, CP_Vector button, float x, float y) {
+	float x_comparison = button.x - mouse.x;
+	if (x_comparison < 0) x_comparison *= -1;
+
+	if (!(x_comparison < x / 2)) return 0;
+
+	float y_comparison = button.y - mouse.y;
+	if (y_comparison < 0) y_comparison *= -1;
+
+	if (!(y_comparison < y / 2)) return 0;
+	return 1;
+}
 
 CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector) {
 	CP_Vector vector = CP_Vector_Scale(unit_vector, scalar);
@@ -932,8 +889,32 @@ void skills_num_printer(button current_button) {
 		case 9:
 			CP_Image_Draw(Image_num_9, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 			break;
+		case 10:
+			CP_Image_Draw(Image_num_10, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
+			break;
 		default:
 			CP_Image_Draw(Image_num_10, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
 			break;
+	}
+}
+
+
+
+void refund_skill(button* current_button, CP_Vector mouse) {
+	if (current_button -> state) {
+		if (button_collision(mouse, current_button -> position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+			Exp++;
+			current_button -> state--;
+		}
+	}
+}
+
+
+void buy_skill(button* current_button, CP_Vector mouse, int max_upgrade) {
+	if (Exp > 0 && current_button -> state < max_upgrade) {
+		if (button_collision(mouse, current_button -> position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+			Exp--;
+			current_button -> state++;
+		}
 	}
 }

@@ -246,7 +246,7 @@ static const float Heart_FRAME_DIMENSIONy = 45.0f;
 int player_maxhp;
 int additionalhp, maxadditionalhp;
 int additionalspeed, maxadditionalspeed;
-int maxadditionalcrit;
+int max_skill_upgrade;
 static  float Heart_size_windowsx;
 static  float Heart_size_windowsy;
 
@@ -601,7 +601,7 @@ void InitializeSkillShopUI(void)         // new function
 	additionalGold = 1;
 
 	additionalcrit = 0;
-	maxadditionalcrit = 10;
+	max_skill_upgrade = 9;
 	ptr_additionalcrit = &additionalcrit;
 	ptr_Gold = &Gold;
 
@@ -1612,99 +1612,18 @@ void Screen_SKILL_Print(void)											//new functuon
 	CP_Image_Draw(skill_arrow_charge.image, skill_arrow_charge.position.x, skill_arrow_charge.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
 	CP_Image_Draw(skill_sword_crit.image, skill_sword_crit.position.x, skill_sword_crit.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
 
-
-
 	CP_Graphics_ClearBackground(COLOR_BLACK);
 
-	switch (additionalhp) {
-		case 0:
-			//CP_Image_Draw(Image_Skill_HeartsOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-			break;
-		case 1:
-			CP_Image_Draw(Image_Skill_HeartsOn1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-			break;
-		case 2:
-			CP_Image_Draw(Image_Skill_HeartsOn2, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
-			break;
-		case 3:
-			CP_Image_Draw(Image_Skill_HeartsOn3, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-
-			break;
-		case 4:
-			CP_Image_Draw(Image_Skill_HeartsOn4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-			break;
-		default:
-			CP_Image_Draw(Image_Skill_HeartsOn5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
-			break;
-	}
-
-	switch (additionalspeed) {
-	case 0:
-		CP_Image_Draw(Image_Skill_AgilitOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-		break;
-
-	case 20:
-		CP_Image_Draw(Image_Skill_AgilitOn1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-		break;
-
-	case 40:
-		CP_Image_Draw(Image_Skill_AgilitOn2, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-		break;
-
-	case 60:
-		CP_Image_Draw(Image_Skill_AgilitOn3, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-		break;
-
-	//case 80:
-		//CP_Image_Draw(Image_Skill_AgilitOn4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);
-		//break; 
-
-	default:
-		CP_Image_Draw(Image_Skill_AgilitOn4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
-
-		//CP_Image_Draw(Image_Skill_AgilitOn5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);
-			break;
-	}
-	//skills_num_printer(button current_button);
-	/*switch (additionalcrit) {
-	case 0:
-		break;
-	case 1:
-		CP_Image_Draw(Image_num_1, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-	case 2:
-		CP_Image_Draw(Image_num_2, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-	case 3:
-		CP_Image_Draw(Image_num_3, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-	case 4:
-		CP_Image_Draw(Image_num_4, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-
-	case 5:
-		CP_Image_Draw(Image_num_5, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-
-	case 6:
-		CP_Image_Draw(Image_num_6, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-	case 7:
-		CP_Image_Draw(Image_num_7, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-	case 8:
-		CP_Image_Draw(Image_num_8, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-	case 9: 
-		CP_Image_Draw(Image_num_9, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-	default:
-		CP_Image_Draw(Image_num_10, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);
-		break;
-	}*/
-
 	skills_num_printer(skill_sword_crit);
+	skills_num_printer(skill_arrow_size);
+	skills_num_printer(skill_attack_speed);
+	skills_num_printer(skill_blast_range);
+	skills_num_printer(skill_health);
+	skills_num_printer(skill_movement);
+	skills_num_printer(skill_shrapnels);
+	skills_num_printer(skill_sword_range);
+	skills_num_printer(skill_sword_swing);
+	skills_num_printer(skill_arrow_charge);
 
 	float mousehoverPosX = CP_Input_GetMouseX();
 	float mousehoverPosY = CP_Input_GetMouseY();
@@ -2305,79 +2224,47 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
 		CP_Vector mouse = CP_Vector_Set(mousePosX, mousePosY);
-		CP_Vector vec1 = CP_Vector_Set(SKILLS_BUTTON_WIDTH, 0);
-		CP_Vector vec2 = CP_Vector_Set(0, SKILLS_BUTTON_HEIGHT);
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 767.0, 28.0, 924.0, 153.0))
 		{
 			printf("button pressed back \n");
 			gameState = UPGRADES;
 		}
 
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))
-		{
-			printf("button pressed hearts\n");
-			if (Exp > 0)
-			{
-				if (additionalhp < maxadditionalhp)
-				{
-					Exp -= 1;
-					additionalhp++;
-					p1.set(&p1, 3 + additionalhp);
-				}
-				else
-				{
-					Skill_HeartsButton.enabled = FALSE;
-				}
+		if (Exp > 0 && additionalspeed < maxadditionalspeed) {
+			if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+				Exp -= 1;
+				skill_movement.state++;
+				additionalspeed += 20; // or 20 increment ? 
+				knight.speed += additionalspeed;
 			}
+		}
+		if (Exp > 0 && skill_health.state < maxadditionalhp) {
+			if (button_collision(mouse, skill_health.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+				Exp -= 1;
+				additionalhp = ++skill_health.state;
+				p1.set(&p1, 3 + additionalhp);
+			}
+		}
+		//New skills onwards
+		buy_skill(&skill_arrow_charge, mouse, max_skill_upgrade);
+		buy_skill(&skill_arrow_size, mouse, max_skill_upgrade);
+		buy_skill(&skill_attack_speed, mouse, max_skill_upgrade);
+		buy_skill(&skill_blast_range, mouse, max_skill_upgrade);
+		buy_skill(&skill_health, mouse, max_skill_upgrade);
+		buy_skill(&skill_movement, mouse, max_skill_upgrade);
+		buy_skill(&skill_shrapnels, mouse, max_skill_upgrade);
+		buy_skill(&skill_sword_range, mouse, max_skill_upgrade);
+		buy_skill(&skill_sword_swing, mouse, max_skill_upgrade);
+		buy_skill(&skill_sword_crit, mouse, max_skill_upgrade);
 
-		}
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 683.0, 480.0, 811.0))
-		{
-			if (Exp > 0)
-			{
-				if (additionalspeed < maxadditionalspeed)
-				{
-					Exp -= 1;
-					additionalspeed += 20; // or 20 increment ? 
-					knight.speed += additionalspeed;
-					//mage.speed += additionalspeed;
-					//archer.speed += additionalspeed;
-				}
-				else
-				{
-					Skill_AgilityButton.enabled = FALSE;
-				}
-			}
-		}
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 832.0, 480.0, 958.0))
-		{
-			if (Exp > 0)
-			{
-				if (skill_sword_crit.state < maxadditionalcrit)
-				{
-					Exp -= 1;
-					skill_sword_crit.state++;
-					//knight.speed += additionalspeed;
-					//mage.speed += additionalspeed;
-					//archer.speed += additionalspeed;
-				}
-			}
-		}
-		if (rect_collision(mouse, skill_sword_crit.position, vec1, vec2, 1)) {
-			if (Exp > 0) {
-				if (skill_sword_crit.state < maxadditionalcrit) {
-					Exp--;
-					skill_sword_crit.state++;
-				}
-			}
-		}
 	}
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 		// sell skills and refund exp to player 
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))
+		CP_Vector mouse = CP_Vector_Set(mousePosX, mousePosY);
+		/*if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))
 		{
 			if (additionalhp != 0)
 			{
@@ -2396,17 +2283,34 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 				additionalspeed -= 20;
 				knight.speed -= additionalspeed;
 			}
-		}
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 832.0, 480.0, 958.0))
-		{
-			if (skill_sword_crit.state != 0)
-			{
-				Skill_CritButton.enabled = TRUE;
-
-				Exp += 1;
-				skill_sword_crit.state--;	
+		}*/
+		if (skill_health.state) {
+			if (button_collision(mouse, skill_health.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+				skill_health.state--;
+				Exp++;
+				additionalhp--;
+				p1.set(&p1, 3 + additionalhp);
 			}
 		}
+		if (skill_movement.state) {
+			if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+				skill_movement.state--;
+				Exp++;
+				additionalspeed -= 20;
+				knight.speed -= additionalspeed;
+			}
+		}
+		
+		refund_skill(&skill_arrow_charge, mouse);
+		refund_skill(&skill_arrow_size, mouse);
+		refund_skill(&skill_attack_speed, mouse);
+		refund_skill(&skill_blast_range, mouse);
+		refund_skill(&skill_health, mouse);
+		refund_skill(&skill_movement, mouse);
+		refund_skill(&skill_shrapnels, mouse);
+		refund_skill(&skill_sword_range, mouse);
+		refund_skill(&skill_sword_swing, mouse);
+		refund_skill(&skill_sword_crit, mouse);
 	}
 }
 

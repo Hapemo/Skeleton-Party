@@ -397,6 +397,12 @@ void reset_enemy_and_weapon(void);
 
 void skills_num_printer(button current_button);
 
+int button_collision(CP_Vector mouse, CP_Vector button, float x, float y);
+
+void refund_skill(button* current_button, CP_Vector mouse);
+
+void buy_skill(button* current_button, CP_Vector mouse, int max_upgrade);
+
 void player_touch_enemy();
 
 //void enemy_movement();
