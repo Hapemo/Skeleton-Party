@@ -699,6 +699,8 @@ void DropStuff(float posX, float posY)
 	if (goldDropRate == 0)
 	{
 		Gold++;
+		play_coins();
+
 	}
 }
 

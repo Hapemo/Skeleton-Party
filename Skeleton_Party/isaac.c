@@ -1920,7 +1920,6 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 25.0, 690.0, 460.0, 843.0))
 	{
 		printf("button pressed drop\n");
-
 	}
 	else
 	{
@@ -1929,9 +1928,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 25.0, 833.0, 460.0, 955.0))
 	{
-		
 		printf("button pressed rez\n");
-
 	}
 	else
 	{
@@ -1939,11 +1936,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 	}
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 511.0, 543.0, 943.0, 661.0))
 	{
-		
-
 		printf("button pressed shrapnel\n");
-		
-		
 	}
 	else
 	{
@@ -1954,8 +1947,6 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 	{
 	
 		printf("button pressed shockwave\n");
-
-
 	}
 	else
 	{
