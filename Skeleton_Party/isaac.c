@@ -477,7 +477,7 @@ void InitializeSkillShopUI(void)         // new function
 	isaac_width = WIDTH;
 	isaac_height = HEIGHT;
 
-	shrapnelstate = TRUE;
+	shrapnelstate = FALSE;
 	shockwavestate = FALSE;
 	RewardGiven = FALSE;
 
@@ -590,13 +590,7 @@ void InitializeSkillShopUI(void)         // new function
 	Image_Skill_Crit9 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit9.png");
 	Image_Skill_Crit10 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit10.png");
 
-	
-	
 
-
-	//Image_Skill_HeartsOff = CP_Image_Load("./Assets/Skill_heartsOff.png");
-	//Image_Skill_AgilitOff = CP_Image_Load("./Assets/Skill_agilityOff.png");
-	//Image_Skill_AtkspeedOff = CP_Image_Load("./Assets/Skill_attackspeedOff.png");
 
 	Image_Shop_HealOn = CP_Image_Load("./Assets/Shop_2xhealOn.png");
 	Image_Shop_DropsOn = CP_Image_Load("./Assets/Shop_2xdropsOn.png");
@@ -1096,9 +1090,9 @@ void Screen_SHOP_Print(void)
 	}
 
 	
-	if (Shop_ShrapnelButton.enabled == TRUE)
+	if (shrapnelstate == FALSE)
 	{
-		CP_Image_Draw(Image_Shop_ShrapnelOn, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
+		CP_Image_Draw(Image_Shop_ShrapnelOff, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
 	}
 	else
 	{
@@ -1638,7 +1632,7 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 			{
 				Gold -= 2;
 				shrapnelstate = TRUE;
-				Shop_ShrapnelButton.enabled = FALSE;
+				//Shop_ShrapnelButton.enabled = FALSE;
 			}
 			else
 			{
