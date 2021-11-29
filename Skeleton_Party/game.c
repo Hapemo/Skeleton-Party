@@ -320,7 +320,7 @@ void PlayGame()
 	ScorePrinter(Gold, 850, 80);
 	
 	CP_Settings_Fill(darkviolet);
-	ScorePrinter(revivetoken, 75, 157);
+	ScorePrinter(revivetoken, 695, 157);
 
 	Screen_Currency_Print();
 	WinCondition();
