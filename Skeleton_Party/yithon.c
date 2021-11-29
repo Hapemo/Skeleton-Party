@@ -336,7 +336,7 @@ void drawCreditScreenpg1() {
 	credMenuBtn.height = height / 15.0f;
 	CP_Image_Draw(creditMenubtn, credMenuBtn.posX, credMenuBtn.posY, credMenuBtn.width, credMenuBtn.height, 255);
 
-	credNextBtn.posX = 850.0f;
+	credNextBtn.posX = 810.0f;
 	credNextBtn.posY = height * (0.925f);
 	credNextBtn.width = width / 5.0f;
 	credNextBtn.height = height / 15.0f;
