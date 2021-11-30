@@ -144,6 +144,17 @@ extern CP_Image Image_num_8;
 extern CP_Image Image_num_9;
 extern CP_Image Image_num_10;
 
+extern button skill_arrow_charge;
+extern button skill_arrow_size;
+extern button skill_attack_speed;
+extern button skill_blast_range;
+extern button skill_health;
+extern button skill_movement;
+extern button skill_shrapnels;
+extern button skill_sword_range;
+extern button skill_sword_swing;
+extern button skill_sword_crit;
+
 struct Enemy enemy_pool[MAX_ENEMY];
 struct spawn spawn_pool[MAX_ENEMY];
 struct mother_enemy mother_enemy_pool[MAX_MOTHER_ENEMY];

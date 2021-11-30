@@ -24,12 +24,12 @@
 //These variables are for melee attacks, for function 'melee_attack' and 'activate_melee_by_mouse'
 int first_time = 1, * pfirst_time = &first_time; //First time running the function
 float melee_start_angle = 45, melee_angle = 0; //Determines where the melee attack is facing. 45 is when it's facing north.
-int melee_max_angle = 90; //starting melee angle
 int melee_anticlockwise = TRUE; //clockwise or anti clockwise melee
 int melee_speed = 10; //speed of melee animation
 int melee_angle_upgrade = 0; //angle upgrade for melee
-float sword_length = 0;
-float sword_width = 0;
+int melee_max_angle = 90; //starting melee angle
+float sword_width = WIDTH / 8;
+float sword_length = HEIGHT / 50;
 int sword_cooldown = 0;
 int sword_attack_speed = 60/2;
 
@@ -90,7 +90,18 @@ CP_Vector piercing_bullet_pool[MAX_BULLET] = { 0 };
 
 #define MAX_CHARGE (50.0f)
 #define MAX_CHARGE_POOL (20)
-float piercing_charge = 0, max_piercing_charge = 500.0f, charge_pool[MAX_CHARGE_POOL] = { 0 };
+float piercing_charge = 0, max_piercing_charge = 500.0f, charge_pool[MAX_CHARGE_POOL] = { 0 }, increase_charge = 1;
+
+//-------------------------------------------------------
+//Skill upgrades
+float max_arrow_charge = 10; //increase_charge
+float max_arrow_size = 150; //define max_charge
+float max_attack_speed = 15; //fireball attackspeed and sword attack speed
+float max_blast_range = 300; //max explosion radius
+float max_shrapnels_upgrade = 14; //max shrapnels just ++
+float max_sword_range = 0;//just multiple by 1.1 each time, upgrade would be the power to
+float max_sword_swing = 0;
+
 
 
 extern int CurrentCharacter; 
@@ -100,8 +111,6 @@ void melee_attack(CP_Vector position) {
 	//Set the melee angle for the first time
 	if (first_time) {
 		//Set sword size
-		sword_width = WIDTH / 8;
-		sword_length = HEIGHT / 50;
 
 		*pfirst_time = 0;
 
@@ -168,7 +177,8 @@ void melee_attack(CP_Vector position) {
 	}
 
 	//Resets the animation of the attack
-	if (!(-melee_max_angle < melee_angle && melee_angle < melee_max_angle)) {
+	if (!(-melee_max_angle - (10 * skill_sword_swing.state) < melee_angle && melee_angle < melee_max_angle)) {
+		printf("melee_angle: %f", melee_angle);
 		melee_angle = melee_start_angle;
 		*pmelee_or_not = 0;
 	}
@@ -749,7 +759,7 @@ void shrapnel_collision(void) {
 void piercing_shooting_check(CP_Vector position) {
 
 	if (CP_Input_KeyDown(KEY_SPACE)) {
-		if (!(piercing_charge >= MAX_CHARGE)) piercing_charge++;
+		if (!(piercing_charge >= MAX_CHARGE)) piercing_charge += increase_charge;
 		print_charge(position, piercing_charge);
 		printf("charge: %f", piercing_charge);
 	} 
@@ -898,8 +908,6 @@ void skills_num_printer(button current_button) {
 	}
 }
 
-
-
 void refund_skill(button* current_button, CP_Vector mouse) {
 	if (current_button -> state) {
 		if (button_collision(mouse, current_button -> position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
@@ -909,7 +917,6 @@ void refund_skill(button* current_button, CP_Vector mouse) {
 	}
 }
 
-
 void buy_skill(button* current_button, CP_Vector mouse, int max_upgrade) {
 	if (Exp > 0 && current_button -> state < max_upgrade) {
 		if (button_collision(mouse, current_button -> position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
@@ -918,3 +925,4 @@ void buy_skill(button* current_button, CP_Vector mouse, int max_upgrade) {
 		}
 	}
 }
+
