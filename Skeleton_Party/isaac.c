@@ -638,43 +638,53 @@ void InitializeSkillShopUI(void)         // new function
 	skill_health.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f);
 	skill_health.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_health.image = CP_Image_Load("./Assets/skilltree/health.png");
+	skill_health.description = "Additional heart container";
 
 	skill_sword_range.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing);
 	skill_sword_range.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_sword_range.image = CP_Image_Load("./Assets/skilltree/sword_range.png");
+	skill_sword_range.description = "Increase sword reach";
 
 	skill_shrapnels.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing*2);
 	skill_shrapnels.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_shrapnels.image = CP_Image_Load("./Assets/skilltree/shrapnels.png");
+	skill_shrapnels.description = "Increase sharpnels (MUST own sharpnel from shop)";
 
 	skill_arrow_size.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing * 3);
 	skill_arrow_size.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_arrow_size.image = CP_Image_Load("./Assets/skilltree/arrow_size.png");
+	skill_arrow_size.description = "Increase arrow size";
 
 	skill_attack_speed.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing* 4);
 	skill_attack_speed.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_attack_speed.image = CP_Image_Load("./Assets/skilltree/attack_speed.png");
+	skill_attack_speed.description = "Increase fireball and sword attack speed";
 
 
 	skill_movement.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f);
 	skill_movement.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_movement.image = CP_Image_Load("./Assets/skilltree/movement.png");
+	skill_movement.description = "Increase movement speed";
 
 	skill_sword_swing.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing);
 	skill_sword_swing.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_sword_swing.image = CP_Image_Load("./Assets/skilltree/sword_swing.png");
+	skill_sword_swing.description = "Increase sword swinging angle";
 
 	skill_blast_range.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing * 2);
 	skill_blast_range.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_blast_range.image = CP_Image_Load("./Assets/skilltree/blast_range.png");
+	skill_blast_range.description = "Increase fireball explosion";
 
 	skill_arrow_charge.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing * 3);
 	skill_arrow_charge.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_arrow_charge.image = CP_Image_Load("./Assets/skilltree/arrow_charge.png");
+	skill_arrow_charge.description = "Increase arrow charge speed";
 
 	skill_sword_crit.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing * 4);
 	skill_sword_crit.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_sword_crit.image = CP_Image_Load("./Assets/skilltree/sword_crit.png");
+	skill_sword_crit.description = "Increase sword critical strike chance (MUST own shockwave from shop)";
 
 
 	GameOver_Background.enabled = TRUE;
@@ -1626,28 +1636,10 @@ void Screen_SKILL_Print(void)											//new functuon
 	skills_num_printer(skill_sword_swing);
 	skills_num_printer(skill_arrow_charge);
 
-	float mousehoverPosX = CP_Input_GetMouseX();
-	float mousehoverPosY = CP_Input_GetMouseY();
 
-	CP_Settings_TextSize(20);
-	CP_Settings_Fill(COLOR_WHITE);
-	CP_Font_Set(CP_Font_GetDefault());
 
-	if (Skill_HeartsButton.hover == FALSE)
-	{
-		CP_Font_DrawTextBox(Skill_Hearts_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
-	}
-	if (Skill_AgilityButton.hover == FALSE)
-	{
-		CP_Font_DrawTextBox(Skill_Agility_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
-
-	}
-	if (Skill_CritButton.hover == FALSE)
-	{
-		CP_Font_DrawTextBox(Skill_Crit_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
-	}
-	
-
+	//Prints skills description when mouse hovering above button
+	skill_description_printer();
 
 
 	CP_Settings_TextSize(100);

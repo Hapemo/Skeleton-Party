@@ -1,0 +1,839 @@
+[33mcommit 4488f2e767442616cea0dacccced509c00e48dab[m
+Merge: 39f33c9 22eab71
+Author: Hapemo <jazz.teohyj@outlook.com>
+Date:   Mon Nov 29 23:04:20 2021 +0800
+
+    On Development: !!GitHub_Desktop<Development>
+
+[1mdiff --cc Skeleton_Party/.vs/Processing_Sample/v16/.suo[m
+[1mindex 89d5451,89d5451..a2807bd[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit1.png[m
+[1mindex 55f299c,55f299c..07e8aa6[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit10.png[m
+[1mindex 488c40f,488c40f..d6cbfaf[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit2.png[m
+[1mindex 5afdaed,5afdaed..2354971[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit3.png[m
+[1mindex 160e455,160e455..4623901[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit4.png[m
+[1mindex ec4313e,ec4313e..208d9d0[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit5.png[m
+[1mindex 8b68c65,8b68c65..bc4e385[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit6.png[m
+[1mindex 3b6209a,3b6209a..9989403[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit7.png[m
+[1mindex 8b13782,8b13782..0f310e6[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit8.png[m
+[1mindex 6365112,6365112..4bd335b[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Assets/skilltree/Crit/Skill_crit9.png[m
+[1mindex f468178,f468178..dc4d8ad[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/Enemy_array.c[m
+[1mindex efcb30e,efcb30e..d681dd7[m
+[1m--- a/Skeleton_Party/Enemy_array.c[m
+[1m+++ b/Skeleton_Party/Enemy_array.c[m
+[36m@@@ -290,69 -290,69 +290,11 @@@[m [mvoid preload_spawn_map(int level) { //P[m
+  [m
+  	width = CP_Vector_Set(WIDTH, -5);[m
+  [m
+[31m--[m
+[31m--[m
+[31m--	/*for (int j = 0; j < MAX_ENEMY; j++) if (enemy_pool[j].alive) return;[m
+[31m--[m
+[31m--[m
+[31m--	for (int j = 0; j < MAX_MOTHER_ENEMY; j++) {[m
+[31m--		if (!(mother_enemy_pool[j].alive)) continue;[m
+[31m--		for (int k = 0; k < MAX_CHILDREN; k++) if (mother_enemy_pool[j].children[k].alive) return;[m
+[31m--	}*/[m
+[31m--[m
+[31m--[m
+  	if (level == LEVEL_1) level_1();[m
+  	if (level == LEVEL_2) level_2();[m
+  	if (level == LEVEL_3) level_3();[m
+  	if (level == LEVEL_4) level_4();[m
+  	if (level == LEVEL_5) level_5();[m
+[31m--[m
+[31m--	/*CP_Vector level_0150 = CP_Vector_Set(WIDTH / 10, -5);[m
+[31m--	spawn_pool_assigner(two_third, 30.0f, 0.0f, 10, 11);*/[m
+[31m--[m
+[31m--	//-------------------------------------------------[m
+[31m--	//Web pattern[m
+[31m--	/*CP_Vector two_third = CP_Vector_Set(WIDTH/10, -5);[m
+[31m--	spawn_pool_assigner(two_third, 30.0f, 0.0f, 10, 11);[m
+[31m--[m
+[31m--	CP_Vector mid = CP_Vector_Set(WIDTH/10*1.8f, -5);[m
+[31m--	spawn_pool_assigner(mid, 30.0f, 15.0f, 10, 12);*/[m
+[31m--	//-------------------------------------------------[m
+[31m--	[m
+[31m--	[m
+[31m--[m
+[31m--	//CP_Vector line_11 = CP_Vector_Set(WIDTH / 2, -5);[m
+[31m--	//spawn_pool_assigner(line_11, 80.0f, 50.0f, 30, 103);[m
+[31m--[m
+[31m--	//CP_Vector line_2 = CP_Vector_Set(((WIDTH/3)+50), -5);[m
+[31m--	//spawn_pool_assigner(line_2, 50.0f, 10.0f, 30, 1);[m
+[31m--[m
+[31m--	//CP_Vector line_3 = CP_Vector_Set(((WIDTH / 3) -50), -5);[m
+[31m--	//spawn_pool_assigner(line_3, 50.0f, 50.0f, 30, 1);[m
+[31m--[m
+[31m--	//CP_Vector line_4 = CP_Vector_Set(((WIDTH / 3) + 100), -5);[m
+[31m--	//spawn_pool_assigner(line_4, 50.0f, 10.0f, 30, 1);[m
+[31m--	//[m
+[31m--[m
+[31m--	////second wave[m
+[31m--	//CP_Vector line_5 = CP_Vector_Set(-180, -400);[m
+[31m--	//spawn_pool_assigner(line_5, 20.0f, 100.0f, 50, 5);[m
+[31m--[m
+[31m--	//CP_Vector line_6 = CP_Vector_Set(((WIDTH / 4) + 50), -400);[m
+[31m--	//spawn_pool_assigner(line_6, 50.0f, 1600.0f, 50, 5);[m
+[31m--[m
+[31m--	//CP_Vector line_7 = CP_Vector_Set((WIDTH/4), -400);[m
+[31m--	//spawn_pool_assigner(line_7, 20.0f, 1600.0f, 50, 5);[m
+[31m--[m
+[31m--	//CP_Vector line_8 = CP_Vector_Set(((WIDTH/4) + 100), -400);[m
+[31m--	//spawn_pool_assigner(line_8, 50.0f, 1600.0f, 50, 5);[m
+[31m--[m
+[31m--	////third wave[m
+[31m--	//CP_Vector line_9 = CP_Vector_Set((WIDTH / 2)+150, -400);[m
+[31m--	//spawn_pool_assigner(line_9, 20.0f, 4300.0f, 50, 101);[m
+[31m--[m
+[31m--	//CP_Vector line_10 = CP_Vector_Set(WIDTH / 2, -400);[m
+[31m--	//spawn_pool_assigner(line_10, 20.0f, 4300.0f, 3, 101);[m
+  }[m
+  [m
+  void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type) {[m
+[36m@@@ -499,16 -499,16 +441,6 @@@[m [mvoid initialise_horizontal_line(CP_Vect[m
+  	}[m
+  }[m
+  [m
+[31m--//void initialise_advance_movement(CP_Vector position, int type) {[m
+[31m--//	float ENEMY_SIZE = WIDTH / 25;[m
+[31m--//	for (int i = 0; i < MAX_ENEMY; i++) {[m
+[31m--//		if (enemy_pool[i].alive) continue;[m
+[31m--//		enemy_pool[i] = enemy_set(position, 1, ENEMY_SIZE, type);[m
+[31m--//		//printf("enemy %d position: %f|%f\n", i, enemy_pool[i].position.x, enemy_pool[i].position.y);[m
+[31m--//		break;[m
+[31m--//	}[m
+[31m--//}[m
+[31m--[m
+  //------------------ Enemy Patterns ------------------- (Should run continously in game_update)[m
+  void movement_pattern_vertical_and_diagonal(void) {[m
+  	/*float multiplier;[m
+[1mdiff --cc Skeleton_Party/game.h[m
+[1mindex a12bb77,a12bb77..adeb01b[m
+[1m--- a/Skeleton_Party/game.h[m
+[1m+++ b/Skeleton_Party/game.h[m
+[36m@@@ -21,6 -21,6 +21,8 @@@[m [mextern float tick_p, * tick ; //This i[m
+  #define ENEMY_SIZE_2 10[m
+  #define E1 (CP_Vector_Set(-1, 0))[m
+  #define E2 (CP_Vector_Set(0, 1))[m
+[32m++#define NUM_POSITION_RATIO 0.22f[m
+[32m++enum { SKILLS_BUTTON_WIDTH = 426, SKILLS_BUTTON_HEIGHT = 76 };[m
+  [m
+  #define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)[m
+  #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)[m
+[36m@@@ -124,6 -124,6 +126,24 @@@[m [mstruct mother_enemy [m
+  	float spare2;[m
+  };[m
+  [m
+[32m++typedef struct button {[m
+[32m++	CP_Vector position;[m
+[32m++	CP_Vector num_position;[m
+[32m++	CP_Image image;[m
+[32m++	int state;[m
+[32m++} button;[m
+[32m++[m
+[32m++extern CP_Image Image_num_1;[m
+[32m++extern CP_Image Image_num_2;[m
+[32m++extern CP_Image Image_num_3;[m
+[32m++extern CP_Image Image_num_4;[m
+[32m++extern CP_Image Image_num_5;[m
+[32m++extern CP_Image Image_num_6;[m
+[32m++extern CP_Image Image_num_7;[m
+[32m++extern CP_Image Image_num_8;[m
+[32m++extern CP_Image Image_num_9;[m
+[32m++extern CP_Image Image_num_10;[m
+[32m++[m
+  struct Enemy enemy_pool[MAX_ENEMY];[m
+  struct spawn spawn_pool[MAX_ENEMY];[m
+  struct mother_enemy mother_enemy_pool[MAX_MOTHER_ENEMY];[m
+[36m@@@ -375,6 -375,6 +395,8 @@@[m [mvoid print_charge(CP_Vector position, f[m
+  //void init_enemy();[m
+  void reset_enemy_and_weapon(void);[m
+  [m
+[32m++void skills_num_printer(button current_button);[m
+[32m++[m
+  void player_touch_enemy();[m
+  [m
+  //void enemy_movement();[m
+[1mdiff --cc Skeleton_Party/isaac.c[m
+[1mindex 56cff33,56cff33..b1e1716[m
+[1m--- a/Skeleton_Party/isaac.c[m
+[1m+++ b/Skeleton_Party/isaac.c[m
+[36m@@@ -150,7 -150,7 +150,7 @@@[m [mCP_Image Image_ReztokenSprite = NULL[m
+  [m
+  CP_Image Image_PrepRoom_Empty = NULL;[m
+  CP_Image Image_Upgrade_Empty = NULL;[m
+[31m--CP_Image Image_Skill_Empty = NULL;[m
+[32m++CP_Image Image_Skill_Tree = NULL;[m
+  CP_Image Image_Shop_Empty = NULL;[m
+  [m
+  CP_Image Image_Skill_HeartsOn = NULL;[m
+[36m@@@ -182,11 -182,11 +182,31 @@@[m [mCP_Image Image_Skill_Crit8 = NULL[m
+  CP_Image Image_Skill_Crit9 = NULL;[m
+  CP_Image Image_Skill_Crit10 = NULL;[m
+  [m
+[32m++CP_Image Image_num_1;[m
+[32m++CP_Image Image_num_2;[m
+[32m++CP_Image Image_num_3;[m
+[32m++CP_Image Image_num_4;[m
+[32m++CP_Image Image_num_5;[m
+[32m++CP_Image Image_num_6;[m
+[32m++CP_Image Image_num_7;[m
+[32m++CP_Image Image_num_8;[m
+[32m++CP_Image Image_num_9;[m
+[32m++CP_Image Image_num_10;[m
+  [m
+  //CP_Image Image_Skill_HeartsOff = NULL;[m
+  //CP_Image Image_Skill_AgilitOff = NULL;[m
+  //CP_Image Image_Skill_AtkspeedOff = NULL;[m
+  [m
+[32m++button skill_arrow_charge = {0};[m
+[32m++button skill_arrow_size = { 0 };[m
+[32m++button skill_attack_speed = { 0 };[m
+[32m++button skill_blast_range = { 0 };[m
+[32m++button skill_health = { 0 };[m
+[32m++button skill_movement = { 0 };[m
+[32m++button skill_shrapnels = { 0 };[m
+[32m++button skill_sword_range = { 0 };[m
+[32m++button skill_sword_swing = { 0 };[m
+[32m++button skill_sword_crit = { 0 };[m
+  [m
+  CP_Image Image_Shop_HealOn = NULL;[m
+  CP_Image Image_Shop_DropsOn = NULL;[m
+[36m@@@ -215,6 -215,6 +235,7 @@@[m [mCP_Image Number_Skill_Five = NULL[m
+  CP_Image Number_Skill_Six = NULL;[m
+  CP_Image Number_Skill_Seven = NULL;[m
+  [m
+[32m++float button_spacing = 30.0f + SKILLS_BUTTON_HEIGHT;[m
+  [m
+  [m
+  //Heart sprite settings below[m
+[36m@@@ -504,10 -504,10 +525,6 @@@[m [mstruct Shop_Shockwave [m
+  	float height;[m
+  }Shop_Shockwave;[m
+  [m
+[31m--[m
+[31m--[m
+[31m--[m
+[31m--[m
+  //Heart sprite settings below[m
+  [m
+  //Heart sprite settings above[m
+[36m@@@ -551,7 -551,7 +568,7 @@@[m [mvoid InitializeSkillShopUI(void[m
+  	additionalGold = 1;[m
+  [m
+  	additionalcrit = 0;[m
+[31m--	maxadditionalcrit = 90;[m
+[32m++	maxadditionalcrit = 10;[m
+  	ptr_additionalcrit = &additionalcrit;[m
+  	ptr_Gold = &Gold;[m
+  [m
+[36m@@@ -582,6 -582,6 +599,46 @@@[m
+  	Currency_Sprite.posX = (float)(isaac_width / 2.0);[m
+  	Currency_Sprite.posY = (float)(isaac_height / 2.0);[m
+  [m
+[32m++	skill_health.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_health.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_health.image = CP_Image_Load("./Assets/skilltree/health.png");[m
+[32m++[m
+[32m++	skill_sword_range.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing);[m
+[32m++	skill_sword_range.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_sword_range.image = CP_Image_Load("./Assets/skilltree/sword_range.png");[m
+[32m++[m
+[32m++	skill_shrapnels.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing*2);[m
+[32m++	skill_shrapnels.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_shrapnels.image = CP_Image_Load("./Assets/skilltree/shrapnels.png");[m
+[32m++[m
+[32m++	skill_arrow_size.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing * 3);[m
+[32m++	skill_arrow_size.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_arrow_size.image = CP_Image_Load("./Assets/skilltree/arrow_size.png");[m
+[32m++[m
+[32m++	skill_attack_speed.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f + button_spacing* 4);[m
+[32m++	skill_attack_speed.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_attack_speed.image = CP_Image_Load("./Assets/skilltree/attack_speed.png");[m
+[32m++[m
+[32m++[m
+[32m++	skill_movement.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_movement.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_movement.image = CP_Image_Load("./Assets/skilltree/movement.png");[m
+[32m++[m
+[32m++	skill_sword_swing.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing);[m
+[32m++	skill_sword_swing.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_sword_swing.image = CP_Image_Load("./Assets/skilltree/sword_swing.png");[m
+[32m++[m
+[32m++	skill_blast_range.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing * 2);[m
+[32m++	skill_blast_range.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_blast_range.image = CP_Image_Load("./Assets/skilltree/blast_range.png");[m
+[32m++[m
+[32m++	skill_arrow_charge.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing * 3);[m
+[32m++	skill_arrow_charge.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_arrow_charge.image = CP_Image_Load("./Assets/skilltree/arrow_charge.png");[m
+[32m++[m
+[32m++	skill_sword_crit.position = CP_Vector_Set(WIDTH - 250, HEIGHT / 2 + 10.0f + button_spacing * 4);[m
+[32m++	skill_sword_crit.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);[m
+[32m++	skill_sword_crit.image = CP_Image_Load("./Assets/skilltree/sword_crit.png");[m
+  [m
+  [m
+  	GameOver_Background.enabled = TRUE;[m
+[36m@@@ -649,7 -649,7 +706,7 @@@[m
+  [m
+  	Image_PrepRoom_Empty = CP_Image_Load("./Assets/preproom.png");[m
+  	Image_Upgrade_Empty = CP_Image_Load("./Assets/upgrades.png");[m
+[31m--	Image_Skill_Empty = CP_Image_Load("./Assets/Skill_empty.png");[m
+[32m++	Image_Skill_Tree = CP_Image_Load("./Assets/New_skills_background.png");[m
+  	Image_Shop_Empty = CP_Image_Load("./Assets/Shop_empty.png");[m
+  [m
+  	Image_Skill_HeartsOn = CP_Image_Load("./Assets/skilltree/Skill_heartsOn.png");[m
+[36m@@@ -678,7 -678,7 +735,17 @@@[m
+  	Image_Skill_Crit9 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit9.png");[m
+  	Image_Skill_Crit10 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit10.png");[m
+  [m
+[31m--[m
+[32m++	Image_Skill_CritOn = CP_Image_Load("./Assets/skilltree/Crit/Skill_critOn.png");[m
+[32m++	Image_num_1 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit1.png");[m
+[32m++	Image_num_2 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit2.png");[m
+[32m++	Image_num_3 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit3.png");[m
+[32m++	Image_num_4 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit4.png");[m
+[32m++	Image_num_5 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit5.png");[m
+[32m++	Image_num_6 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit6.png");[m
+[32m++	Image_num_7 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit7.png");[m
+[32m++	Image_num_8 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit8.png");[m
+[32m++	Image_num_9 = CP_Image_Load("./Assets/skilltree/Crit/Skill_crit9.png");[m
+[32m++	Image_num_10 = CP_Image_Load("./Assets/skilltree/Crit/Skil_crit10.png");[m
+  [m
+  	Image_Shop_HealOn = CP_Image_Load("./Assets/Shop_2xhealOn.png");[m
+  	Image_Shop_DropsOn = CP_Image_Load("./Assets/Shop_2xdropsOn.png");[m
+[36m@@@ -1455,18 -1455,18 +1522,30 @@@[m [mvoid Screen_SHOP_Print(void[m
+  [m
+  void Screen_SKILL_Print(void)											//new functuon[m
+  {[m
+[31m--[m
+  	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))[m
+  	{[m
+  		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());[m
+  	}[m
+[31m--	CP_Image_Draw(Image_Skill_Empty, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[32m++	CP_Image_Draw(Image_Skill_Tree, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255); //prints the base background[m
+[32m++[m
+[32m++	CP_Image_Draw(skill_arrow_size.image, skill_arrow_size.position.x, skill_arrow_size.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++	CP_Image_Draw(skill_attack_speed.image, skill_attack_speed.position.x, skill_attack_speed.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++	CP_Image_Draw(skill_blast_range.image, skill_blast_range.position.x, skill_blast_range.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++	CP_Image_Draw(skill_health.image, skill_health.position.x, skill_health.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++	CP_Image_Draw(skill_movement.image, skill_movement.position.x, skill_movement.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++	CP_Image_Draw(skill_shrapnels.image, skill_shrapnels.position.x, skill_shrapnels.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++	CP_Image_Draw(skill_sword_range.image, skill_sword_range.position.x, skill_sword_range.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++	CP_Image_Draw(skill_sword_swing.image, skill_sword_swing.position.x, skill_sword_swing.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++	CP_Image_Draw(skill_arrow_charge.image, skill_arrow_charge.position.x, skill_arrow_charge.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++	CP_Image_Draw(skill_sword_crit.image, skill_sword_crit.position.x, skill_sword_crit.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++[m
+[32m++[m
+  [m
+  	CP_Graphics_ClearBackground(COLOR_BLACK);[m
+  [m
+  	switch (additionalhp) {[m
+  		case 0:[m
+[31m--			CP_Image_Draw(Image_Skill_HeartsOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[32m++			//CP_Image_Draw(Image_Skill_HeartsOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+  			break;[m
+  		case 1:[m
+  			CP_Image_Draw(Image_Skill_HeartsOn1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[36m@@@ -1514,64 -1514,64 +1593,45 @@@[m
+  		//CP_Image_Draw(Image_Skill_AgilitOn5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);[m
+  			break;[m
+  	}[m
+[31m--[m
+[31m--	switch (additionalcrit) {[m
+[32m++	//skills_num_printer(button current_button);[m
+[32m++	/*switch (additionalcrit) {[m
+  	case 0:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+  		break;[m
+[31m--	case 10:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--[m
+[31m--		CP_Image_Draw(Image_Skill_Crit1, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[32m++	case 1:[m
+[32m++		CP_Image_Draw(Image_num_1, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+  		break;[m
+[31m--	case 20:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--[m
+[31m--		CP_Image_Draw(Image_Skill_Crit2, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--[m
+[32m++	case 2:[m
+[32m++		CP_Image_Draw(Image_num_2, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+  		break;[m
+[31m--	case 30:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--[m
+[31m--		CP_Image_Draw(Image_Skill_Crit3, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--[m
+[32m++	case 3:[m
+[32m++		CP_Image_Draw(Image_num_3, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+  		break;[m
+[31m--	case 40:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--[m
+[31m--		CP_Image_Draw(Image_Skill_Crit4, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[32m++	case 4:[m
+[32m++		CP_Image_Draw(Image_num_4, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+  		break;[m
+  [m
+[31m--	case 50:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--[m
+[31m--		CP_Image_Draw(Image_Skill_Crit5, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[32m++	case 5:[m
+[32m++		CP_Image_Draw(Image_num_5, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+  		break;[m
+  [m
+[31m--	case 60:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--		CP_Image_Draw(Image_Skill_Crit6, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[32m++	case 6:[m
+[32m++		CP_Image_Draw(Image_num_6, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+  		break;[m
+[31m--	case 70:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--		CP_Image_Draw(Image_Skill_Crit7, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[32m++	case 7:[m
+[32m++		CP_Image_Draw(Image_num_7, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+  		break;[m
+[31m--	case 80:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[31m--		CP_Image_Draw(Image_Skill_Crit8, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255);[m
+[32m++	case 8:[m
+[32m++		CP_Image_Draw(Image_num_8, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++		break;[m
+[32m++	case 9: [m
+[32m++		CP_Image_Draw(Image_num_9, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+  		break;[m
+[31m--[m
+  	default:[m
+[31m--		CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);[m
+[31m--		CP_Image_Draw(Image_Skill_Crit9, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);[m
+[32m++		CP_Image_Draw(Image_num_10, skill_sword_crit.position.x + num_position_x, skill_sword_crit.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+  		break;[m
+[32m++	}*/[m
+  [m
+[31m--	//default:[m
+[31m--		//CP_Image_Draw(Image_Skill_CritOn, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);[m
+[31m--[m
+[31m--		//CP_Image_Draw(Image_Skill_Crit10, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 100);[m
+[31m--		//break;[m
+[31m--	}[m
+[32m++	skills_num_printer(skill_sword_crit);[m
+  [m
+  	CP_Settings_TextSize(100);[m
+  	CP_Settings_Fill(COLOR_WHITE);[m
+[36m@@@ -2056,23 -2056,23 +2116,17 @@@[m [mvoid Screen_SKILL_ButtonClicked(void[m
+  	{[m
+  		float mousePosX = CP_Input_GetMouseX();[m
+  		float mousePosY = CP_Input_GetMouseY();[m
+[31m--		//printf("%f", mousePosX);[m
+[31m--		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))[m
+[31m--		//{[m
+[32m++		CP_Vector mouse = CP_Vector_Set(mousePosX, mousePosY);[m
+[32m++		CP_Vector vec1 = CP_Vector_Set(SKILLS_BUTTON_WIDTH, 0);[m
+[32m++		CP_Vector vec2 = CP_Vector_Set(0, SKILLS_BUTTON_HEIGHT);[m
+  		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 767.0, 28.0, 924.0, 153.0))[m
+  		{[m
+[31m--			//menu.enabled = FALSE;[m
+[31m--			//CP_Graphics_ClearBackground(COLOR_GRAY);[m
+[31m--			//gameState = PLAYING;[m
+  			printf("button pressed back \n");[m
+  			gameState = UPGRADES;[m
+  		}[m
+  [m
+  		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))[m
+  		{[m
+[31m--			//menu.enabled = FALSE;[m
+[31m--			//CP_Graphics_ClearBackground(COLOR_GRAY);[m
+[31m--			//gameState = PLAYING;[m
+  			printf("button pressed hearts\n");[m
+  			if (Exp > 0)[m
+  			{[m
+[36m@@@ -2080,14 -2080,14 +2134,10 @@@[m
+  				{[m
+  					Exp -= 1;[m
+  					additionalhp++;[m
+[31m--					//printf("hpadded %d" ,additionalhp);[m
+  					p1.set(&p1, 3 + additionalhp);[m
+[31m--					// minus exp[m
+  				}[m
+  				else[m
+  				{[m
+[31m--					//printf("max rhp eached ");[m
+[31m--[m
+  					Skill_HeartsButton.enabled = FALSE;[m
+  				}[m
+  			}[m
+[36m@@@ -2095,10 -2095,10 +2145,6 @@@[m
+  		}[m
+  		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 683.0, 480.0, 811.0))[m
+  		{[m
+[31m--			//menu.enabled = FALSE;[m
+[31m--			//CP_Graphics_ClearBackground(COLOR_GRAY);[m
+[31m--			//gameState = PLAYING;[m
+[31m--			printf("button pressed agility\n");[m
+  			if (Exp > 0)[m
+  			{[m
+  				if (additionalspeed < maxadditionalspeed)[m
+[36m@@@ -2114,112 -2114,112 +2160,64 @@@[m
+  					Skill_AgilityButton.enabled = FALSE;[m
+  				}[m
+  			}[m
+[31m--			[m
+[31m--[m
+[31m--[m
+  		}[m
+  		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 832.0, 480.0, 958.0))[m
+  		{[m
+[31m--			//menu.enabled = FALSE;[m
+[31m--			//CP_Graphics_ClearBackground(COLOR_GRAY);[m
+[31m--			//gameState = PLAYING;[m
+[31m--			printf("button pressed atkspeed\n");[m
+  			if (Exp > 0)[m
+  			{[m
+[31m--				if (additionalcrit < maxadditionalcrit)[m
+[32m++				if (skill_sword_crit.state < maxadditionalcrit)[m
+  				{[m
+  					Exp -= 1;[m
+[31m--					additionalcrit += 10; // or 20 increment ? [m
+[32m++					skill_sword_crit.state++;[m
+  					//knight.speed += additionalspeed;[m
+  					//mage.speed += additionalspeed;[m
+  					//archer.speed += additionalspeed;[m
+  				}[m
+[31m--				else[m
+[31m--				{[m
+[31m--					Skill_CritButton.enabled = FALSE;[m
+[32m++			}[m
+[32m++		}[m
+[32m++		if (rect_collision(mouse, skill_sword_crit.position, vec1, vec2, 1)) {[m
+[32m++			if (Exp > 0) {[m
+[32m++				if (skill_sword_crit.state < maxadditionalcrit) {[m
+[32m++					Exp--;[m
+[32m++					skill_sword_crit.state++;[m
+  				}[m
+  			}[m
+  		}[m
+[31m--[m
+  	}[m
+  [m
+[31m--	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2))[m
+[31m--	{[m
+[32m++	if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {[m
+  		// sell skills and refund exp to player [m
+  		float mousePosX = CP_Input_GetMouseX();[m
+  		float mousePosY = CP_Input_GetMouseY();[m
+  		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))[m
+  		{[m
+[31m--			//menu.enabled = FALSE;[m
+[31m--			//CP_Graphics_ClearBackground(COLOR_GRAY);[m
+[31m--			//gameState = PLAYING;[m
+[31m--			printf("button pressed sell hearts\n");[m
+[31m--			//if (Exp > 0)[m
+[31m--			//{[m
+  			if (additionalhp != 0)[m
+  			{[m
+  				Skill_HeartsButton.enabled = TRUE;[m
+  				Exp += 1;[m
+  				additionalhp--;[m
+[31m--				//printf("hpadded %d" ,additionalhp);[m
+  				p1.set(&p1, 3 + additionalhp);[m
+[31m--				// minus exp[m
+  			}[m
+[31m--			//else[m
+[31m--			//{[m
+[31m--				//printf("max rhp eached ");[m
+[31m--			//[m
+[31m--				//Skill_HeartsButton.enabled = FALSE;[m
+[31m--		//	}[m
+[31m--		//}[m
+[31m--[m
+  		}[m
+  		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 683.0, 480.0, 811.0))[m
+  		{[m
+[31m--			//menu.enabled = FALSE;[m
+[31m--			//CP_Graphics_ClearBackground(COLOR_GRAY);[m
+[31m--			//gameState = PLAYING;[m
+[31m--			printf("button pressed sell agility\n");[m
+[31m--			//if (Exp > 0)[m
+[31m--			//{[m
+[31m--[m
+[31m--[m
+  			if (additionalspeed != 0)[m
+  			{[m
+  				Skill_AgilityButton.enabled = TRUE;[m
+  				Exp += 1;[m
+[31m--				additionalspeed -= 20; // or 20 increment ? [m
+[32m++				additionalspeed -= 20;[m
+  				knight.speed -= additionalspeed;[m
+[31m--				//mage.speed += additionalspeed;[m
+[31m--				//archer.speed += additionalspeed;[m
+  			}[m
+[31m--			//else[m
+[31m--			//{[m
+[31m--				//Skill_AgilityButton.enabled = FALSE;[m
+[31m--			//}[m
+[31m--		//}[m
+  		}[m
+  		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 832.0, 480.0, 958.0))[m
+  		{[m
+[31m--			//menu.enabled = FALSE;[m
+[31m--			//CP_Graphics_ClearBackground(COLOR_GRAY);[m
+[31m--			//gameState = PLAYING;[m
+[31m--			printf("button pressed crit\n");[m
+[31m--			//if (Exp > 0)[m
+[31m--			//{[m
+[31m--				if (additionalcrit != 0)[m
+[31m--				{[m
+[31m--					Skill_CritButton.enabled = TRUE;[m
+[32m++			if (skill_sword_crit.state != 0)[m
+[32m++			{[m
+[32m++				Skill_CritButton.enabled = TRUE;[m
+  [m
+[31m--					Exp += 1;[m
+[31m--					additionalcrit -= 10; [m
+[31m--					[m
+[31m--				}[m
+[31m--				else[m
+[31m--				{[m
+[31m--					Skill_CritButton.enabled = FALSE;[m
+[31m--				}[m
+[31m--			//}[m
+[32m++				Exp += 1;[m
+[32m++				skill_sword_crit.state--;	[m
+[32m++			}[m
+  		}[m
+  	}[m
+  }[m
+[36m@@@ -2312,7 -2312,7 +2310,7 @@@[m [mvoid exit_skilltreepictures(void[m
+  [m
+  	CP_Image_Free(&Image_PrepRoom_Empty);[m
+  	CP_Image_Free(&Image_Upgrade_Empty);[m
+[31m--	CP_Image_Free(&Image_Skill_Empty);[m
+[32m++	CP_Image_Free(&Image_Skill_Tree);[m
+  	CP_Image_Free(&Image_Shop_Empty);[m
+  [m
+  	CP_Image_Free(&Image_Skill_HeartsOn);[m
+[1mdiff --cc Skeleton_Party/jazz.c[m
+[1mindex 6b05d9a,6b05d9a..92dea83[m
+[1m--- a/Skeleton_Party/jazz.c[m
+[1m+++ b/Skeleton_Party/jazz.c[m
+[36m@@@ -409,7 -409,7 +409,32 @@@[m [mint rect_collision(CP_Vector enemy1, CP[m
+  	}[m
+  	else return 0;[m
+  }[m
+[31m--[m
+[32m++//[m
+[32m++//int rect_collision(CP_Vector mouse, CP_Vector button, float x, float y, float enemy_radius) {[m
+[32m++//	//Following the formula drawn on the iPad[m
+[32m++//	CP_Vector half_vec1 = CP_Vector_Scale(vec1, 0.5f);[m
+[32m++//	CP_Vector half_vec2 = CP_Vector_Scale(vec2, 0.5f);[m
+[32m++//[m
+[32m++//	CP_Vector weapon_center = CP_Vector_Add(CP_Vector_Subtract(position, half_vec1), half_vec2);[m
+[32m++//	CP_Vector weapon_to_enemy = CP_Vector_Subtract(enemy1, weapon_center);[m
+[32m++//[m
+[32m++//	CP_Vector normalised_vec1 = CP_Vector_Normalize(half_vec1);[m
+[32m++//	float vec1_dot_product = CP_Vector_DotProduct(weapon_to_enemy, normalised_vec1);[m
+[32m++//	if (vec1_dot_product < 0) vec1_dot_product *= -1;[m
+[32m++//[m
+[32m++//	if (!(vec1_dot_product <= CP_Vector_Length(half_vec1) + enemy_radius)) return 0;[m
+[32m++//[m
+[32m++//	CP_Vector normalised_vec2 = CP_Vector_Normalize(half_vec2);[m
+[32m++//	float vec2_dot_product = CP_Vector_DotProduct(weapon_to_enemy, normalised_vec2);[m
+[32m++//	if (vec2_dot_product < 0) vec2_dot_product *= -1;[m
+[32m++//[m
+[32m++//	if (vec2_dot_product <= CP_Vector_Length(half_vec2) + enemy_radius) {[m
+[32m++//		//This is when collision happens![m
+[32m++//		play_swordHit();[m
+[32m++//		return 1;[m
+[32m++//	}[m
+[32m++//	else return 0;[m
+[32m++//}[m
+  [m
+  CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector) {[m
+  	CP_Vector vector = CP_Vector_Scale(unit_vector, scalar);[m
+[36m@@@ -856,19 -856,19 +881,59 @@@[m [mvoid print_piercing_bullet(void) [m
+  void reset_enemy_and_weapon(void) {[m
+  	//enemy_pool[m
+  	printf("resets enemy and weapon!!!\n");[m
+[31m--	memset(enemy_pool, '0', sizeof(enemy_pool));[m
+[31m--	memset(spawn_pool, '0', sizeof(spawn_pool));[m
+[31m--	memset(mother_enemy_pool, '0', sizeof(mother_enemy_pool));[m
+[31m--[m
+[31m--	memset(bullet_pool, '0', sizeof(bullet_pool));[m
+[31m--	memset(explosion_pool, '0', sizeof(explosion_pool));[m
+[31m--	memset(shrapnel_pool, '0', sizeof(shrapnel_pool));[m
+[31m--	memset(sword_explosion_pool, '0', sizeof(sword_explosion_pool));[m
+[31m--	memset(piercing_bullet_pool, '0', sizeof(piercing_bullet_pool));[m
+[31m--[m
+[31m--	memset(charge_pool, '0', sizeof(charge_pool));[m
+[31m--	memset(explosion_radius_pool, '0', sizeof(explosion_radius_pool));[m
+[31m--	memset(sword_explosion_radius_pool, '0', sizeof(sword_explosion_radius_pool));[m
+[31m--[m
+[31m--	memset(item_pool, '0', sizeof(item_pool));[m
+[31m--}[m
+[32m++	memset(enemy_pool, 0, sizeof(enemy_pool));[m
+[32m++	memset(spawn_pool, 0, sizeof(spawn_pool));[m
+[32m++	memset(mother_enemy_pool, 0, sizeof(mother_enemy_pool));[m
+[32m++[m
+[32m++	memset(bullet_pool, 0, sizeof(bullet_pool));[m
+[32m++	memset(explosion_pool, 0, sizeof(explosion_pool));[m
+[32m++	memset(shrapnel_pool, 0, sizeof(shrapnel_pool));[m
+[32m++	memset(sword_explosion_pool, 0, sizeof(sword_explosion_pool));[m
+[32m++	memset(piercing_bullet_pool, 0, sizeof(piercing_bullet_pool));[m
+[32m++[m
+[32m++	memset(charge_pool, 0, sizeof(charge_pool));[m
+[32m++	memset(explosion_radius_pool, 0, sizeof(explosion_radius_pool));[m
+[32m++	memset(sword_explosion_radius_pool, 0, sizeof(sword_explosion_radius_pool));[m
+[32m++[m
+[32m++	memset(item_pool, 0, sizeof(item_pool));[m
+[32m++}[m
+[32m++[m
+[32m++[m
+[32m++float num_position_x = SKILLS_BUTTON_WIDTH * ((0.5f - NUM_POSITION_RATIO) / 2 + NUM_POSITION_RATIO);[m
+[32m++[m
+[32m++void skills_num_printer(button current_button) {[m
+[32m++	switch (current_button.state) {[m
+[32m++		case 0:[m
+[32m++			break;[m
+[32m++		case 1:[m
+[32m++			CP_Image_Draw(Image_num_1, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++		case 2:[m
+[32m++			CP_Image_Draw(Image_num_2, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++		case 3:[m
+[32m++			CP_Image_Draw(Image_num_3, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++		case 4:[m
+[32m++			CP_Image_Draw(Image_num_4, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++		case 5:[m
+[32m++			CP_Image_Draw(Image_num_5, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++		case 6:[m
+[32m++			CP_Image_Draw(Image_num_6, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++		case 7:[m
+[32m++			CP_Image_Draw(Image_num_7, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++		case 8:[m
+[32m++			CP_Image_Draw(Image_num_8, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++		case 9:[m
+[32m++			CP_Image_Draw(Image_num_9, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++		default:[m
+[32m++			CP_Image_Draw(Image_num_10, current_button.position.x + num_position_x, current_button.position.y, SKILLS_BUTTON_HEIGHT, SKILLS_BUTTON_HEIGHT, 255);[m
+[32m++			break;[m
+[32m++	}[m
+[32m++}[m
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit1.png[m
+[1mindex 55f299c,55f299c..07e8aa6[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit10.png[m
+[1mindex 488c40f,488c40f..d6cbfaf[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit2.png[m
+[1mindex 5afdaed,5afdaed..2354971[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit3.png[m
+[1mindex 160e455,160e455..4623901[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit4.png[m
+[1mindex ec4313e,ec4313e..208d9d0[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit5.png[m
+[1mindex 8b68c65,8b68c65..bc4e385[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit6.png[m
+[1mindex 3b6209a,3b6209a..9989403[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit7.png[m
+[1mindex 8b13782,8b13782..0f310e6[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit8.png[m
+[1mindex 6365112,6365112..4bd335b[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Assets/skilltree/Crit/Skill_crit9.png[m
+[1mindex f468178,f468178..dc4d8ad[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Processi.14B654ED.tlog/CL.command.1.tlog[m
+[1mindex 325af8e,325af8e..b844b1f[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Processi.14B654ED.tlog/CL.read.1.tlog[m
+[1mindex 12dd1e4,12dd1e4..9591cd0[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Processi.14B654ED.tlog/Processing_Sample.lastbuildstate[m
+[1mindex 6f3ffc5,6f3ffc5..0ea9688[m
+[1m--- a/Skeleton_Party/x64/Debug/Processi.14B654ED.tlog/Processing_Sample.lastbuildstate[m
+[1m+++ b/Skeleton_Party/x64/Debug/Processi.14B654ED.tlog/Processing_Sample.lastbuildstate[m
+[36m@@@ -1,2 -1,2 +1,2 @@@[m
+[31m--PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.29.30133:VCServicingVersionATL=14.29.30136:VCServicingVersionCrtHeaders=14.29.30136:VCServicingVersionCompilers=14.29.30136:TargetPlatformVersion=10.0.19041.0:[m
+[31m--Debug|x64|C:\Users\user\Desktop\Skeleton-Party\Skeleton_Party\|[m
+[32m++PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.29.30133:TargetPlatformVersion=10.0.19041.0:[m
+[32m++Debug|x64|C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\|[m
+[1mdiff --cc Skeleton_Party/x64/Debug/Processi.14B654ED.tlog/link.read.1.tlog[m
+[1mindex 65847f1,65847f1..0414372[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Processi.14B654ED.tlog/link.write.1.tlog[m
+[1mindex b699107,b699107..3058fb2[m
+Binary files differ
+[1mdiff --cc Skeleton_Party/x64/Debug/Processing_Sample.exe.recipe[m
+[1mindex 133aa1f,133aa1f..13fec22[m
+[1m--- a/Skeleton_Party/x64/Debug/Processing_Sample.exe.recipe[m
+[1m+++ b/Skeleton_Party/x64/Debug/Processing_Sample.exe.recipe[m
+[36m@@@ -2,7 -2,7 +2,7 @@@[m
+  <Project>[m
+    <ProjectOutputs>[m
+      <ProjectOutput>[m
+[31m--      <FullPath>C:\Users\user\Desktop\Skeleton-Party\Skeleton_Party\x64\Debug\Processing_Sample.exe</FullPath>[m
+[32m++      <FullPath>C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\x64\Debug\Processing_Sample.exe</FullPath>[m
+      </ProjectOutput>[m
+    </ProjectOutputs>[m
+    <ContentFiles />[m
+[1mdiff --cc Skeleton_Party/x64/Debug/Processing_Sample.log[m
+[1mindex 37ddf04,37ddf04..8c197d4[m
+[1m--- a/Skeleton_Party/x64/Debug/Processing_Sample.log[m
+[1m+++ b/Skeleton_Party/x64/Debug/Processing_Sample.log[m
+[36m@@@ -1,12 -1,12 +1,5 @@@[m
+[31m--﻿  Enemy_array.c[m
+[31m--  game.c[m
+[31m--  isaac.c[m
+[31m--  jazz.c[m
+[31m--  keith.c[m
+[31m--  main.c[m
+[31m--  qh.c[m
+[31m--  yithon.c[m
+[31m--  Processing_Sample.vcxproj -> C:\Users\user\Desktop\Skeleton-Party\Skeleton_Party\x64\Debug\Processing_Sample.exe[m
+[32m++﻿  jazz.c[m
+[32m++  Processing_Sample.vcxproj -> C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\x64\Debug\Processing_Sample.exe[m
+    1 File(s) copied[m
+    1 File(s) copied[m
+[31m--  152 File(s) copied[m
+[32m++  164 File(s) copied[m

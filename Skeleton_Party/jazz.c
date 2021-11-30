@@ -828,7 +828,9 @@ void update_piercing_bullet_travel(void) {
 		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
 			piercing_bullet_pool[i] = enemy_moving_up_down_left_right(piercing_bullet_pool[i], PIERCING_BULLET_SPEED, UP); //update it's position
 
-			if (piercing_bullet_pool[i].x < -HEIGHT/2) piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
+			if (piercing_bullet_pool[i].x < -HEIGHT / 2) {
+				piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
+			}
 		}
 	}
 	print_piercing_bullet();
@@ -946,3 +948,27 @@ void buy_skill(button* current_button, CP_Vector mouse, int max_upgrade) {
 	}
 }
 
+
+void skill_description_printer(void) {
+	CP_Vector mouse = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+
+	CP_Settings_TextSize(20);
+	CP_Settings_Fill(COLOR_GOLD);
+	CP_Font_Set(CP_Font_GetDefault());
+
+	float printing_location_x = mouse.x + 30;
+	float printing_location_y = mouse.y - 30;
+
+	if (mouse.x + SKILLS_BUTTON_WIDTH / 2 > WIDTH) printing_location_x = mouse.x - 30 - SKILLS_BUTTON_WIDTH / 2;
+
+	if (button_collision(mouse, skill_arrow_charge.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_arrow_charge.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+	if (button_collision(mouse, skill_arrow_size.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_arrow_size.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+	if (button_collision(mouse, skill_attack_speed.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_attack_speed.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+	if (button_collision(mouse, skill_blast_range.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_blast_range.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+	if (button_collision(mouse, skill_health.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_health.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+	if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_movement.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+	if (button_collision(mouse, skill_shrapnels.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_shrapnels.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+	if (button_collision(mouse, skill_sword_range.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_sword_range.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+	if (button_collision(mouse, skill_sword_swing.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_sword_swing.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+	if (button_collision(mouse, skill_sword_crit.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) CP_Font_DrawTextBox(skill_sword_crit.description, printing_location_x, printing_location_y, SKILLS_BUTTON_WIDTH / 2);
+}

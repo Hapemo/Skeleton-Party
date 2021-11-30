@@ -31,6 +31,7 @@ enum { SKILLS_BUTTON_WIDTH = 426, SKILLS_BUTTON_HEIGHT = 76 };
 #define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
 #define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 #define COLOR_PURPLE CP_Color_Create(128,0,128, 255)
+#define COLOR_GOLD CP_Color_Create(232, 209, 81, 255)
 #define pueple CP_Color_Create(255, 0, 0, 255)
 #define darkviolet CP_Color_Create(148, 0, 211, 255)
 
@@ -131,6 +132,7 @@ typedef struct button {
 	CP_Vector num_position;
 	CP_Image image;
 	int state;
+	const char* description;
 } button;
 
 extern CP_Image Image_num_1;
@@ -415,6 +417,8 @@ int button_collision(CP_Vector mouse, CP_Vector button, float x, float y);
 void refund_skill(button* current_button, CP_Vector mouse);
 
 void buy_skill(button* current_button, CP_Vector mouse, int max_upgrade);
+
+void skill_description_printer(void);
 
 void player_touch_enemy();
 
