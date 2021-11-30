@@ -931,6 +931,7 @@ void refund_skill(button* current_button, CP_Vector mouse) {
 		if (button_collision(mouse, current_button -> position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
 			Exp++;
 			current_button -> state--;
+			play_click();
 		}
 	}
 }
@@ -940,6 +941,7 @@ void buy_skill(button* current_button, CP_Vector mouse, int max_upgrade) {
 		if (button_collision(mouse, current_button -> position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
 			Exp--;
 			current_button -> state++;
+			play_coins();
 		}
 	}
 }
