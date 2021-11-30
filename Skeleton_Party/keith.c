@@ -23,6 +23,7 @@
 #define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
 
+
 CP_Image instructionScreen  = NULL;
 CP_Image gameBackground = NULL;
 CP_Image playButtonImage = NULL;
@@ -182,7 +183,7 @@ void LoadBackgroundImage(int level)
 
 void LoadFont()
 {
-	myFont = CP_Font_GetDefault();
+	myFont = CP_Font_Load("./Assets/Font/BikerBones.ttf");
 }
 
 BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2)
@@ -338,7 +339,7 @@ void DrawLogoScreen()
 
 void DrawMenuButton()
 {
-	CP_Font_Set(myFont);
+	
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
 	CP_Settings_Fill(COLOR_GRAY);
@@ -536,6 +537,41 @@ void ButtonLevelSelectionClicked()
 	}
 }
 
+void DrawObjectiveText()
+{
+	static float timer = 3.0f;
+	
+
+	
+
+	if (timer > 0)
+	{
+		timer -= CP_System_GetDt();
+		CP_Color fade = CP_Color_Create(255, 255, 255, (int)(255 * timer));
+		CP_Settings_Fill(fade);
+
+		float width = (float)CP_System_GetWindowWidth();
+		float height = (float)CP_System_GetWindowHeight();
+		CP_Font_Set(myFont);
+		CP_Settings_TextSize(75);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_BASELINE);
+
+		char levelText[] = "Level 1\n";
+		levelText[6] = (currentLevel % 4) + '0';
+		CP_Font_DrawTextBox(levelText, width /6.5f, height / 10, (float)strlen(levelText) * 75);
+		CP_Settings_TextSize(50);
+		char objectiveText[] = "Objective:\nSurvive Waves Of Enemy";
+		CP_Font_DrawTextBox(objectiveText, -width /2.5f, height / 6, (float)strlen(objectiveText) * 50);
+		
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE);
+	
+
+
+
+	}
+	
+	
+}
 
 
 void ButtonClicked()

@@ -205,6 +205,7 @@ void exit_PlayerHP(void);
 //void UpdateEnemyMovement(void);
 //void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
+void DrawObjectiveText();
 float winning_condition;
 void DrawBuffIndicator();
 void ButtonLevelSelectionClicked();

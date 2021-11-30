@@ -252,6 +252,7 @@ void PlayGame()
 		gameState = PAUSED;
 	}
 	DrawGameCanvas();
+
 	DrawBuffIndicator();
 	if (CP_Input_KeyTriggered(KEY_1))
 	{
@@ -322,7 +323,9 @@ void PlayGame()
 
 	ScorePrinter(revivetoken, 695, 145);
 
-	Screen_Currency_Print();
+	Screen_Currency_Print();	
+	
+	DrawObjectiveText();
 	WinCondition();
 	
 
