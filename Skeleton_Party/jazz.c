@@ -19,7 +19,7 @@
 #include "cprocessing.h"
 #include "game.h"
 
-#define SWORD_CRIT_CHANCE 10
+#define SWORD_CRIT_CHANCE 90
 
 //These variables are for melee attacks, for function 'melee_attack' and 'activate_melee_by_mouse'
 int first_time = 1, * pfirst_time = &first_time; //First time running the function
@@ -28,10 +28,13 @@ int melee_anticlockwise = TRUE; //clockwise or anti clockwise melee
 int melee_speed = 10; //speed of melee animation
 int melee_angle_upgrade = 0; //angle upgrade for melee
 int melee_max_angle = 90; //starting melee angle
-float sword_width = WIDTH / 8;
-float sword_length = HEIGHT / 50;
+float base_sword_width = WIDTH / 8;
+float base_sword_length = HEIGHT / 50;
+float sword_width;
+float sword_length;
 int sword_cooldown = 0;
-int sword_attack_speed = 60/2;
+float base_sword_attack_speed = 60 / 2;
+float sword_attack_speed;
 
 int melee_or_not = 0, * pmelee_or_not = &melee_or_not; //Determine if should melee or not
 CP_Vector melee_position; //Position of where the melee animation happens
@@ -52,7 +55,8 @@ float sword_explosion_speed = 15, max_sword_explosion_radius = 200;
 #define MAX_BULLET (20)
 #define BULLET_SIZE (WIDTH / 50)
 CP_Vector bullet_pool[MAX_BULLET] = { 0 };
-int fireball_attack_speed = 60 / 4;
+float base_fireball_attack_speed = 60 / 4;
+float fireball_attack_speed;
 int fireball_cooldown = 0;
 
 
@@ -61,7 +65,7 @@ int fireball_cooldown = 0;
 #define MAX_EXPLOSION (100)
 CP_Vector explosion_pool[MAX_EXPLOSION] = { 0 };
 float explosion_radius_pool[MAX_EXPLOSION] = { 0 };
-float explosion_speed = 10, max_explosion_radius = 100;
+float explosion_speed = 10, max_explosion_radius = 50;
 
 //-------------------------------------------------------
 //Shrapnel
@@ -74,7 +78,7 @@ typedef struct sharpnel_item {
 } sharpnel_item;
 
 #define MAX_SHRAPNEL (50)
-float max_shrapnels = 5;
+int max_shrapnels;
 sharpnel_item shrapnel_pool[MAX_SHRAPNEL] = { 0 };
 
 
@@ -88,19 +92,20 @@ sharpnel_item shrapnel_pool[MAX_SHRAPNEL] = { 0 };
 #define PIERCING_BULLET_SPEED 25.0f
 CP_Vector piercing_bullet_pool[MAX_BULLET] = { 0 };
 
-#define MAX_CHARGE (50.0f)
 #define MAX_CHARGE_POOL (20)
-float piercing_charge = 0, max_piercing_charge = 500.0f, charge_pool[MAX_CHARGE_POOL] = { 0 }, increase_charge = 1;
+float MAX_CHARGE, base_max_charge = 50.0f;
+float piercing_charge = 0, charge_pool[MAX_CHARGE_POOL] = { 0 }, increase_charge = 1;
 
 //-------------------------------------------------------
 //Skill upgrades
-float max_arrow_charge = 10; //increase_charge
+//float max_arrow_charge = 10; //just increase by 0.5 every upgrade
 float max_arrow_size = 150; //define max_charge
-float max_attack_speed = 15; //fireball attackspeed and sword attack speed
-float max_blast_range = 300; //max explosion radius
-float max_shrapnels_upgrade = 14; //max shrapnels just ++
-float max_sword_range = 0;//just multiple by 1.1 each time, upgrade would be the power to
-float max_sword_swing = 0;
+//float max_attack_speed = 0; //Just times 0.9 for each upgrade
+float max_explosion_radius_upgrade = 200; //max explosion radius
+//float max_shrapnels_upgrade = 0; //max shrapnels just ++
+//float max_sword_range = 0;//just multiple by 1.1 each time, upgrade would be the power to
+//float max_sword_swing = 0;//add 10 degrees each upgrade
+//float max_sword_crit = 0;//just add 5% more crit to each
 
 
 
@@ -118,6 +123,8 @@ void melee_attack(CP_Vector position) {
 		melee_max_angle += (int)melee_start_angle + 2 * melee_angle_upgrade;
 		melee_angle = melee_start_angle;
 	}
+
+	
 
 	//This determines the speed of the rectangle swinging. **Beware, it skips some areas, so might not hit enemies that are too small**
 	melee_angle += melee_speed;
@@ -142,12 +149,11 @@ void melee_attack(CP_Vector position) {
 			if (rect_collision(mother_enemy_pool[j].children[k].position, position, vec1, vec2, mother_enemy_pool[j].children[k].size)) killed = 1;
 			if (killed) {
 				*pcollide = 1;
-				shockwavestate = 1;
 				if (shockwavestate) {
 					play_crit();
 					printf("explosion is activated");
-					unsigned int random_int = CP_Random_RangeInt(0, 100);
-					if (random_int < SWORD_CRIT_CHANCE ) sword_explosion(mother_enemy_pool[j].children[k].position);
+					unsigned int random_int = CP_Random_RangeInt(0, 100) + 5 * skill_sword_crit.state;
+					if (random_int > SWORD_CRIT_CHANCE ) sword_explosion(mother_enemy_pool[j].children[k].position);
 				}
 				mother_enemy_pool[j].children[k].alive = 0;
 				DropStuffs(mother_enemy_pool[j].children[k].position);
@@ -168,8 +174,10 @@ void melee_attack(CP_Vector position) {
 			if (shockwavestate) {
 				play_crit();
 				printf("explosion is activated");
-				unsigned int random_int = CP_Random_RangeInt(0, 100);
-				if (random_int < SWORD_CRIT_CHANCE ) sword_explosion(enemy_pool[j].position);
+				unsigned int random_int = CP_Random_RangeInt(0, 100) + 5 * skill_sword_crit.state;
+				if (random_int > SWORD_CRIT_CHANCE) {
+					sword_explosion(enemy_pool[j].position);
+				}
 			}
 			DropStuffs(enemy_pool[j].position);
 			enemy_pool[j].alive = 0;
@@ -414,6 +422,11 @@ CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector) {
 }
 
 void initiate_melee(void) {
+	sword_width = base_sword_width*powf(1.1f, (float)skill_sword_range.state);
+	sword_length = base_sword_length * powf(1.1f, (float)skill_sword_range.state);
+
+	sword_attack_speed = base_sword_attack_speed * powf(0.9f, (float)skill_attack_speed.state);
+
 	if (sword_cooldown++ < sword_attack_speed) return;
 	if (CP_Input_KeyTriggered(KEY_SPACE)) {
 		*pmelee_or_not = 1;
@@ -550,7 +563,7 @@ int out_of_screen(CP_Vector sprite_position) {
 }
 
 void shooting_check(CP_Vector position) {
-
+	fireball_attack_speed = base_fireball_attack_speed * powf(0.9f, (float)skill_attack_speed.state);
 	if (fireball_cooldown++ < fireball_attack_speed) {
 		print_cooldown(position, 1);
 	} else if (CP_Input_KeyDown(KEY_SPACE)) {
@@ -636,7 +649,7 @@ void explosion_update(void) {
 			explosion_radius_pool[i] += explosion_speed; //Increase radius of explosion each frame
 		}
 
-		if (explosion_radius_pool[i] >= max_explosion_radius) {
+		if (explosion_radius_pool[i] >= max_explosion_radius + ((max_explosion_radius_upgrade - max_explosion_radius)*skill_blast_range.state/ max_skill_upgrade)) {
 			explosion_radius_pool[i] = 0; //Until it reaches the max radius, then zero it out
 			explosion_pool[i] = CP_Vector_Set(0, 0);
 		}
@@ -659,10 +672,13 @@ void explosion_print(void) {
 
 
 void shrapnel(CP_Vector position) {
+
+	max_shrapnels = 5 + skill_shrapnels.state;
+
 	for (int i = 0; i < max_shrapnels; i++) {
 		for (int j = 0; j < MAX_SHRAPNEL; j++) {
 			if (shrapnel_pool[j].alive) continue;
-			shrapnel_pool[j].angle = (i / max_shrapnels) * 360;
+			shrapnel_pool[j].angle = (i / (float)max_shrapnels) * 360;
 			shrapnel_pool[j].position = position;
 			shrapnel_pool[j].alive = 1;
 
@@ -757,6 +773,8 @@ void shrapnel_collision(void) {
 
 
 void piercing_shooting_check(CP_Vector position) {
+	MAX_CHARGE = base_max_charge + (max_arrow_size - base_max_charge) * (skill_arrow_size.state / max_skill_upgrade);
+	increase_charge = 1 + skill_arrow_charge.state * 0.5f;
 
 	if (CP_Input_KeyDown(KEY_SPACE)) {
 		if (!(piercing_charge >= MAX_CHARGE)) piercing_charge += increase_charge;
@@ -798,7 +816,7 @@ void print_charge(CP_Vector position, float charge) {
 	CP_Graphics_DrawRect(-50, 70, 100, 20);
 
 	CP_Settings_Fill(CP_Color_Create(0, 0, 100, 255));
-	CP_Graphics_DrawRect(-50, 70, 100*ratio, 20);
+	CP_Graphics_DrawRect(-50 - (float)skill_arrow_charge.state, 70 , 100*ratio, 20);
 
 	// Reset the matrix to the identity matrix
 	CP_Settings_ResetMatrix();
@@ -810,7 +828,7 @@ void update_piercing_bullet_travel(void) {
 		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
 			piercing_bullet_pool[i] = enemy_moving_up_down_left_right(piercing_bullet_pool[i], PIERCING_BULLET_SPEED, UP); //update it's position
 
-			if (out_of_screen(piercing_bullet_pool[i])) piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
+			if (piercing_bullet_pool[i].x < -HEIGHT/2) piercing_bullet_pool[i] = CP_Vector_Set(0, 0);
 		}
 	}
 	print_piercing_bullet();

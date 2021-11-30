@@ -154,6 +154,7 @@ extern button skill_shrapnels;
 extern button skill_sword_range;
 extern button skill_sword_swing;
 extern button skill_sword_crit;
+extern int max_skill_upgrade;
 
 struct Enemy enemy_pool[MAX_ENEMY];
 struct spawn spawn_pool[MAX_ENEMY];

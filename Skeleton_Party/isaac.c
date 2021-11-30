@@ -2250,8 +2250,6 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 		buy_skill(&skill_arrow_size, mouse, max_skill_upgrade);
 		buy_skill(&skill_attack_speed, mouse, max_skill_upgrade);
 		buy_skill(&skill_blast_range, mouse, max_skill_upgrade);
-		buy_skill(&skill_health, mouse, max_skill_upgrade);
-		buy_skill(&skill_movement, mouse, max_skill_upgrade);
 		buy_skill(&skill_shrapnels, mouse, max_skill_upgrade);
 		buy_skill(&skill_sword_range, mouse, max_skill_upgrade);
 		buy_skill(&skill_sword_swing, mouse, max_skill_upgrade);
@@ -2305,8 +2303,6 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 		refund_skill(&skill_arrow_size, mouse);
 		refund_skill(&skill_attack_speed, mouse);
 		refund_skill(&skill_blast_range, mouse);
-		refund_skill(&skill_health, mouse);
-		refund_skill(&skill_movement, mouse);
 		refund_skill(&skill_shrapnels, mouse);
 		refund_skill(&skill_sword_range, mouse);
 		refund_skill(&skill_sword_swing, mouse);
