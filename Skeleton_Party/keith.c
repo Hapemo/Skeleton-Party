@@ -24,7 +24,7 @@
 #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
 
 static float objectiveDisplayTimer = 3.0f;
-
+static float originalSpeed = 0;
 CP_Image instructionScreen  = NULL;
 CP_Image gameBackground = NULL;
 CP_Image playButtonImage = NULL;
@@ -70,7 +70,6 @@ struct Button level4;
 struct Button level5;
 struct Button buffIndicator;
 
-void ReturnMainMenuClicked();
 
 struct Menu {
 	
@@ -671,8 +670,10 @@ void ResetState()
 	timer_reset();
 	knight.position.x = originalPlayerPositionX;
 	knight.position.y = originalPlayerPositionY;
+	
 	knight.transparency = 255;
 	knight.invulnerability = FALSE;
+	knight.speedbuff = FALSE;
 	//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
 	//preload_spawn_map(); //This is for declarations in enemy_array
 	load_audio(); //load audio
@@ -715,6 +716,32 @@ void DropStuffs(CP_Vector position) {
 }
 
 
+void DespawnTimer()
+{
+	for (int i = 0; i < MAX_DROP; i++)
+	{
+		if (item_pool[i].enabled == 1)
+		{
+
+			
+
+			if (item_pool[i].despawnTimer > 0)
+			{
+				item_pool[i].despawnTimer -= CP_System_GetDt();
+			}
+			else
+			{
+				item_pool[i].enabled = 0;
+			}
+			
+		}
+	}
+
+
+
+}
+
+
 void DropStuff(float posX, float posY)
 {
 	for (int i = 0, j = 0; i <= j && j < MAX_DROP; i++)
@@ -729,6 +756,7 @@ void DropStuff(float posX, float posY)
 				item_pool[i].width = 45;
 				item_pool[i].height = 50;
 				item_pool[i].enabled = 1;
+				item_pool[i].despawnTimer = 3.0f;
 				int randomChance = CP_Random_RangeInt(0, 1);
 				item_pool[i].id = randomChance;
 				j++;
@@ -739,7 +767,9 @@ void DropStuff(float posX, float posY)
 		else if (item_pool[i].enabled == 1)
 		{
 			j++;
+			
 			//printf("Drop: %d", item_pool[i].enabled);
+
 			
 		}
 
@@ -753,6 +783,7 @@ void DropStuff(float posX, float posY)
 
 	}
 }
+
 
 void DrawItem()
 {
@@ -865,27 +896,15 @@ void InvulnerabilityFrame()
 
 void SpeedBuffEffect()
 {
-	static float originalSpeed = 0;
 	if (knight.speedbuff == TRUE)
 	{
-		/*BOOL hasActivated = TRUE;
-
-		if (hasActivated)
-		{
-			originalSpeed = knight.speed;
-			hasActivated = FALSE;
-		}*/
-
-
-
 		static float timer = 3.0f;
 		//float duration = 3.0f;
-		if (knight.speed == originalSpeed)
+		if (knight.speed == originalPlayerSpeed)
 		{
 			knight.speed *= 3.0f;
 
 		}
-
 
 		if (timer > 0)
 		{
@@ -896,18 +915,16 @@ void SpeedBuffEffect()
 		else
 		{
 			timer = 3;
-			knight.speed = originalSpeed;
+			knight.speed = originalPlayerSpeed;
 
 			knight.speedbuff = FALSE;
 
 		}
 
-		//printf("Speed: %f\n",knight.speed);
-
 	}
 	else
 	{
-		originalSpeed = knight.speed;
+		knight.speed = originalPlayerSpeed;
 
 	}
 }

@@ -102,6 +102,7 @@ struct Item
 	int id;
 	float width;
 	float height;
+	float despawnTimer;
 };
 
 struct Enemy {
@@ -207,6 +208,8 @@ void exit_PlayerHP(void);
 //void UpdateEnemyMovement(void);
 //void exit_EnemySprite(void);
 //----------------------------------------------------------------------------------------------------------------------------------
+void DespawnTimer();
+float originalPlayerSpeed;
 void DrawObjectiveText();
 float winning_condition;
 void DrawBuffIndicator();
