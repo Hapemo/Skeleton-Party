@@ -23,6 +23,7 @@
 #define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
 
+static float objectiveDisplayTimer = 3.0f;
 
 CP_Image instructionScreen  = NULL;
 CP_Image gameBackground = NULL;
@@ -537,17 +538,18 @@ void ButtonLevelSelectionClicked()
 	}
 }
 
+
 void DrawObjectiveText()
 {
-	static float timer = 3.0f;
+	
 	
 
 	
 
-	if (timer > 0)
+	if (objectiveDisplayTimer > 0)
 	{
-		timer -= CP_System_GetDt();
-		CP_Color fade = CP_Color_Create(255, 255, 255, (int)(255 * timer));
+		objectiveDisplayTimer -= CP_System_GetDt();
+		CP_Color fade = CP_Color_Create(255, 255, 255, (int)(255 * objectiveDisplayTimer));
 		CP_Settings_Fill(fade);
 
 		float width = (float)CP_System_GetWindowWidth();
@@ -565,10 +567,11 @@ void DrawObjectiveText()
 		
 		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE);
 	
-
+		
 
 
 	}
+	
 	
 	
 }
@@ -663,6 +666,7 @@ void EnableMenu()
 
 void ResetState()
 {
+	objectiveDisplayTimer = 3.0f;
 	ResetItemPool();
 	timer_reset();
 	knight.position.x = originalPlayerPositionX;
@@ -854,7 +858,7 @@ void InvulnerabilityFrame()
 			InvulnerabilityTimer = 3.0f;
 			//return;
 		}
-		printf("InvulnerabilityTimer: %f", InvulnerabilityTimer);
+		//printf("InvulnerabilityTimer: %f", InvulnerabilityTimer);
 	
 	
 }
@@ -874,8 +878,8 @@ void SpeedBuffEffect()
 
 
 
-		static float timer;
-		float duration = 3.0f;
+		static float timer = 3.0f;
+		//float duration = 3.0f;
 		if (knight.speed == originalSpeed)
 		{
 			knight.speed *= 3.0f;
@@ -883,22 +887,22 @@ void SpeedBuffEffect()
 		}
 
 
-		if (timer < duration)
+		if (timer > 0)
 		{
-
-			timer += CP_System_GetDt();
+			
+			timer -= CP_System_GetDt();
 			//printf("Timer: %f\n", timer);
 		}
 		else
 		{
-			timer = 0;
+			timer = 3;
 			knight.speed = originalSpeed;
 
 			knight.speedbuff = FALSE;
 
 		}
 
-		printf("Speed: %f\n",knight.speed);
+		//printf("Speed: %f\n",knight.speed);
 
 	}
 	else
@@ -912,7 +916,7 @@ void ResetItemPool()
 {
 	for (int i = 0; i < MAX_DROP; i++)
 	{
-		printf("ResetItem");
+		//printf("ResetItem");
 		item_pool[i].enabled = 0;
 		//item_pool[i].position.x = 0;
 		//item_pool[i].position.y = 0;
