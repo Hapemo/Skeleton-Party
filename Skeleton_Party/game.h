@@ -458,7 +458,6 @@ void free_audio();
 void InitializeSkillShopUI(void);
 BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy);
 
-void InitializeRetry(void);
 
 void Screen_YOUDIED_Print(void);
 void Screen_REVIVE_Print(void);

@@ -27,6 +27,9 @@ PlayerGethealth(void)   returns int current health amount
 
 #define pueple CP_Color_Create(255, 0, 0, 255)
 
+/***********************************************************************************************Number defines Start  ************************************************************************************************/
+/*the numbers printed in the number system are defined here.*/
+
 #define Zero "0"
 #define One "1"
 #define Two "2"
@@ -136,11 +139,12 @@ PlayerGethealth(void)   returns int current health amount
 #define Ninety8 "98"
 #define Ninety9 "99"
 
+/***********************************************************************************************Number defines End ************************************************************************************************/
 
 CP_Font SkullFont;
 CP_Font BonesFont;
 
-//SkullFont = CP_Font_Load( "./Assets/Font/Skull-Story.ttf");
+/***********************************************************************************************Image Declerations  Start ************************************************************************************************/
 
 CP_Image Image_GoldSprite = NULL;
 CP_Image Image_ExpSprite = NULL;
@@ -168,9 +172,6 @@ CP_Image Image_Skill_AgilitOn3 = NULL;
 CP_Image Image_Skill_AgilitOn4 = NULL;
 CP_Image Image_Skill_AgilitOn5 = NULL;
 
-//CP_Image Image_Skill_CritOn = NULL;
-//CP_Image Image_Skill_CritOn = NULL;
-
 CP_Image Image_Skill_CritOn = NULL;
 CP_Image Image_Skill_Crit1 = NULL;
 CP_Image Image_Skill_Crit2 = NULL;
@@ -193,10 +194,6 @@ CP_Image Image_num_7;
 CP_Image Image_num_8;
 CP_Image Image_num_9;
 CP_Image Image_num_10;
-
-//CP_Image Image_Skill_HeartsOff = NULL;
-//CP_Image Image_Skill_AgilitOff = NULL;
-//CP_Image Image_Skill_AtkspeedOff = NULL;
 
 button skill_arrow_charge = {0};
 button skill_arrow_size = { 0 };
@@ -236,6 +233,11 @@ CP_Image Number_Skill_Five = NULL;
 CP_Image Number_Skill_Six = NULL;
 CP_Image Number_Skill_Seven = NULL;
 
+/***********************************************************************************************Image Declerations END ************************************************************************************************/
+
+
+/***********************************************************************************************Local Variable Declerations Start ************************************************************************************************/
+
 float button_spacing = 30.0f + SKILLS_BUTTON_HEIGHT;
 
 
@@ -273,6 +275,11 @@ const char Shop_Shrapnel_Desc[] = { "Cost : 10 Gold Coins \n Enables Mage AOE to
 const char Shop_Shockwave_Desc[] = { "Cost : 10 Gold Coins \n Adds An AOE to the knights Melee attack" };
 
 
+/***********************************************************************************************Local Variable Declerations END ************************************************************************************************/
+
+
+
+/***********************************************************************************************Player Health "object" Declerations and Definitions Start ************************************************************************************************/
 
 
 
@@ -320,6 +327,11 @@ void healer(HealthSystem* inst, int healamount)
 	//inst->health += healamount;
 }
 // HealthSystem Object decleration above 
+
+/***********************************************************************************************Player Health "object" Declerations and Definitions END ************************************************************************************************/
+
+
+/***********************************************************************************************Structs for Shop And Skills System UI Start ************************************************************************************************/
 
 
 struct Revive_Background {
@@ -559,10 +571,13 @@ struct Shop_Shockwave {
 
 }Shop_Shockwave;
 
-//Heart sprite settings below
 
-//Heart sprite settings above
+/*********************************************************************************************** Structs for Shop And Skills System UI END ************************************************************************************************/
 
+/*!
+@brief  -this function contains variables to be be set in game_init relating to player's Health Syetem
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void init_PlayerHP(void)
 {
 	spriteSheetImage = CP_Image_Load("./Assets/HeartSprite.png");
@@ -580,14 +595,23 @@ void init_PlayerHP(void)
 	// size of the heart 
 	Heart_size_windowsx = (CP_System_GetWindowWidth()) / 5.0f;
 	Heart_size_windowsy = (CP_System_GetWindowHeight()) / 5.0f;
+
 }
+
+/*!
+@brief  -this function contains variables to be be freed in game_exit relating to player's Health Syetem
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void exit_PlayerHP(void)
 {
 	CP_Image_Free(&spriteSheetImage);
 }
 
-
-void InitializeSkillShopUI(void)         // new function 
+/*!
+@brief  -this function contains variables to be be set in game_init relating to the Shop/Skill UI and with Pause, Win Revive, Youlose Screens
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void InitializeSkillShopUI(void)         
 {
 	
 	//SkullFont = CP_Font_GetDefault();
@@ -845,175 +869,52 @@ void InitializeSkillShopUI(void)         // new function
 	Heart_size_windowsy = (CP_System_GetWindowHeight()) / 5.0f;
 }
 
-void InitializeRetry(void)
-        // new function 
-	{
 
-		//SkullFont = CP_Font_GetDefault();
+/***********************************************************************************************Start of Premade Functions for interacting with Player's Health system in Game.c ************************************************************************************************/
 
-		SkullFont = CP_Font_Load("./Assets/Font/Skull-Story.ttf");
-
-
-		Exp = 18;
-		Gold = 19;
-		additionalExp = 2;
-		additionalGold = 1;
-		//DoubleExp = FALSE;
-		//DoubleGold = FALSE;
-		//DoubleDrop = FALSE;
-		//DoubleHeal = FALSE;
-
-		isaac_width = WIDTH;
-		isaac_height = HEIGHT;
-
-		//shrapnelstate = FALSE;
-		//shockwavestate = FALSE;
-		//RewardGiven = FALSE;
-
-
-
-
-		Currency_Sprite.enabled = TRUE;
-		Currency_Sprite.width = isaac_width;
-		Currency_Sprite.height = isaac_height;
-		Currency_Sprite.posX = (float)(isaac_width / 2.0);
-		Currency_Sprite.posY = (float)(isaac_height / 2.0);
-
-
-
-		GameOver_Background.enabled = TRUE;
-		GameOver_Background.width = isaac_width;
-		GameOver_Background.height = isaac_height;
-		GameOver_Background.posX = (float)(isaac_width / 2.0);
-		GameOver_Background.posY = (float)(isaac_height / 2.0);
-
-		GameOver_Background.enabled = TRUE;
-		GameOver_Background.width = isaac_width;
-		GameOver_Background.height = isaac_height;
-		GameOver_Background.posX = (float)(isaac_width / 2.0);
-		GameOver_Background.posY = (float)(isaac_height / 2.0);
-
-		Win_Background.enabled = TRUE;
-		Win_Background.width = isaac_width;
-		Win_Background.height = isaac_height;
-		Win_Background.posX = (float)(isaac_width / 2.0);
-		Win_Background.posY = (float)(isaac_height / 2.0);
-
-		Pause_Background.enabled = TRUE;
-		Pause_Background.width = isaac_width;
-		Pause_Background.height = isaac_height;
-		Pause_Background.posX = (float)(isaac_width / 2.0);
-		Pause_Background.posY = (float)(isaac_height / 2.0);
-
-
-		PrepRoom_Background.enabled = TRUE;
-		PrepRoom_Background.width = isaac_width;
-		PrepRoom_Background.height = isaac_height;
-		PrepRoom_Background.posX = (float)(isaac_width / 2.0);
-		PrepRoom_Background.posY = (float)(isaac_height / 2.0);
-
-
-		Upgrade_Background.enabled = TRUE;
-		Upgrade_Background.width = isaac_width;
-		Upgrade_Background.height = isaac_height;
-		Upgrade_Background.posX = (float)(isaac_width / 2.0);
-		Upgrade_Background.posY = (float)(isaac_height / 2.0);
-
-		Skill_Background.enabled = TRUE;
-		Skill_Background.width = isaac_width;
-		Skill_Background.height = isaac_height;
-		Skill_Background.posX = (float)(isaac_width / 2.0);
-		Skill_Background.posY = (float)(isaac_height / 2.0);
-
-		Shop_Background.enabled = TRUE;
-		Shop_Background.width = isaac_width;
-		Shop_Background.height = isaac_height;
-		Shop_Background.posX = (float)(isaac_width / 2.0);
-		Shop_Background.posY = (float)(isaac_height / 2.0);
-
-		Skill_HeartsButton.enabled = TRUE;
-		Skill_AgilityButton.enabled = TRUE;
-		Skill_CritButton.enabled = TRUE;
-
-		Shop_HealButton.enabled = TRUE;
-		Shop_DropsButton.enabled = TRUE;
-		Shop_RezButton.enabled = TRUE;
-		Shop_ShrapnelButton.enabled = TRUE;
-
-		//Image_GoldSprite = CP_Image_Load("./Assets/goldsprite.png");
-		//Image_ExpSprite = CP_Image_Load("./Assets/Exporb.png");
-
-		//Image_PrepRoom_Empty = CP_Image_Load("./Assets/preproom.png");
-		//Image_Upgrade_Empty = CP_Image_Load("./Assets/upgrades.png");
-		//Image_Skill_Empty = CP_Image_Load("./Assets/Skill_empty.png");
-		//Image_Shop_Empty = CP_Image_Load("./Assets/Shop_empty.png");
-
-		//Image_Skill_HeartsOn = CP_Image_Load("./Assets/skilltree/Skill_heartsOn.png");
-		//Image_Skill_HeartsOn1 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn1.png");
-		//Image_Skill_HeartsOn2 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn2.png");
-		//Image_Skill_HeartsOn3 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn3.png");
-		//Image_Skill_HeartsOn4 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn4.png");
-		//Image_Skill_HeartsOn5 = CP_Image_Load("./Assets/skilltree/Skill_heartsOn5.png");
-
-		//Image_Skill_AgilitOn = CP_Image_Load("./Assets/skilltree/Skill_agilityOn.png");
-		//Image_Skill_AgilitOn1 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn1.png");
-		//Image_Skill_AgilitOn2 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn2.png");
-		//Image_Skill_AgilitOn3 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn3.png");
-		//Image_Skill_AgilitOn4 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn4.png");
-		//Image_Skill_AgilitOn5 = CP_Image_Load("./Assets/skilltree/Skill_agilityOn5.png");
-
-		//Image_Skill_AtkspeedOn = CP_Image_Load("./Assets/skilltree/Skill_attackspeedOn.png");
-
-
-		//Image_Skill_HeartsOff = CP_Image_Load("./Assets/Skill_heartsOff.png");
-		//Image_Skill_AgilitOff = CP_Image_Load("./Assets/Skill_agilityOff.png");
-		//Image_Skill_AtkspeedOff = CP_Image_Load("./Assets/Skill_attackspeedOff.png");
-
-		//Image_Shop_HealOn = CP_Image_Load("./Assets/Shop_2xhealOn.png");
-		//Image_Shop_DropsOn = CP_Image_Load("./Assets/Shop_2xdropsOn.png");
-		//Image_Shop_RezOn = CP_Image_Load("./Assets/Shop_rezOn.png");
-		//Image_Shop_ShrapnelOn = CP_Image_Load("./Assets/Shop_shrapnelOn.png");
-		//Image_Shop_Shockwave = CP_Image_Load("./Assets/Shop_ShockWave.png");
-
-
-		//Image_Shop_HealOff = CP_Image_Load("./Assets/Shop_2xhealOff.png");
-		//Image_Shop_DropsOff = CP_Image_Load("./Assets/Shop_2xdropsOff.png");
-		//Image_Shop_RezOff = CP_Image_Load("./Assets/Shop_rezOff.png");
-		//Image_Shop_ShrapnelOff = CP_Image_Load("./Assets/Shop_shrapnelOff.png");
-
-
-		//Image_Pause_Mistake = CP_Image_Load("./Assets/pause_mistake1.png");
-
-		//Image_Win_Background = CP_Image_Load("./Assets/winscreen.png");
-
-		//Image_Gameover_Background = CP_Image_Load("./Assets/GameOver.png");
-
-
-	}
-
-
-//call function to set players base health 
+/*!
+@brief  -this function sets the Player's base health to the integer passed into the function
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void PlayerSetHealth (int Basehealth)
 {
     p1.set(&p1,Basehealth);
 
 }
-// call function when player takes damage and enter amount of damage taken 
+/*!
+@brief  -this function is called when the player  takes damage, Player's health will decrease by the integer amount passed into this function
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void Playertakedamage(int damageAmt)
 {
     p1.damage(&p1, damageAmt);
 }
-// call function when player is healed and enter amount healed
+
+
+/*!
+@brief  -this function is called when player is healed, Player's health will increase by the integer amount passed into this function
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void PlayerHealed(int healAmt)
 {
     p1.heal(&p1, healAmt);
 }
 
+
+/*!
+@brief  -this function is called to check players current health.
+@return - this function returns players current health as integer
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 int PlayerGethealth(void)
 {
 	return p1.get(&p1);
 }
 
+
+/*!
+@brief  -this function is called when player needs to be fully healed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void Player_FullHeal(void)
 {
 	int playerhp = p1.get(&p1);
@@ -1026,6 +927,10 @@ void Player_FullHeal(void)
 	}
 }
 
+/*!
+@brief  -this function is called to print the number of empty hearts the player has relative to the current and max health of the player
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void Player_Emptyheartprinter(void)
 {
 	int playerhp = p1.get(&p1);
@@ -1052,6 +957,11 @@ void Player_Emptyheartprinter(void)
 
 }
 
+
+/*!
+@brief  -this function is called to print the number of RED hearts the player has relative to the current  health of the player
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void Player_Redheartprinter(void)
 {
 	int playerhp = p1.get(&p1);
@@ -1076,6 +986,16 @@ void Player_Redheartprinter(void)
 	//CP_Image_Free(&spriteSheetImage);
 }
 
+
+/*********************************************************************************************** End of Premade Functions for interacting with Player's Health system in Game.c ************************************************************************************************/
+
+
+/*********************************************************************************************** Start of  Shop,Skills,Upgrade,PrepRoom,Pause,Win,Lose,Revive,YouDied Ui Printers  ************************************************************************************************/
+
+/*!
+@brief  -this function is called to print the sprites of the EXP, Gold and ReviveToken on the Main screen during the play state
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void Screen_Currency_Print(void)
 {
 	CP_Image_Draw(Image_GoldSprite, Currency_Sprite.posX, Currency_Sprite.posY, isaac_width, isaac_height, 255);
@@ -1084,7 +1004,12 @@ void Screen_Currency_Print(void)
 
 }
 
-void Screen_GAMEOVER_Print(void)											//new functuon
+/*!
+@brief  -this function is called to print the the Gameover Screen when Gamestate ="LOSE"
+		-Player Enters "LOSE" when player dies while  reviveToken == 0
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_GAMEOVER_Print(void)										
 {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
@@ -1093,7 +1018,13 @@ void Screen_GAMEOVER_Print(void)											//new functuon
 	CP_Image_Draw(Image_Gameover_Background, GameOver_Background.posX, GameOver_Background.posY, isaac_width, isaac_height, 255);
 }
 
-
+/*!
+@brief  -this function is called to print the amount of EXP, Gold, and revive tokens the player is in posession of
+		-Pass in the variable to print into score , and x and y coordinates to print it at
+		-Maximum number printer pritable is 0-99
+		NOTE: Font , FontSize, and Font Color needs to be specified before calling the functions
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void ScorePrinter(int score, float x, float y)
 {
 	CP_Font_Set(BonesFont);
@@ -1414,7 +1345,12 @@ void ScorePrinter(int score, float x, float y)
 	}
 }
 
-void Screen_YOUDIED_Print(void)											//new functuon
+/*!
+@brief  -this function is called to print the the YouDied Screen when the gamestate = "YOUDIED"
+		-Player Enters "YOUDIED" when player dies while in reviveToken != 0
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_YOUDIED_Print(void)											
 {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
@@ -1426,8 +1362,12 @@ void Screen_YOUDIED_Print(void)											//new functuon
 }
 
 
-
-void Screen_REVIVE_Print(void)											//new functuon
+/*!
+@brief  -this function is called to print the the REVIVE Screen when the gamestate = "REVIVE"
+		-Player Enters "REVIVE" when player clicks anyone the screen after entering the "YOUDIED" screen
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_REVIVE_Print(void)											
 {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
@@ -1439,8 +1379,12 @@ void Screen_REVIVE_Print(void)											//new functuon
 	ScorePrinter(revivetoken, 432, 347);
 }
 
-
-void Screen_WIN_Print(void)											//new functuon
+/*!
+@brief  -this function is called to print the the WIN Screen when the gamestate = "WIN"
+		-Player Enters "WIN" when player Survives all the waves intended to spawn in the level
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_WIN_Print(void)											
 {
 
 
@@ -1452,7 +1396,12 @@ void Screen_WIN_Print(void)											//new functuon
 	CP_Image_Draw(Image_Win_Background, Win_Background.posX, Win_Background.posY, isaac_width, isaac_height, 255);
 }
 
-void Screen_PAUSE_Print(void)											//new functuon
+/*!
+@brief  -this function is called to print the the PAUSE Screen when the gamestate = "PAUSE"
+		-Player Enters "PAUSE" when the player presses the key tied to trigger the pause state
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_PAUSE_Print(void)										
 {
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
@@ -1463,59 +1412,43 @@ void Screen_PAUSE_Print(void)											//new functuon
 	CP_Image_Draw(Image_Pause_Mistake, Pause_Background.posX, Pause_Background.posY, isaac_width, isaac_height, 255);
 }
 
-void Screen_PREPROOM_Print(void)											//new functuon
-{
-/*
-	PrepRoom_QuitButton.posX = menu.height * (3.0f / 7.0f);
-	PrepRoom_QuitButton.posY = menu.height * (3.0f / 7.0f);
 
-	PrepRoom_UpgrradesButton.posX = menu.height * (3.0f / 7.0f);
-	PrepRoom_UpgrradesButton.posY = menu.height * (3.0f / 7.0f);
-*/	
+/*!
+@brief  -this function is called to print the the PREPROOM Screen when the gamestate = "PREPROOM"
+		-Player Enters "PREPROOM" when the player Clicks continue from the "WIN" screen
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_PREPROOM_Print(void)											
+{
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
-
-	//CP_Graphics_ClearBackground(COLOR_BLACK);
 	CP_Image_Draw(Image_PrepRoom_Empty, PrepRoom_Background.posX, PrepRoom_Background.posY, isaac_width, isaac_height, 255);
 }
 	
 
-void Screen_UPGRADES_Print(void)											//new functuon
+/*!
+@brief  -this function is called to print the the UPGRADE Screen when the gamestate = "UPGRADE"
+		-Player Enters "UPGRADE" when the player Clicks the upgrade button.
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_UPGRADES_Print(void)											
 {
-/*
-	Upgrade_SkillButton.posX = menu.width / 2.0f;
-	Upgrade_SkillButton.posY = menu.height * (3.0f / 7.0f);
-
-	Upgrade_ShopButton.posX = menu.width / 2.0f;
-	Upgrade_ShopButton.posY = menu.height * (3.0f / 7.0f);
-
-	Upgrade_BackButton.posX = menu.width / 2.0f;
-	Upgrade_BackButton.posY = menu.height * (3.0f / 7.0f);
-*/
-
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
 	CP_Image_Draw(Image_Upgrade_Empty, Upgrade_Background.posX, Upgrade_Background.posY, isaac_width, isaac_height, 255);
-
-
 }
 
-void Screen_SHOP_Print(void)								//new functuon
+/*!
+@brief  -this function is called to print the the SHOP Screen when the gamestate = "SHOP"
+		-Player Enters "SHOP" when the player Clicks The SHOP button
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_SHOP_Print(void)								
 {
-	
-
-
-
-	/*
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
-	{
-		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
-	}
-	*/
 	CP_Graphics_ClearBackground(COLOR_BLACK);
 
 	CP_Image_Draw(Image_Shop_Empty, Shop_Background.posX, Shop_Background.posY, isaac_width, isaac_height, 255);
@@ -1604,7 +1537,12 @@ void Screen_SHOP_Print(void)								//new functuon
 	ScorePrinter(Gold,335, 429);
 }
 
-void Screen_SKILL_Print(void)											//new functuon
+/*!
+@brief  -this function is called to print the the SKILL Screen when the gamestate = "SKILL"
+		-Player Enters "SKILL" when the player Clicks The SKILL button
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_SKILL_Print(void)											
 {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
@@ -1648,7 +1586,19 @@ void Screen_SKILL_Print(void)											//new functuon
 }
 
 
-BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy)											//new functuon
+/*********************************************************************************************** End of Shop,Skills,Upgrade,PrepRoom,Pause,Win,Lose,Revive,YouDied Ui Printers  ************************************************************************************************/
+
+
+/*********************************************************************************************** START of Collision Detection Functions ************************************************************************************************/
+
+/*!
+@brief  -this function is called to check for collision when a key is triggered
+		-this function takes Current position	(posx, posy)
+		-top left corner of the box				(startx and starty)
+		-bottom right of the box				(endx, endy)
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy)											
 {
 
 	if ((posX < endx && posX > startX)
@@ -1664,6 +1614,13 @@ BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, fl
 
 }
 
+/*!
+@brief  -this function is called to check for collision when no key is triggered
+		-this function takes Current position	(posx, posy)
+		-top left corner of the box				(startx and starty)
+		-bottom right of the box				(endx, endy)
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 BOOL IsaacHover(float posX, float posY, float startX, float starty, float endx, float endy)
 {
 	{
@@ -1680,16 +1637,19 @@ BOOL IsaacHover(float posX, float posY, float startX, float starty, float endx, 
 	}
 }
 
-void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
-{
-	/*
-		if (CP_Input_KeyTriggered(KEY_ESCAPE))
-		{
-			printf("button pressed back esc \n");
-			gameState = UPGRADES;
-		}
-	*/
 
+/**************************************************************************************** END of Collision Detection Functions ************************************************************************************************/
+
+
+/**************************************************************************************** START  of Shop,Skills,Upgrade,PrepRoom,Pause,Win,Lose,Revive,YouDied Ui Collision Checkers ************************************************************************************************/
+
+
+/*!
+@brief  -this function is called to check for collisions on the "LOSE" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_GAMEOVER_ButtonClicked(void)											
+{
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
 		printf("button pressed  \n");
@@ -1736,19 +1696,26 @@ void Screen_GAMEOVER_ButtonClicked(void)											//new functuon
 	}
 }
 
+/*!
+@brief  -this function is called Check if the player has fufilled the conditions to Lose the round, and changes the Gamestate to LOSE, and Do the necessary Resets
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void DeathCondition(void)
 {
 	if (PlayerGethealth() == 0)
 	{
 		gamePause = !gamePause;
-		//Player_FullHeal();
 		reset_enemy_and_weapon();
 		ResetState();
 		gameState = LOSE;
 	}
 }
 
-void Screen_WIN_ButtonClicked(void)											//new functuon
+/*!
+@brief  -this function is called to check for collisions on the "WIN" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_WIN_ButtonClicked(void)											
 {
 /*
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
@@ -1779,7 +1746,11 @@ void Screen_WIN_ButtonClicked(void)											//new functuon
 	}
 }
 
-void Screen_PAUSE_ButtonClicked(void)											//new functuon
+/*!
+@brief  -this function is called to check for collisions on the "PAUSE" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_PAUSE_ButtonClicked(void)											
 {
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
@@ -1836,7 +1807,12 @@ void Screen_PAUSE_ButtonClicked(void)											//new functuon
 	}
 }
 
-void Screen_PREPROOM_ButtonClicked(void)											//new functuon
+
+/*!
+@brief  -this function is called to check for collisions on the "PREPROOM" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_PREPROOM_ButtonClicked(void)											
 {
 /*
 
@@ -1899,7 +1875,12 @@ void Screen_PREPROOM_ButtonClicked(void)											//new functuon
 	}
 }
 
-void Screen_UPGRADE_ButtonClicked(void)											//new functuon
+
+/*!
+@brief  -this function is called to check for collisions on the "UPGRADE" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_UPGRADE_ButtonClicked(void)											
 {
 	/*float mousehoverPosX = CP_Input_GetMouseX();
 	float mousehoverPosY = CP_Input_GetMouseY();
@@ -1972,8 +1953,11 @@ void Screen_UPGRADE_ButtonClicked(void)											//new functuon
 	}
 }
 
-
-void Screen_SHOP_ButtonClicked(void)											//new functuon
+/*!
+@brief  -this function is called to check for collisions on the "SHOP" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_SHOP_ButtonClicked(void)											
 {
 	float mousehoverPosX = CP_Input_GetMouseX();
 	float mousehoverPosY = CP_Input_GetMouseY();
@@ -2169,7 +2153,11 @@ void Screen_SHOP_ButtonClicked(void)											//new functuon
 	}
 }
 
-void Screen_SKILL_ButtonClicked(void)											//new functuon
+/*!
+@brief  -this function is called to check for collisions on the "SKILL" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_SKILL_ButtonClicked(void)											
 {
 	float mousehoverPosX = CP_Input_GetMouseX();
 	float mousehoverPosY = CP_Input_GetMouseY();
@@ -2303,7 +2291,11 @@ void Screen_SKILL_ButtonClicked(void)											//new functuon
 	}
 }
 
-void Screen_YOUDIED_ButtonClicked(void)											//new functuon
+/*!
+@brief  -this function is called to check for collisions on the "YOUDIED" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_YOUDIED_ButtonClicked(void)											
 {
 	/*
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
@@ -2331,7 +2323,11 @@ void Screen_YOUDIED_ButtonClicked(void)											//new functuon
 	}
 }
 
-void Screen_REVIVE_ButtonClicked(void)											//new functuon
+/*!
+@brief  -this function is called to check for collisions on the "REVIVE" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_REVIVE_ButtonClicked(void)											
 {
 	/*
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
@@ -2377,17 +2373,18 @@ void Screen_REVIVE_ButtonClicked(void)											//new functuon
 	}
 }
 
+/**************************************************************************************** END of Shop,Skills,Upgrade,PrepRoom,Pause,Win,Lose,Revive,YouDied Ui Collision Checkers ************************************************************************************************/
+
+
+/*!
+@brief  -this function is called to Free all the images loaded for the Shop,Skills,Upgrade,PrepRoom,Pause,Win,Lose,Revive,YouDied Ui
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
 void exit_skilltreepictures(void) 
 {
-
-
-	
 	CP_Image_Free(&Image_GoldSprite);
 	CP_Image_Free(&Image_ExpSprite);
 	CP_Image_Free(&Image_ReztokenSprite);
-
-
-
 
 	CP_Image_Free(&Image_PrepRoom_Empty);
 	CP_Image_Free(&Image_Upgrade_Empty);
@@ -2420,10 +2417,6 @@ void exit_skilltreepictures(void)
 	CP_Image_Free(&Image_Skill_Crit9);
 	CP_Image_Free(&Image_Skill_Crit10);
 
-	//CP_Image_Free(&Image_Skill_HeartsOff);
-	//CP_Image_Free(&Image_Skill_AgilitOff);
-	//CP_Image_Free(&Image_Skill_AtkspeedOff);
-
 	CP_Image_Free(&Image_Shop_HealOn);
 	CP_Image_Free(&Image_Shop_DropsOn);
 	CP_Image_Free(&Image_Shop_RezOn);
@@ -2434,7 +2427,6 @@ void exit_skilltreepictures(void)
 	CP_Image_Free(&Image_Shop_DropsOff);
 	CP_Image_Free(&Image_Shop_RezOff);
 	CP_Image_Free(&Image_Shop_ShrapnelOff);
-
 
 	CP_Image_Free(&Image_Pause_Mistake);
 	CP_Image_Free(&Image_Win_Background);
