@@ -491,12 +491,16 @@ void ButtonLevelSelectionClicked()
 		float mousePosY = CP_Input_GetMouseY();
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level1.width, level1.height, level1.posX, level1.posY))
 		{
+			reset_enemy_and_weapon();
+			ResetState();
 			currentLevel = LEVEL_1;
 			gameState = currentLevel;
 			preload_spawn_map(currentLevel);
 		}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level2.width, level2.height, level2.posX, level2.posY))
 		{
+			reset_enemy_and_weapon();
+			ResetState();
 			currentLevel = LEVEL_2;
 			gameState = currentLevel;
 			preload_spawn_map(currentLevel);
@@ -504,18 +508,24 @@ void ButtonLevelSelectionClicked()
 	
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level3.width, level3.height, level3.posX, level3.posY))
 		{
+			reset_enemy_and_weapon();
+			ResetState();
 			currentLevel = LEVEL_3;
 			gameState = currentLevel;
 			preload_spawn_map(currentLevel);
 		}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level4.width, level4.height, level4.posX, level4.posY))
 		{
+			reset_enemy_and_weapon();
+			ResetState();
 			currentLevel = LEVEL_4;
 			gameState = currentLevel;
 			preload_spawn_map(currentLevel);
 		}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level5.width, level5.height, level5.posX, level5.posY))
 		{
+			reset_enemy_and_weapon();
+			ResetState();
 			currentLevel = LEVEL_5;
 			gameState = currentLevel;
 			preload_spawn_map(currentLevel);

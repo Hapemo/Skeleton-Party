@@ -311,16 +311,16 @@ void PlayGame()
 	// player hP bar printer to be added when the actual game starts. not to be included in title screen
 	Player_Redheartprinter();
 	Player_Emptyheartprinter();
-	CP_Settings_TextSize(100);
-
-	CP_Settings_Fill(darkviolet);
-	ScorePrinter(Exp, 690, 80);
-
-	CP_Settings_Fill(darkviolet);
-	ScorePrinter(Gold, 850, 80);
+	CP_Settings_TextSize(60);
 	
-	CP_Settings_Fill(darkviolet);
-	ScorePrinter(revivetoken, 695, 157);
+	CP_Settings_Fill(COLOR_WHITE);
+	ScorePrinter(Exp, 690, 65);
+
+
+	ScorePrinter(Gold, 850, 65);
+	
+
+	ScorePrinter(revivetoken, 695, 145);
 
 	Screen_Currency_Print();
 	WinCondition();

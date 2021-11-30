@@ -138,6 +138,7 @@ PlayerGethealth(void)   returns int current health amount
 
 
 CP_Font SkullFont;
+CP_Font BonesFont;
 
 //SkullFont = CP_Font_Load( "./Assets/Font/Skull-Story.ttf");
 
@@ -592,7 +593,7 @@ void InitializeSkillShopUI(void)         // new function
 	//SkullFont = CP_Font_GetDefault();
 
 	SkullFont = CP_Font_Load("./Assets/Font/Skull-Story.ttf");
-
+	BonesFont = CP_Font_Load("./Assets/Font/BikerBones.ttf");
 	//SWORD_CRIT_CHANCE = 10;
 	revivetoken = 0;
 	Exp = 18;
@@ -1085,7 +1086,7 @@ void Screen_GAMEOVER_Print(void)											//new functuon
 
 void ScorePrinter(int score, float x, float y)
 {
-	CP_Font_Set(SkullFont);
+	CP_Font_Set(BonesFont);
 	switch (score)
 	{
 	case 0:
