@@ -103,6 +103,7 @@ struct Item
 	float width;
 	float height;
 	float despawnTimer;
+	int transparency;
 };
 
 struct Enemy {

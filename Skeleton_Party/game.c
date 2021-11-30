@@ -39,9 +39,11 @@ void game_init(void)
 	float height = (float)CP_System_GetWindowHeight();
 	originalPlayerPositionX = width * 1.25f;
 	originalPlayerPositionY = height * 2.25f;
+ 
+	
 
 	init_char(&knight, originalPlayerPositionX, originalPlayerPositionY, "./Assets/knightpa.png");
-	
+	originalPlayerSpeed = knight.speed;
 
 	//preload_spawn_map(LEVEL_1); //This is for declarations in enemy_array
 	load_audio(); //load audio
@@ -309,6 +311,7 @@ void PlayGame()
 	//player_touch_enemy();
 	EnemyCollision();
 	DrawItem();
+	DespawnTimer();
 	// player hP bar printer to be added when the actual game starts. not to be included in title screen
 	Player_Redheartprinter();
 	Player_Emptyheartprinter();

@@ -756,6 +756,7 @@ void DropStuff(float posX, float posY)
 				item_pool[i].width = 45;
 				item_pool[i].height = 50;
 				item_pool[i].enabled = 1;
+				item_pool[i].transparency = 255;
 				item_pool[i].despawnTimer = 3.0f;
 				int randomChance = CP_Random_RangeInt(0, 1);
 				item_pool[i].id = randomChance;
@@ -798,7 +799,7 @@ void DrawItem()
 			{
 			case 0:
 				item_pool[i].sprite = CP_Image_Load("./Assets/healthBoost.png");
-				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, 255);
+				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, item_pool[i].transparency);
 				if (CheckIfBoxesOverlap(item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, knight.position.x, knight.position.y, knight.width, knight.height))
 				{
 					play_healthDrop();
@@ -817,7 +818,7 @@ void DrawItem()
 				break;
 			case 1:
 				item_pool[i].sprite = CP_Image_Load("./Assets/speedBoost.png");
-				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, 255);
+				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, item_pool[i].transparency);
 				if (CheckIfBoxesOverlap(item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, knight.position.x, knight.position.y, knight.width, knight.height))
 				{
 					play_speedDrop();
