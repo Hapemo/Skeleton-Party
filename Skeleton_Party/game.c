@@ -247,8 +247,8 @@ void PlayGame()
 		}
 	
 
-	TerminateFullscreen();
-	if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
+	//TerminateFullscreen();
+	if (CP_Input_KeyTriggered(KEY_ESCAPE)) // press p to pause/ unpause
 	{
 		gamePause = !gamePause;
 		gameState = PAUSED;
