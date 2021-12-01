@@ -473,6 +473,8 @@ void Screen_SKILL_Print(void);
 
 BOOL IsaacHover(float posX, float posY, float startX, float starty, float endx, float endy);
 
+void Checkoverheal(int healamt);
+
 void Screen_YOUDIED_ButtonClicked(void);
 void Screen_REVIVE_ButtonClicked(void);
 

@@ -805,12 +805,13 @@ void DrawItem()
 					play_healthDrop();
 					if (DoubleHeal == TRUE)
 					{
-						PlayerHealed(2);
+	
+						Checkoverheal(2);
 						item_pool[i].enabled = 0;
 					}
 					else
 					{
-						PlayerHealed(1);
+						Checkoverheal(1);
 						item_pool[i].enabled = 0;
 					}
 

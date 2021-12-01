@@ -900,6 +900,18 @@ void Player_FullHeal(void)
 }
 
 /*!
+@brief  -this function is called when player is healed, to prevent over healing past max hp
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Checkoverheal(int healamt)
+{
+	if (player_maxhp - (PlayerGethealth()) >= healamt)
+	{
+		PlayerHealed(healamt);
+	}
+}
+
+/*!
 @brief  -this function is called to print the number of empty hearts the player has relative to the current and max health of the player
 @return - this function does not return a value, just a function call to execute a set number of instructions
 *//*_________________________________________________________________________________________________________________________________________________________________*/
