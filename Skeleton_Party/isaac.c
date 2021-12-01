@@ -1456,7 +1456,7 @@ void Screen_SHOP_Print(void)
 	float mousehoverPosY = CP_Input_GetMouseY();
 
 	CP_Settings_TextSize(20);
-	CP_Settings_Fill(COLOR_WHITE);
+	CP_Settings_Fill(COLOR_GOLD);
 	CP_Font_Set(CP_Font_GetDefault());
 
 	if (Shop_HealButton.hover == FALSE)
