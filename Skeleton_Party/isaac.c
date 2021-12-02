@@ -641,6 +641,7 @@ void InitializeSkillShopUI(void)
 	Currency_Sprite.posX = (float)(isaac_width / 2.0);
 	Currency_Sprite.posY = (float)(isaac_height / 2.0);
 
+	//Initialisation of skills buttons
 	skill_health.position = CP_Vector_Set(250, HEIGHT / 2 + 10.0f);
 	skill_health.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_health.image = CP_Image_Load("./Assets/skilltree/health.png");
@@ -691,6 +692,7 @@ void InitializeSkillShopUI(void)
 	skill_sword_crit.num_position = CP_Vector_Set(250.0f + NUM_POSITION_RATIO * SKILLS_BUTTON_WIDTH, HEIGHT / 2 + 10.0f);
 	skill_sword_crit.image = CP_Image_Load("./Assets/skilltree/sword_crit.png");
 	skill_sword_crit.description = "Increase sword critical strike chance (MUST own shockwave from shop)";
+
 
 	GameOver_Background.enabled = TRUE;
 	GameOver_Background.width = isaac_width;
@@ -1487,18 +1489,15 @@ void Screen_SHOP_Print(void)
 }
 
 /*!
-@brief  -this function is called to print the the SKILL Screen when the gamestate = "SKILL"
-		-Player Enters "SKILL" when the player Clicks The SKILL button
-@return - this function does not return a value, just a function call to execute a set number of instructions
-*//*_________________________________________________________________________________________________________________________________________________________________*/
+@brief  This is the brain of printing all skills tree buttons and number
+@param  NIL
+@return NIL
+*//*______________________________________________________________*/
 void Screen_SKILL_Print(void)											
 {
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
-	{
-		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
-	}
 	CP_Image_Draw(Image_Skill_Tree, Skill_Background.posX, Skill_Background.posY, isaac_width, isaac_height, 255); //prints the base background
 
+	//prints the base button image for all skills
 	CP_Image_Draw(skill_arrow_size.image, skill_arrow_size.position.x, skill_arrow_size.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
 	CP_Image_Draw(skill_attack_speed.image, skill_attack_speed.position.x, skill_attack_speed.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
 	CP_Image_Draw(skill_blast_range.image, skill_blast_range.position.x, skill_blast_range.position.y, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT, 255);
@@ -1512,6 +1511,7 @@ void Screen_SKILL_Print(void)
 
 	CP_Graphics_ClearBackground(COLOR_BLACK);
 
+	//prints the number of upgrade for each skills button
 	skills_num_printer(skill_sword_crit);
 	skills_num_printer(skill_arrow_size);
 	skills_num_printer(skill_attack_speed);
@@ -1968,7 +1968,6 @@ void Screen_SKILL_ButtonClicked(void)
 
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 44.0, 540.0, 483.0, 668.0))
 	{
-		printf("button hovering hearts \n");
 		Skill_HeartsButton.hover = FALSE;
 	}
 	else
@@ -1978,7 +1977,6 @@ void Screen_SKILL_ButtonClicked(void)
 
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 44.0, 683.0, 480.0, 811.0))
 	{
-		printf("button hovering  agility\n");
 		Skill_AgilityButton.hover = FALSE;
 	}
 	else
@@ -1988,7 +1986,6 @@ void Screen_SKILL_ButtonClicked(void)
 
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 44.0, 832.0, 480.0, 958.0))
 	{
-		printf("button hovering  critrate\n");
 		Skill_CritButton.hover = FALSE;
 	}
 	else
@@ -1998,7 +1995,6 @@ void Screen_SKILL_ButtonClicked(void)
 
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
-		printf("button pressed back esc \n");
 		gameState = UPGRADES;
 	}
 
@@ -2007,12 +2003,9 @@ void Screen_SKILL_ButtonClicked(void)
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
 		CP_Vector mouse = CP_Vector_Set(mousePosX, mousePosY);
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 767.0, 28.0, 924.0, 153.0))
-		{
-			printf("button pressed back \n");
-			gameState = UPGRADES;
-		}
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 767.0, 28.0, 924.0, 153.0)) gameState = UPGRADES;
 
+		//Skills upgrade for only health and movement
 		if (Exp > 0 && additionalspeed < maxadditionalspeed) {
 			if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
 				Exp -= 1;
@@ -2028,7 +2021,8 @@ void Screen_SKILL_ButtonClicked(void)
 				p1.set(&p1, 3 + additionalhp);
 			}
 		}
-		//New skills onwards
+
+		//Skills upgrade for newer skill 
 		buy_skill(&skill_arrow_charge, mouse, max_skill_upgrade);
 		buy_skill(&skill_arrow_size, mouse, max_skill_upgrade);
 		buy_skill(&skill_attack_speed, mouse, max_skill_upgrade);
@@ -2045,26 +2039,8 @@ void Screen_SKILL_ButtonClicked(void)
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
 		CP_Vector mouse = CP_Vector_Set(mousePosX, mousePosY);
-		/*if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 540.0, 483.0, 668.0))
-		{
-			if (additionalhp != 0)
-			{
-				Skill_HeartsButton.enabled = TRUE;
-				Exp += 1;
-				additionalhp--;
-				p1.set(&p1, 3 + additionalhp);
-			}
-		}
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 683.0, 480.0, 811.0))
-		{
-			if (additionalspeed != 0)
-			{
-				Skill_AgilityButton.enabled = TRUE;
-				Exp += 1;
-				additionalspeed -= 20;
-				knight.speed -= additionalspeed;
-			}
-		}*/
+		
+		//skills refund for only health and movement
 		if (skill_health.state) {
 			if (button_collision(mouse, skill_health.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
 				skill_health.state--;
@@ -2082,6 +2058,7 @@ void Screen_SKILL_ButtonClicked(void)
 			}
 		}
 		
+		//Skills refund for newer skill 
 		refund_skill(&skill_arrow_charge, mouse);
 		refund_skill(&skill_arrow_size, mouse);
 		refund_skill(&skill_attack_speed, mouse);

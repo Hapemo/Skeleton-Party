@@ -12,6 +12,7 @@ struct Enemy enemy_pool[MAX_ENEMY] = { 0 };
 struct spawn spawn_pool[MAX_ENEMY] = { 0 };
 struct mother_enemy mother_enemy_pool[MAX_MOTHER_ENEMY] = { 0 };
 
+//These functions are used to reinitialise structs with other values
 struct Enemy enemy_set(CP_Vector position, int alive, float size, int type) {
 	struct Enemy temp = { position, alive, size, type};
 	return temp;
@@ -25,6 +26,7 @@ struct mother_enemy mother_enemy_set(CP_Vector position, float time, int alive, 
 	return temp;
 }
 
+//Coordinate declarations, all of these has y = -5 and x = their respective name, except high_mid
 CP_Vector one_third, two_third, mid, one_tenth, nine_tenth, minus_two_third, zero, one_fourth, three_fourth, one_fifth, two_fifth, three_fifth, four_fifth, width, high_mid;
 
 //1 for straight line, 2 for left diagonal, 3 for right diagonal, 5 for horizontal enemy, 101 for circle
@@ -33,7 +35,11 @@ CP_Vector one_third, two_third, mid, one_tenth, nine_tenth, minus_two_third, zer
 //Go to sine() and change the multipler for angle to adjust range of the graph
 //For pattern 5, you can add side way movement to it to make it cooler, search for 'store1', go there and add some value to the x axis movement
 
-
+/*!
+@brief	contains spawning information for level 1
+@param  NIL
+@return NIL
+*//*______________________________________________________________*/
 void level_1(void) {
 	//12 spawns in 4 horizontal enemies, 11 spawn in 5 instead
 
@@ -103,6 +109,11 @@ void level_1(void) {
 	winning_condition = 5900;
 }
 
+/*!
+@brief	contains spawning information for level 2
+@param  NIL
+@return NIL
+*//*______________________________________________________________*/
 void level_2(void) {
 	spawn_pool_assigner(one_third, 25.0f, 50.0f, 30, 1);
 	spawn_pool_assigner(two_third, 25.0f, 50.0f, 30, 1);
@@ -144,6 +155,11 @@ void level_2(void) {
 	winning_condition = 8600;
 }
 
+/*!
+@brief	contains spawning information for level 3
+@param  NIL
+@return NIL
+*//*______________________________________________________________*/
 void level_3(void) {
 	spawn_pool_assigner(one_third, 50.0f, 50.0f, 15, 6);
 	spawn_pool_assigner(two_third, 50.0f, 50.0f, 15, 6);
@@ -203,6 +219,11 @@ void level_3(void) {
 	//spawn_pool_assigner(one_third, 5.0f, 50.0f, 50, 4); //This makes enemies move left and right in sine graph pattern
 }
 
+/*!
+@brief	contains spawning information for level 4
+@param  NIL
+@return NIL
+*//*______________________________________________________________*/
 void level_4(void) {
 
 	spawn_pool_assigner(mid, 1.0f, 100.0f, 1, 109);
@@ -227,6 +248,11 @@ void level_4(void) {
 	winning_condition = 8500;
 }
 
+/*!
+@brief	contains spawning information for level 5
+@param  NIL
+@return NIL
+*//*______________________________________________________________*/
 void level_5(void) {
 	spawn_pool_assigner(one_tenth, 1.0f, 50.0f, 1, 104);
 	spawn_pool_assigner(one_tenth, 1.0f, 150.0f, 1, 104);
@@ -267,11 +293,14 @@ void level_5(void) {
 	winning_condition = 8800;
 }
 
-void preload_spawn_map(int level) { //Put in game_init
-	//first wave
-	//-------------------------------------------------
-	//Standard lines
-
+/*!
+@brief	The brain memory of this spawning system.
+		Calls the level indicated and prepare spawning information 
+@param  NIL
+@return NIL
+*//*______________________________________________________________*/
+void preload_spawn_map(int level) {
+	//reinitialisation of commonly used coordinates
 	one_third = CP_Vector_Set(WIDTH / 3, -5);
 	two_third = CP_Vector_Set(WIDTH / 3 * 2, -5);
 	mid = CP_Vector_Set(WIDTH / 2, -5);
@@ -279,17 +308,15 @@ void preload_spawn_map(int level) { //Put in game_init
 	nine_tenth = CP_Vector_Set(WIDTH / 10 * 9, -5);
 	minus_two_third = CP_Vector_Set(-WIDTH / 3 * 2, -5);
 	zero = CP_Vector_Set(0, -5);
-
 	one_fourth = CP_Vector_Set(WIDTH / 4, -5);
 	three_fourth = CP_Vector_Set(WIDTH / 4 * 3, -5);
-
 	one_fifth = CP_Vector_Set(WIDTH / 5, -5);
 	two_fifth = CP_Vector_Set(WIDTH / 5 * 2, -5);
 	three_fifth = CP_Vector_Set(WIDTH / 5 * 3, -5);
 	four_fifth = CP_Vector_Set(WIDTH / 5 * 4, -5);
-
 	width = CP_Vector_Set(WIDTH, -5);
 
+	//Launch respective level
 	if (level == LEVEL_1) level_1();
 	if (level == LEVEL_2) level_2();
 	if (level == LEVEL_3) level_3();
@@ -297,30 +324,55 @@ void preload_spawn_map(int level) { //Put in game_init
 	if (level == LEVEL_5) level_5();
 }
 
+/*!
+@brief	The brain logic of this spawning system.
+		Transforms a set enemy spawn design loaded into spawn_pool. This would 
+		usually be called multiple times in a level, since a level usually 
+		consists of many enemy spawn designs. 
+		(All spawning follows tick as the timing system)
+@param  position - position of where enemy spawns
+		spawn_speed_delay - delay between spawning of each spawn enemy designs (higher number = slower spawn rate)
+		start_spawn_tick - tick of when the enemy spawn design starts spawning
+		spawn_amount - amount of enemy spawn design to spawn
+		type - the type of enemy pattern to spawn
+@return NIL
+*//*______________________________________________________________*/
 void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type) {
 	float spawn_tick = start_spawn_tick;
 	int start_count = 0;
+	
+	//This for loop segregates each enemy spawn design from each other
 	for (int i = 0; i < MAX_ENEMY; i++) {
-		if (!(spawn_pool[i].type == 0 || spawn_pool[i].type == 808464432)) continue;
+		if (!(spawn_pool[i].type == 0)) continue;
 		start_count = i;
 		break;
 	}
+
+	//Using the start_count from above, it continues spawning from where the last enemy spawn left off
 	for (int i = start_count; i < start_count + spawn_amount; i++) {
 		spawn_tick = spawn_tick + spawn_speed_delay;
 		spawn_pool[i] = spawn_set(position, spawn_tick, type);
-		//printf("spawn tick: %f\n", spawn_pool[i].time);
 	}
 }
 
-void spawn_map(void) { //Should run continuously
-	//double speed;
+/*!
+@brief	The main muscle of this spawning system.
+		transfers each spawning information to other functions, to transfer that information
+		into enemy_pool and mother_enemy_pool
+@param  NIL
+@return NIL
+*//*______________________________________________________________*/
+void spawn_map(void) {
 	for (int i = 0; i < MAX_ENEMY; i++) {
 
 		//if (*tick == winning_condition) gameState = WIN;
 
+		//Loops through each tick and check for spawn_pool that fits the current tick, then allocate space to spawn
+		//In accordance to the type indicated, different type has different enemy pattern
+		//Some enemie patterns such as horizontal line have special movement pattern, thus each of them are in switch case
+		//Others like circle or vertical would go to initialise basic movement 
 		if (spawn_pool[i].time == *tick) {
 			int ran = 0;
-			//printf("time: %f | tick: %f\n", spawn_pool[i].time, *tick);
 			switch (spawn_pool[i].type) {
 				case 11: //5 horizontal
 					initialise_horizontal_line(spawn_pool[i].position, 5, 200, 1);
@@ -371,24 +423,27 @@ void spawn_map(void) { //Should run continuously
 					ran = 1;
 					break;
 			}
-			//printf("type: %d\n", spawn_pool[i].type);
-
-			//for (int j = 0; j < MAX_MOTHER_ENEMY; j++)printf("mother enemy alive: %d\n", mother_enemy_pool[j].alive);
 			if (!(ran)) initialise_basic_movement(i);
 		}
 	}
 }
 
 //----------------- Initialise Enemy ------------------
+
+/*!
+@brief	The arm muscle of this spawning system
+		Takes in spawn_pool and turn it into enemy_pool or mother_enemy_pool
+@param  spawn_pool_i - the index of the spawn_pool
+@return NIL
+*//*______________________________________________________________*/
 void initialise_basic_movement(int spawn_pool_i) {
 	if (spawn_pool[spawn_pool_i].type == 0) return;
+
+	//Loops through each enemy_pool and mother_enemy_pool to find empty space to allocate them
 	if (0 < spawn_pool[spawn_pool_i].type && spawn_pool[spawn_pool_i].type < 100) {
 		for (int i = 0; i < MAX_ENEMY; i++) {
 			if (enemy_pool[i].alive) continue;
-			//printf("type: %d\n", type);
-
 			enemy_pool[i] = enemy_set(spawn_pool[spawn_pool_i].position, 1, ENEMY_SIZE, spawn_pool[spawn_pool_i].type);
-			//printf("enemy %d position: %f|%f\n", i, enemy_pool[i].position.x, enemy_pool[i].position.y);
 			break;
 		}
 	} else {
@@ -396,36 +451,24 @@ void initialise_basic_movement(int spawn_pool_i) {
 
 			if (mother_enemy_pool[i].alive) continue;
 			mother_enemy_pool[i] = mother_enemy_set(spawn_pool[spawn_pool_i].position, spawn_pool[spawn_pool_i].time ,1, spawn_pool[spawn_pool_i].type);
-			//printf("type: %d\n", mother_enemy_pool[i].type);
 			mother_enemy_pool[i].spare2 = 1;
-
 			for (int j = 0; j < MAX_CHILDREN; j++) {
 				mother_enemy_pool[i].children[j].alive = 1;
 			}
-
-			//printf("mother %d position: %f|%f, mother type: %d, mother alive: %d\n", i, mother_enemy_pool[i].position.x, mother_enemy_pool[i].position.y, mother_enemy_pool[i].type, mother_enemy_pool[i].alive);
 			break;
 		}
 	}
 }
 
-void initialise_circle_shape(CP_Vector mid_position, int enemy_count, float radius) {
-	float angle = 0;
-	for (int i = 0; i < enemy_count; i++) {
-		for (int j = 0; j < MAX_ENEMY; j++) {
-			//printf("enemy_pool[%d] position: %f | %f, alive: %d, type: %d\n", enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].alive, enemy_pool[i].type);
-
-			if (enemy_pool[j].alive) continue;
-
-			CP_Vector enemy_direction = rotate_vector(radius, angle, E1);
-			CP_Vector enemy_position = CP_Vector_Add(mid_position, enemy_direction);
-			enemy_pool[j] = enemy_set(enemy_position, 1, ENEMY_SIZE, 4);
-			angle += 360.0f / enemy_count;
-			break;
-		}
-	}
-}
-
+/*!
+@brief	The arm muscle of this spawning system
+		Takes in spawn_pool and turn it into enemy_pool
+@param  start_position - the most left enemy that should spawn for a horizontal line
+		enemy_count - amount of enemy to spawn
+		distance_apart - distance between each horizontal enemies
+		type - movement pattern of the enemy
+@return NIL
+*//*______________________________________________________________*/
 void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float distance_apart, int type) {
 
 	CP_Vector position = start_position;
@@ -442,9 +485,13 @@ void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float
 }
 
 //------------------ Enemy Patterns ------------------- (Should run continously in game_update)
+/*!
+@brief	The fingers of this spawning system
+		It goes through each standard enemies and update their position according to their movement type
+@param  NIL
+@return NIL
+*//*______________________________________________________________*/
 void movement_pattern_vertical_and_diagonal(void) {
-	/*float multiplier;
-	int timer, duration;*/
 	double speed, range;
 	static int pattern_const;
 
@@ -458,10 +505,10 @@ void movement_pattern_vertical_and_diagonal(void) {
 		
 		switch (enemy_pool[i].type) {
 			case 2: //Move left
-				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT); //Updates position
+				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, LEFT); 
 				break;
 			case 3: //Move right
-				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT); //Updates position
+				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT); 
 				break;
 			case 4: //Enemy move left to right while in a sine graph formation
 				range = 10;
@@ -490,10 +537,10 @@ void movement_pattern_vertical_and_diagonal(void) {
 				else enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 5, RIGHT);
 				break;
 			case 9: //Move left
-				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 3, LEFT); //Updates position
+				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 3, LEFT); 
 				break;
 			case 10: //Move right
-				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 3, RIGHT); //Updates position
+				enemy_pool[i].position = enemy_moving_up_down_left_right(enemy_pool[i].position, 3, RIGHT); 
 				break;
 			case 50: //bouncing vertically while moving left
 				range = 10;
@@ -528,13 +575,17 @@ void movement_pattern_vertical_and_diagonal(void) {
 				enemy_pool[i].position.x += (float)speed; //store1
 				break;
 		}
-
-		//CP_Graphics_DrawCircle(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size * 2); //Prints enemy
 		print_enemy(enemy_pool[i].position, enemy_pool[i].size);
 	}
 
 }
 
+/*!
+@brief	The fingers of this spawning system
+		It goes through each mother enemies and update their movement pattern according to their movemnt type
+@param  spawn_pool_i - the index of the spawn_pool
+@return NIL
+*//*______________________________________________________________*/
 void movement_pattern_spinning_circle(void) {
 	CP_Settings_Fill(COLOR_BLUE);
 	int children_alive;
@@ -554,8 +605,9 @@ void movement_pattern_spinning_circle(void) {
 		}
 		if (!(children_alive)) mother_enemy_pool[i].alive = 0;
 		
-		mother_enemy_pool[i].position = enemy_moving_up_down_left_right(mother_enemy_pool[i].position, ENEMY_SPEED, DOWN); //Updates position
+		mother_enemy_pool[i].position = enemy_moving_up_down_left_right(mother_enemy_pool[i].position, ENEMY_SPEED, DOWN); //Updates every movment's position, to move downwards
 
+		//Switch to their respective movement pattern and update their position
 		switch (mother_enemy_pool[i].type) {
 			case 101:
 				spin_enemy(i, ENEMY_CIRCLE_COUNT, 100, 0.5f, mother_enemy_pool[i].position);
@@ -665,13 +717,25 @@ void movement_pattern_spinning_circle(void) {
 	}
 }
 
+/*!
+@brief	The finger bone of this spawning system
+		It spawns in child enemies in a circle shape, with mother enemy's position as the center
+@param  mother_i - the index of the mother_enemy_pool
+		enemy_count - the amount of child enemy
+		spin_speed - the spinning speed of the circle
+		radius - the distance between child and mother
+		position - the position of mother enemy
+@return NIL
+*//*______________________________________________________________*/
 void spin_enemy(int mother_i, int enemy_count, float spin_speed, float radius, CP_Vector position) {
 	float angle = 0;
+
+	//randomises the circle enemy so that every circles will spin and form differently
 	int randomizer = (int)mother_enemy_pool[mother_i].time % 36;
 	if (randomizer != 0) angle = 360.0f / randomizer;
 
+	//goes through each child of a mother and spawn their respective position
 	for (int i = 0; i < enemy_count; i++) {
-		//printf("this enemy's alive or dead state: %d\n", mother_enemy_pool[mother_i].children[i].alive);
 
 		mother_enemy_pool[mother_i].spare += spin_speed;
 
@@ -681,13 +745,19 @@ void spin_enemy(int mother_i, int enemy_count, float spin_speed, float radius, C
 		mother_enemy_pool[mother_i].children[i].position = enemy_position;
 		mother_enemy_pool[mother_i].children[i].size = ENEMY_SIZE;
 
-
 		if (!(mother_enemy_pool[mother_i].children[i].alive)) continue;
+
 		print_enemy(mother_enemy_pool[mother_i].children[i].position, mother_enemy_pool[mother_i].children[i].size);
-		//CP_Graphics_DrawCircle(mother_enemy_pool[mother_i].children[i].position.x, mother_enemy_pool[mother_i].children[i].position.y, mother_enemy_pool[mother_i].children[i].size * 2); //Prints enemy
 	}
 }
 
+/*!
+@brief	Spawns enemy vertically (Not complete due to lack of time)
+@param  mother_i - the index of the mother_enemy_pool
+		enemy_count - the amount of enemy to spawn
+		distance_apart - the distance between each child
+@return NIL
+*//*______________________________________________________________*/
 void vertical_enemy(int mother_i, int enemy_count, float distance_apart) {
 	/*int randomizer = (int)mother_enemy_pool[mother_i].time % 36;
 	if (randomizer != 0) angle = 360.0f / randomizer;*/
@@ -705,6 +775,12 @@ void vertical_enemy(int mother_i, int enemy_count, float distance_apart) {
 	}
 }
 
+/*!
+@brief	Sets child enemy or standard enemy to dead if they are out of the screen
+@param  enemy_i - the index of the standard enemy or child enemy
+		enemy_not_mother - to differentiate whether the function should test for child enemy or standard enemy
+@return NIL
+*//*______________________________________________________________*/
 void enemy_out_of_screen(int enemy_not_mother, int enemy_i) {
 	if (enemy_not_mother == 1) {
 		if (enemy_pool[enemy_i].position.y > HEIGHT * 1.1) {
@@ -721,22 +797,27 @@ void enemy_out_of_screen(int enemy_not_mother, int enemy_i) {
 	}
 }
 
+/*!
+@brief	Prints enemy
+@param  position - position of where to print the enemy
+		size - the size of enemy
+@return NIL
+*//*______________________________________________________________*/
 void print_enemy(CP_Vector position, float size) {
 	CP_Image enemy_pic = CP_Image_Load("./Assets/enemy.png");
 	CP_Image_Draw(enemy_pic, position.x, position.y, size*2, size*2, 255);
 }
 
 
-
+/*!
+@brief	To obtain varying number in the form of sine graph
+@param  range - the magnitude of sine graph
+		randomiser - this is more of a seed than randomiser
+		speed - changes the wavelength of the sine graph
+@return NIL
+*//*______________________________________________________________*/
 double sine(double range, int randomiser, double speed) {
 	double angle = *tick * PI / 360.0 / speed;
 	return range * sin(randomiser + angle * 10);
 }
 
-void resetPool(void) {
-	for (int j = 0; j < MAX_ENEMY; j++) enemy_pool[j].alive = 0;
-}
-
-void print(void) {//purely for debugging purpose
-	printf("it runs here!!\n");
-}

@@ -1,3 +1,16 @@
+/*---------------------------------------------------------
+ * file:	game.h 
+ * author:	jazz, isaac, keith, yi thon, qiu hui
+ * email:	j.teoh@digipen.edu
+*
+ * brief:	This file contains delcaration of functions, variables, arrays, constants and structs
+ *			Especially for those which would be used across different .c files
+*
+ * documentation link:
+ * https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+*
+ * Copyright © 2020 DigiPen, All rights reserved.
+* ---------------------------------------------------------*/
 
 #pragma once
 extern float tick_p, * tick ; //This is for the tick timer. *tick will give back the tick 
@@ -106,37 +119,42 @@ struct Item
 	int transparency;
 };
 
+//Struct for standard enemy, used in enemy_pool
 struct Enemy {
-	CP_Vector position;
+	CP_Vector position; //position of enemy
 	int alive; //boolean 1 or 0
 	float size; //radius of enemy
-	int type;
+	int type; //movement pattern
 };
 
+//Struct for spawn setting, used in spawn_pool
 struct spawn {
-	CP_Vector position;
-	float time;
-	int type;
+	CP_Vector position; //position of enemy to spawn
+	float time; // time in terms of tick to spawn enemy
+	int type; //movement pattern
 };
 
+//Struct for mother enemy, used in mother_enemy_pool
 struct mother_enemy {
-	CP_Vector position;
-	float time;
-	int alive;
-	int type;
-	struct Enemy children[MAX_CHILDREN];
-	float spare;
-	float spare2;
+	CP_Vector position; //position of mother enemy
+	float time; // time in terms of tick to spawn enemy
+	int alive; //boolean 1 or 0
+	int type; //movement pattern
+	struct Enemy children[MAX_CHILDREN]; //child enemy under this mother enemy
+	float spare; //Spare parameter for variety of usage. 
+	float spare2; //Second spare parameter for variety of usage.
 };
 
+//Struct for button, used for skills tree button mostly/only
 typedef struct button {
-	CP_Vector position;
-	CP_Vector num_position;
-	CP_Image image;
-	int state;
-	const char* description;
+	CP_Vector position; //Position of button center
+	CP_Vector num_position; //Position of where number of increment should be printed in skills button
+	CP_Image image; //Image of button
+	int state; //Number of upgrade triggered in the skill
+	const char* description; //Description of the skill that should appear when hovering on button
 } button;
 
+//Image of number for skill upgrade
 extern CP_Image Image_num_1;
 extern CP_Image Image_num_2;
 extern CP_Image Image_num_3;
@@ -148,6 +166,7 @@ extern CP_Image Image_num_8;
 extern CP_Image Image_num_9;
 extern CP_Image Image_num_10;
 
+//Buttons for each upgrades
 extern button skill_arrow_charge;
 extern button skill_arrow_size;
 extern button skill_attack_speed;
@@ -160,6 +179,7 @@ extern button skill_sword_swing;
 extern button skill_sword_crit;
 extern int max_skill_upgrade;
 
+//Declaration for struct arrays required for Enemy_array.c
 struct Enemy enemy_pool[MAX_ENEMY];
 struct spawn spawn_pool[MAX_ENEMY];
 struct mother_enemy mother_enemy_pool[MAX_MOTHER_ENEMY];
@@ -191,24 +211,6 @@ void DeathCondition(void);
 
 void exit_PlayerHP(void);
 
-//--------------------------------------------------------------------------------------------------------------------------------
-//isaac's EnemySprite Functions 
-//--------------------------------------------------------------------------------------------------------------------------------
-
-//void addEnemy(float x, float y, float dx);
-//void removeEnemy(int i);
-//void cycleEnemyRemove(void);
-//void Enemy_printer(void);
-//void movement_1(float x, float y, float C_radius);
-//CP_Vector Enemy_rotate_vector(float scalar, float angle, CP_Vector unit_vector);
-//void enemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed, int enemynum);
-//void addenemy_pattern_circle(CP_Vector mid_position, float big_radius, int speed);
-//void init_EnemySprite(void);
-//void SpawnEnemyCircle(float Positionx, float Positiony);
-//void SpawnEnemySingle(float Positionx, float Positiony);
-//void UpdateEnemyMovement(void);
-//void exit_EnemySprite(void);
-//----------------------------------------------------------------------------------------------------------------------------------
 void DespawnTimer();
 float originalPlayerSpeed;
 void DrawObjectiveText();
@@ -249,63 +251,20 @@ BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, 
 BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY);
 BOOL CheckCollisionWithBox(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
 
-/*!
-@brief		Activates the melee attack for wherever the position of sprite is.
-@param		position - This is the position of the sprite, where the melee attack will happen from
-@return		NIL
-*//*______________________________________________________________*/
 void melee_attack(CP_Vector position);
 void print_cooldown(CP_Vector position, int weapon); //int weapon, 0 for sword, 1 for fireball
 
-/*!
-@brief		This function detects mouse click, and activate the melee attack function for wherever the mouse is at. (the position can be changed in future)
-@param		*melee_angle - This is should take in 1 from game.c, the function will change it later on according to the angle of attack at specific frames (it's to be parsed into function melee_attack
-@return		NIL
-*//*______________________________________________________________*/
 void melee_update(CP_Vector position);
 void initiate_melee(void);
 
-/*!
-@brief		Calculate the vector direction due to change in rotation. Used in function melee_attack to calculate the angle 6
-@param		*melee_angle - This is should take in 1 from game.c, the function will change it later on according to the angle of attack at specific frames (it's to be parsed into function melee_attack
-@return		NIL
-*//*______________________________________________________________*/
 CP_Vector rotate_vector(float scalar, float angle, CP_Vector unit_vector);
 
-/*!
-@brief		Prints a rectangle as a weapon
-@param		*melee_angle - angle of rectangle
-			position - coordinate of rectangle
-@return		NIL
-*//*______________________________________________________________*/
 void print_melee_weapon(CP_Vector position, float angle);
 
-/*!
-@brief		Checks collision of rect with a circle. This function is to be used inside function melee_attack
-@param		enemy - position of enemy point
-			position - position of sword
-			vec1 - width of sword
-			vec2 - length of sword
-			enemy_radius - radius of enemy
-@return		1 if collide, 0 if none
-*//*______________________________________________________________*/
 int rect_collision(CP_Vector enemy, CP_Vector position, CP_Vector vec1, CP_Vector vec2, float enemy_radius);
-
-/*!
-@brief		A prototype stage function. To check if collision with target happened. Determines if collision happen via int collide.
-@param		NIL
-@return		NIL
-*//*______________________________________________________________*/
-void lightbulb(void);
 
 enum Direction { UP = 1, DOWN, LEFT, RIGHT };
 CP_Vector enemy_moving_up_down_left_right(CP_Vector enemy_current, float velocity_scale, int direction);
-
-//void enemy_pattern_circle(CP_Vector mid_position, float enemy_number, float big_radius, int speed);
-
-//void movement_1(void);
-
-//void print_enemy(CP_Vector sprite_position);
 
 void timer(void);
 
@@ -321,23 +280,17 @@ void update_bullet_travel(void);
 
 void print_bullet(void);
 
-//void bullet_collision(void);
-
 void explosion_update(void);
 
 void explosion_print(void);
 
 void explode(CP_Vector position);
 
-//void explosion_collision(void);
-
 void sword_explosion(CP_Vector position);
 
 void sword_explosion_update(void);
 
 void sword_explosion_print(void);
-
-//void sword_explosion_collision(void);
 
 void sword_explosion_update(void);
 
@@ -349,7 +302,6 @@ void print_shrapnel(void);
 
 void shrapnel_collision(void);
 
-//void piercing_bullet_collision(void);
 void weapon_to_enemy_collision(void);
 
 void print_piercing_bullet(void);
@@ -383,19 +335,8 @@ void PlayGame();
 void spawn_map(void);
 void spawnerthing(CP_Vector position, int spawn_amount, int type);
 
-//Start of enemy array functions
-//-------------------------------
 void preload_spawn_map(int level);
 
-/*!
-@brief		Assigns enemies to empty spawn_pool slots
-@param		position - position of first enemy spawned
-			spawn_speed_delay - delay between each enemy spawned (higher number = slower spawn rate)
-			start_spawn_tick - tick time at which the enemy starts spawning
-			spawn_amount - amount of enemy spawn
-			type - movement pattern
-@return		NIL
-*//*______________________________________________________________*/
 void spawn_pool_assigner(CP_Vector position, float spawn_speed_delay, float start_spawn_tick, int spawn_amount, int type);
 
 void enemy_out_of_screen(int enemy_not_mother, int enemy_i);
@@ -406,7 +347,6 @@ void print_charge(CP_Vector position, float charge);
 
 //These are the function that updates the positions every frame
 	void movement_pattern_vertical_and_diagonal(void);
-	void initialise_circle_shape(CP_Vector mid_position, int enemy_count, float radius);
 	void initialise_horizontal_line(CP_Vector start_position, int enemy_count, float distance_apart, int type);
 
 //-------------------------------
@@ -488,6 +428,5 @@ void Screen_SHOP_ButtonClicked(void);
 void Screen_SKILL_ButtonClicked(void);
 
 void exit_skilltreepictures(void);
-void resetPool(void);
 
 

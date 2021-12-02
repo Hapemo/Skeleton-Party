@@ -1,3 +1,16 @@
+/*---------------------------------------------------------
+ * file:	game.c
+ * author:	jazz, isaac, keith, yi thon, qiu hui
+ * email:	j.teoh@digipen.edu
+*
+ * brief:	This file is the main brain of the game. It constantly runs and updates to run the game
+*
+ * documentation link:
+ * https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+*
+ * Copyright © 2020 DigiPen, All rights reserved.
+* ---------------------------------------------------------*/
+
 #include <stdio.h>
 #include "cprocessing.h"
 #include "game.h"
@@ -226,10 +239,6 @@ void game_update(void)
 
 		}
 
-		
-
-	//}
-
 }
 
 
@@ -295,7 +304,6 @@ void PlayGame()
 	
 	update_bullet_travel();
 	weapon_to_enemy_collision();
-	lightbulb();
 	game_control(&knight);
 	spawn_map();
 
@@ -307,7 +315,6 @@ void PlayGame()
 	melee_update(knight.position);
 	explosion_update();
 	update_piercing_bullet_travel();
-	// enemy movement patterns
 	movement_pattern_vertical_and_diagonal();
 	movement_pattern_spinning_circle();
 	timer();

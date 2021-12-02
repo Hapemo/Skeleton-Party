@@ -1,5 +1,12 @@
-﻿  isaac.c
-  Processing_Sample.vcxproj -> C:\Users\user\Desktop\Skeleton-Party\Skeleton_Party\x64\Debug\Processing_Sample.exe
+﻿  Enemy_array.c
+  game.c
+  isaac.c
+  jazz.c
+  keith.c
+  main.c
+  qh.c
+  yithon.c
+  Processing_Sample.vcxproj -> C:\Users\jazzt\Documents\GitHub\Skeleton-Party\Skeleton_Party\x64\Debug\Processing_Sample.exe
   1 File(s) copied
   1 File(s) copied
-  164 File(s) copied
+  165 File(s) copied
