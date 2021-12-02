@@ -170,11 +170,16 @@ void game_update(void)
 			drawCreditScreenpg1();
 			creditBtnClicked();
 			break;
+
 		case CREDIT2:
 			drawCreditScreenpg2();
 			creditBtnClicked();
 			break;
 
+		case CREDIT3:
+			drawCreditScreenpg3();
+			creditBtnClicked();
+			break;
 		case EXIT:
 
 			CP_Engine_Terminate();

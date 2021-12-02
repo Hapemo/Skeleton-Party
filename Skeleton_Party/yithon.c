@@ -3,7 +3,7 @@
  * author:	yithon
  * email:	yithon.goh@digipen.edu
 *
- * brief:	This file contains functions for enemy.
+ * brief:	This file contains functions for audio, credit and pause
 *
  * documentation link:
  * https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
@@ -57,21 +57,27 @@ struct CreditButton {
 	float height;
 }credMenuBtn, credNextBtn;
 
+/*in case image cannot be found game would not return error*/
 CP_Image creditScreen1DP = NULL;
-CP_Image creditScreen2SP = NULL;
+CP_Image creditScreen2TSL = NULL;
+CP_Image creditScreen3SP = NULL;
 CP_Image creditMenubtn = NULL;
 CP_Image creditNextbtn = NULL;
 
-/*
- load credit screen assets
- */
+/*!
+@brief  - this function is called to load all image
+@return - this function does not return a value, just a function called to execute and load the image 
+*/
 void load_Credit_Image() {
 	creditScreen1DP = CP_Image_Load("./Assets/creditspg1.png");
-	creditScreen2SP = CP_Image_Load("./Assets/creditspg2.png");
-	creditMenubtn = CP_Image_Load("./Assets/Menubtn.png");
+	creditScreen2TSL = CP_Image_Load("./Assets/creditspg2.png");
+	creditScreen3SP = CP_Image_Load("./Assets/creditspg3.png");
+	creditMenubtn = CP_Image_Load("./Assets/return.png");
 	creditNextbtn = CP_Image_Load("./Assets/next.png");
 }
+//-------------------------------------------------------------------------------------------------
 
+//in case audio file is not found, gamme will not prompt error instead no audio will play
 CP_Sound menubg = NULL;
 CP_Sound crit = NULL;
 CP_Sound death = NULL;
@@ -83,8 +89,10 @@ CP_Sound click = NULL;
 CP_Sound switchChar = NULL;
 CP_Sound deniedNoMoney = NULL;
 CP_Sound coinsSound = NULL;
-/*
-load audio 
+
+/*!
+@brief  - this function is called to load all audio file
+@return - this function does not return a value, just a function called to execute to load the audio
 */
 void load_audio() {
 	menubg = CP_Sound_LoadMusic("./Assets/newBGLoop.wav");
@@ -100,62 +108,98 @@ void load_audio() {
 	coinsSound= CP_Sound_Load("./Assets/coins.wav");
 }
 
-//play menusound 
+/*!
+@brief  - this function is called to play the background music
+@return - this function does not return a value, just a function called to the music when game is started
+*/
 void play_menubg() {
-	//CP_Sound_PlayMusic(menubg);
 	CP_Sound_PlayAdvanced(menubg, 1.0f, 1.0f, TRUE, CP_SOUND_GROUP_1);
-	/*if (gameState == PREPROOM) {
-		//CP_Sound_PauseAll();
-		CP_Sound_PauseGroup(CP_SOUND_GROUP_1);
-	}
-	else
-	{
-		//CP_Sound_ResumeAll();
-		CP_Sound_ResumeGroup(CP_SOUND_GROUP_1);
-	}*/
-	//CP_Sound_PlayMusic(menubg, 1.0f, 1.0f, TRUE, CP_SOUND_GROUP_1);
 }
 
-/*play crit sound*/
+/*!
+@brief  - this function is called to play when sword hits a critical hit
+@return - this function does not return a value, just a function called when knight hit a crit
+*/
 void play_crit() {
 	CP_Sound_PlayAdvanced(crit, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
 
-//play when player dies
+/*!
+@brief  - this function is called to play when state is game over
+@return - this function does not return a value, just a function called when game over screen appear
+*/
 void play_death() {
 	CP_Sound_PlayAdvanced(death, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
 
-//play when sword hit enemy
+/*!
+@brief  - this function is called to play when knight attack hit an enemy
+@return - this function does not return a value, just a function called when collision happen between sword and enemy
+*/
 void play_swordHit() {
 	CP_Sound_PlayAdvanced(meleeHit, 0.4f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
 
-//play when player get health boost
+/*!
+@brief  - this function is called to play when player pick up health bottle
+@return - this function does not return a value, just a function called when player and health boost collide 
+*/
 void play_healthDrop() {
 	CP_Sound_PlayAdvanced(heathDrop, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
-//speed drop collect
+
+/*!
+@brief  - this function is called to play when player pick up speed bottle
+@return - this function does not return a value, just a function called when player and speed boost collide
+*/
 void play_speedDrop() {
 	CP_Sound_PlayAdvanced(speedDrop, 0.5f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
-// when player swing sword 
+
+/*!
+@brief  - this function is called to play when player click attack for knight
+@return - this function does not return a value, just a function called when player click attack when using knight
+*/
 void play_swordSwing() {
 	CP_Sound_PlayAdvanced(swordSwing, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
-//clickSound for buttona
+
+/*!
+@brief  - this function is called to play when player click btn 
+@return - this function does not return a value, just a function called when player click button 
+*/
 void play_click() {
 	CP_Sound_PlayAdvanced(click, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_4);
 }
+
+/*!
+@brief  - this function is called to play when player switch between playstyle
+@return - this function does not return a value, just a function called when player click button
+*/
 void play_charswitch() {
 	CP_Sound_PlayAdvanced(switchChar, 0.1f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
+
+/*!
+@brief  - this function is called to play when player didnt have enough coin when trying to purchase upgrades from shop/skill
+@return - this function does not return a value, just a function called when player click button and is denied from buying
+*/
 void play_denied() {
 	CP_Sound_PlayAdvanced(deniedNoMoney, 0.5f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
+
+/*!
+@brief  - this function is called to play when player get coins while fighting or purchasing an upgrade
+@return - this function does not return a value, just a function called when player click purchase or recieve money in game
+*/
 void play_coins() {
 	CP_Sound_PlayAdvanced(coinsSound, 0.5f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
+
+/*!
+@brief  - this function is called to free audio, to prevent memory leak
+@return - this function does not return a value, just a function called to free the audio after game is closed
+*/
 void free_audio() {
 	CP_Sound_Free(&menubg);
 	CP_Sound_Free(&crit);
@@ -169,83 +213,11 @@ void free_audio() {
 	CP_Sound_Free(&coinsSound);
 }
 
-
-/*I have  made the structs global by adding it to the header file*/
-//These variables are for enemyHealth and damage taking, for function 'enemy_taking_dmg' 
-//struct enemy
-//{
-//	CP_Vector enemyPosition;
-//	CP_Image enemyDesign;
-//	CP_Image enemyDead;
-//	float width;
-//	float height;
-//}bug;
-
-//struct enemy bug={ 500, 500, "./Assets/Enemydot.png", 100, 100, 1 };
-
-/*void init_enemy() {
-	bug.enemyPosition = CP_Vector_Set(500, 500);
-	//CP_Settings_ImageMode(CP_POSITION_CENTER);
-	bug.enemyDesign = CP_Image_Load("./Assets/Enemydot.png");
-	bug.width = 100;
-	bug.height = 100;
-	bug.alive = 1;
-}*/
-//check for collision 
-/*BOOL check_enemy_collide(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
-{
-
-	float boundaryX = posBoxX + widthBox;
-	float boundaryY = posBoxY + heightBox;
-	if ((posX < boundaryX && posX > posBoxX)
-		&& (posY < boundaryY && posY > posBoxY))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}*/
-
-/*void enemy_dies()
-{u
-	if (collide) {
-		DropStuff(bug.enemyPosition.x, bug.enemyPosition.y);
-		bug.alive = 0;
-	}
-}*/
-
-//enemy touching player, player losing health
-void player_touch_enemy() {
-
-	if (bug.alive == 1)
-	{
-		CP_Image_Draw(bug.enemyDesign, bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, 255);
-		//CP_Graphics_ClearBackground(COLOR_GRAY);
-
-		if (CheckIfBoxesOverlap(bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, knight.position.x, knight.position.y, knight.width, knight.height))
-		{
-				Playertakedamage(1);
-				bug.alive = 0;
-				DropStuff(bug.enemyPosition.x, bug.enemyPosition.y);
-		}
-	}
-	
-}
-
-void drawWinScreen() {
-	CP_Font_Set(myFont);
-	float width = (float)CP_System_GetWindowWidth();
-	float height = (float)CP_System_GetWindowHeight();
-	if (gameState == WIN) {
-		CP_Settings_Fill(COLOR_BLACK);
-		CP_Graphics_DrawRect(width +width / 2, height +height / 2, width, height);
-		CP_Font_DrawTextBox("YOU WIN!",( width / 8 * 3) + (width / 6) / 6.5f, (height / 8 * 3) + (height / 8) / 1.5f, (width / 6));
-	}
-}
-
-//Pause state
+//was upgraded better by Issac after 
+/*!
+@brief  - this function is called when pause is pressed
+@return - this function does not return a value, just a function called when player click pause
+*/
 void DrawPauseCanvas()
 {
 	CP_Font_Set(myFont);
@@ -293,7 +265,10 @@ void DrawPauseCanvas()
 		CP_Font_DrawTextBox("Menu", menuPauseButton.posX + menuPauseButton.width / 6.5f, menuPauseButton.posY + menuPauseButton.height / 1.5f, menuPauseButton.width );
 	}
 }
-//clicking buttons in pause state
+/*!
+@brief  - this function is for collision in pause state
+@return - this function does not return a value, just a function called when player click on the buttons in paused state
+*/
 void PauseButtonClicked()
 {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
@@ -325,17 +300,21 @@ void PauseButtonClicked()
 	}
 }
 
+/*!
+@brief  - this function is called draw the 1st screen for credit when credit is pressed in menu
+@return - this function does not return a value, just a function called when player click on credit
+*/
 void drawCreditScreenpg1() {
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
 	CP_Image_Draw(creditScreen1DP, WIDTH / 2.0, HEIGHT / 2.0, WIDTH, HEIGHT, 255);
-
+	// draw menu button on right
 	credMenuBtn.posX = width / 7.0f;
 	credMenuBtn.posY = height * (0.925f);
 	credMenuBtn.width = width / 5.0f;
 	credMenuBtn.height = height / 15.0f;
 	CP_Image_Draw(creditMenubtn, credMenuBtn.posX, credMenuBtn.posY, credMenuBtn.width, credMenuBtn.height, 255);
-
+	//draw next button on the left
 	credNextBtn.posX = 810.0f;
 	credNextBtn.posY = height * (0.925f);
 	credNextBtn.width = width / 5.0f;
@@ -343,10 +322,36 @@ void drawCreditScreenpg1() {
 	CP_Image_Draw(creditNextbtn, credNextBtn.posX, credNextBtn.posY, credNextBtn.width, credNextBtn.height, 255);
 }
 
+/*!
+@brief  - this function is called draw the 2nd screen for credit when player press next in page 1 of credit
+@return - this function does not return a value, just a function called when player click on next in page 1 of credit
+*/
 void drawCreditScreenpg2() {
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
-	CP_Image_Draw(creditScreen2SP, WIDTH / 2.0, HEIGHT / 2.0, WIDTH, HEIGHT, 255);
+	CP_Image_Draw(creditScreen2TSL, WIDTH / 2.0, HEIGHT / 2.0, WIDTH, HEIGHT, 255);
+	// draw menu button on right
+	credMenuBtn.posX = width / 7.0f;
+	credMenuBtn.posY = height * (0.925f);
+	credMenuBtn.width = width / 5.0f;
+	credMenuBtn.height = height / 15.0f;
+	CP_Image_Draw(creditMenubtn, credMenuBtn.posX, credMenuBtn.posY, credMenuBtn.width, credMenuBtn.height, 255);
+	//draw next button on the left
+	credNextBtn.posX = 810.0f;
+	credNextBtn.posY = height * (0.925f);
+	credNextBtn.width = width / 5.0f;
+	credNextBtn.height = height / 15.0f;
+	CP_Image_Draw(creditNextbtn, credNextBtn.posX, credNextBtn.posY, credNextBtn.width, credNextBtn.height, 255);
+}
+
+/*!
+@brief  - this function is called draw the 3rd screen for credit when player press next in page 2 of credit
+@return - this function does not return a value, just a function called when player click on next in page 2 of credit
+*/
+void drawCreditScreenpg3() {
+	float width = (float)CP_System_GetWindowWidth();
+	float height = (float)CP_System_GetWindowHeight();
+	CP_Image_Draw(creditScreen3SP, WIDTH / 2.0, HEIGHT / 2.0, WIDTH, HEIGHT, 255);
 
 	credMenuBtn.posX = width / 7.0f;
 	credMenuBtn.posY = height * (0.925f);
@@ -355,47 +360,42 @@ void drawCreditScreenpg2() {
 	CP_Image_Draw(creditMenubtn, credMenuBtn.posX, credMenuBtn.posY, credMenuBtn.width, credMenuBtn.height, 255);
 }
 
+/*!
+@brief  - this function is used for collision of button in credit screen
+@return - this function does not return a value, just a function called to change between screen in credit
+*/
 void creditBtnClicked()
 {
 	float mousePosX = CP_Input_GetMouseX();
 	float mousePosY = CP_Input_GetMouseY();
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
+		//for menu
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, credMenuBtn.width, credMenuBtn.height, credMenuBtn.posX, credMenuBtn.posY))
 		{
 			EnableMenu();
 			gameState = MAIN_MENU;
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, credNextBtn.width, credNextBtn.height, credNextBtn.posX, credNextBtn.posY) && (gameState == CREDIT1))
+		//for 2nd page
+		else if (CheckCollisionWithBoxImage(mousePosX, mousePosY, credNextBtn.width, credNextBtn.height, credNextBtn.posX, credNextBtn.posY) && (gameState == CREDIT1))
 		{
 			gameState = CREDIT2;
 		}
+		//for 3rd page
+		else if (CheckCollisionWithBoxImage(mousePosX, mousePosY, credNextBtn.width, credNextBtn.height, credNextBtn.posX, credNextBtn.posY) && (gameState == CREDIT2))
+		{
+			gameState = CREDIT3;
+		}
 	}
 }
-
+/*!
+@brief  - this function is called to free the image to prevent memory leak
+@return - this function does not return a value, just a function called to free the images used to prevent leak when game is closed
+*/
 void free_IMAGE() {
 	CP_Image_Free(&creditScreen1DP);
-	CP_Image_Free(&creditScreen2SP);
+	CP_Image_Free(&creditScreen2TSL);
+	CP_Image_Free(&creditScreen3SP);
 	CP_Image_Free(&creditMenubtn);
 	CP_Image_Free(&creditNextbtn);
 }
-//enemy collision with player attack
-/*void enemy_damage() {
-
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
-	{
-		float mousePosX = CP_Input_GetMouseX();
-		float mousePosY = CP_Input_GetMouseY();
-		if (CheckCollisionWithBox(mousePosX, mousePosY, 100, 100, bug.enemyPosition.x, bug.enemyPosition.y))
-		{
-			CP_Image_Draw(bug.enemyDead, bug.enemyPosition.x, bug.enemyPosition.y, bug.width, bug.height, 255);
-			//CP_Image_Free(enemyDesign);
-			CP_Graphics_ClearBackground(COLOR_GRAY);
-		}
-	}
-	
-}*/
-
-
-
-
