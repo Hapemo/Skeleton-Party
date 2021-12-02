@@ -744,12 +744,30 @@ void DespawnTimer()
 
 void DropStuff(float posX, float posY)
 {
+	int randomChanceSpawnRate = CP_Random_RangeInt(0, 99);
+	printf("randomChanceSpawnRate: %d", randomChanceSpawnRate);
 	for (int i = 0, j = 0; i <= j && j < MAX_DROP; i++)
 	{
 		if (item_pool[i].enabled == 0)
 		{
-			int randomChanceSpawnRate = CP_Random_RangeInt(0, 99);
-			if (randomChanceSpawnRate >= 0 && randomChanceSpawnRate < 19)
+			
+			if (randomChanceSpawnRate >= 0 && randomChanceSpawnRate <= 14)
+			{
+				//struct Item potion;
+				item_pool[i].position.x = posX;
+				item_pool[i].position.y = posY;
+				item_pool[i].width = 45;
+				item_pool[i].height = 50;
+				item_pool[i].enabled = 1;
+				item_pool[i].transparency = 255;
+				item_pool[i].despawnTimer = 3.0f;
+				//int randomChance = CP_Random_RangeInt(0, 1);
+				item_pool[i].id = 0;
+				//j++;
+				//printf("Spawned: %d", item_pool[i].enabled);
+				
+			}
+			else if (randomChanceSpawnRate >= 20 && randomChanceSpawnRate <= 34)
 			{
 				item_pool[i].position.x = posX;
 				item_pool[i].position.y = posY;
@@ -758,11 +776,23 @@ void DropStuff(float posX, float posY)
 				item_pool[i].enabled = 1;
 				item_pool[i].transparency = 255;
 				item_pool[i].despawnTimer = 3.0f;
-				int randomChance = CP_Random_RangeInt(0, 1);
-				item_pool[i].id = randomChance;
-				j++;
-				//printf("Spawned: %d", item_pool[i].enabled);
-				
+				//int randomChance = CP_Random_RangeInt(0, 1);
+				item_pool[i].id = 1;
+				//j++;
+
+			}
+		    else if(randomChanceSpawnRate >= 40 && randomChanceSpawnRate <= 44)
+			{
+				item_pool[i].position.x = posX;
+				item_pool[i].position.y = posY;
+				item_pool[i].width = 45;
+				item_pool[i].height = 50;
+				item_pool[i].enabled = 1;
+				item_pool[i].transparency = 255;
+				item_pool[i].despawnTimer = 10.0f;
+				item_pool[i].id = 2;
+				//j++;
+
 			}
 		}
 		else if (item_pool[i].enabled == 1)
@@ -776,13 +806,7 @@ void DropStuff(float posX, float posY)
 
 		
 	}
-	int goldDropRate = CP_Random_RangeInt(0, 99);
-	if (goldDropRate == 0)
-	{
-		Gold++;
-		play_coins();
-
-	}
+	
 }
 
 
@@ -829,6 +853,19 @@ void DrawItem()
 				}
 
 				break;
+			case 2:
+				item_pool[i].sprite = CP_Image_Load("./Assets/gold.png");
+				CP_Image_Draw(item_pool[i].sprite, item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, item_pool[i].transparency);
+				if (CheckIfBoxesOverlap(item_pool[i].position.x, item_pool[i].position.y, item_pool[i].width, item_pool[i].height, knight.position.x, knight.position.y, knight.width, knight.height))
+				{
+					play_coins();
+					Gold++;
+					printf("Gold: %d", Gold);
+					item_pool[i].enabled = 0;
+				}
+
+				break;
+
 			default:
 				/*item_pool[i].position.x = 0;
 				item_pool[i].position.y = 0;
