@@ -81,7 +81,7 @@ EnemySprite* enemycircle[MAX_ENEMY][ShapeSizecircle];
 EnemySprite* enemyline[MAX_ENEMY][ShapeSizeline];
 
 
-
+//@purpose struct for sprite character properties
 struct character
 {
     CP_Vector position;
@@ -94,6 +94,7 @@ struct character
 	BOOL invulnerability;
 };
 
+//@purpose initialise character 
 struct character knight, mage, archer;
 
 struct enemy

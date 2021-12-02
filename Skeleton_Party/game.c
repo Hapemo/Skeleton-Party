@@ -15,8 +15,6 @@
 #include "cprocessing.h"
 #include "game.h"
 
-/* Feel free to declare your own variables here */
-//int gamePause;
 
 int CurrentCharacter = 0;
 
@@ -54,7 +52,7 @@ void game_init(void)
 	originalPlayerPositionY = height * 2.25f;
  
 	
-
+	//@purpose initialise the first character to knight 
 	init_char(&knight, originalPlayerPositionX, originalPlayerPositionY, "./Assets/knightpa.png");
 	originalPlayerSpeed = knight.speed;
 
@@ -71,13 +69,6 @@ void game_update(void)
 	//FullscreenKeyPressed();
 
 	FullscreenMode();
-	//if (gamePause)
-	//{
-		//DrawPauseCanvas();
-	//}
-	//else {
-
-
 		
 		switch (gameState)
 		{
@@ -140,10 +131,7 @@ void game_update(void)
 			EnableMenu();
 			play_menubg();
 			DrawMenuButton();
-
 			DrawMenuCanvas();
-		
-		
 			ButtonClicked();
 			break;
 		case INSTRUCTIONS:
@@ -270,6 +258,8 @@ void PlayGame()
 	DrawGameCanvas();
 
 	DrawBuffIndicator();
+
+	//@purpose character switching 
 	if (CP_Input_KeyTriggered(KEY_1))
 	{
 		play_charswitch();
@@ -287,6 +277,7 @@ void PlayGame()
 		CurrentCharacter = archerint;
 	}
 	update_char(CurrentCharacter, &knight);
+
 	// class skill restriction 
 	if (CurrentCharacter == knightint)
 	{
@@ -304,6 +295,7 @@ void PlayGame()
 	
 	update_bullet_travel();
 	weapon_to_enemy_collision();
+	// render and control movement of knight
 	game_control(&knight);
 	spawn_map();
 

@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include "cprocessing.h"
 #include "game.h"
-//#define speed 400 
+
+
+
 //struct character
 //{
 //    CP_Vector position;
@@ -15,30 +17,15 @@
 
 //Note: since using include game.h, I set struct to global do not need local struct
 
-float enemymin = 60.f;
-float enemymax = 400.f;
-//float timer = 0.f;
-float duration = 10.f;
 
+//@purpose enemy movement 
 float Lerp(float start, float end, float percentage)
 {
     return ((1.f - percentage) * start + (percentage * end));
 }
 
 
-//void enemymov(void)
-//{
-//    timer += CP_System_GetDt();
-//    if (timer >= duration)
-//    {
-//        timer = duration;
-//    }
-//
-//    float enemypos = Lerp(enemymin, enemymax, timer / duration);
-//    CP_Settings_Fill(COLOR_WHITE);
-//    CP_Graphics_DrawCircle(150.f, enemypos, 50.f);
-//}
-
+//@purpose spawn sprite
 void init_char(struct character *spritename, float spawnx, float spawny, char* pathname)
 {
     spritename->position = CP_Vector_Set(spawnx, spawny);
@@ -50,6 +37,8 @@ void init_char(struct character *spritename, float spawnx, float spawny, char* p
     
 }
 
+
+//@purpose sprite character switching
 void update_char(int CurrentCharacter, struct character* spritename)
 {
     
@@ -70,19 +59,6 @@ void update_char(int CurrentCharacter, struct character* spritename)
     }
 }
 
-/*void enemypattern1(void)
-{
-    struct character enemy;
-    
-    float x = CP_System_GetWindowWidth() / 3;
-    float y = CP_System_GetWindowHeight() / 3;
-    for (int i = 0; i < 3; i++)
-    {
-        init_char(enemy, (x+(x*i)), (y+(y*i)), "./Assets/Enemydot.png");
-        
-    }
-}
-*/
 
 void begintext(void)
 {
@@ -104,6 +80,7 @@ void endtext(void)
     CP_Font_DrawText("Thank you for saving our princess! ", ((x / 2) - 50), ((y / 2) - 50));
 }
 
+//@purpose sprite movement control in game
 void game_control(struct character *spritename )
 {
     
