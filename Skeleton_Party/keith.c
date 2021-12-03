@@ -665,6 +665,7 @@ void EnableMenu()
 
 void ResetState()
 {
+	CurrentCharacterKeith = knightint;
 	objectiveDisplayTimer = 3.0f;
 	ResetItemPool();
 	timer_reset();
@@ -674,6 +675,7 @@ void ResetState()
 	knight.transparency = 255;
 	knight.invulnerability = FALSE;
 	knight.speedbuff = FALSE;
+
 	load_audio(); //load audio
 	Player_FullHeal();
 

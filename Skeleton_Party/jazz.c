@@ -102,7 +102,7 @@ float max_arrow_size = 150; //define max_charge
 float max_explosion_radius_upgrade = 200; //max explosion radius
 
 
-extern int CurrentCharacter; //To get position of character
+
 
 /*!
 @brief  Performs melee attack from position of character
@@ -470,7 +470,7 @@ void melee_update(CP_Vector position) {
 	if (*pmelee_or_not) {
 		melee_attack(position);
 	} else {
-		if (!(CurrentCharacter == knightint))return;
+		if (!(CurrentCharacterKeith == knightint))return;
 		if (sword_cooldown > sword_attack_speed) return;
 		print_cooldown(position, 0);
 	}

@@ -16,7 +16,7 @@
 #include "game.h"
 
 
-int CurrentCharacter = 0;
+//int CurrentCharacter = 0;
 
 void PlayGame();
 
@@ -263,31 +263,31 @@ void PlayGame()
 	if (CP_Input_KeyTriggered(KEY_1))
 	{
 		play_charswitch();
-		CurrentCharacter = knightint;
+		CurrentCharacterKeith = knightint;
 
 	}
 	if (CP_Input_KeyTriggered(KEY_2))
 	{
 		play_charswitch();
-		CurrentCharacter = mageint;
+		CurrentCharacterKeith = mageint;
 	}
 	if (CP_Input_KeyTriggered(KEY_3))
 	{
 		play_charswitch();
-		CurrentCharacter = archerint;
+		CurrentCharacterKeith = archerint;
 	}
-	update_char(CurrentCharacter, &knight);
+	update_char(CurrentCharacterKeith, &knight);
 
 	// class skill restriction 
-	if (CurrentCharacter == knightint)
+	if (CurrentCharacterKeith == knightint)
 	{
 		initiate_melee();
 	}
-	else if (CurrentCharacter == mageint)
+	else if (CurrentCharacterKeith == mageint)
 	{
 		shooting_check(knight.position);
 	}
-	else if (CurrentCharacter == archerint)
+	else if (CurrentCharacterKeith == archerint)
 	{
 		piercing_shooting_check(knight.position);
 

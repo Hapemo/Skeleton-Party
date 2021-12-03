@@ -53,6 +53,7 @@ enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_SELECTION, LEVEL_1, 
 enum GameStates gameState;
 
 
+int CurrentCharacterKeith;
 float originalPlayerPositionX;
 float originalPlayerPositionY;
 int Exp, Gold ;
