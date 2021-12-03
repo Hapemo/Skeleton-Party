@@ -670,12 +670,10 @@ void ResetState()
 	timer_reset();
 	knight.position.x = originalPlayerPositionX;
 	knight.position.y = originalPlayerPositionY;
-	
+	knight.speed = originalPlayerSpeed;
 	knight.transparency = 255;
 	knight.invulnerability = FALSE;
 	knight.speedbuff = FALSE;
-	//init_char(&knight, originalXposition, originalYposition, "./Assets/knightpa.png");
-	//preload_spawn_map(); //This is for declarations in enemy_array
 	load_audio(); //load audio
 	Player_FullHeal();
 
@@ -798,10 +796,6 @@ void DropStuff(float posX, float posY)
 		else if (item_pool[i].enabled == 1)
 		{
 			j++;
-			
-			//printf("Drop: %d", item_pool[i].enabled);
-
-			
 		}
 
 		
@@ -889,8 +883,6 @@ void InvulnerabilityFrame()
 {
 	
 
-		//printf("knight.invulnerability: %d", knight.invulnerability);
-
 		static float InvulnerabilityTimer = 3.0f;
 
 		static float lerpTimer = 0.f;
@@ -899,8 +891,6 @@ void InvulnerabilityFrame()
 		{
 
 			InvulnerabilityTimer -= CP_System_GetDt();
-
-			//lerp = CP_Math_ClampFloat(1 * CP_System_GetDt(), 0.0f, 1.0f);
 			if (lerpTimer > 0.25f)
 			{
 
@@ -921,14 +911,12 @@ void InvulnerabilityFrame()
 		{
 
 			knight.invulnerability = FALSE;
-			//printf("knight.invulnerability: %d", knight.invulnerability);
-			//printf("knight.invulnerability: %d", (int)knight.invulnerability);
 			knight.transparency = 255;
 			lerpTimer = 0.f;
 			InvulnerabilityTimer = 3.0f;
 			//return;
 		}
-		//printf("InvulnerabilityTimer: %f", InvulnerabilityTimer);
+
 	
 	
 }

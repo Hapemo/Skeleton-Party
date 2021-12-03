@@ -312,6 +312,7 @@ void PlayGame()
 	timer();
 
 	SpeedBuffEffect();
+	printf("%f", knight.speed);
 	//player_touch_enemy();
 	EnemyCollision();
 	DrawItem();

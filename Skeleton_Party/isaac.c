@@ -2001,13 +2001,14 @@ void Screen_SKILL_ButtonClicked(void)
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 767.0, 28.0, 924.0, 153.0)) gameState = UPGRADES;
 
 		//Skills upgrade for only health and movement
-		if (Exp > 0 && knight.speed < maxadditionalspeed) {
+		if (Exp > 0 && originalPlayerSpeed < maxadditionalspeed) {
 			if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
 				Exp -= 1;
 				skill_movement.state++;
 				additionalspeed = 30;
-				knight.speed += additionalspeed;
-				printf("knight speed: %f\n", knight.speed);
+				//knight.speed += additionalspeed;
+				originalPlayerSpeed += additionalspeed;
+				//printf("knight speed: %f\n", knight.speed);
 			}
 		}
 		if (Exp > 0 && skill_health.state < maxadditionalhp) {
@@ -2049,8 +2050,8 @@ void Screen_SKILL_ButtonClicked(void)
 			if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
 				skill_movement.state--;
 				Exp++;
-				additionalspeed -= 20;
-				knight.speed -= additionalspeed;
+				additionalspeed = 30;
+				originalPlayerSpeed -= additionalspeed;
 			}
 		}
 		

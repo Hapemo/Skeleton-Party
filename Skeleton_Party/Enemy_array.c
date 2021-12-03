@@ -106,7 +106,7 @@ void level_1(void) {
 	spawn_pool_assigner(level_0120, 20.0f, 5200.0f, 20, 12);
 	spawn_pool_assigner(one_tenth, 20.0f, 5250.0f, 20, 11);
 
-	winning_condition = 5900;
+	winning_condition = 500;
 }
 
 /*!
