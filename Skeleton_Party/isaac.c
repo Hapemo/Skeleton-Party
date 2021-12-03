@@ -574,7 +574,7 @@ void init_PlayerHP(void)
 	maxadditionalhp = 5;
 	additionalhp = 0;
 
-	maxadditionalspeed = 80;
+	maxadditionalspeed = 320;
 	additionalspeed = 0;
 
 	hplocationX = (CP_System_GetWindowWidth()) / 10.0f;
@@ -834,7 +834,7 @@ void InitializeSkillShopUI(void)
 	maxadditionalhp = 5;
 	additionalhp = 0;
 
-	maxadditionalspeed = 80;
+	maxadditionalspeed = 320;
 	additionalspeed = 0;
 
 	hplocationX = (CP_System_GetWindowWidth()) / 10.0f;
@@ -896,7 +896,6 @@ void Player_FullHeal(void)
 	while (Eplayerhp > 0)
 	{
 		PlayerHealed(1);
-		printf("playerfull healed \n");
 		Eplayerhp -= 1;
 	}
 }
@@ -988,10 +987,6 @@ void Screen_Currency_Print(void)
 *//*_________________________________________________________________________________________________________________________________________________________________*/
 void Screen_GAMEOVER_Print(void)										
 {
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
-	{
-		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
-	}
 	CP_Image_Draw(Image_Gameover_Background, GameOver_Background.posX, GameOver_Background.posY, isaac_width, isaac_height, 255);
 }
 
@@ -2006,12 +2001,13 @@ void Screen_SKILL_ButtonClicked(void)
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 767.0, 28.0, 924.0, 153.0)) gameState = UPGRADES;
 
 		//Skills upgrade for only health and movement
-		if (Exp > 0 && additionalspeed < maxadditionalspeed) {
+		if (Exp > 0 && knight.speed < maxadditionalspeed) {
 			if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
 				Exp -= 1;
 				skill_movement.state++;
-				additionalspeed += 20; // or 20 increment ? 
+				additionalspeed = 30;
 				knight.speed += additionalspeed;
+				printf("knight speed: %f\n", knight.speed);
 			}
 		}
 		if (Exp > 0 && skill_health.state < maxadditionalhp) {

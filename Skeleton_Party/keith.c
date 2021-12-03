@@ -941,7 +941,7 @@ void SpeedBuffEffect()
 		//float duration = 3.0f;
 		if (knight.speed == originalPlayerSpeed)
 		{
-			knight.speed *= 3.0f;
+			knight.speed *= 2.0f;
 
 		}
 
