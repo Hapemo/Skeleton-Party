@@ -313,7 +313,7 @@ void DrawMenuCanvas()
 
 void DrawLogoScreen()
 {
-	static float timer = 3.0f;
+	static float timer = 5.0f;
 
 	if (timer > 0)
 	{
@@ -325,7 +325,7 @@ void DrawLogoScreen()
 		//CP_Color fade = CP_Color_Create(0, 0, 0, (int)(255 * timer));
 		//CP_Color newColour = CP_Color_Lerp(COLOR_BLACK, transparent, timer);
 	    CP_Graphics_DrawRect(0, 0, width, height);
-		CP_Image_Draw(digipenLogo, width / 2, height / 2, width / 1.5f, height / 2, (int)(255 * timer));
+		CP_Image_Draw(digipenLogo, width / 2, height / 2, width / 1.2f, height / 2, (int)(255 * timer));
 
 
 
@@ -558,7 +558,31 @@ void DrawObjectiveText()
 		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_BASELINE);
 
 		char levelText[] = "Level 1\n";
-		levelText[6] = (currentLevel % 4) + '0';
+		
+		int level = 0;
+		switch (currentLevel)
+		{
+		case LEVEL_1:
+			level = 1;
+			break;
+		case LEVEL_2:
+			level = 2;
+			break;
+		case LEVEL_3:
+			level = 3;
+			break;
+		case LEVEL_4:
+			level = 4;
+			break;
+		case LEVEL_5:
+			level = 5;
+			break;
+		default:
+			break;
+		}
+		levelText[6] = (char)(level + '0');
+
+
 		CP_Font_DrawTextBox(levelText, width /6.5f, height / 10, (float)strlen(levelText) * 75);
 		CP_Settings_TextSize(50);
 		char objectiveText[] = "Objective:\nSurvive Waves Of Enemy";
