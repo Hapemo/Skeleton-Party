@@ -127,6 +127,7 @@ void InitializeVariables()
 	level5Image = CP_Image_Load("./Assets/level5.png");
 	buffIndicatorImage = CP_Image_Load("./Assets/speedBoostSym.png");
 	upgradesButtonImage = CP_Image_Load("./Assets/upgradeBtn.png");
+	instructionScreen = CP_Image_Load("./Assets/tutScreen.png");
 }
 
 
@@ -216,6 +217,14 @@ BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, 
 
 }
 
+// specification for CheckCollisionWithBoxImage
+/*!
+@brief This function will check if a point is within a box, only
+	   works with images or Centered rects.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
 {
@@ -238,6 +247,16 @@ BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float he
 
 		
 }
+// specification for CheckCollisionWithBox
+/*!
+@brief This function will check if a point is within a box, only
+       works with those boxes drawn by draw rects which are 
+	   Corner based.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
+
 BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
 {
 
@@ -257,17 +276,30 @@ BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightB
 
 }
 
+// specification for DrawMenuCanvas
+/*!
+@brief This function will draw the menu canvas which consists 
+       of buttons and a black rectangle based on the
+	   window size.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
+
 
 void DrawMenuCanvas()
 {
-	CP_Font_Set(myFont);
+	CP_Font_Set(myFont); //Set the font of the text
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
 	menu.width = width;
 	menu.height = height;
 	if (menu.enabled ==  TRUE)
 	{
-		CP_Settings_RectMode(CP_POSITION_CENTER);
+		//As draw rect is usually based on the corner position, 
+	    //we change the rect mode to centre so that draw rect is 
+		//aligned or consistent with the images which are centered
+		CP_Settings_RectMode(CP_POSITION_CENTER); 
 		CP_Settings_Fill(COLOR_BLACK);
 		CP_Graphics_DrawRect(menu.posX + menu.width/2, menu.posY + menu.height/2,
 			menu.width, menu.height);
@@ -292,13 +324,10 @@ void DrawMenuCanvas()
 		creditButton.width = menu.width / 6.0f;
 		creditButton.height = menu.height / 15.0f;
 
-
 		quitButton.posX = menu.width / 2.0f;
 		quitButton.posY = menu.height * (5.5f / 7.0f) + 45.0f;
 		quitButton.width = menu.width / 3.0f;
 		quitButton.height = menu.height / 8.0f;
-
-
 
 		CP_Image_Draw(playButtonImage, playButton.posX, playButton.posY, playButton.width, playButton.height, 255);
 		CP_Image_Draw(upgradesButtonImage, upgradesButton.posX, upgradesButton.posY, upgradesButton.width, upgradesButton.height, 255);
@@ -306,9 +335,21 @@ void DrawMenuCanvas()
 		CP_Image_Draw(quitButtonImage, quitButton.posX, quitButton.posY, quitButton.width, quitButton.height, 255);
 		CP_Image_Draw(instructionsButtonImage, instructionsButton.posX, instructionsButton.posY, instructionsButton.width, instructionsButton.height, 255);
 		CP_Image_Draw(titleImage, menu.width / 2.0f, menu.height *( 0.75f/ 7.0f) + 50.0f , menu.width * 0.75f, menu.height/ 6.0f ,255);
-		CP_Settings_RectMode(CP_POSITION_CORNER);
+		CP_Settings_RectMode(CP_POSITION_CORNER); //Sets the rect mode of Draw Rect back to the original mode
 	}
 }
+
+// specification for DrawLogoScreen
+/*!
+@brief This function will draw the logo screen based on the 
+       window size, the logo screen will fade out after a
+	   a period of time, timer will till 0 tick based on system 
+	   time. After timer reach 0, game state will become main 
+	   menu.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void DrawLogoScreen()
 {
@@ -331,26 +372,14 @@ void DrawLogoScreen()
 }
 
 
-void DrawMenuButton()
-{
-	
-	float width = (float)CP_System_GetWindowWidth();
-	float height = (float)CP_System_GetWindowHeight();
-	CP_Settings_Fill(COLOR_GRAY);
-	menuButton.posX = width / 8 * 7;
-	menuButton.posY = height / 8;
+// specification for DrawGameCanvas
+/*!
+@brief This function will draw the game canvas based on the window
+	   size.
 
-	menuButton.width = width / 16;
-	menuButton.height = height / 16;
-	CP_Graphics_DrawRect(menuButton.posX, menuButton.posY,
-		menuButton.width, menuButton.height);
-	CP_Settings_TextSize(3.0f * (menuButton.width / width * 100));
-
-	CP_Settings_Fill(COLOR_WHITE);
-	CP_Font_DrawTextBox("To Menu", menuButton.posX + menuButton.width / 7.0f, menuButton.posY + menuButton.height / 1.75f, menuButton.width);
-
-	CP_Graphics_ClearBackground(COLOR_GRAY);
-}
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void DrawGameCanvas()
 {
@@ -359,11 +388,19 @@ void DrawGameCanvas()
 	CP_Image_Draw(gameBackground, width / 2, height / 2, width, height, 255);
 }
 
+// specification for DrawInstructionsCanvas
+/*!
+@brief This function will draw the instructions canvas and the 
+	   return button based on the window size.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void DrawInstructionsCanvas()
 {
 
-	instructionScreen = CP_Image_Load("./Assets/tutScreen.png");
+	
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
 	CP_Image_Draw(instructionScreen, width / 2, height / 2, width, height, 255);
@@ -376,6 +413,16 @@ void DrawInstructionsCanvas()
 
 }
 
+// specification for DrawLevelSelectionCanvas
+/*!
+@brief This function will draw the the level selection canvas
+       which contains the buttons to all the levels as well
+	   as the return button based on the window size.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
+
 void DrawLevelSelectionCanvas()
 {
 	float width = (float)CP_System_GetWindowWidth();
@@ -383,6 +430,9 @@ void DrawLevelSelectionCanvas()
 	menu.width = width;
 	menu.height = height;
 
+	//As draw rect is usually based on the corner position, 
+    //we change the rect mode to centre so that draw rect is 
+	//aligned or consistent with the images which are centered
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	static float timer = 3.0f;
 
@@ -430,9 +480,19 @@ void DrawLevelSelectionCanvas()
 
 	CP_Image_Draw(returnImage, returnButton.posX, returnButton.posY, returnButton.width, returnButton.height, 255);
 	
-	CP_Settings_RectMode(CP_POSITION_CORNER);
+	CP_Settings_RectMode(CP_POSITION_CORNER); //Sets the rect mode of Draw Rect back to the original mode
 
 }
+
+// specification for DrawBuffIndicator
+/*!
+@brief This function will draw the buff indicator based on the 
+	   window size, when the speed buff member variable of the 
+	   knight struct is TRUE.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void DrawBuffIndicator()
 {
@@ -449,19 +509,45 @@ void DrawBuffIndicator()
 	}
 }
 
+// specification for ReturnMainMenuClicked
+/*!
+@brief This function will check if the mouse click position 
+	   is within the main menu button. If it is it will then 
+	   set the gamestate to the main menu.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void ReturnMainMenuClicked()
 {
 	float mousePosX = CP_Input_GetMouseX();
 	float mousePosY = CP_Input_GetMouseY();
+	
+
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, returnButton.width, returnButton.height, returnButton.posX, returnButton.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, returnButton.width, returnButton.height, returnButton.posX, returnButton.posY)) //Check for clickling of return button
 		{
 			gameState = MAIN_MENU;
 		}
 	}
 }
+
+// specification for ButtonLevelSelectionClicked
+/*!
+@brief This function will check if the mouse click position is 
+	   within the associated buttons. If trrue, it will then call 
+	   reset state which resets the variables and set 
+	   the gamestate to the respective level based on the buttons 
+	   while keeping track of current state using the current 
+	   level variable. It will also load the enemy spawn map
+	   based on the current level by calling 
+	   preload_spawn_map(currentLevel).
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void ButtonLevelSelectionClicked()
 {
@@ -469,7 +555,7 @@ void ButtonLevelSelectionClicked()
 	{
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level1.width, level1.height, level1.posX, level1.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level1.width, level1.height, level1.posX, level1.posY)) //Check for clickling of level1 button
 		{
 			reset_enemy_and_weapon();
 			ResetState();
@@ -477,7 +563,7 @@ void ButtonLevelSelectionClicked()
 			gameState = currentLevel;
 			preload_spawn_map(currentLevel);
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level2.width, level2.height, level2.posX, level2.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level2.width, level2.height, level2.posX, level2.posY)) //Check for clickling level2 button
 		{
 			reset_enemy_and_weapon();
 			ResetState();
@@ -486,7 +572,7 @@ void ButtonLevelSelectionClicked()
 			preload_spawn_map(currentLevel);
 		}
 	
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level3.width, level3.height, level3.posX, level3.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level3.width, level3.height, level3.posX, level3.posY)) //Check for clickling level3 button
 		{
 			reset_enemy_and_weapon();
 			ResetState();
@@ -494,7 +580,7 @@ void ButtonLevelSelectionClicked()
 			gameState = currentLevel;
 			preload_spawn_map(currentLevel);
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level4.width, level4.height, level4.posX, level4.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level4.width, level4.height, level4.posX, level4.posY)) //Check for clickling level4 button
 		{
 			reset_enemy_and_weapon();
 			ResetState();
@@ -502,7 +588,7 @@ void ButtonLevelSelectionClicked()
 			gameState = currentLevel;
 			preload_spawn_map(currentLevel);
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level5.width, level5.height, level5.posX, level5.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, level5.width, level5.height, level5.posX, level5.posY)) //Check for clickling level5 button
 		{
 			reset_enemy_and_weapon();
 			ResetState();
@@ -532,34 +618,34 @@ void DrawObjectiveText()
 	if (objectiveDisplayTimer > 0)
 	{
 		objectiveDisplayTimer -= CP_System_GetDt();
-		CP_Color fade = CP_Color_Create(255, 255, 255, (int)(255 * objectiveDisplayTimer));
+		CP_Color fade = CP_Color_Create(255, 255, 255, (int)(255 * objectiveDisplayTimer)); //Fade out
 		CP_Settings_Fill(fade);
 
 		float width = (float)CP_System_GetWindowWidth();
 		float height = (float)CP_System_GetWindowHeight();
-		CP_Font_Set(myFont);
-		CP_Settings_TextSize(75);
+		CP_Font_Set(myFont); //Set font
+		CP_Settings_TextSize(75); //Font size
 		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_BASELINE); //Align the text to the centre
 
 		char levelText[] = "Level 1\n";
 		
-		levelText[6] = (char)((currentLevel - 4) + '0'); // set the character at index 6 to the level of the game
+		levelText[6] = (char)((currentLevel - 4) + '0'); // Set the character at index 6 to the level of the game
 
 
-		CP_Font_DrawTextBox(levelText, width /6.5f, height / 10, (float)strlen(levelText) * 75);
-		CP_Settings_TextSize(50);
+		CP_Font_DrawTextBox(levelText, width /6.5f, height / 10, (float)strlen(levelText) * 75); //Draw level text box
+		CP_Settings_TextSize(50); //Font size
 		char objectiveText[] = "Objective:\nSurvive Waves Of Enemies";
-		CP_Font_DrawTextBox(objectiveText, -width /2.5f, height / 6, (float)strlen(objectiveText) * 50);
+		CP_Font_DrawTextBox(objectiveText, -width /2.5f, height / 6, (float)strlen(objectiveText) * 50); //Draw objective text box
 		
-		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE); //
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE); //Reset the text alignment to their original state
 	}
 }
 
 // specification for ButtonClicked
 /*!
 @brief This function will check if the mouse click position is 
-	   within the UI buttons. It will then set the gamestate
-	   respectively.
+	   within the UI buttons. If true it will then set the
+	   gamestate to their associated buttons.
 
 @param word void
 @return void
@@ -572,24 +658,24 @@ void ButtonClicked()
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
 	
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY)) //Clickling of play button
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY)) //Check for clickling of play button
 		{
 			gameState = LEVEL_SELECTION;
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, quitButton.width, quitButton.height, quitButton.posX, quitButton.posY)) //Clicking of quit button
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, quitButton.width, quitButton.height, quitButton.posX, quitButton.posY)) //Check for clicking of quit button
 		{
 			gameState = EXIT;
 		}
 
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, instructionsButton.width, instructionsButton.height, instructionsButton.posX, instructionsButton.posY))  //Clicking of instructions button
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, instructionsButton.width, instructionsButton.height, instructionsButton.posX, instructionsButton.posY))  //Check for clicking of instructions button
 		{
 			gameState = INSTRUCTIONS;
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, creditButton.width, creditButton.height, creditButton.posX, creditButton.posY)) //Clicking of credit button
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, creditButton.width, creditButton.height, creditButton.posX, creditButton.posY)) //Check for clicking of credit button
 		{
 			gameState = CREDIT1;
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, upgradesButton.width, upgradesButton.height, upgradesButton.posX, upgradesButton.posY)) //Clicking of upgrades button
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, upgradesButton.width, upgradesButton.height, upgradesButton.posX, upgradesButton.posY)) //Check for clickling of upgrades button
 		{
 			gameState = UPGRADES;
 		}

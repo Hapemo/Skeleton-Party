@@ -130,7 +130,6 @@ void game_update(void)
 			TerminateFullscreen();
 			EnableMenu();
 			play_menubg();
-			DrawMenuButton();
 			DrawMenuCanvas();
 			ButtonClicked();
 			break;

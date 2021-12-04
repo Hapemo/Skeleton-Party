@@ -242,7 +242,6 @@ void FullscreenKeyPressed();
 void FullscreenMode();
 void ButtonClicked();
 void DrawGameCanvas();
-void DrawMenuButton();
 void DrawMenuCanvas();
 void EnableMenu();
 void game_control(struct character* spritename);
