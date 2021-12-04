@@ -1,9 +1,9 @@
 /*---------------------------------------------------------
- * file:	game.c
- * author:	
- * email:	
+ * file:	keith.c
+ * author:	Keith Lua
+ * email:	weijiekeith.lua@digipen.edu
 *
- * brief:	
+ * brief:	This file contains functions
 *
  * documentation link:
  * https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
@@ -22,6 +22,8 @@
 #define COLOR_WHITE CP_Color_Create(255, 255, 255, 255)
 #define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
+
+#define BUFF_TIME 3.0f
 
 static float objectiveDisplayTimer = 3.0f;
 static float originalSpeed = 0;
@@ -127,6 +129,8 @@ void InitializeVariables()
 	upgradesButtonImage = CP_Image_Load("./Assets/upgradeBtn.png");
 }
 
+
+//Old legacy Damage function for testing
 void Damage(float damage)
 {
 	if (healthBar.currentHealth > 0)
@@ -135,12 +139,14 @@ void Damage(float damage)
 	}
 	DrawHP(healthBar.currentHealth, healthBar.maxHealth);
 }
-
+//Old legacy DrawPlayerHealth function for testing
 void DrawPlayerHealth()
 {
 	DrawHP(healthBar.currentHealth, healthBar.maxHealth);
 }
 
+
+//Old legacy DrawHP function for testing
 void DrawHP(float currentHealth, float maxHealth)
 {
 
@@ -177,9 +183,6 @@ void LoadBackgroundImage(int level)
 	}
 	
 }
-
-
-
 
 void LoadFont()
 {
@@ -303,10 +306,6 @@ void DrawMenuCanvas()
 		CP_Image_Draw(quitButtonImage, quitButton.posX, quitButton.posY, quitButton.width, quitButton.height, 255);
 		CP_Image_Draw(instructionsButtonImage, instructionsButton.posX, instructionsButton.posY, instructionsButton.width, instructionsButton.height, 255);
 		CP_Image_Draw(titleImage, menu.width / 2.0f, menu.height *( 0.75f/ 7.0f) + 50.0f , menu.width * 0.75f, menu.height/ 6.0f ,255);
-		//CP_Settings_TextSize(6 * (playButton.width / menu.width * 100));
-
-		//CP_Settings_Fill(COLOR_WHITE);
-		//CP_Font_DrawTextBox("Play", playButton.posX + playButton.width / 6.5f, playButton.posY + playButton.height / 1.5f, playButton.width);
 		CP_Settings_RectMode(CP_POSITION_CORNER);
 	}
 }
@@ -321,13 +320,8 @@ void DrawLogoScreen()
 		float width = (float)CP_System_GetWindowWidth();
 		float height = (float)CP_System_GetWindowHeight();
 		CP_Settings_Fill(COLOR_BLACK);
-		
-		//CP_Color fade = CP_Color_Create(0, 0, 0, (int)(255 * timer));
-		//CP_Color newColour = CP_Color_Lerp(COLOR_BLACK, transparent, timer);
 	    CP_Graphics_DrawRect(0, 0, width, height);
 		CP_Image_Draw(digipenLogo, width / 2, height / 2, width / 1.2f, height / 2, (int)(255 * timer));
-
-
 
 	}
 	else
@@ -384,8 +378,6 @@ void DrawInstructionsCanvas()
 
 void DrawLevelSelectionCanvas()
 {
-
-	//instructionScreen = CP_Image_Load("./Assets/tutScreen.png");
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
 	menu.width = width;
@@ -398,7 +390,6 @@ void DrawLevelSelectionCanvas()
 	
 	CP_Graphics_DrawRect(menu.posX + menu.width / 2, menu.posY + menu.height / 2,
 		menu.width, menu.height);
-	//CP_Image_Draw(instructionScreen, width / 2, height / 2, width, height, 255);
 
 	level1.posX = menu.width *(1.0f/ 4.0f);
 	level1.posY = menu.height * (0.5f / 6.0f) + 20;
@@ -431,23 +422,11 @@ void DrawLevelSelectionCanvas()
 	CP_Image_Draw(level3Image, level3.posX, level3.posY, level3.width, level3.height, 255);
 	CP_Image_Draw(level4Image, level4.posX, level4.posY, level4.width, level4.height, 255);
 	CP_Image_Draw(level5Image, level5.posX, level5.posY, level5.width, level5.height, 255);
-	//CP_Image_Draw(titleImage, creditButton.posX, menu.height / 8.0f + 50.0f, menu.width * 0.75f, menu.height / 6.0f, 255);
-	//CP_Settings_TextSize(6 * (playButton.width / menu.width * 100));
-
-	//CP_Settings_Fill(COLOR_WHITE);
-	//CP_Font_DrawTextBox("Play", playButton.posX + playButton.width / 6.5f, playButton.posY + playButton.height / 1.5f, playButton.width);
-	
-
-
-
 
 	returnButton.posX = width / 7.5f;
 	returnButton.posY = height * (0.925f);
 	returnButton.width = width / 5.0f;
 	returnButton.height = height / 15.0f;
-
-
-
 
 	CP_Image_Draw(returnImage, returnButton.posX, returnButton.posY, returnButton.width, returnButton.height, 255);
 	
@@ -540,11 +519,6 @@ void ButtonLevelSelectionClicked()
 
 void DrawObjectiveText()
 {
-	
-	
-
-	
-
 	if (objectiveDisplayTimer > 0)
 	{
 		objectiveDisplayTimer -= CP_System_GetDt();
@@ -589,14 +563,7 @@ void DrawObjectiveText()
 		CP_Font_DrawTextBox(objectiveText, -width /2.5f, height / 6, (float)strlen(objectiveText) * 50);
 		
 		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE);
-	
-		
-
-
 	}
-	
-	
-	
 }
 
 
@@ -607,17 +574,13 @@ void ButtonClicked()
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
 	
-		//if (CheckCollisionWithBox(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
-		//{
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
 		{
 			menu.enabled = FALSE;
 			CP_Graphics_ClearBackground(COLOR_GRAY);
-			//gameState = LEVEL_1;
 			MainMenuState = FALSE;
 			gameState = LEVEL_SELECTION;
 		}
-		//}
 		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, quitButton.width, quitButton.height, quitButton.posX, quitButton.posY))
 		{
 			gameState = EXIT;
@@ -640,12 +603,6 @@ void ButtonClicked()
 		{
 			gameState = UPGRADES;
 		}
-
-		//if (CheckCollisionWithBoxImage(mousePosX, mousePosY, levelSelectionBUTTO.width, instructionsButton.height, instructionsButton.posX, instructionsButton.posY))
-		//{
-			//gameState = LEVEL_SELECTION;
-		//}
-
 	}
 }
 
@@ -665,8 +622,6 @@ void FullscreenMode()
 	}
 	else
 	{
-
-		//int widthOfDisplay = CP_System_GetDisplayWidth();
 		float newWidthOfDisplay = WIDTH;
 		float heightOfDisplay = HEIGHT;
 		CP_System_SetWindowSize((int)newWidthOfDisplay, (int)heightOfDisplay);
@@ -726,36 +681,17 @@ void ResetState()
 
 void WinCondition()
 {
-	//static float timer = 300.0f;
-
-	//if (timer > 0)
-	//{
-	//	timer -= CP_System_GetDt();
-	//	printf("survive timer: %f\n", timer);
-	//}
-	//else
-	//{
-	//	currentState++;
-	//	timer = 300.0f;
-	//	gameState = WIN;
-	//}
 	if (*tick == winning_condition)
 	{
 		if (currentLevel < LEVEL_5)
 		{
 			currentLevel++;
 			ResetState();
-			//printf("currentState: %d", currentLevel);
 		}
 		gameState = WIN;
-
 	}
-
 }
 
-void DropStuffs(CP_Vector position) {
-	DropStuff(position.x, position.y);
-}
 
 
 void DespawnTimer()
@@ -783,19 +719,34 @@ void DespawnTimer()
 
 }
 
+void DropStuffs(CP_Vector position) {
+	DropStuff(position.x, position.y);
+}
+
+// specification for DropStuff
+/*!
+@brief This function will iterate through the item_pool which
+	   contains an array of item structs. When the item in the
+	   array is disabled (0), we will set it generate a random
+	   number, if the number is within a certain range, we will
+	   enable an item, different range corresponds to different
+	   items marked by their ids. The range is the represents 
+	   the estimated probability of the item drop.
+
+@param word float posX, float posY
+@return void
+*//*______________________________________________________________*/
 
 void DropStuff(float posX, float posY)
 {
-	int randomChanceSpawnRate = CP_Random_RangeInt(0, 99);
-	printf("randomChanceSpawnRate: %d", randomChanceSpawnRate);
+	
 	for (int i = 0, j = 0; i <= j && j < MAX_DROP; i++)
 	{
 		if (item_pool[i].enabled == 0)
 		{
-			
-			if (randomChanceSpawnRate >= 0 && randomChanceSpawnRate <= 4)
+			int randomChanceSpawnRate = CP_Random_RangeInt(0, 99);
+			if (randomChanceSpawnRate >= 0 && randomChanceSpawnRate <= 4) //around 5% chance of spawning a health potion
 			{
-				//struct Item potion;
 				item_pool[i].position.x = posX;
 				item_pool[i].position.y = posY;
 				item_pool[i].width = 45;
@@ -803,13 +754,10 @@ void DropStuff(float posX, float posY)
 				item_pool[i].enabled = 1;
 				item_pool[i].transparency = 255;
 				item_pool[i].despawnTimer = 3.0f;
-				//int randomChance = CP_Random_RangeInt(0, 1);
 				item_pool[i].id = 0;
-				//j++;
-				//printf("Spawned: %d", item_pool[i].enabled);
 				
 			}
-			else if (randomChanceSpawnRate >= 5 && randomChanceSpawnRate <= 9)
+			else if (randomChanceSpawnRate >= 5 && randomChanceSpawnRate <= 9) //around 5% chance of spawning a speed potion
 			{
 				item_pool[i].position.x = posX;
 				item_pool[i].position.y = posY;
@@ -818,12 +766,9 @@ void DropStuff(float posX, float posY)
 				item_pool[i].enabled = 1;
 				item_pool[i].transparency = 255;
 				item_pool[i].despawnTimer = 3.0f;
-				//int randomChance = CP_Random_RangeInt(0, 1);
 				item_pool[i].id = 1;
-				//j++;
-
 			}
-		    else if(randomChanceSpawnRate >= 10 && randomChanceSpawnRate <= 11)
+		    else if(randomChanceSpawnRate >= 10 && randomChanceSpawnRate <= 11) //around 2% chance of spawning gold
 			{
 				item_pool[i].position.x = posX;
 				item_pool[i].position.y = posY;
@@ -833,8 +778,6 @@ void DropStuff(float posX, float posY)
 				item_pool[i].transparency = 255;
 				item_pool[i].despawnTimer = 10.0f;
 				item_pool[i].id = 2;
-				//j++;
-
 			}
 		}
 		else if (item_pool[i].enabled == 1)
@@ -847,6 +790,20 @@ void DropStuff(float posX, float posY)
 	
 }
 
+// specification for DrawItem
+/*!
+@brief This function iterate through the item_pool which
+	   contains an array of item structs to draw an item based
+	   their state, if the item struct is enabled (1) we will load
+	   and draw the sprite health potion, speed potion, gold based 
+	   on their respective ids 0,1 and 2.They wil also be drawn 
+	   based on the  vector postion, width, height
+	   transparency variables of knight struct set by 
+	   DropStuff function.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void DrawItem()
 {
@@ -905,12 +862,6 @@ void DrawItem()
 				break;
 
 			default:
-				/*item_pool[i].position.x = 0;
-				item_pool[i].position.y = 0;
-				item_pool[i].width = 0;
-				item_pool[i].height = 0;
-				item_pool[i].enabled = 0;*/
-				//printf
 				break;
 
 			}
@@ -921,56 +872,75 @@ void DrawItem()
 	
 }
 
+// specification for InvulnerabilityFrame
+/*!
+@brief This function will set a timer for the invulnerability
+	   effect which will tick based on system time till teaches 0
+	   then the invulerability variable in knight struct will set
+	   to false, timer will be reset, and the alpha value/ 
+	   transparency member variable of knight struct
+	   will become 255 for opaque and the alpha/transparency 
+	   will change between translucent 127 and opaque 255 while 
+	   invulnerability is in effect.
 
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void InvulnerabilityFrame()
 {
-	
+	static float InvulnerabilityTimer = 3.0f;
 
-		static float InvulnerabilityTimer = 3.0f;
+	static float flickerTimer = 0.f;
 
-		static float lerpTimer = 0.f;
-		//static float lerp = 1.0f;
-		if (InvulnerabilityTimer > 0)
+	if (InvulnerabilityTimer > 0)
+	{
+
+		InvulnerabilityTimer -= CP_System_GetDt();
+		if (flickerTimer > 0.25f)
 		{
 
-			InvulnerabilityTimer -= CP_System_GetDt();
-			if (lerpTimer > 0.25f)
-			{
-
-				knight.transparency = 255;
-				lerpTimer = 0.0f;
-			}
-			else
-			{
-				lerpTimer += CP_System_GetDt();
-				knight.transparency = 127;
-
-			}
-			//printf("lt: %f\n", lerpTimer);
-			//timer -= CP_System_GetMillis();
-			//printf("timer: %f\n", timer);
+			knight.transparency = 255; //The alpha value player is opaque
+			flickerTimer = 0.0f; //Reset lerp timer
 		}
 		else
 		{
+			flickerTimer += CP_System_GetDt();
+			knight.transparency = 127; //The alpha value player is translucent/faded
 
-			knight.invulnerability = FALSE;
-			knight.transparency = 255;
-			lerpTimer = 0.f;
-			InvulnerabilityTimer = 3.0f;
-			//return;
 		}
+	}
+	else
+	{
 
-	
-	
+		knight.invulnerability = FALSE;
+		knight.transparency = 255;
+		flickerTimer = 0.f;
+		InvulnerabilityTimer = 3.0f;
+	}
 }
+
+// specification for SpeedBuffEffect
+/*!
+@brief This function will check if the member variable speedbuff
+`	   in knight struct is true, if this the case, check if the 
+	   current speed of knight struct is the same as the 
+	   original player speed if this is the case we multiply 
+	   the player speed by two times. We then will decrease the
+	   timer by system time till it reaches 0. When timer ends,
+	   we set the current player speed to the orignal player speed
+	   as well as set the speedbuff to false, when its false
+	   the timer will be set toits original timer value 3.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void SpeedBuffEffect()
 {
+	static float timer;
 	if (knight.speedbuff == TRUE)
 	{
-		static float timer = 3.0f;
-		//float duration = 3.0f;
 		if (knight.speed == originalPlayerSpeed)
 		{
 			knight.speed *= 2.0f;
@@ -979,13 +949,10 @@ void SpeedBuffEffect()
 
 		if (timer > 0)
 		{
-			
 			timer -= CP_System_GetDt();
-			//printf("Timer: %f\n", timer);
 		}
 		else
 		{
-			timer = 3;
 			knight.speed = originalPlayerSpeed;
 
 			knight.speedbuff = FALSE;
@@ -995,22 +962,44 @@ void SpeedBuffEffect()
 	}
 	else
 	{
+		timer = BUFF_TIME;
 		knight.speed = originalPlayerSpeed;
-
 	}
 }
+
+// specification for ResetItemPool
+/*!
+@brief This function iterates through the item pool struct and
+	   sets the member variable enabled to 0. So that it will not
+	   be drawn.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void ResetItemPool()
 {
 	for (int i = 0; i < MAX_DROP; i++)
 	{
-		//printf("ResetItem");
 		item_pool[i].enabled = 0;
-		//item_pool[i].position.x = 0;
-		//item_pool[i].position.y = 0;
-
 	}
 }
+
+// specification for EnemyCollision
+/*!
+@brief This function iterates through the enemy_pools as well as
+	   the children in the mother_enemy and checks if they are 
+	   still alive, if this is the case we detect if they overlap
+	   through another function, if this is the player will 
+	   take damage and call  Playertakedamage() and the
+	   member variable invulnerability of knight struct will be 
+	   set to true. Then we call the
+	   InvulnerabilityFrame function to set a timer for the 
+	   invulnerability state.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void EnemyCollision()
 {
@@ -1022,7 +1011,6 @@ void EnemyCollision()
 			if (CheckIfBoxesOverlap(enemy_pool[i].position.x, enemy_pool[i].position.y, enemy_pool[i].size, enemy_pool[i].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
 			{
 				Playertakedamage(1);
-				//printf("Damage Taken: %d\n", 1);
 				knight.invulnerability = TRUE;
 			}
 		}
@@ -1038,7 +1026,6 @@ void EnemyCollision()
 					if (CheckIfBoxesOverlap(mother_enemy_pool[i].children[j].position.x, mother_enemy_pool[i].children[j].position.y, mother_enemy_pool[i].children[j].size, mother_enemy_pool[i].children[j].size, knight.position.x, knight.position.y, knight.width, knight.height) && knight.invulnerability == FALSE)
 					{
 						Playertakedamage(1);
-						//printf("Damage Taken: %d\n", 1);
 						knight.invulnerability = TRUE;
 
 					}
@@ -1051,6 +1038,5 @@ void EnemyCollision()
 	if (knight.invulnerability == TRUE)
 	{
 		InvulnerabilityFrame();
-		//printf("knight.invulnerability: %u\n", knight.invulnerability);
 	}
 }
