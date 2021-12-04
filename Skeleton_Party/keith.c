@@ -516,6 +516,16 @@ void ButtonLevelSelectionClicked()
 	}
 }
 
+// specification for DrawObjectiveText
+/*!
+@brief This function will display the objective for a period
+       of time. The timer will tick based on system time
+	   and the text will fade after objectiveDisplayTimer reaches
+	   0.
+	   
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void DrawObjectiveText()
 {
@@ -529,43 +539,31 @@ void DrawObjectiveText()
 		float height = (float)CP_System_GetWindowHeight();
 		CP_Font_Set(myFont);
 		CP_Settings_TextSize(75);
-		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_BASELINE);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_BASELINE); //Align the text to the centre
 
 		char levelText[] = "Level 1\n";
 		
-		int level = 0;
-		switch (currentLevel)
-		{
-		case LEVEL_1:
-			level = 1;
-			break;
-		case LEVEL_2:
-			level = 2;
-			break;
-		case LEVEL_3:
-			level = 3;
-			break;
-		case LEVEL_4:
-			level = 4;
-			break;
-		case LEVEL_5:
-			level = 5;
-			break;
-		default:
-			break;
-		}
-		levelText[6] = (char)(level + '0');
+		levelText[6] = (char)((currentLevel - 4) + '0'); // set the character at index 6 to the level of the game
 
 
 		CP_Font_DrawTextBox(levelText, width /6.5f, height / 10, (float)strlen(levelText) * 75);
 		CP_Settings_TextSize(50);
-		char objectiveText[] = "Objective:\nSurvive Waves Of Enemy";
+		char objectiveText[] = "Objective:\nSurvive Waves Of Enemies";
 		CP_Font_DrawTextBox(objectiveText, -width /2.5f, height / 6, (float)strlen(objectiveText) * 50);
 		
-		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE);
+		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE); //
 	}
 }
 
+// specification for ButtonClicked
+/*!
+@brief This function will check if the mouse click position is 
+	   within the UI buttons. It will then set the gamestate
+	   respectively.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void ButtonClicked()
 {
@@ -574,37 +572,31 @@ void ButtonClicked()
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
 	
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, playButton.width, playButton.height, playButton.posX, playButton.posY)) //Clickling of play button
 		{
-			menu.enabled = FALSE;
-			CP_Graphics_ClearBackground(COLOR_GRAY);
-			MainMenuState = FALSE;
 			gameState = LEVEL_SELECTION;
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, quitButton.width, quitButton.height, quitButton.posX, quitButton.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, quitButton.width, quitButton.height, quitButton.posX, quitButton.posY)) //Clicking of quit button
 		{
 			gameState = EXIT;
 		}
 
-		if (CheckCollisionWithBox(mousePosX, mousePosY, menuButton.width, menuButton.height, menuButton.posX, menuButton.posY))
-		{
-			menu.enabled = TRUE;
-			CP_Graphics_ClearBackground(COLOR_GRAY);
-		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, instructionsButton.width, instructionsButton.height, instructionsButton.posX, instructionsButton.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, instructionsButton.width, instructionsButton.height, instructionsButton.posX, instructionsButton.posY))  //Clicking of instructions button
 		{
 			gameState = INSTRUCTIONS;
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, creditButton.width, creditButton.height, creditButton.posX, creditButton.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, creditButton.width, creditButton.height, creditButton.posX, creditButton.posY)) //Clicking of credit button
 		{
 			gameState = CREDIT1;
 		}
-		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, upgradesButton.width, upgradesButton.height, upgradesButton.posX, upgradesButton.posY))
+		if (CheckCollisionWithBoxImage(mousePosX, mousePosY, upgradesButton.width, upgradesButton.height, upgradesButton.posX, upgradesButton.posY)) //Clicking of upgrades button
 		{
 			gameState = UPGRADES;
 		}
 	}
 }
+
+//Unused function
 
 void FullscreenKeyPressed()
 {
@@ -613,6 +605,8 @@ void FullscreenKeyPressed()
 		fullScreen = !fullScreen;
 	}
 }
+
+//Unused function set the game between the orignal/windowed width and height to full screem and
 
 void FullscreenMode()
 {
@@ -628,6 +622,17 @@ void FullscreenMode()
 	}
 }
 
+//Unused function
+// specification for TerminateFullscreen
+/*!
+@brief This function will check if the escape key is called,
+       if this is true it will terminate the program/exit the
+	   game.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
+
 void TerminateFullscreen()
 {
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
@@ -636,11 +641,31 @@ void TerminateFullscreen()
 	}
 }
 
+// specification for EnableMenu
+/*!
+@brief This function will set the menu enabled to true
+
+@param word void
+@return void
+*//*______________________________________________________________*/
+
 void EnableMenu()
 {
 	menu.enabled = TRUE;
 }
 
+// specification for ResetState_revive
+/*!
+@brief This function will reset multiple variables such as 
+	   the current character, their position, speed, 
+	   transparency(alpha), invulnerability, speed buff,
+	   player health. It also resets audio and objective
+	   display timer.
+	   
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void ResetState_revive ()
 {
@@ -657,6 +682,18 @@ void ResetState_revive ()
 	Player_FullHeal();
 
 }
+
+// specification for ResetState
+/*!
+@brief This function will reset multiple variables such as 
+	   the current character, their position, speed, 
+	   transparency(alpha), invulnerability, speed buff,
+	   player health. It also reset the item pool, 
+	   timer, objective display timer and audio.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void ResetState()
 {
@@ -678,11 +715,12 @@ void ResetState()
 
 // specification for WinCondition
 /*!
-@brief This function will iterate through the item_pool which
-	   contains an array of item structs. When the item in the
-	   array is enabled (1), we will tick despawn timer in the
-	   item struct based on the system time till reaches 0.
-	   Then we will disable (0) the item once timer reaches 0
+@brief This function checks if the timer *tick is equal to winning
+	   condition, if this is the case it will call the 
+	   increase the currentLevel variable, which keeps track of the 
+	   LEVEL, while currentLevel is less than LEVEL_5.
+	   It will also call ResetState which will reset variables.
+	   It will also change the game state to WIN state.
 
 @param word void
 @return void
@@ -692,12 +730,12 @@ void WinCondition()
 {
 	if (*tick == winning_condition)
 	{
-		if (currentLevel < LEVEL_5)
+		if (currentLevel < LEVEL_5) //LEVEL_5 is an enum that represents a level state
 		{
 			currentLevel++;
 			ResetState();
 		}
-		gameState = WIN;
+		gameState = WIN; //WIN is an enum that represents a win state
 	}
 }
 
