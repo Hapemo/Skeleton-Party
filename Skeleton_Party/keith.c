@@ -646,7 +646,6 @@ void ResetState_revive ()
 {
 	CurrentCharacterKeith = knightint;
 	objectiveDisplayTimer = 3.0f;
-	ResetItemPool();
 	knight.position.x = originalPlayerPositionX;
 	knight.position.y = originalPlayerPositionY;
 	knight.speed = originalPlayerSpeed;
