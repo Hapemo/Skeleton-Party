@@ -321,7 +321,7 @@ void DrawLogoScreen()
 		float height = (float)CP_System_GetWindowHeight();
 		CP_Settings_Fill(COLOR_BLACK);
 	    CP_Graphics_DrawRect(0, 0, width, height);
-		CP_Image_Draw(digipenLogo, width / 2, height / 2, width / 1.2f, height / 2, (int)(255 * timer));
+		CP_Image_Draw(digipenLogo, width / 2, height / 2, width / 1.5f, height / 3.5f, (int)(255 * timer));
 
 	}
 	else
