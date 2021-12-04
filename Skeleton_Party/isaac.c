@@ -1375,8 +1375,8 @@ void Screen_PAUSE_Print(void)
 	}
 	CP_Image_Draw(Image_Pause_Mistake, Pause_Background.posX, Pause_Background.posY, isaac_width, isaac_height, 255);
 
-	float mousehoverPosX = CP_Input_GetMouseX();
-	float mousehoverPosY = CP_Input_GetMouseY();
+	/*float mousehoverPosX = CP_Input_GetMouseX();
+	float mousehoverPosY = CP_Input_GetMouseY();*/
 
 	/*CP_Settings_TextSize(20);
 	CP_Settings_Fill(COLOR_GOLD);
@@ -1686,7 +1686,7 @@ void Screen_PAUSE_ButtonClicked(void)
 		gameState = currentLevel;
 	}
 
-	float mousehoverPosX = CP_Input_GetMouseX();
+	/*float mousehoverPosX = CP_Input_GetMouseX();
 	float mousehoverPosY = CP_Input_GetMouseY();
 
 	if (IsaacHover(mousehoverPosX, mousehoverPosY, 299.0, 661.0, 595.0, 781.0))
@@ -1696,19 +1696,20 @@ void Screen_PAUSE_ButtonClicked(void)
 	else
 	{
 		Pause_Background.hover = TRUE;
-	}
+	}*/
 
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
-		/*float mousePosX = CP_Input_GetMouseX();
+		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
+
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 199.0, 350.0, 699.0, 507.0))
 		{
 			printf("button pressed continue \n");
 			gamePause = !gamePause;
 			gameState = currentLevel;
-		}*/
+		}
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 297.0, 510.0, 580.0, 622.0))
 		{
