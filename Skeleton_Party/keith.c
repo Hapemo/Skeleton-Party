@@ -642,6 +642,25 @@ void EnableMenu()
 }
 
 
+void ResetState_revive ()
+{
+	CurrentCharacterKeith = knightint;
+	objectiveDisplayTimer = 3.0f;
+	ResetItemPool();
+	//timer_reset();
+	knight.position.x = originalPlayerPositionX;
+	knight.position.y = originalPlayerPositionY;
+	knight.speed = originalPlayerSpeed;
+	knight.transparency = 255;
+	knight.invulnerability = FALSE;
+	knight.speedbuff = FALSE;
+
+	load_audio(); //load audio
+	Player_FullHeal();
+
+}
+
+
 void ResetState()
 {
 	CurrentCharacterKeith = knightint;

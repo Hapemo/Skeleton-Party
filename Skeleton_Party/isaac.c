@@ -2116,7 +2116,9 @@ void Screen_REVIVE_ButtonClicked(void)
 			printf("button pressed yes \n");
 			revivetoken -= 1;
 			*tick = 0;
-			ResetState();
+			//ResetState();
+			ResetState_revive();
+			
 			gameState = currentLevel;
 		}
 
