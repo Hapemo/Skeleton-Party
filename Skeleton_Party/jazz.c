@@ -1064,12 +1064,19 @@ void skills_num_printer(button current_button) {
 		mouse - position of mouse
 @return NIL
 *//*______________________________________________________________*/
-void refund_skill(button* current_button, CP_Vector mouse) {
-	if (current_button -> state) {
-		if (button_collision(mouse, current_button -> position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+void refund_skill(button* current_button, CP_Vector mouse)
+{
+	if (button_collision(mouse, current_button->position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT))
+	{
+		if (current_button->state) {
+
 			Exp++;
-			current_button -> state--;
+			current_button->state--;
 			play_click();
+		}
+		else
+		{
+			//play_denied();
 		}
 	}
 }
@@ -1081,14 +1088,25 @@ void refund_skill(button* current_button, CP_Vector mouse) {
 		max_upgrade - the max upgrade for the button clicked
 @return NIL
 *//*______________________________________________________________*/
-void buy_skill(button* current_button, CP_Vector mouse, int max_upgrade) {
-	if (Exp > 0 && current_button -> state < max_upgrade) {
-		if (button_collision(mouse, current_button -> position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+void buy_skill(button* current_button, CP_Vector mouse, int max_upgrade)
+{
+	if (button_collision(mouse, current_button->position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT))
+	{
+		if (Exp > 0 && current_button->state < max_upgrade)
+		{
+
 			Exp--;
-			current_button -> state++;
-			play_coins();
+			current_button->state++;
+			//play_coins();
+			play_click();
+		}
+		else
+		{
+			play_denied();
+
 		}
 	}
+
 }
 
 /*!

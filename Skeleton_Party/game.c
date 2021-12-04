@@ -254,6 +254,8 @@ void PlayGame()
 	{
 		gamePause = !gamePause;
 		gameState = PAUSED;
+		//gameState = PREPROOM;
+
 	}
 	DrawGameCanvas();
 

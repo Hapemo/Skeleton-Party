@@ -266,8 +266,8 @@ const char Skill_Crit_Desc[] = { "Cost : 1 EXP per level\n Max 9 Levels\n + 10% 
 const char Shop_Heal_Desc[] = { "Cost : 10 Gold Coins \n Doubles  the amount of healing from potions \n 1 heart -> 2 heart" };
 const char Shop_Drop_Desc[] = { "Cost : 10 Gold Coins \n Increases amount of EXP gained from winning \n 3 EXP-> 6 EXP" };
 const char Shop_Rez_Desc[] = { "Cost : 5 Gold Coins \n Allows you to coninue from where you died " };
-const char Shop_Shrapnel_Desc[] = { "Cost : 10 Gold Coins \n Enables Mage AOE to Fire additional bullets upon impact" };
-const char Shop_Shockwave_Desc[] = { "Cost : 10 Gold Coins \n Adds An AOE to the knights Melee attack" };
+const char Shop_Shrapnel_Desc[] = { "Cost : 20 Gold Coins \n Enables Mage AOE to Fire additional bullets upon impact" };
+const char Shop_Shockwave_Desc[] = { "Cost : 20 Gold Coins \n Adds An AOE to the knights Melee attack" };
 
 const char Pause_mainmenu_Desc[] = { "Click To Return To Main Menu" };
 //const char Pause_mainmenu_Desc[] = { "Click To Return To Main Menu" };
@@ -1757,7 +1757,7 @@ void Screen_PREPROOM_ButtonClicked(void)
 			gameState = currentLevel;
 		}
 	
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 309.0, 827.0, 511.0, 916.0))
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 143.0, 827.0, 511.0, 916.0))
 		{
 			printf("button pressed quit\n");
 			gameState = MAIN_MENU;
@@ -1959,10 +1959,10 @@ void Screen_SHOP_ButtonClicked(void)
 		{
 			CP_Graphics_ClearBackground(COLOR_BLACK);
 			printf("button pressed shrapnel\n");
-			if ((Gold > 10) && (shrapnelstate == FALSE))
+			if ((Gold > 20) && (shrapnelstate == FALSE))
 			{
 				play_coins();
-				Gold -= 10;
+				Gold -= 20;
 				shrapnelstate = TRUE;
 			}
 			else
@@ -1975,10 +1975,10 @@ void Screen_SHOP_ButtonClicked(void)
 		{
 			CP_Graphics_ClearBackground(COLOR_BLACK);
 			printf("button pressed shockwave\n");
-			if ((Gold > 10) && (shockwavestate == FALSE))
+			if ((Gold > 20) && (shockwavestate == FALSE))
 			{
 				play_coins();
-				Gold -= 10;
+				Gold -= 20;
 				shockwavestate = TRUE;
 			}
 			else
@@ -2039,21 +2039,34 @@ void Screen_SKILL_ButtonClicked(void)
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 767.0, 28.0, 924.0, 153.0)) gameState = UPGRADES;
 
 		//Skills upgrade for only health and movement
-		if (Exp > 0 && originalPlayerSpeed < maxadditionalspeed) {
-			if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+		if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+			if (Exp > 0 && originalPlayerSpeed < maxadditionalspeed) {
+
 				Exp -= 1;
+				play_click();
 				skill_movement.state++;
 				additionalspeed = 30;
 				//knight.speed += additionalspeed;
 				originalPlayerSpeed += additionalspeed;
 				//printf("knight speed: %f\n", knight.speed);
 			}
+			else
+			{
+				play_denied();
+			}
 		}
-		if (Exp > 0 && skill_health.state < maxadditionalhp) {
-			if (button_collision(mouse, skill_health.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+		if (button_collision(mouse, skill_health.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
+			if (Exp > 0 && skill_health.state < maxadditionalhp) {
+
 				Exp -= 1;
+				play_click();
+
 				additionalhp = ++skill_health.state;
 				p1.set(&p1, 3 + additionalhp);
+			}
+			else
+			{
+				play_denied();
 			}
 		}
 
@@ -2079,6 +2092,8 @@ void Screen_SKILL_ButtonClicked(void)
 		if (skill_health.state) {
 			if (button_collision(mouse, skill_health.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
 				skill_health.state--;
+				play_click();
+
 				Exp++;
 				additionalhp--;
 				p1.set(&p1, 3 + additionalhp);
@@ -2087,6 +2102,8 @@ void Screen_SKILL_ButtonClicked(void)
 		if (skill_movement.state) {
 			if (button_collision(mouse, skill_movement.position, SKILLS_BUTTON_WIDTH, SKILLS_BUTTON_HEIGHT)) {
 				skill_movement.state--;
+				play_click();
+
 				Exp++;
 				additionalspeed = 30;
 				originalPlayerSpeed -= additionalspeed;
