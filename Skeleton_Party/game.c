@@ -253,7 +253,9 @@ void PlayGame()
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) // press p to pause/ unpause
 	{
 		gamePause = !gamePause;
-		gameState = PAUSED;
+		//gameState = PAUSED;
+		gameState = PREPROOM;
+
 	}
 	DrawGameCanvas();
 
