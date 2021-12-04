@@ -313,7 +313,6 @@ void PlayGame()
 	timer();
 
 	SpeedBuffEffect();
-	printf("%f", knight.speed);
 	//player_touch_enemy();
 	EnemyCollision();
 	DrawItem();
@@ -336,9 +335,6 @@ void PlayGame()
 	
 	DrawObjectiveText();
 	WinCondition();
-	
-
-	//printf("knight.invulnerability: %d",(int)knight.invulnerability);
 }
 
 

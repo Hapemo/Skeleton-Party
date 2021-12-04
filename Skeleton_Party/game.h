@@ -49,13 +49,7 @@ enum { SKILLS_BUTTON_WIDTH = 426, SKILLS_BUTTON_HEIGHT = 76 };
 #define darkviolet CP_Color_Create(148, 0, 211, 255)
 
 
-enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_SELECTION, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY, CREDIT1, CREDIT2, CREDIT3, YOUDIED, REVIVE};
-enum GameStates gameState;
 
-
-int CurrentCharacterKeith;
-float originalPlayerPositionX;
-float originalPlayerPositionY;
 int Exp, Gold ;
 int* ptr_Gold; 
 int additionalExp, additionalGold;
@@ -109,17 +103,6 @@ struct enemy
 } bug;
 
 
-struct Item
-{
-	CP_Vector position;
-	CP_Image sprite;
-	int enabled;
-	int id;
-	float width;
-	float height;
-	float despawnTimer;
-	int transparency;
-};
 
 //Struct for standard enemy, used in enemy_pool
 struct Enemy {
@@ -186,14 +169,13 @@ struct Enemy enemy_pool[MAX_ENEMY];
 struct spawn spawn_pool[MAX_ENEMY];
 struct mother_enemy mother_enemy_pool[MAX_MOTHER_ENEMY];
 
-struct Item item;
-struct Item item_pool[MAX_DROP];
 
 
-void EnableMenu();
-void Damage(float damage);
-void DrawPlayerHealth();
-void DrawHP(float currentHealth, float maxHealth );
+
+
+
+
+
 
 
 void PlayerSetHealth (int Basehealth);
@@ -213,16 +195,53 @@ void DeathCondition(void);
 
 void exit_PlayerHP(void);
 
-void DespawnTimer();
+////////////All functions/variables declarations below can be found/defined in keith.c or is done by Keith/////////////////////////////////////////////////////////
+
+int CurrentCharacterKeith;
+float originalPlayerPositionX;
+float originalPlayerPositionY;
+
 float originalPlayerSpeed;
-void DrawObjectiveText();
 float winning_condition;
+int currentLevel;
+
+//Struct for item used in item_pool array
+struct Item
+{
+	CP_Vector position;
+	CP_Image sprite;
+	int enabled;
+	int id;
+	float width;
+	float height;
+	float despawnTimer;
+	int transparency;
+};
+
+//Declarations of item and item_pool array
+struct Item item;
+struct Item item_pool[MAX_DROP];
+enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_SELECTION, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5,
+	             PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY, CREDIT1, CREDIT2, CREDIT3, YOUDIED, REVIVE};
+
+enum GameStates gameState;
+
+void Damage(float damage); //Unused
+void DrawPlayerHealth(); //Unused
+void DrawHP(float currentHealth, float maxHealth ); //Unused
+void FullscreenKeyPressed(); //Unused
+void FullscreenMode(); //Unused
+
+void ResetState_revive(void);
+
+void EnableMenu();
+void DespawnTimer();
+void DrawObjectiveText();
 void DrawBuffIndicator();
 void ButtonLevelSelectionClicked();
 void DrawLevelSelectionCanvas();
 void ResetItemPool();
 void WinCondition();
-int currentLevel;
 void ResetState();
 void DrawLogoScreen();
 void ReturnMainMenuClicked();
@@ -233,24 +252,23 @@ void SpeedBuffEffect();
 void DropStuff(float posX, float posY);
 void DropStuffs(CP_Vector position);
 void DrawItem();
-
 void TerminateFullscreen();
 void LoadFont();
 void LoadBackgroundImage(int id);
 void InitializeVariables();
-void FullscreenKeyPressed();
-void FullscreenMode();
 void ButtonClicked();
 void DrawGameCanvas();
 void DrawMenuCanvas();
-void EnableMenu();
+
+BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2);
+BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY);
+BOOL CheckCollisionWithBox(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
+
+///////////////////End of function/variables declarations that are found/defined in keith.c or is done by Keith/////////////////////////////////////////////////////
 void game_control(struct character* spritename);
 void init_char(struct character* spritename, float spawnx, float spawny, char* pathname);
 
-BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2);
 
-BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY);
-BOOL CheckCollisionWithBox(float posX, float posY, float boundaryX, float boundaryY, float posBoxX, float posBoxY);
 
 void melee_attack(CP_Vector position);
 void print_cooldown(CP_Vector position, int weapon); //int weapon, 0 for sword, 1 for fireball
@@ -400,7 +418,7 @@ void free_audio();
 void InitializeSkillShopUI(void);
 BOOL IsaacCheckCollisionWithButtonImage(float posX, float posY, float startX, float starty, float endx, float endy);
 
-void ResetState_revive(void);
+
 
 void Screen_YOUDIED_Print(void);
 void Screen_REVIVE_Print(void);

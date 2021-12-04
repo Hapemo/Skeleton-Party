@@ -3,7 +3,10 @@
  * author:	Keith Lua
  * email:	weijiekeith.lua@digipen.edu
 *
- * brief:	This file contains functions
+ * brief:	This file contains functions related to main
+ *		    menu, level reset, level selection, game state, 
+			game canvas, item drop, buffs and
+			enemy collision.
 *
  * documentation link:
  * https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
@@ -16,6 +19,7 @@
 #include "game.h"
 #include <stdlib.h>
 
+//Colour constants
 #define COLOR_GRAY CP_Color_Create(127, 127, 127, 255)
 #define COLOR_GREEN CP_Color_Create(0, 255, 0, 255)
 #define COLOR_BLUE CP_Color_Create(0, 0, 255, 255)
@@ -23,10 +27,13 @@
 #define COLOR_RED CP_Color_Create(255, 0, 0, 255)
 #define COLOR_BLACK CP_Color_Create(0, 0, 0, 255)
 
+//Buff Timer constant
 #define BUFF_TIME 3.0f
 
+//Stores the object display timer
 static float objectiveDisplayTimer = 3.0f;
-static float originalSpeed = 0;
+
+//Variables that store the images that are loaded
 CP_Image instructionScreen  = NULL;
 CP_Image gameBackground = NULL;
 CP_Image playButtonImage = NULL;
@@ -44,12 +51,13 @@ CP_Image level5Image = NULL;
 CP_Image buffIndicatorImage = NULL;
 CP_Image upgradesButtonImage = NULL;
 
+//Unused full screen boolean
 BOOL fullScreen = FALSE;
 
-CP_Font myFont;
+//Variable to store the font
+CP_Font myFont = NULL;
 
-//BOOL clicked = FALSE;
-
+//Button struct used for multiple buttons
 struct Button {
 	BOOL enabled;
 	float posX;
@@ -58,7 +66,7 @@ struct Button {
 	float height;
 };
 
-
+//Declaration of button structs
 struct Button playButton;
 struct Button creditButton;
 struct Button quitButton;
@@ -72,7 +80,7 @@ struct Button level4;
 struct Button level5;
 struct Button buffIndicator;
 
-
+//Menu struct used for menu
 struct Menu {
 	
 	BOOL enabled;
@@ -82,14 +90,8 @@ struct Menu {
 	float height;
 }menu;
 
-struct MenuButton {
 
-	float posX;
-	float posY;
-	float width;
-	float height;
-}menuButton;
-
+//Unused Old Healthbar struct for testing
 struct HealthBar {
 	float maxHealth;
 	float currentHealth;
@@ -97,6 +99,13 @@ struct HealthBar {
 
 }healthBar;
 
+// specification for InitializeVariables
+/*!
+@brief This function will initialise variables and load images
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void InitializeVariables()
 {
@@ -105,8 +114,6 @@ void InitializeVariables()
 	item.height = 50;
 	item.width = 50;
 	item.enabled = 0;
-	healthBar.maxHealth = 5.0f;
-	healthBar.currentHealth = 5.0f;
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
 	fullScreen = TRUE;
@@ -130,8 +137,16 @@ void InitializeVariables()
 	instructionScreen = CP_Image_Load("./Assets/tutScreen.png");
 }
 
+// specification for DrawHP
+/*!
+@brief This function decreases current health based on damage
+       parameter.
 
-//Old legacy Damage function for testing
+@param word float damage
+@return void
+*//*______________________________________________________________*/
+
+//Unused legacy Damage function for testing
 void Damage(float damage)
 {
 	if (healthBar.currentHealth > 0)
@@ -140,14 +155,33 @@ void Damage(float damage)
 	}
 	DrawHP(healthBar.currentHealth, healthBar.maxHealth);
 }
-//Old legacy DrawPlayerHealth function for testing
+
+// specification for DrawHP
+/*!
+@brief This function updates the DrawHP function based on 
+       the healthbar struct
+
+@param word float currentHealth, float maxHealth
+@return void
+*//*______________________________________________________________*/
+
+//Unused legacy DrawPlayerHealth function for testing
 void DrawPlayerHealth()
 {
 	DrawHP(healthBar.currentHealth, healthBar.maxHealth);
 }
 
 
-//Old legacy DrawHP function for testing
+// specification for DrawHP
+/*!
+@brief This function draws heath based on the current and max
+       health parameters.
+
+@param word float currentHealth, float maxHealth
+@return void
+*//*______________________________________________________________*/
+
+//Unused legacy DrawHP function for testing
 void DrawHP(float currentHealth, float maxHealth)
 {
 
@@ -157,6 +191,14 @@ void DrawHP(float currentHealth, float maxHealth)
 	CP_Graphics_DrawRect(10, 10, (250 / maxHealth) * currentHealth, 25);
 }
 
+// specification for LoadBackgroundImage
+/*!
+@brief This function will the game background imaged 
+       based on the level in its parameter
+
+@param word int level
+@return void
+*//*______________________________________________________________*/
 
 void LoadBackgroundImage(int level)
 {
@@ -185,29 +227,47 @@ void LoadBackgroundImage(int level)
 	
 }
 
+// specification for LoadFont
+/*!
+@brief This function will load the font from the file.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
+
 void LoadFont()
 {
 	myFont = CP_Font_Load("./Assets/Font/BikerBones.ttf");
 }
 
+// specification for CheckIfBoxesOverlap
+/*!
+@brief This function will check if rectangle images overlap, it
+       only works with images or rects that are center based 
+	   (Its (0,0) origin position is at the centre)
+
+@param word float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2
+@return BOOL
+*//*______________________________________________________________*/
+                         //First Box                                            //Second Box
 BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2)
 {
-	posX1 = posX1 - width1 / 2;
-	posY1 = posY1 - height1 / 2;
-	posX2 = posX2 - width2 / 2;
-	posY2 = posY2 - height2 / 2;
+	float topLeftX1 = posX1 - width1 / 2; //Get the top left corner X coordinate of the first box
+	float topLeftY1 = posY1 - height1 / 2; //Get the top left corner Y coordinate of the first box
+	float topLeftX2 = posX2 - width2 / 2; //Get the top left corner X coordinate of the second box
+	float topLeftY2 = posY2 - height2 / 2; //Get the top left corner Y coordinate of the second box
 
-	float bottomRightX1 = posX1 + width1;
-	float bottomRightY1 = posY1 + height1;
-	float bottomRightX2 = posX2 + width2;
-	float bottomRightY2 = posY2 + height2;
+	float bottomRightX1 = topLeftX1 + width1; //Get the bottom right corner X coordinate of the first box
+	float bottomRightY1 = topLeftY1 + height1; //Get the bottom right corner Y coordinate of the first box
+	float bottomRightX2 = topLeftX2 + width2; //Get the bottom right corner X coordinate of the second box
+	float bottomRightY2 = topLeftY2 + height2; //Get the bottom right corner Y coordinate of the second box
 
-	if (bottomRightX1 < posX2 || bottomRightX2 < posX1)
-	{
+	if (bottomRightX1 < topLeftX2 || bottomRightX2 < topLeftX1) //Check if the left and right sides are not overlapping /
+	{                                                           //the two boxes respective maximum x and minimum x values are not within each other range of x values
 		return FALSE;
 	}
-	else if (bottomRightY1 < posY2 || bottomRightY2 < posY1)
-	{
+	else if (bottomRightY1 < topLeftY2 || bottomRightY2 < topLeftY1) //Check if the top and bottom sides are not overlapping /
+	{                                                                //the two boxes respective maximum y and minimum y values are not within each other range of y values
 		return FALSE;
 	}
 	else
@@ -220,22 +280,26 @@ BOOL CheckIfBoxesOverlap(float posX1, float posY1, float width1, float height1, 
 // specification for CheckCollisionWithBoxImage
 /*!
 @brief This function will check if a point is within a box, only
-	   works with images or Centered rects.
+	   works with images or centred rects. (Its (0,0) origin 
+	   position is at the centre). Used with mouse clicks/points
+	   only!
 
-@param word void
-@return void
+@param word float posX, float posY, float widthBox, 
+            float heightBox, float posBoxX, float posBoxY
+@return BOOL
 *//*______________________________________________________________*/
-
+                                //Point X coordinate    Point Y coordinate     //Box X coordinate and Box Y coordinate
 BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
 {
-	posBoxX = posBoxX - widthBox / 2;
-	posBoxY = posBoxY - heightBox / 2;
+	float topLeftX = posBoxX - widthBox / 2; //Get the top left corner X coordinate
+	float topLeftY = posBoxY - heightBox / 2; //Get the top left corner Y coordinate
 	
 
-	float boundaryX = posBoxX + widthBox;
-	float boundaryY = posBoxY + heightBox;
-	if ((posX < boundaryX && posX > posBoxX)
-		&& (posY < boundaryY && posY > posBoxY))
+	float bottomRightX = topLeftX + widthBox; //Get the bottom right corner X coordinate of the box 
+	float bottomRightY = topLeftY + heightBox; //Get the bottom right corner Y coordinate of the box
+	 
+	if ((posX < bottomRightX && posX > topLeftX) //Check if a point is within the x values/range of the box
+		&& (posY < bottomRightY && posY > topLeftY)) //Check if a point is within the y values/range of the box
 	{
 		play_click();
 		return TRUE;
@@ -251,19 +315,20 @@ BOOL CheckCollisionWithBoxImage(float posX, float posY, float widthBox, float he
 /*!
 @brief This function will check if a point is within a box, only
        works with those boxes drawn by draw rects which are 
-	   Corner based.
+	   corner based. (Its (0,0) origin position is at the top
+	   left corner)
 
-@param word void
-@return void
+@param word float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY
+@return BOOL
 *//*______________________________________________________________*/
 
 BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightBox, float posBoxX, float posBoxY)
 {
 
-	float boundaryX = posBoxX + widthBox;
-	float boundaryY = posBoxY + heightBox;
-	if ((posX < boundaryX && posX > posBoxX)
-		&& (posY < boundaryY && posY > posBoxY))
+	float bottomRightX = posBoxX + widthBox; //Get the bottom right corner X coordinate of the box 
+	float bottomRightY = posBoxY + heightBox; //Get the bottom right corner Y coordinate of the box
+	if ((posX < bottomRightX && posX > posBoxX)     //Check if a point is within the x values/range of the box
+		&& (posY < bottomRightY && posY > posBoxY))  //Check if a point is within the y values/range of the box
 	{
 		
 		return TRUE;
@@ -278,9 +343,9 @@ BOOL CheckCollisionWithBox(float posX, float posY, float widthBox, float heightB
 
 // specification for DrawMenuCanvas
 /*!
-@brief This function will draw the menu canvas which consists 
-       of buttons and a black rectangle based on the
-	   window size.
+@brief This function will draw the main menu canvas which 
+       consists a title, buttons and a black rectangle background 
+	   based on the window size.
 
 @param word void
 @return void
@@ -683,6 +748,15 @@ void ButtonClicked()
 }
 
 //Unused function
+// specification for FullscreenMode
+/*!
+@brief This function allows the player to toggle between
+	   fullscreen and windowed.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
+
 
 void FullscreenKeyPressed()
 {
@@ -692,11 +766,19 @@ void FullscreenKeyPressed()
 	}
 }
 
-//Unused function set the game between the orignal/windowed width and height to full screem and
+//Unused function
+// specification for FullscreenMode
+/*!
+@brief This function sets the size of the window based on the
+	   fullscreem boolean.
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void FullscreenMode()
 {
-	if (fullScreen == FALSE)
+	if (fullScreen == TRUE)
 	{
 		CP_System_Fullscreen();
 	}
@@ -862,6 +944,8 @@ void DespawnTimer()
 
 }
 
+
+//This modifies DropStuff to take in a vector
 void DropStuffs(CP_Vector position) {
 	DropStuff(position.x, position.y);
 }
