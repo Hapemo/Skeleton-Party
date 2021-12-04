@@ -659,7 +659,6 @@ void ResetState_revive ()
 
 }
 
-
 void ResetState()
 {
 	CurrentCharacterKeith = knightint;

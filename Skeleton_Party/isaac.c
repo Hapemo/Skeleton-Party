@@ -269,6 +269,11 @@ const char Shop_Rez_Desc[] = { "Cost : 5 Gold Coins \n Allows you to coninue fro
 const char Shop_Shrapnel_Desc[] = { "Cost : 10 Gold Coins \n Enables Mage AOE to Fire additional bullets upon impact" };
 const char Shop_Shockwave_Desc[] = { "Cost : 10 Gold Coins \n Adds An AOE to the knights Melee attack" };
 
+const char Pause_mainmenu_Desc[] = { "Click To Return To Main Menu" };
+//const char Pause_mainmenu_Desc[] = { "Click To Return To Main Menu" };
+
+
+
 
 /***********************************************************************************************Local Variable Declerations END ************************************************************************************************/
 
@@ -371,6 +376,8 @@ struct Pause_Background {
 	float posY;
 	float width;
 	float height;
+	BOOL hover;
+
 }Pause_Background;
 
 struct PrepRoom_Background {
@@ -604,7 +611,7 @@ void InitializeSkillShopUI(void)
 	//SWORD_CRIT_CHANCE = 10;
 	revivetoken = 0;
 	Exp = 18;
-	Gold = 90;
+	Gold = 98;
 	additionalExp = 3;
 	additionalGold = 1;
 
@@ -764,6 +771,8 @@ void InitializeSkillShopUI(void)
 	Shop_ShrapnelButton.hover = TRUE;
 	Shop_Shockwave.hover = TRUE;
 
+	Pause_Background.hover = TRUE;
+
 	Image_GoldSprite = CP_Image_Load("./Assets/goldsprite.png");
 	Image_ExpSprite = CP_Image_Load("./Assets/Exporb.png");
 	Image_ReztokenSprite = CP_Image_Load("./Assets/ReviveToken.png");
@@ -822,7 +831,7 @@ void InitializeSkillShopUI(void)
 	Image_Shop_RezOff = CP_Image_Load("./Assets/Shop_rezOff.png");
 	Image_Shop_ShrapnelOff = CP_Image_Load("./Assets/Shop_shrapnelOff.png");
 	
-	Image_Pause_Mistake = CP_Image_Load("./Assets/pause_mistake1.png");
+	Image_Pause_Mistake = CP_Image_Load("./Assets/pause_mistake2.png");
 
 	Image_Win_Background = CP_Image_Load("./Assets/winscreen.png");
 
@@ -1302,6 +1311,9 @@ void ScorePrinter(int score, float x, float y)
 	case 99:
 		CP_Font_DrawText(Ninety9, x, y);
 		break;
+	default:
+		Gold = 99;
+		break;
 	}
 }
 
@@ -1362,6 +1374,18 @@ void Screen_PAUSE_Print(void)
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
 	CP_Image_Draw(Image_Pause_Mistake, Pause_Background.posX, Pause_Background.posY, isaac_width, isaac_height, 255);
+
+	/*float mousehoverPosX = CP_Input_GetMouseX();
+	float mousehoverPosY = CP_Input_GetMouseY();*/
+
+	/*CP_Settings_TextSize(20);
+	CP_Settings_Fill(COLOR_GOLD);
+	CP_Font_Set(CP_Font_GetDefault());
+
+	if (Pause_Background.hover == FALSE)
+	{
+		CP_Font_DrawTextBox(Pause_mainmenu_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
+	}*/
 }
 
 
@@ -1662,10 +1686,24 @@ void Screen_PAUSE_ButtonClicked(void)
 		gameState = currentLevel;
 	}
 
+	/*float mousehoverPosX = CP_Input_GetMouseX();
+	float mousehoverPosY = CP_Input_GetMouseY();
+
+	if (IsaacHover(mousehoverPosX, mousehoverPosY, 299.0, 661.0, 595.0, 781.0))
+	{
+		Pause_Background.hover = FALSE;
+	}
+	else
+	{
+		Pause_Background.hover = TRUE;
+	}*/
+
+
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
 		float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
+
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 199.0, 350.0, 699.0, 507.0))
 		{
 			printf("button pressed continue \n");
@@ -1681,7 +1719,7 @@ void Screen_PAUSE_ButtonClicked(void)
 			ResetState();
 			gameState = currentLevel;
 		}
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 299.0, 661.0, 595.0, 781.0))
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 150.0, 614.0, 742.0, 744.0))
 		{
 			printf("button pressed menu\n");
 			gameState = MAIN_MENU;

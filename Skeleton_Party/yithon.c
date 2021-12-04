@@ -23,6 +23,7 @@ struct Pause {
 	float posY;
 	float width;
 	float height;
+	//BOOL hover;
 }pause;
 
 struct Continue {
