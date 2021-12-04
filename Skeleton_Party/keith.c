@@ -647,7 +647,6 @@ void ResetState_revive ()
 	CurrentCharacterKeith = knightint;
 	objectiveDisplayTimer = 3.0f;
 	ResetItemPool();
-	//timer_reset();
 	knight.position.x = originalPlayerPositionX;
 	knight.position.y = originalPlayerPositionY;
 	knight.speed = originalPlayerSpeed;
@@ -679,6 +678,17 @@ void ResetState()
 
 }
 
+// specification for WinCondition
+/*!
+@brief This function will iterate through the item_pool which
+	   contains an array of item structs. When the item in the
+	   array is enabled (1), we will tick despawn timer in the
+	   item struct based on the system time till reaches 0.
+	   Then we will disable (0) the item once timer reaches 0
+
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void WinCondition()
 {
@@ -693,7 +703,17 @@ void WinCondition()
 	}
 }
 
+// specification for DespawnTimer
+/*!
+@brief This function will iterate through the item_pool which
+	   contains an array of item structs. When the item in the
+	   array is enabled (1), we will tick despawn timer in the 
+	   item struct based on the system time till reaches 0.
+	   Then we will disable (0) the item once timer reaches 0
 
+@param word void
+@return void
+*//*______________________________________________________________*/
 
 void DespawnTimer()
 {
@@ -732,7 +752,11 @@ void DropStuffs(CP_Vector position) {
 	   number, if the number is within a certain range, we will
 	   enable an item, different range corresponds to different
 	   items marked by their ids. The range is the represents 
-	   the estimated probability of the item drop.
+	   the estimated probability of the item drop. We set their
+	   respctive member variables in the item struct. If the item
+	   in the array is already enabled (1), we will keep 
+	   increasing the pointer till we find item that has not been
+	   enabled.
 
 @param word float posX, float posY
 @return void
@@ -798,9 +822,9 @@ void DropStuff(float posX, float posY)
 	   their state, if the item struct is enabled (1) we will load
 	   and draw the sprite health potion, speed potion, gold based 
 	   on their respective ids 0,1 and 2.They wil also be drawn 
-	   based on the  vector postion, width, height
-	   transparency variables of knight struct set by 
-	   DropStuff function.
+	   based on the vector postion, width, height
+	   transparency which are member variables of knight struct 
+	   set by  DropStuff function.
 
 @param word void
 @return void
