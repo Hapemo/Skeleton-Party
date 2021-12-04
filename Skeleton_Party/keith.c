@@ -775,7 +775,7 @@ void DropStuff(float posX, float posY)
 		if (item_pool[i].enabled == 0)
 		{
 			
-			if (randomChanceSpawnRate >= 0 && randomChanceSpawnRate <= 14)
+			if (randomChanceSpawnRate >= 0 && randomChanceSpawnRate <= 4)
 			{
 				//struct Item potion;
 				item_pool[i].position.x = posX;
@@ -791,7 +791,7 @@ void DropStuff(float posX, float posY)
 				//printf("Spawned: %d", item_pool[i].enabled);
 				
 			}
-			else if (randomChanceSpawnRate >= 20 && randomChanceSpawnRate <= 34)
+			else if (randomChanceSpawnRate >= 5 && randomChanceSpawnRate <= 9)
 			{
 				item_pool[i].position.x = posX;
 				item_pool[i].position.y = posY;
@@ -805,7 +805,7 @@ void DropStuff(float posX, float posY)
 				//j++;
 
 			}
-		    else if(randomChanceSpawnRate >= 40 && randomChanceSpawnRate <= 44)
+		    else if(randomChanceSpawnRate >= 10 && randomChanceSpawnRate <= 11)
 			{
 				item_pool[i].position.x = posX;
 				item_pool[i].position.y = posY;
