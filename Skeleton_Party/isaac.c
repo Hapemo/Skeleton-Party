@@ -831,7 +831,7 @@ void InitializeSkillShopUI(void)
 	Image_Shop_RezOff = CP_Image_Load("./Assets/Shop_rezOff.png");
 	Image_Shop_ShrapnelOff = CP_Image_Load("./Assets/Shop_shrapnelOff.png");
 	
-	Image_Pause_Mistake = CP_Image_Load("./Assets/pause_mistake1.png");
+	Image_Pause_Mistake = CP_Image_Load("./Assets/pause_mistake2.png");
 
 	Image_Win_Background = CP_Image_Load("./Assets/winscreen.png");
 
@@ -1378,14 +1378,14 @@ void Screen_PAUSE_Print(void)
 	float mousehoverPosX = CP_Input_GetMouseX();
 	float mousehoverPosY = CP_Input_GetMouseY();
 
-	CP_Settings_TextSize(20);
+	/*CP_Settings_TextSize(20);
 	CP_Settings_Fill(COLOR_GOLD);
 	CP_Font_Set(CP_Font_GetDefault());
 
 	if (Pause_Background.hover == FALSE)
 	{
 		CP_Font_DrawTextBox(Pause_mainmenu_Desc, mousehoverPosX + isaac_addmousepos, mousehoverPosY, isaac_textboxwidth);
-	}
+	}*/
 }
 
 
@@ -1701,14 +1701,14 @@ void Screen_PAUSE_ButtonClicked(void)
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
 	{
-		float mousePosX = CP_Input_GetMouseX();
+		/*float mousePosX = CP_Input_GetMouseX();
 		float mousePosY = CP_Input_GetMouseY();
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 199.0, 350.0, 699.0, 507.0))
 		{
 			printf("button pressed continue \n");
 			gamePause = !gamePause;
 			gameState = currentLevel;
-		}
+		}*/
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 297.0, 510.0, 580.0, 622.0))
 		{
@@ -1718,7 +1718,7 @@ void Screen_PAUSE_ButtonClicked(void)
 			ResetState();
 			gameState = currentLevel;
 		}
-		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 299.0, 661.0, 595.0, 781.0))
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 150.0, 614.0, 742.0, 744.0))
 		{
 			printf("button pressed menu\n");
 			gameState = MAIN_MENU;
