@@ -1582,6 +1582,9 @@ void Screen_SKILL_Print(void)
 	CP_Settings_TextSize(100);
 	CP_Settings_Fill(COLOR_WHITE);
 	ScorePrinter(Exp, 325, 429);
+
+	CP_Settings_TextSize(20);
+	CP_Font_DrawTextBox("Right-click to sell skills", WIDTH/3*2 + 100, 1010, WIDTH);
 }
 
 
