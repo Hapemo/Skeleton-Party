@@ -1,14 +1,14 @@
 /*---------------------------------------------------------
- * file:	game.c
- * author:	
- * email:	
+ * file:	issac.c
+ * author:	issac
+ * email:	i.yeo@digipen.edu
 *
  * brief:	
 *
  * documentation link:
  * https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
 *
- * Copyright � 2020 DigiPen, All rights reserved.
+ * Copyright © 2020 DigiPen, All rights reserved.
 * ---------------------------------------------------------*/
 /*
 Functions to call to modify hp

@@ -8,7 +8,7 @@
  * documentation link:
  * https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
 *
- * Copyright � 2020 DigiPen, All rights reserved.
+ * Copyright © 2020 DigiPen, All rights reserved.
 * ---------------------------------------------------------*/
 
 #include <stdio.h>
@@ -16,6 +16,7 @@
 #include "game.h"
 
 
+//Button struct used for pause buttons
 CP_Font myFont;
 struct Pause {
 	BOOL enabled;
@@ -26,6 +27,8 @@ struct Pause {
 	//BOOL hover;
 }pause;
 
+
+//Button struct used for ccontinue buttons
 struct Continue {
 
 	float posX;
@@ -34,6 +37,8 @@ struct Continue {
 	float height;
 }continueButton;
 
+
+//Button struct used for reset buttons
 struct ResetButton 
 {
 	float posX;
@@ -42,6 +47,7 @@ struct ResetButton
 	float height;
 }resetPauseButton;
 
+//Button struct used for menu buttons
 struct MenuButton {
 
 	float posX;
@@ -50,6 +56,7 @@ struct MenuButton {
 	float height;
 }menuPauseButton;
 
+//Button struct used for credit buttons
 struct CreditButton {
 
 	float posX;
@@ -138,7 +145,7 @@ void play_death() {
 @return - this function does not return a value, just a function called when collision happen between sword and enemy
 */
 void play_swordHit() {
-	CP_Sound_PlayAdvanced(meleeHit, 0.4f, 1.0f, FALSE, CP_SOUND_GROUP_3);
+	CP_Sound_PlayAdvanced(meleeHit, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_3);
 }
 
 /*!

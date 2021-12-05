@@ -1,7 +1,7 @@
 /*---------------------------------------------------------
  * file:	game.c
  * author:	jazz, isaac, keith, yi thon, qiu hui
- * email:	j.teoh@digipen.edu
+ * email:	j.teoh@digipen.edu,i.yeo@digipen.edu, weijiekeith.lua@digipen.edu,yithon.goh@digipen.edu,qiuhui.tan@digipen.edu   
 *
  * brief:	This file is the main brain of the game. It constantly runs and updates to run the game
 *

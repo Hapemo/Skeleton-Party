@@ -1,7 +1,7 @@
 /*---------------------------------------------------------
  * file:	game.h 
  * author:	jazz, isaac, keith, yi thon, qiu hui
- * email:	j.teoh@digipen.edu
+ * email:	j.teoh@digipen.edu,i.yeo@digipen.edu, weijiekeith.lua@digipen.edu,yithon.goh@digipen.edu,qiuhui.tan@digipen.edu
 *
  * brief:	This file contains delcaration of functions, variables, arrays, constants and structs
  *			Especially for those which would be used across different .c files
