@@ -246,7 +246,8 @@ void LoadFont()
        only works with images or rects that are center based 
 	   (Its (0,0) origin position is at the centre)
 
-@param word float posX1, float posY1, float width1, float height1, float posX2, float posY2, float width2, float height2
+@param word float posX1, float posY1, float width1, float height1, 
+			float posX2, float posY2, float width2, float height2
 @return BOOL
 *//*______________________________________________________________*/
                          //First Box                                            //Second Box
