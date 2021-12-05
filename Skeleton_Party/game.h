@@ -230,7 +230,7 @@ void Damage(float damage); //Unused
 void DrawPlayerHealth(); //Unused
 void DrawHP(float currentHealth, float maxHealth ); //Unused
 void FullscreenKeyPressed(); //Unused
-void FullscreenMode(); //Unused
+void FullscreenMode(); 
 
 void ResetState_revive(void);
 

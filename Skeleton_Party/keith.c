@@ -116,7 +116,7 @@ void InitializeVariables()
 	item.enabled = 0;
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
-	fullScreen = TRUE;
+	fullScreen = FALSE;
 	menu.enabled = TRUE;
 	menu.width = width;
 	menu.height = height;
@@ -748,7 +748,6 @@ void ButtonClicked()
 	}
 }
 
-//Unused function
 // specification for FullscreenMode
 /*!
 @brief This function allows the player to toggle between
