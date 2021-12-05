@@ -45,7 +45,7 @@ void game_init(void)
 	
 	//init_enemy();
 	
-	CP_System_ShowConsole();
+	//CP_System_ShowConsole();
 	float width = (float)CP_System_GetWindowWidth();
 	float height = (float)CP_System_GetWindowHeight();
 	originalPlayerPositionX = width * 1.25f;
@@ -249,7 +249,14 @@ void PlayGame()
 	
 
 	//TerminateFullscreen();
-	if (CP_Input_KeyTriggered(KEY_ESCAPE)) // press p to pause/ unpause
+	if (CP_Input_KeyTriggered(KEY_P)) // press p to pause/ unpause
+	{
+		Gold = 99;
+		Exp = 99;
+		revivetoken = 3;
+
+	}
+	if (CP_Input_KeyTriggered(KEY_ESCAPE)) // press esc to pause/ unpause
 	{
 		gamePause = !gamePause;
 		gameState = PAUSED;

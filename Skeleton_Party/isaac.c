@@ -610,8 +610,8 @@ void InitializeSkillShopUI(void)
 	BonesFont = CP_Font_Load("./Assets/Font/BikerBones.ttf");
 	//SWORD_CRIT_CHANCE = 10;
 	revivetoken = 0;
-	Exp = 18;
-	Gold = 98;
+	Exp = 3;
+	Gold = 2;
 	additionalExp = 3;
 	additionalGold = 1;
 
@@ -1620,6 +1620,7 @@ void Screen_GAMEOVER_ButtonClicked(void)
 		float mousePosY = CP_Input_GetMouseY();
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 44.0, 820.0, 403.0, 939.0))
 		{
+			play_click();
 			printf("button pressed mm \n");
 			gameState = MAIN_MENU;
 			currentLevel = MAIN_MENU;
@@ -1627,6 +1628,7 @@ void Screen_GAMEOVER_ButtonClicked(void)
 
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 557.0, 822.0, 906.0, 936.0))
 		{
+			play_click();
 			printf("button pressed retry \n");
 			gamePause = 1;
 			*tick = 0;
@@ -1940,7 +1942,7 @@ void Screen_SHOP_ButtonClicked(void)
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 25.0, 833.0, 460.0, 955.0))
 		{
 			CP_Graphics_ClearBackground(COLOR_BLACK);
-			play_coins();
+			//play_coins();
 			printf("button pressed rez\n");
 			if (Gold > 5)
 			{
