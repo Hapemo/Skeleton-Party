@@ -14,3 +14,8 @@ by Skeleton Party - CSD1400D
 	Qiu Hui Tan				qiuhui.tan@digipen.edu
 	
 =================================================================================================================
+
+Press 'u' to get max coin and skill point
+
+
+
