@@ -224,7 +224,10 @@ void game_update(void)
 
 			break;
 		case THANKS:
-			
+			Screen_THANKS_Print();
+
+			Screen_Thanks_ButtonClicked();
+
 			break;
 		}
 		
@@ -263,8 +266,8 @@ void PlayGame()
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) // press esc to pause/ unpause
 	{
 		gamePause = !gamePause;
-		gameState = PAUSED;
-		//gameState = PREPROOM;
+		//gameState = PAUSED;
+		gameState = WIN;
 
 	}
 	DrawGameCanvas();
@@ -334,6 +337,7 @@ void PlayGame()
 	CP_Settings_TextSize(60);
 	
 	CP_Settings_Fill(COLOR_WHITE);
+
 	ScorePrinter(Exp, 690, 65);
 
 

@@ -426,6 +426,7 @@ void Screen_REVIVE_Print(void);
 void Screen_Currency_Print(void);
 void ScorePrinter(int score, float x, float y);
 void Screen_GAMEOVER_Print(void);
+void Screen_THANKS_Print(void);
 void Screen_WIN_Print(void);
 void Screen_PAUSE_Print(void);
 void Screen_PREPROOM_Print(void);	
@@ -441,6 +442,8 @@ void Screen_YOUDIED_ButtonClicked(void);
 void Screen_REVIVE_ButtonClicked(void);
 
 void Screen_GAMEOVER_ButtonClicked(void);
+void Screen_Thanks_ButtonClicked(void);
+
 void Screen_WIN_ButtonClicked(void);
 void Screen_PAUSE_ButtonClicked(void);
 void Screen_PREPROOM_ButtonClicked(void);

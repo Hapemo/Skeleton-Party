@@ -230,6 +230,8 @@ CP_Image Number_Skill_Five = NULL;
 CP_Image Number_Skill_Six = NULL;
 CP_Image Number_Skill_Seven = NULL;
 
+CP_Image Image_Thanks_Background = NULL;
+
 /***********************************************************************************************Image Declerations END ************************************************************************************************/
 
 
@@ -332,6 +334,14 @@ void healer(HealthSystem* inst, int healamount)
 
 /***********************************************************************************************Structs for Shop And Skills System UI Start ************************************************************************************************/
 
+struct Thanks_Background {
+
+	BOOL enabled;
+	float posX;
+	float posY;
+	float width;
+	float height;
+}Thanks_Background;
 
 struct Revive_Background {
 
@@ -702,11 +712,15 @@ void InitializeSkillShopUI(void)
 	skill_sword_crit.description = "Increase sword critical strike chance (MUST own shockwave from shop)";
 
 
-	GameOver_Background.enabled = TRUE;
-	GameOver_Background.width = isaac_width;
-	GameOver_Background.height = isaac_height;
-	GameOver_Background.posX = (float)(isaac_width / 2.0);
-	GameOver_Background.posY = (float)(isaac_height / 2.0);
+
+
+
+
+	Thanks_Background.enabled = TRUE;
+	Thanks_Background.width = isaac_width;
+	Thanks_Background.height = isaac_height;
+	Thanks_Background.posX = (float)(isaac_width / 2.0);
+	Thanks_Background.posY = (float)(isaac_height / 2.0);
 	
 	GameOver_Background.enabled = TRUE;
 	GameOver_Background.width = isaac_width;
@@ -841,6 +855,8 @@ void InitializeSkillShopUI(void)
 	Image_YouDied_Background = CP_Image_Load("./Assets/youdiedRevive.png");
 	Image_Revive_Background = CP_Image_Load("./Assets/Revive.png");
 
+
+	Image_Thanks_Background = CP_Image_Load("./Assets/tksForPlaying.png");
 	maxadditionalhp = 5;
 	additionalhp = 0;
 
@@ -1312,8 +1328,10 @@ void ScorePrinter(int score, float x, float y)
 	case 99:
 		CP_Font_DrawText(Ninety9, x, y);
 		break;
+
 	default:
-		Gold = 99;
+		score = 99;
+		CP_Font_DrawText(Ninety9, x, y);
 		break;
 	}
 }
@@ -1361,6 +1379,20 @@ void Screen_WIN_Print(void)
 		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	}
 	CP_Image_Draw(Image_Win_Background, Win_Background.posX, Win_Background.posY, isaac_width, isaac_height, 255);
+}
+
+/*!
+@brief  -this function is called to print the the THANKS Screen when the gamestate = "THANKS"
+		-Player Enters "THANKS" when player first clears level 5
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_THANKS_Print(void)
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		printf("x is %f, y is %f \n", CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	}
+	CP_Image_Draw(Image_Thanks_Background, Thanks_Background.posX, Thanks_Background.posY, isaac_width, isaac_height, 255);
 }
 
 /*!
@@ -1672,7 +1704,7 @@ void Screen_WIN_ButtonClicked(void)
 			printf("button pressed continue \n");
 			//gameState = PREPROOM;
 			if (firstclear == 0 && currentLevel==LEVEL_5) {
-				firstclear =1;
+				firstclear = 1;
 				gameState=THANKS;
 			}
 			else{
@@ -1680,6 +1712,28 @@ void Screen_WIN_ButtonClicked(void)
 			}
 		}
 		
+	}
+}
+
+/*!
+@brief  -this function is called to check for collisions on the "THANKS" SCreen and call the intended instruction when a button is pressed
+@return - this function does not return a value, just a function call to execute a set number of instructions
+*//*_________________________________________________________________________________________________________________________________________________________________*/
+void Screen_Thanks_ButtonClicked(void)
+{
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1))
+	{
+		printf("button pressed  \n");
+		float mousePosX = CP_Input_GetMouseX();
+		float mousePosY = CP_Input_GetMouseY();
+
+		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 206.0, 628.0, 727.0, 829.0))
+		{
+			printf("button pressed continue \n");
+			gameState = MAIN_MENU;
+		
+		}
+
 	}
 }
 
@@ -2184,7 +2238,6 @@ void Screen_REVIVE_ButtonClicked(void)
 			*tick = 0;
 			//ResetState();
 			ResetState_revive();
-			
 			gameState = currentLevel;
 		}
 
@@ -2257,6 +2310,10 @@ void exit_skilltreepictures(void)
 
 	CP_Image_Free(&Image_YouDied_Background);
 	CP_Image_Free(&Image_Revive_Background);
+	
+	CP_Image_Free(&Image_Thanks_Background);
+
+
 
 	CP_Image_Free(&Image_num_1) ;
 	CP_Image_Free(&Image_num_2) ;
