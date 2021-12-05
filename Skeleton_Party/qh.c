@@ -1,3 +1,16 @@
+/*---------------------------------------------------------
+ file:	qh.c
+ author:	qiuhui tan
+ email:	qiuhui.tan@digipen.edu
+
+ brief:	This file contains struct for character and functions for game controls 
+ and rendering of various characters. 
+*
+ documentation link:
+ https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+
+* Copyright © 2020 DigiPen, All rights reserved.
+* ---------------------------------------------------------*/
 
 #include <stdio.h>
 #include "cprocessing.h"
@@ -15,7 +28,7 @@
 //
 //};
 
-//Note: since using include game.h, I set struct to global do not need local struct
+
 
 
 //@purpose enemy movement 
