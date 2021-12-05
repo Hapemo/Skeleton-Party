@@ -21,6 +21,14 @@
 #include "cprocessing.h"
 #include "game.h"
 
+CP_Image sword_pic;
+CP_Image explosion_pic;
+CP_Image critical_pic;
+CP_Image fireball_pic;
+CP_Image shrapnel_pic;
+CP_Image arrow_pic;
+CP_Image critical_pic;
+
 #define SWORD_CRIT_CHANCE 90
 
 //These variables are for melee attacks, for function 'melee_attack' and 'activate_melee_by_mouse'
@@ -199,7 +207,7 @@ void melee_attack(CP_Vector position) {
 *//*______________________________________________________________*/
 void print_melee_weapon(CP_Vector position, float angle) {
 
-	CP_Image sword_pic = CP_Image_Load("./Assets/sword.png");
+	sword_pic = CP_Image_Load("./Assets/sword.png");
 	CP_Matrix translate = CP_Matrix_Translate(position); //bring attack to position
 	CP_Matrix rotate = CP_Matrix_Rotate(angle+90);
 
@@ -547,14 +555,14 @@ void sword_explosion_update(void) {
 void sword_explosion_print(void) {
 	for (int i = 0; i < MAX_SWORD_EXPLOSION; i++) {
 		if (!(sword_explosion_pool[i].y == 0 && sword_explosion_pool[i].x == 0)) {
-			CP_Image explosion_pic = CP_Image_Load("./Assets/explosion.png");
+			explosion_pic = CP_Image_Load("./Assets/explosion.png");
 			CP_Image_Draw(explosion_pic, sword_explosion_pool[i].x, sword_explosion_pool[i].y, sword_explosion_radius_pool[i] * 1.5f, sword_explosion_radius_pool[i] * 1.5f, 255);
 			
 			//Gives the effect that the critical strike symbol grows higher
 			static float critical_hit = 0;
 			if (critical_hit++ > max_sword_explosion_radius) critical_hit = 0;
 
-			CP_Image critical_pic = CP_Image_Load("./Assets/critical.png");
+			critical_pic = CP_Image_Load("./Assets/critical.png");
 			CP_Image_Draw(critical_pic, sword_explosion_pool[i].x, sword_explosion_pool[i].y - critical_hit/3, 30 * 2.81f, 30, 255);
 		}
 	}
@@ -674,7 +682,7 @@ void print_bullet(void) {
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(bullet_pool[i].y == 0 && bullet_pool[i].x == 0)) { //If bullet is active
 
-			CP_Image fireball_pic = CP_Image_Load("./Assets/fireball.png");
+			fireball_pic = CP_Image_Load("./Assets/fireball.png");
 
 			// Create transform matrices
 			CP_Matrix translate = CP_Matrix_Translate(bullet_pool[i]); //bring attack to position
@@ -742,7 +750,7 @@ void explosion_update(void) {
 void explosion_print(void) {
 	for (int i = 0; i < MAX_EXPLOSION; i++) {
 		if (!(explosion_pool[i].y == 0 && explosion_pool[i].x == 0)) {
-			CP_Image shrapnel_pic = CP_Image_Load("./Assets/explosion.png");
+			shrapnel_pic = CP_Image_Load("./Assets/explosion.png");
 			// Create transform matrices
 
 			CP_Image_Draw(shrapnel_pic, explosion_pool[i].x, explosion_pool[i].y, explosion_radius_pool[i]*2, explosion_radius_pool[i]*2, 255);
@@ -799,7 +807,7 @@ void shrapnel_update(void) {
 void print_shrapnel(void) {
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (shrapnel_pool[i].alive) { //If bullet is active
-			CP_Image shrapnel_pic = CP_Image_Load("./Assets/bullet.png");
+			shrapnel_pic = CP_Image_Load("./Assets/bullet.png");
 			// Create transform matrices
 
 			CP_Matrix translate = CP_Matrix_Translate(shrapnel_pool[i].position); //bring attack to position 
@@ -966,7 +974,7 @@ void print_piercing_bullet(void) {
 	for (int i = 0; i < MAX_BULLET; i++) {
 		if (!(piercing_bullet_pool[i].y == 0 && piercing_bullet_pool[i].x == 0)) { //If bullet is active
 
-			CP_Image arrow_pic = CP_Image_Load("./Assets/arrow.png");
+			arrow_pic = CP_Image_Load("./Assets/arrow.png");
 
 			CP_Settings_Fill(COLOR_BLUE);
 			// Create transform matrices
@@ -1009,6 +1017,14 @@ void reset_enemy_and_weapon(void) {
 	memset(sword_explosion_radius_pool, 0, sizeof(sword_explosion_radius_pool));
 
 	memset(item_pool, 0, sizeof(item_pool));
+
+	CP_Image_Free(&sword_pic);
+	CP_Image_Free(&explosion_pic);
+	CP_Image_Free(&critical_pic);
+	CP_Image_Free(&fireball_pic);
+	CP_Image_Free(&shrapnel_pic);
+	CP_Image_Free(&arrow_pic);
+	CP_Image_Free(&critical_pic);
 }
 
 

@@ -2257,4 +2257,25 @@ void exit_skilltreepictures(void)
 
 	CP_Image_Free(&Image_YouDied_Background);
 	CP_Image_Free(&Image_Revive_Background);
+
+	CP_Image_Free(&Image_num_1) ;
+	CP_Image_Free(&Image_num_2) ;
+	CP_Image_Free(&Image_num_3) ;
+	CP_Image_Free(&Image_num_4) ;
+	CP_Image_Free(&Image_num_5) ;
+	CP_Image_Free(&Image_num_6) ;
+	CP_Image_Free(&Image_num_7) ;
+	CP_Image_Free(&Image_num_8) ;
+	CP_Image_Free(&Image_num_9) ;
+	CP_Image_Free(&Image_num_10) ;
+	CP_Image_Free(&skill_health.image);
+	CP_Image_Free(&skill_movement.image);
+	CP_Image_Free(&skill_arrow_charge.image);
+	CP_Image_Free(&skill_arrow_size.image);
+	CP_Image_Free(&skill_attack_speed.image);
+	CP_Image_Free(&skill_blast_range.image);
+	CP_Image_Free(&skill_shrapnels.image);
+	CP_Image_Free(&skill_sword_range.image);
+	CP_Image_Free(&skill_sword_swing.image);
+	CP_Image_Free(&skill_sword_crit.image);
 }
