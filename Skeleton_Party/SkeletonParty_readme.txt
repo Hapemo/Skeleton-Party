@@ -10,4 +10,4 @@ by Skeleton Party - CSD1400D
 	
 =================================================================================================================
 cheatcode: 
-Press 'u' to get max coin and skill point
+Press 'p' to get max coin and skill point
