@@ -223,8 +223,12 @@ void game_update(void)
 			Screen_REVIVE_ButtonClicked();
 
 			break;
-
+		case THANKS:
+			
+			break;
 		}
+		
+
 
 }
 

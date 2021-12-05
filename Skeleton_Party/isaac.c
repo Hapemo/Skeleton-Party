@@ -620,6 +620,7 @@ void InitializeSkillShopUI(void)
 	ptr_additionalcrit = &additionalcrit;
 	ptr_Gold = &Gold;
 
+	firstclear = FALSE;
 	DoubleExp = FALSE;
 	DoubleGold = FALSE;
 	DoubleDrop = FALSE;
@@ -1669,8 +1670,16 @@ void Screen_WIN_ButtonClicked(void)
 		if (IsaacCheckCollisionWithButtonImage(mousePosX, mousePosY, 206.0, 628.0, 727.0, 829.0))
 		{
 			printf("button pressed continue \n");
-			gameState = PREPROOM;
+			//gameState = PREPROOM;
+			if (firstclear == 0 && currentLevel==LEVEL_5) {
+				firstclear =1;
+				gameState=THANKS;
+			}
+			else{
+			   gameState = PREPROOM;
+			}
 		}
+		
 	}
 }
 

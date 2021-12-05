@@ -56,6 +56,7 @@ int additionalExp, additionalGold;
 int additionalcrit;
 int* ptr_additionalcrit;
 
+BOOL firstclear;
 BOOL DoubleExp, DoubleGold, DoubleHeal, DoubleDrop ;
 
 int gamePause;
@@ -222,7 +223,7 @@ struct Item
 struct Item item;
 struct Item item_pool[MAX_DROP];
 enum GameStates {LOGO, MAIN_MENU, INSTRUCTIONS, EXIT, LEVEL_SELECTION, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5,
-	             PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY, CREDIT1, CREDIT2, CREDIT3, YOUDIED, REVIVE};
+	             PAUSED, PREPROOM, UPGRADES, SHOP, SKILL,WIN, LOSE, RETRY, CREDIT1, CREDIT2, CREDIT3, YOUDIED, REVIVE,THANKS};
 
 enum GameStates gameState;
 
