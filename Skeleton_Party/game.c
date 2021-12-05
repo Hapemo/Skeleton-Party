@@ -359,4 +359,5 @@ void game_exit(void)
 	exit_skilltreepictures();
 	free_audio();
 	free_IMAGE();
+	FreeImage();
 }

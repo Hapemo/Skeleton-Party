@@ -1271,3 +1271,30 @@ void EnemyCollision()
 		InvulnerabilityFrame();
 	}
 }
+
+// specification for FreeImage
+/*!
+@brief This function will free loaded image from the memory
+
+@param word void
+@return void
+*//*______________________________________________________________*/
+void FreeImage()
+{
+	CP_Image_Free(&instructionScreen);
+	CP_Image_Free(&gameBackground);
+	CP_Image_Free(&playButtonImage);
+	CP_Image_Free(&titleImage);
+	CP_Image_Free(&creditButtonImage);
+	CP_Image_Free(&quitButtonImage);
+	CP_Image_Free(&instructionsButtonImage);
+	CP_Image_Free(&returnImage);
+	CP_Image_Free(&digipenLogo);
+	CP_Image_Free(&level1Image);
+	CP_Image_Free(&level2Image);
+	CP_Image_Free(&level3Image);
+	CP_Image_Free(&level4Image);
+	CP_Image_Free(&level5Image);
+	CP_Image_Free(&buffIndicatorImage);
+	CP_Image_Free(&upgradesButtonImage);
+}

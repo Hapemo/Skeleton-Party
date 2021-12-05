@@ -234,7 +234,7 @@ void FullscreenKeyPressed(); //Unused
 void FullscreenMode(); 
 
 void ResetState_revive(void);
-
+void FreeImage();
 void EnableMenu();
 void DespawnTimer();
 void DrawObjectiveText();
