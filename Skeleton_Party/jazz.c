@@ -174,7 +174,6 @@ void melee_attack(CP_Vector position) {
 		if (rect_collision(enemy_pool[j].position, position, vec1, vec2, enemy_pool[j].size)) killed = 1;
 
 		if (killed) {
-			shockwavestate = 1;
 			if (shockwavestate) {
 				play_crit();
 				printf("explosion is activated");

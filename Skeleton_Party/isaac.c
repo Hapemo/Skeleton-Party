@@ -1268,6 +1268,7 @@ void ScorePrinter(int score, float x, float y)
 		break;
 	case 79:
 		CP_Font_DrawText(Seventy9, x, y);
+		break;
 	case 80:
 		CP_Font_DrawText(Eighty, x, y);
 		break;
